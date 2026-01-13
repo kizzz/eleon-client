@@ -17,14 +17,7 @@
     </button>
   </ng-template>
   <ng-template pTemplate="icons">
-    <button
-      [pTooltip]="'SystemLog::Tooltip:Reload' | abpLocalization"
-      tooltipPosition="top"
-      class="p-panel-header-icon p-link mr-2"
-      (click)="getEntityChanges(entityLastLoadEvent); $event.stopPropagation()"
-    >
-      <span class="pi pi-refresh"></span>
-    </button>
+    <p-button icon="pi pi-refresh" severity="secondary" rounded text (click)="getEntityChanges(entityLastLoadEvent); $event.stopPropagation()" />
   </ng-template>
   <div class="grid">
     <div

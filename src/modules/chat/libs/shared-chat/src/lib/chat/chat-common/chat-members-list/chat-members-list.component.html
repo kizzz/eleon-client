@@ -2,10 +2,6 @@
   [rowsPerPageOptions]="[5,10,15]" sortMode="single" class="cell-center w-full">
   <ng-template pTemplate="caption">
     <div *ngIf="showSearch" class="p-inputgroup">
-      <span class="p-inputgroup-addon">
-        <i class="pi pi-search pr-1 pl-1"></i>
-        {{"Infrastructure::Search" | abpLocalization}}
-      </span>
       <input type="text" pInputText #searchField
         placeholder="{{'Infrastructure::Search' | abpLocalization}}" [(ngModel)]="searchQuery"
         (input)="search($event.target.value)" style="width:auto">

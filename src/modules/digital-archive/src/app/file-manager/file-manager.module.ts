@@ -1,3 +1,5 @@
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@eleon/angular-sdk.lib';
 import { ButtonModule } from 'primeng/button';
@@ -116,12 +118,14 @@ import { FileArchiveSelectionComponent } from './file-archive-selection/file-arc
     TagModule,
     DialogModule,
     SelectButtonModule,
+    InputGroupAddonModule,
     InputTextModule,
     TextSelectionModule,
     InputMaskModule,
     PipesModule,
     MenuModule,
     ToggleSwitchModule,
+    InputGroupModule, 
     FormsModule,
     InputNumberModule,
     TabsModule,

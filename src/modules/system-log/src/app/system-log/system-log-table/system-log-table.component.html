@@ -18,14 +18,7 @@
   </ng-template>
 
   <ng-template pTemplate="icons">
-    <button
-      [pTooltip]="'SystemLog::Tooltip:Reload' | abpLocalization"
-      tooltipPosition="top"
-      class="p-panel-header-icon p-link mr-2"
-      (click)="onLoadLogs(lastLazyLoadEvent); $event.stopPropagation()"
-    >
-      <span class="pi pi-refresh"></span>
-    </button>
+    <p-button icon="pi pi-refresh" severity="secondary" rounded text (click)="onLoadLogs(lastLazyLoadEvent); $event.stopPropagation()" />
   </ng-template>
   <div class="grid">
     <div class="grid field col-12 m-0 md:col-4">
