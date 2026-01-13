@@ -50,3 +50,16 @@
 ::ng-deep .p-chips .p-chips-multiple-container {
     width: 100% !important;
 }
+
+.editor-container {
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  
+  app-raw-editor {
+    flex: 1;
+    min-height: 0;
+    display: block;
+  }
+}

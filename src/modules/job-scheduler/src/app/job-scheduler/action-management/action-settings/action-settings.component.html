@@ -313,15 +313,12 @@
       <div class="col-12">
         <h5>{{ 'JobScheduler::Action:ActionParams' | abpLocalization }}</h5>
         <div class="w-full card">
-          <div class="card-body" style="height: 220px">
+          <div class="card-body editor-container">
             <app-raw-editor
-              style="height: 220px"
               [visible]="true"
               [darkMode]="false"
-              height="14rem"
               [loading]="loading"
               [(content)]="header.actionParams"
-              appendTo="body"
             >
             </app-raw-editor>
           </div>
