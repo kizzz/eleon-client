@@ -204,12 +204,9 @@
         }}</label>
         <div class="col-12 md:col-9">
           <div class="flex flex-wrap gap-2 align-items-center">
-            <p-checkbox [binary]="true" [(ngModel)]="header.hasMaxDelay">
-            </p-checkbox>
             <p-select
               [filter]="false"
-              [disabled]="!header?.hasMaxDelay"
-              [options]="intervals"
+              [options]="executionIntervals"
               styleClass="w-full"
               [(ngModel)]="header.maxDelay"
               optionLabel="name"
@@ -312,7 +309,7 @@
       </div>
       <div class="col-12">
         <h5>{{ 'JobScheduler::Action:ActionParams' | abpLocalization }}</h5>
-        <div class="w-full card">
+        <div class="w-full">
           <div class="card-body editor-container">
             <app-raw-editor
               [visible]="true"

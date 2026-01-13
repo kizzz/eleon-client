@@ -42,7 +42,6 @@ interface Action {
   retryInterval: number;
   maxRetryAttempts: number;
   parentActions: { id: string; name: string }[];
-  hasMaxDelay: boolean;
   maxDelay: number;
   onFailureRecipients: string[];
   validators: {
@@ -63,6 +62,7 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   title: string;
   loadingAction: boolean = false;
   intervals: LocalizedValue[] = [];
+  executionIntervals: LocalizedValue[] = [];
   newRecipient = '';
 
   actions: ActionDto[] = [];
@@ -141,6 +141,45 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
         value: 24 * 60 * 60,
       },
     ];
+    this.executionIntervals = [
+      
+      {
+        name: this.localizationService.instant(`JobScheduler::None`),
+        value: 0,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::5Minutes`),
+        value: 5 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::10Minutes`),
+        value: 10 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::15Minutes`),
+        value: 15 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::30Minutes`),
+        value: 30 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::1Hour`),
+        value: 60 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::6Hours`),
+        value: 6 * 60 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::12Hours`),
+        value: 12 * 60 * 60,
+      },
+      {
+        name: this.localizationService.instant(`JobScheduler::1Day`),
+        value: 24 * 60 * 60,
+      },
+    ];
   }
 
   loadAction(): void {
@@ -181,8 +220,7 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
         id,
         name: this.getParentName(id),
       })),
-      maxDelay: (actionDto?.timeoutInMinutes || 5) * 60,
-      hasMaxDelay: !!actionDto && (actionDto?.timeoutInMinutes || 0) > 0,
+      maxDelay: actionDto?.timeoutInMinutes * 60,
       onFailureRecipients:
         actionDto?.onFailureRecepients
           ?.split(';')
@@ -241,7 +279,7 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
         this.header.parentActions?.map((pa) => pa.id) ||
         this.header.data.parentActionIds ||
         [],
-      timeoutInMinutes: this.header.hasMaxDelay
+      timeoutInMinutes: this.header.maxDelay != 0
         ? (this.header.maxDelay || 0) / 60
         : 0,
       onFailureRecepients:
