@@ -148,13 +148,8 @@ export class ControlDelegationListComponent {
     if(!row){
       return null;
     }
-
-    if(row.data.delegatedToUserId === this.userId){
-      return this.userId;
-    }else if(row.data.delegatedToUserId !== this.userId){
-      return row.data.delegatedToUserId;
-    }
-    return null;
+    
+    return row?.data?.delegatedToUserId;
   }
 
   search(event, isNeedClearSearchQuery: boolean = false) {
