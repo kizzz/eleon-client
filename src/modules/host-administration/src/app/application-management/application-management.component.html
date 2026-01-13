@@ -189,10 +189,10 @@
       </div>
     </div>
   </div>
-    <p-footer class="flex gap-3 justify-content-end">
+     <ng-template #footer>
       <p-button icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="cancelCreateApplication()" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
       <p-button icon="fa fa-plus" [label]="'Infrastructure::Create' | abpLocalization" (click)="createApplication()" [text]="true" [raised]="true"></p-button>
-    </p-footer>
+    </ng-template> 
 </p-dialog>
 
 <p-dialog [resizable]="false" [header]="'TenantManagement::ApplicationSettings' | abpLocalization" [(visible)]="displayDialog" [modal]="true"
