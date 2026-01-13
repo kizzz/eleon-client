@@ -62,7 +62,7 @@
               <div class="p-inputgroup">
                 <input pInputText [ngModel]="row.user?.name || row.user?.userName || row.data.delegatedToUserName"
                   [readonly]="true" [ngClass]="{'ng-invalid ng-dirty': row.validators.user}" />
-                <button type="button" (click)="showUserSelectionDialog()" pButton pRipple icon="fa fa-list"
+                <button type="button" (click)="showUserSelectionDialog(row)" pButton pRipple icon="fa fa-list"
                   class="p-button-text"></button>
               </div>
             </ng-template>

@@ -150,7 +150,7 @@ export class ControlDelegationListComponent {
     }
 
     if(row.data.delegatedToUserId === this.userId){
-      return row.data.userId;
+      return this.userId;
     }else if(row.data.delegatedToUserId !== this.userId){
       return row.data.delegatedToUserId;
     }
