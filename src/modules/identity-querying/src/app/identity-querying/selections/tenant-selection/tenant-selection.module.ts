@@ -1,39 +1,40 @@
 import { NgModule } from '@angular/core';
-import { RoleSelectionBoxComponent } from './role-table-box/role-table-box.component';
+import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { PopoverModule } from 'primeng/popover';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { SharedModule } from '@eleon/angular-sdk.lib';
 import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
+import { SharedModule } from '@eleon/angular-sdk.lib';
 import { ResponsiveTableModule } from '@eleon/primeng-ui.lib';
-import { DialogModule } from 'primeng/dialog';
-import { CheckboxModule } from 'primeng/checkbox'
+import { ProfilePictureModule } from '@eleon/primeng-ui.lib';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { PROXY_SERVICES } from '../proxy';
-
-
+import { DialogModule } from 'primeng/dialog'
+import { TenantSelectionBoxComponent } from './tenant-table-box'
+import { PROXY_SERVICES } from '@eleon/identity-querying.lib';
 
 @NgModule({
   declarations: [
-    RoleSelectionBoxComponent
+    TenantSelectionBoxComponent
   ],
   imports: [
     SharedModule,
     TableModule,
-    ResponsiveTableModule,
+    InputTextModule,
+    DialogModule,
     PopoverModule,
     ButtonModule,
-    DialogModule,
+    ResponsiveTableModule,
     FormsModule,
-    InputTextModule,
-    CheckboxModule,
+    TooltipModule,
+    ProfilePictureModule,
     DynamicDialogModule
   ],
   exports: [
-    RoleSelectionBoxComponent
+    TenantSelectionBoxComponent
   ],
   providers: [...PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))]
 })
-export class RoleSelectionModule { }
+export class TenantSelectionModule { }
 

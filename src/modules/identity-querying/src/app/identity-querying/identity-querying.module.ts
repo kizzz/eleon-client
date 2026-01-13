@@ -25,6 +25,11 @@ import { TextareaModule } from 'primeng/textarea'
 import { IdentityQueryingRoutingModule } from './identity-querying-routing.module'
 import { DynamicDialogModule } from 'primeng/dynamicdialog'
 
+import { OrganizationUnitsSelectionModule } from './selections/organization-units-selection';
+import { RoleSelectionModule } from './selections/role-selection';
+import { TenantSelectionModule } from './selections/tenant-selection';
+import { UserSelectionModule } from './selections/user-selection';
+
 @NgModule({
   declarations: [
     
@@ -56,7 +61,11 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog'
 		PipesModule,
 		DialogModule,
     TextareaModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    OrganizationUnitsSelectionModule,
+    RoleSelectionModule,
+    TenantSelectionModule,
+    UserSelectionModule
   ],
   exports: [],
   providers: [],

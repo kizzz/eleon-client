@@ -4,7 +4,7 @@ import { MessageService, TreeNode } from "primeng/api";
 import { Observable, first, forkJoin, map, of } from "rxjs";
 import { OrganizationUnitSelectionEvent } from "./organization-unit-selection-event";
 import { DynamicDialogConfig } from 'primeng/dynamicdialog'
-import { CommonOrganizationUnitDto, OrganizationUnitQueryingService } from '../../proxy';
+import { CommonOrganizationUnitDto, OrganizationUnitQueryingService } from '@eleon/identity-querying.lib';
 
 export interface JoinedOrganizationUnitDto extends CommonOrganizationUnitDto {
   children: JoinedOrganizationUnitDto[];

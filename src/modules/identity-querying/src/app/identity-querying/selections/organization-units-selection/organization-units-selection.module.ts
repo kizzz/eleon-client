@@ -14,7 +14,7 @@ import { ProfilePictureModule } from '@eleon/primeng-ui.lib';
 import { RequiredMarkModule, SharedModule } from '@eleon/angular-sdk.lib';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { PROXY_SERVICES } from '../proxy';
+import { PROXY_SERVICES } from '@eleon/identity-querying.lib';
 @NgModule({
   declarations: [
     OrganizationUnitsSelectionTreeComponent,
