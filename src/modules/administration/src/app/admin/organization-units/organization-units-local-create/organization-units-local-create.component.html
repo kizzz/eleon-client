@@ -1,0 +1,24 @@
+
+<p-dialog *ngIf="display" [(visible)]="display" [modal]=true (visibleChange)="closeEvent.emit()"
+  [header]="!!parentOrgUnit?.id ? ('TenantManagement::AddOrgUnit' | abpLocalization:parentOrgUnit?.displayName) : ('TenantManagement::AddRootOrgUnit' | abpLocalization)">
+  <div class="grid data wrapper">
+    <div class="col-12">
+      <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+                {{'Infrastructure::Name' | abpLocalization}}
+            </span>
+          </div>
+          <div class="col-8">
+            <input pInputText [(ngModel)]="orgUnitName" class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+            (input)="resetNameValidator()">
+          </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [text]="true" [raised]="true" [label]="'Infrastructure::Create' | abpLocalization"
+        (click)="create()" icon="fa fa-check"></p-button>
+  </ng-template>
+</p-dialog>

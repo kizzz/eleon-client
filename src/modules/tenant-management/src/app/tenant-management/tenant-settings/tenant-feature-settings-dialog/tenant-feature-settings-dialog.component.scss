@@ -1,0 +1,13 @@
+
+
+.wrapper {
+  width: min(900px, 90vw);
+  max-width: max(1000px, 60vw);
+  height: 60vh;
+
+  // @include media-breakpoint-up(lg) {
+  //   max-width: 800px;
+  //   min-width: 800px;
+  //   width: 800px;
+  // }
+}

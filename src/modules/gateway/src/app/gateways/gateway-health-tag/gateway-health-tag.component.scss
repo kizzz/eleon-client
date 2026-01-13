@@ -1,0 +1,11 @@
+:host ::ng-deep .p-tag.unhealthy {
+  background: var(--red-500);
+}
+
+:host ::ng-deep .p-tag.healthy {
+  background: var(--green-500);
+}
+
+:host ::ng-deep .p-tag.unknown {
+  background: var(--gray-700);
+}

@@ -1,0 +1,8 @@
+<div *ngIf="showIcon" [ngClass]="chatType"
+  class="border-circle ticket flex align-items-center justify-content-center text-lg"
+  style="width: 40px; height: 40px;">
+  <span [ngClass]="chatIcon"></span>
+</div>
+
+<app-profile-picture-group *ngIf="showAvatar" [userIds]="chatImages" [totalUsers]="chat.chat.membersAmount"
+  sideWidth="40px" [excludeUser]="currentUserId" size="small"></app-profile-picture-group>

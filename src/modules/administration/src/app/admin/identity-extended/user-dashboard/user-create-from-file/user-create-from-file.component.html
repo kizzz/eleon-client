@@ -1,0 +1,18 @@
+<div class="dialog-standard">
+  <div class="p-inputgroup w-full flex w-100">
+    <input pInputText [disabled]="true" [(ngModel)]="fileName"/>
+    <button pButton  class="p-button-text" icon="fa fa-download" [pTooltip]="'TenantManagement::DownloadTemplate' | abpLocalization"
+      (click)="downloadTemplate()" [disabled]="loading">
+    </button>  
+    <p-fileUpload *ngIf="loaded" #fileUploadComponent [pTooltip]="'TenantManagement::UploadFromFile' | abpLocalization" mode="basic"  chooseIcon="fa-solid fa-file-export" maxFileSize="1000000" [customUpload]="true" [chooseLabel]="null" (onSelect)="importUsers($event)" accept=".csv" [disabled]="loading">
+    </p-fileUpload>
+  </div>
+  <div class="flex justify-content-end gap-3 mt-3">
+    <p-button [text]="true" [raised]="true" (click)="closeDialog()" icon="fa fa-times" [disabled]="loading"
+      [label]="'Infrastructure::Cancel' | abpLocalization" styleClass="p-button-secondary">
+    </p-button>
+    <p-button [text]="true" [raised]="true" (click)="save()" type="submit" styleClass="p-button-success"
+      [label]="'FileManager::Create' | abpLocalization" icon="fa fa-check" [disabled]="loading">
+    </p-button>
+  </div>
+</div>

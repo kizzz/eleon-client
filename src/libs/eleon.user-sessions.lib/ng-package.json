@@ -1,0 +1,6 @@
+{
+  "dest": "../../../bin/debug/libs/eleon.user-sessions.lib",
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}

@@ -1,0 +1,58 @@
+<div class="card p-fluid">
+  <div class="sm:col-12 lg:col-6 md:col-6">
+    <h5 class="text-center">
+      {{ 'TenantManagement::TenantSettings:AppearanceSettings:DarkTheme' | abpLocalization }}</h5>
+    <hr>
+    <div class="col-12" style="background-color: #1f2937;">
+      <app-theme-element-settings
+        [title]="'TenantManagement::TenantSettings:AppearanceSettings:DarkLogo' | abpLocalization" [src]="darkLogoSrc"
+        foregroundClass="text-white" (upload)="uploadDarkLogo($event)" (reset)="resetDarkLogo()">
+      </app-theme-element-settings>
+    </div>
+    <div class="col-12" style="background-color: #1f2937;">
+      <app-theme-element-settings
+        [title]="'TenantManagement::TenantSettings:AppearanceSettings:DarkIcon' | abpLocalization" [src]="darkIconSrc"
+        foregroundClass="text-white" (upload)="uploadDarkIcon($event)" (reset)="resetDarkIcon()">
+      </app-theme-element-settings>
+    </div>
+  </div>
+  <div class="col-12 lg:col-6">
+    <h5 class="text-center">
+      {{ 'TenantManagement::TenantSettings:AppearanceSettings:LightTheme' | abpLocalization }}
+    </h5>
+    <hr>
+    <div class="col-12 bg-white text-gray-900	">
+      <app-theme-element-settings
+        [title]="'TenantManagement::TenantSettings:AppearanceSettings:LightLogo' | abpLocalization"
+        foregroundClass="text-dark" [src]="lightLogoSrc" (upload)="uploadLightLogo($event)" (reset)="resetLightLogo()">
+      </app-theme-element-settings>
+    </div>
+    <div class="col-12 bg-white text-gray-900	">
+      <app-theme-element-settings
+        [title]="'TenantManagement::TenantSettings:AppearanceSettings:LightIcon' | abpLocalization"
+        foregroundClass="text-dark" [src]="lightIconSrc" (upload)="uploadLightIcon($event)" (reset)="resetLightIcon()">
+      </app-theme-element-settings>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card p-fluid grid">
+  <div class="field lg:col-6 md:col-6 sm:col-12 pr-only">
+    <label>{{ 'TenantManagement::FromDisplayName' | abpLocalization }}</label>
+    <input pInputText [(ngModel)]="settings.defaultFromDisplayName" (ngModelChange)="state.setDirty()"
+       />
+  </div>
+  <div class="field lg:col-6 md:col-6 sm:col-12 pr-only">
+    <label>{{ 'TenantManagement::FromAddress' | abpLocalization }}</label>
+    <input pInputText [(ngModel)]="settings.defaultFromAddress" (ngModelChange)="state.setDirty()"  />
+  </div>
+  <div class="field lg:col-6 md:col-6 sm:col-12 pr-only">
+    <label>{{ 'TenantManagement::SmtpHost' | abpLocalization }}</label>
+    <input pInputText [(ngModel)]="settings.smtpHost" (ngModelChange)="state.setDirty()"  />
+  </div>
+  <div class="field lg:col-6 md:col-6 sm:col-12 pr-only">
+    <label>{{ 'TenantManagement::SmtpPort' | abpLocalization }}</label>
+    <p-inputNumber [(ngModel)]="settings.smtpPort" (ngModelChange)="state.setDirty()" [inputStyle]="{'width':'100%'}"
+      [style]="{'width':'100%'}" ></p-inputNumber>
+  </div>
+</div> -->

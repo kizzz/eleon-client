@@ -1,0 +1,28 @@
+<app-user-image-picker *ngIf="editingPictureSrc" [src]="editingPictureSrc" [showDialog]="true"
+  (saved)="onCropped($event)" (canceled)="onCropCanceled()" [sideSize]="300"></app-user-image-picker>
+
+<input #fileInput type="file" hidden (change)="uploadFile($event)" accept="image/*" />
+
+<h5 class="mt-0">{{ 'Infrastructure::ProfilePictureSettings:Title' | abpLocalization }}</h5>
+<div class="flex justify-content-center">
+  <div class="flex align-items-center flex-column gap-3">
+    <div class="picture-preview">
+      <img *ngIf="profilePictureSrc" [src]="profilePictureSrc" alt="Profile Picture" class="rounded-circle"
+        style="width: 170px; height: 170px;" />
+      <div *ngIf="!profilePictureSrc" class="rounded-circle bg-gray-300 flex align-items-center justify-content-center"
+        style="width: 170px; height: 170px;">
+        <i [ngClass]="loading ? 'fa fa-spinner fa-spin' : 'fa fa-camera'" style="font-size: 2.5rem"></i>
+      </div>
+    </div>
+    <div class="flex align-items-center gap-3">
+        <p-button *ngIf="!loading" (click)="onEdit()"
+          [label]="(profilePictureSrc ? 'Infrastructure::Change' : 'Infrastructure::Upload') | abpLocalization"
+          [loading]="saving" [disabled]="loading || removing" [text]="true" [raised]="true"
+          [icon]="profilePictureSrc ? 'fa fa-edit' : 'fa fa-upload'">
+        </p-button>
+        <p-button *ngIf="profilePictureSrc && !loading" (click)="onClear()" [label]="'Infrastructure::Clear' | abpLocalization"
+          [loading]="removing" [disabled]="loading || saving" [text]="true" [raised]="true"  icon="fa fa-times" styleClass="p-button-warning">
+        </p-button>
+    </div>
+  </div>
+</div>

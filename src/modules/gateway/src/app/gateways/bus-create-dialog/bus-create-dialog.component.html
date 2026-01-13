@@ -1,0 +1,79 @@
+<div>
+    <p-dialog [header]="title" [(visible)]="display" [modal]="true" [draggable]="false" (onHide)="closeDialog()">
+        <div class="row gateway-new" *ngIf="display">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="textAlign"
+                        [ngClass]="{'name-protocol-text-lg': !changeSize, 'name-protocol-text-md': changeSize}">
+                        <span appRequired>
+                            {{'GatewayManagement::EventBus:Name' | abpLocalization}}
+                        </span>
+                    </div>
+                    <div [ngClass]="{'name-protocol-input-lg': !changeSize, 'name-protocol-input-md': changeSize}">
+                        <input [(ngModel)]="header.data.name"
+                            [ngClass]="{'ng-invalid ng-dirty': header.validators.nameEmpty}" type="text" pInputText
+                            [style]="{'width':'100%'}" (ngModelChange)="resetValidators(); state.setDirty();"
+                            [disabled]="loading" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="textAlign"
+                        [ngClass]="{'name-protocol-text-lg': !changeSize, 'name-protocol-text-md': changeSize}">
+                        <span appRequired>
+                            <span>{{'GatewayManagement::EventBus:Provider' | abpLocalization}}</span>
+                        </span>
+                    </div>
+                    <div [ngClass]="{'name-protocol-input-lg': !changeSize, 'name-protocol-input-md': changeSize}">
+                        <p-select [options]="eventBusProviders" optionLabel="name"
+                            [style]="{'width':'100%', 'text-align':'left'}" [disabled]="loading"
+                            [(ngModel)]="header.provider" (ngModelChange)="setTemplate()" appendTo="body">
+                        </p-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="textAlign" [ngClass]="{'address-text-lg': !changeSize, 'address-text-md': changeSize}">
+                        <span appRequired>
+                            {{'GatewayManagement::EventBus:Options' | abpLocalization}}
+                        </span>
+                    </div>
+                    <div [ngClass]="{'address-input-lg': !changeSize, 'address-input-md': changeSize}">
+                        <div [style]="'position:relative;overflow:hidden; height:' + height">
+                            <!-- <div class="loading-overlay" *ngIf="loading" [style]="'height:98%'">
+                              <p-progressSpinner></p-progressSpinner>
+                            </div> -->
+                            <!-- <app-raw-editor [options]="jsonOptions" [darkMode]="darkMode" [readOnly]="readOnly"
+                                [loading]="loading" [(content)]="header.data.providerOptions">
+                            </app-raw-editor> -->
+                            <input pInputText [(ngModel)]="header.data.providerOptions" style.width="100%">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <div>
+                <p-button [text]="true" [raised]="true" styleClass="p-button-danger mr-1 ml-1" [disabled]="loading"
+                    (onClick)="closeDialog()">{{"Infrastructure::Close" | abpLocalization}}</p-button>
+                <p-button [text]="true" [raised]="true" styleClass="p-button-info mr-1 ml-1" [disabled]="loading"
+                    (onClick)="saveGateway()">{{"Infrastructure::Create" | abpLocalization}}</p-button>
+            </div>
+        </ng-template>
+    </p-dialog>
+    <ng-container *ngIf="beforeButton; else defaultButton">
+        <div class="input-group w-full d-flex">
+            <p *ngTemplateOutlet="beforeButton"></p>
+            <button pButton (click)="showDialog()" style="width:3rem" icon="fa fa-list"></button>
+        </div>
+    </ng-container>
+    <ng-template #defaultButton>
+        <div (click)="showDialog()">
+            <div *ngTemplateOutlet="button">
+            </div>
+        </div>
+    </ng-template>
+</div>

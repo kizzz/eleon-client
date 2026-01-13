@@ -1,0 +1,557 @@
+<p-panel [toggleable]="true" [collapsed]="true" toggler="header">
+  <ng-template pTemplate="header">
+      <i class="fa-solid fa-sliders text-gray-700 text-xl mr-2"></i>
+    <label *ngIf="filtersCount > 0" class="font-bold">
+      {{ 'SystemLog::AppliedFilters' | abpLocalization : filtersCount }}
+    </label>
+    <label *ngIf="filtersCount < 1" class="font-bold">
+      {{ 'SystemLog::NoFilters' | abpLocalization }}
+    </label>
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Clear' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link"
+      (click)="clearSecurityFilter(); $event.stopPropagation()"
+    >
+      <span class="pi pi-times"></span>
+    </button>
+  </ng-template>
+  <ng-template pTemplate="icons">
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Reload' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="searchSecurityChanges(); $event.stopPropagation()"
+    >
+      <span class="pi pi-refresh"></span>
+    </button>
+  </ng-template>
+  <div class="grid">
+    <div class="col-12 field logs" [ngClass]="{ 'xl:col-4': !minifiedFilters }">
+      <label>{{
+        'Infrastructure::SecurityLog:Action' | abpLocalization
+      }}</label>
+      <p-select
+        [options]="actionTypes"
+        [(ngModel)]="action"
+        autoWidth="false"
+        optionValue="value"
+        [style]="{ width: '100%' }"
+        optionLabel="name"
+        [disabled]="securityloading"
+      >
+      </p-select>
+    </div>
+    <div class="col-12 field logs" [ngClass]="{ 'xl:col-4': !minifiedFilters }">
+      <label>{{ 'Infrastructure::SecurityLog:Date' | abpLocalization }}</label>
+      <div class="p-inputgroup">
+        <p-datepicker
+          #calendar
+          styleClass="w-full"
+          selectionMode="range"
+          [(ngModel)]="securityDateRangeFilter"
+          [disabled]="securityloading"
+          appendTo="body"
+          [readonlyInput]="true"
+          placeholder="{{
+            'Infrastructure::SecurityLog:Date' | abpLocalization
+          }}"
+          (onSelect)="onDateRangeSelected(calendar)"
+        >
+        </p-datepicker>
+        <button
+          type="button"
+          pButton
+          icon="far fa-calendar"
+          class="p-button-text"
+          (click)="showCalendar($event)"
+        ></button>
+      </div>
+    </div>
+    <div
+      class="col-12 field logs"
+      [ngClass]="{ 'xl:col-4': !minifiedFilters }"
+      *ngIf="!userId"
+    >
+      <label>{{
+        'Infrastructure::SecurityLog:Username' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="securityUserName"
+        [disabled]="securityloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div class="col-12 field logs" [ngClass]="{ 'xl:col-4': !minifiedFilters }">
+      <label>{{
+        'Infrastructure::SecurityLog:Client' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="clientId"
+        [disabled]="securityloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+
+    <div class="col-12 field logs" [ngClass]="{ 'xl:col-4': !minifiedFilters }">
+      <label>{{
+        'Infrastructure::SecurityLog:CorrelationId' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="securityCorrelationId"
+        [disabled]="securityloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div class="col-12 field logs" [ngClass]="{ 'xl:col-4': !minifiedFilters }">
+      <label>{{
+        'Infrastructure::SecurityLog:IpAddress' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="clientIpAddress"
+        [disabled]="securityloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div class="col-12 flex">
+      <div class="p-inputgroup justify-content-end">
+        <p-button
+          [text]="true"
+          (click)="searchSecurityChanges()"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Search' | abpLocalization"
+          icon="pi pi-search"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          (click)="clearSecurityFilter()"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Clear' | abpLocalization"
+          icon="pi pi-times"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+
+<div>
+  <p-table
+    *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+    [scrollable]="scrollable"
+    [responsive]="true"
+    responsiveLayout="stack"
+    [breakpoint]="breakpoint"
+    scrollDirection="both"
+    [lazy]="true"
+    (onLazyLoad)="getSecurityChanges($event)"
+    [rows]="rowsCount"
+    styleClass="pr-table"
+    [totalRecords]="securityTotalRecords"
+    [loading]="securityloading"
+    [value]="securityRows"
+    [paginator]="true"
+    selectionMode="single"
+    (onRowSelect)="openLogDetails($event?.data)"
+    sortOrder="-1"
+    sortMode="single"
+    sortField="CreationTime"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th appResponsiveColumn="10"></th>
+        <th appResponsiveColumn="120" pSortableColumn="action">
+          {{ 'Infrastructure::SecurityLog:Action' | abpLocalization }}
+          <p-sortIcon field="action"></p-sortIcon>
+        </th>
+        <th appResponsiveColumn="120" pSortableColumn="clientIpAddress">
+          {{
+            (minifiedFilters
+              ? 'Infrastructure::SecurityLog:IpAddressShort'
+              : 'Infrastructure::SecurityLog:IpAddress') | abpLocalization
+          }}
+          <p-sortIcon field="clientIpAddress"></p-sortIcon>
+        </th>
+        <th appResponsiveColumn="140" pSortableColumn="creationTime">
+          {{ 'Infrastructure::SecurityLog:Date' | abpLocalization }}
+          <p-sortIcon field="creationTime"></p-sortIcon>
+        </th>
+        <th pSortableColumn="browserInfo">
+          {{ 'Infrastructure::SecurityLog:Browser' | abpLocalization }}
+          <p-sortIcon field="browserInfo"></p-sortIcon>
+        </th>
+        <th
+          appResponsiveColumn="120"
+          pSortableColumn="username"
+          *ngIf="!userId"
+        >
+          {{ 'Infrastructure::SecurityLog:Username' | abpLocalization }}
+          <p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th
+          appResponsiveColumn="100"
+          pSortableColumn="clientId"
+          *ngIf="!userId"
+        >
+          {{ 'Infrastructure::SecurityLog:Client' | abpLocalization }}
+          <p-sortIcon field="clientId"></p-sortIcon>
+        </th>
+        <!-- <th
+          appResponsiveColumn="150"
+          pSortableColumn="correlationId"
+          *ngIf="!userId"
+        >
+          {{ 'Infrastructure::SecurityLog:CorrelationId' | abpLocalization }}
+          <p-sortIcon field="correlationId"></p-sortIcon>
+        </th> -->
+        <th appResponsiveColumn="20"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 10px">
+        <div class="flex align-items-center">
+          <i
+            class="pi pi-copy text-primary cursor-pointer"
+            pTooltip="{{ row.id }}"
+            tooltipPosition="top"
+            tooltipClass="tooltip-one-line"
+            (click)="copyId(row.id, $event); $event.stopPropagation()"
+          >
+          </i>
+        </div>
+      </td>
+        <td appResponsiveColumn="120">
+          <span class="non-editing-only p-column-title">{{
+            'Infrastructure::SecurityLog:Action' | abpLocalization
+          }}</span>
+          <div class="textAlign">
+            <span
+              class="column-content"
+              [ngClass]="{ nowrap: minifiedFilters }"
+            >
+              <app-ellipsis
+                [text]="getRowActionLocalization(row.action)"
+              ></app-ellipsis>
+            </span>
+          </div>
+        </td>
+        <td appResponsiveColumn="120">
+          <span class="non-editing-only p-column-title">{{
+            'Infrastructure::SecurityLog:IpAddress' | abpLocalization
+          }}</span>
+          <span class="column-content">
+            {{ row.clientIpAddress }}
+          </span>
+        </td>
+        <td appResponsiveColumn="140">
+          <span class="non-editing-only p-column-title">{{
+            'Infrastructure::SecurityLog:Date' | abpLocalization
+          }}</span>
+          <div class="textAlign">
+            <span class="column-content">
+              {{ row.creationTime | date : 'short' }}
+            </span>
+          </div>
+        </td>
+        <td>
+          <span class="non-editing-only p-column-title">{{
+            'Infrastructure::SecurityLog:Browser' | abpLocalization
+          }}</span>
+          <div class="textAlign">
+            <span class="column-content">
+              <app-ellipsis
+                [text]="row.browserInfo"
+                style="width: 100px; max-width: 100px"
+              >
+              </app-ellipsis>
+            </span>
+          </div>
+        </td>
+        <td appResponsiveColumn="120" *ngIf="!userId">
+          <span class="p-column-title">{{
+            'Infrastructure::SecurityLog:Username' | abpLocalization
+          }}</span>
+          <span class="column-content">
+            {{ row.userName }}
+          </span>
+        </td>
+        <td appResponsiveColumn="100" *ngIf="!userId">
+          <span class="p-column-title">{{
+            'Infrastructure::SecurityLog:Client' | abpLocalization
+          }}</span>
+          <span class="column-content">
+            {{ row.clientId }}
+          </span>
+        </td>
+        <!-- <td appResponsiveColumn="150" *ngIf="!userId">
+          <span class="p-column-title">{{
+            'Infrastructure::SecurityLog:CorrelationId' | abpLocalization
+          }}</span>
+          <span class="column-content">
+            <div class="textAlign">
+              <app-ellipsis [text]="row.correlationId"></app-ellipsis>
+            </div>
+          </span>
+        </td> -->
+        <td appResponsiveColumn="20">
+          <span class="fa fa-magnifying-glass text-primary cursor-pointer">
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr class="table-emptymessage">
+        <td class="w-100" colspan="5">
+          <div class="card w-100">
+            <div class="card-body w-100">
+              <div class="card-header">
+                {{ getEmptySecurityChangesMessage() }}
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-dialog
+  [(visible)]="displayLogDialog"
+  (onHide)="selectedLog = null"
+  [modal]="true"
+  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
+  [closable]="true"
+  [resizable]="false"
+  appendTo="body"
+  [draggable]="false"
+  [baseZIndex]="10000"
+  [focusOnShow]="false"
+  [contentStyle]="{
+    padding: '0',
+    overflow: 'hidden',
+    display: 'flex',
+    'flex-direction': 'column'
+  }"
+>
+  <ng-template pTemplate="header" class="p-dialog-header">
+    <div class="d-flex align-items-center justify-content-start">
+      <span class="fa fa-shield-halved"></span>
+      <span class="p-dialog-title">
+        {{ 'Infrastructure::SecurityLog:Details' | abpLocalization }}
+      </span>
+    </div>
+  </ng-template>
+
+  <div
+    *ngIf="selectedLog"
+    style="
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 0 1rem;
+    "
+  >
+    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+      <div class="textAlign">
+        <p-tabView>
+          <p-tabPanel>
+            <ng-template pTemplate="header">
+              <span>
+                {{ 'Infrastructure::GeneralInformation' | abpLocalization }}
+              </span>
+            </ng-template>
+
+            <ul class="list-none p-0 m-0">
+              <!-- Action -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'Infrastructure::SecurityLog:Action' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{
+                    getRowActionLocalization(selectedLog.action) || '-'
+                  }}</span>
+                </div>
+              </li>
+
+              <!-- Username -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'Infrastructure::SecurityLog:Username' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{ selectedLog.userName || '-' }}</span>
+                </div>
+              </li>
+
+              <!-- IP Address -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'Infrastructure::SecurityLog:IpAddress' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{ selectedLog.clientIpAddress || '-' }}</span>
+                </div>
+              </li>
+
+              <!-- Application -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{
+                    'Infrastructure::SecurityLog:Application' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{
+                    getSecurityApplicationNameLocal(selectedLog.applicationName) ||
+                      '-'
+                  }}</span>
+                </div>
+              </li>
+
+              <!-- Identity -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'Infrastructure::SecurityLog:Identity' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{ selectedLog.identity || '-' }}</span>
+                </div>
+              </li>
+
+              <!-- Date -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'Infrastructure::SecurityLog:Date' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{
+                    selectedLog.creationTime | date : 'dd/MM/y HH:mm:ss'
+                  }}</span>
+                </div>
+              </li>
+
+              <!-- Browser -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'Infrastructure::SecurityLog:Browser' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{ selectedLog.browserInfo || '-' }}</span>
+                </div>
+              </li>
+
+              <!-- Correlation ID -->
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{
+                    'Infrastructure::SecurityLog:CorrelationId'
+                      | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span>{{ selectedLog.correlationId || '-' }}</span>
+                </div>
+              </li>
+            </ul>
+          </p-tabPanel>
+
+          <p-tabPanel
+            *ngIf="
+              selectedLog?.extraProperties &&
+              (selectedLog?.extraProperties | keyvalue)?.length > 0
+            "
+          >
+            <ng-template pTemplate="header">
+              <span>
+                {{ 'Infrastructure::SecurityLog:ExtraProperties' | abpLocalization }}
+              </span>
+            </ng-template>
+
+            <ul class="list-none p-0 m-0">
+              <ng-container
+                *ngFor="let prop of selectedLog.extraProperties | keyvalue"
+              >
+                <li
+                  class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                  >
+                    {{ prop.key | abpLocalization }}
+                  </label>
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    <span>{{ prop.value }}</span>
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+
+    <div style="padding: 1rem; text-align: right">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary p-button-sm"
+        style="width: 10rem"
+        (click)="displayLogDialog = false"
+        icon="fa fa-times"
+        label="{{ 'Infrastructure::Close' | abpLocalization }}"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

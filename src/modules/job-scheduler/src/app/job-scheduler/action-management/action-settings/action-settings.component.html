@@ -1,0 +1,350 @@
+<p-table
+  [value]="actions"
+  dataKey="data.id"
+  responsiveLayout="scroll"
+  class="cell-center"
+  [rows]="10"
+  [paginator]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{ 'JobScheduler::Action:Id' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Action:Name' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Action:EventName' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Action:RetryInterval' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Action:MaxRetryAttempts' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Action:Parents' | abpLocalization }}</th>
+      <th appResponsiveColumn="80" style="width: 80px">
+        <div
+          class="flex w-full justify-content-end align-items-center"
+        >
+          <p-button
+            [text]="true"
+            [raised]="true"
+            styleClass="p-button-primary"
+            (click)="openActionSettingDialog('new')"
+            type="button"
+            icon="fa fa-plus"
+            [label]="'Infrastructure::Add' | abpLocalization"
+          ></p-button>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+    <tr>
+      <td appResponsiveColumn="20">
+        <i
+          class="pi pi-copy text-primary cursor-pointer"
+          pTooltip="{{ row.id }}"
+          tooltipPosition="top"
+          tooltipClass="tooltip-one-line"
+          (click)="copyId(row.id, $event); $event.stopPropagation()"
+        >
+        </i>
+      </td>
+      <td>
+        <i class="fa-regular fa-calendar-check mr-2"></i>
+        <span>{{ row.displayName }}</span>
+      </td>
+      <td>{{ row.eventName }}</td>
+      <td>{{ row.maxRetryAttempts ? (row.retryInterval | duration : 's') : '-' }}</td>
+      <td>{{ row.maxRetryAttempts }}</td>
+      <td>
+        <div>
+          <app-ellipsis
+            [text]="getParentsString(row)"
+            class="w-full"
+          ></app-ellipsis>
+        </div>
+      </td>
+      <td>
+        <div
+          class="flex justify-content-end align-items-center gap-3"
+        >
+          <span
+            class="fa fa-edit cursor-pointer text-primary"
+            (click)="openActionSettingDialog(row.id)"
+          ></span>
+          <span
+            class="fa fa-trash cursor-pointer"
+            style="color: red"
+            (click)="deleteAction(row.id)"
+          ></span>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-100" colspan="9">
+        <div class="card w-100">
+          <div class="card-body w-100">
+            {{ 'JobScheduler::Tasks:NoActions' | abpLocalization }}
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  [header]="'JobScheduler::Actions:Add:Title' | abpLocalization"
+  [(visible)]="isEditingActions"
+  *ngIf="!!header?.data && isEditingActions"
+  appendTo="body"
+  [modal]="true"
+>
+  <div style="width: min(90vw, 700px)">
+    <div class="row gx-4 gy-4">
+      <div *ngIf="!isNewAction()" class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">
+          {{ 'JobScheduler::Action:Id' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9">
+          <input
+            type="text"
+            pInputText
+            [disabled]="true"
+            [(ngModel)]="header.data.id"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+      </div>
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0" appRequired>{{
+          'JobScheduler::Action:Name' | abpLocalization
+        }}</label>
+        <div class="col-12 md:col-9">
+          <input
+            [(ngModel)]="header.displayName"
+            type="text"
+            pInputText
+            [style]="{ width: '100%' }"
+            (ngModelChange)="
+              header.validators.displayNameEmpty = !header.displayName?.length
+            "
+            [ngClass]="{
+              'ng-invalid ng-dirty': header.validators.displayNameEmpty
+            }"
+          />
+        </div>
+      </div>
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0" appRequired>{{
+          'JobScheduler::Action:EventName' | abpLocalization
+        }}</label>
+        <div class="col-12 md:col-9">
+          <div class="p-inputgroup">
+            <input
+              [(ngModel)]="header.eventName"
+              type="text"
+              pInputText
+              [style]="{ width: '100%' }"
+            />
+            <button
+              pButton
+              type="button"
+              class="p-button-text p-button-plain"
+              icon="fa fa-book"
+              [title]="'Templating::ActionsLibrary:SelectTemplate' | abpLocalization"
+              (click)="openTemplateDialog()"
+            ></button>
+          </div>
+        </div>
+      </div>
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">{{
+          'JobScheduler::Action:Retry' | abpLocalization
+        }}</label>
+        <div class="col-12 md:col-9">
+          <div class="flex flex-wrap gap-2 align-items-center">
+            <p-checkbox
+              [binary]="true"
+              [(ngModel)]="header.restartAfterFailSet"
+            >
+            </p-checkbox>
+            <span
+              >{{
+                'JobScheduler::Tasks:AfterFailRepeatEvery' | abpLocalization
+              }}:</span
+            >
+            <p-select
+              [filter]="false"
+              [disabled]="!header.restartAfterFailSet"
+              [options]="intervals"
+              [style]="{ width: '140px' }"
+              [(ngModel)]="header.retryInterval"
+              optionLabel="name"
+              optionValue="value"
+            >
+            </p-select>
+            <span>{{
+              'JobScheduler::UpTo' | abpLocalization | lowercase
+            }}</span>
+            <p-inputNumber
+              [inputStyle]="{ width: '50px' }"
+              [disabled]="!header.restartAfterFailSet"
+              [step]="1"
+              [min]="1"
+              [max]="10"
+              [showButtons]="true"
+              [(ngModel)]="header.maxRetryAttempts"
+              [maxFractionDigits]="0"
+            ></p-inputNumber>
+            <span>{{
+              'JobScheduler::Times' | abpLocalization | lowercase
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">{{
+          'JobScheduler::Action:MaxDelay' | abpLocalization
+        }}</label>
+        <div class="col-12 md:col-9">
+          <div class="flex flex-wrap gap-2 align-items-center">
+            <p-checkbox [binary]="true" [(ngModel)]="header.hasMaxDelay">
+            </p-checkbox>
+            <p-select
+              [filter]="false"
+              [disabled]="!header?.hasMaxDelay"
+              [options]="intervals"
+              styleClass="w-full"
+              [(ngModel)]="header.maxDelay"
+              optionLabel="name"
+              optionValue="value"
+            >
+            </p-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">
+          {{ 'JobScheduler::Task:OnFailureRecipients' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9 grid field m-0">
+          <div class="p-inputgroup w-full">
+            <input
+              pInputText
+              [placeholder]="'user@example.com'"
+              [(ngModel)]="newRecipient"
+              (keydown.enter)="addRecipient(); $event.preventDefault()"
+              (blur)="addRecipient()"
+            />
+            <button
+              pButton
+              type="button"
+              icon="pi pi-plus"
+              class="p-button-outlined"
+              [disabled]="!canAddRecipient()"
+              (click)="addRecipient()"
+            ></button>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-2 w-full">
+            <p-chip
+              *ngFor="let recipient of header.onFailureRecipients"
+              [label]="recipient"
+              [removable]="true"
+              (onRemove)="removeRecipient(recipient)"
+            ></p-chip>
+          </div>
+        </div>
+      </div>
+
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">
+          {{ 'JobScheduler::Action:Parents' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9 grid field m-0">
+          <div class="p-inputgroup">
+            <p-select
+              [editable]="false"
+              [options]="availableParents"
+              [(ngModel)]="selectedParent"
+              class="w-full"
+              styleClass="w-full"
+              optionLabel="name"
+            ></p-select>
+            <button
+              pButton
+              icon="fa fa-check"
+              [label]="'Infrastructure::Add' | abpLocalization"
+              (click)="addParent()"
+              [loading]="loading"
+              class="p-button-outlined"
+            ></button>
+          </div>
+        </div>
+      </div>
+     <div class="field grid w-full m-0 px-3">
+  <div class="chip-container">
+    <ng-container *ngFor="let parent of header.parentActions; let last = last">
+      <p-chip
+        [label]="parent.name"
+        class="custom-chip"
+        [removable]="true"
+        (onRemove)="removeParent(parent.id)"
+      ></p-chip>
+      <span *ngIf="!last" class="chip-comma">,</span>
+    </ng-container>
+  </div>
+</div>
+
+
+      <!-- <div class="field grid">
+				<label class="col-12 mb-2 md:col-3 md:mb-0">{{'JobScheduler::Action:Parents' | abpLocalization}}</label>
+				<div class="col-12 md:col-9">
+					<input [(ngModel)]="header.parentActionIds" type="text" pInputText [style]="{'width':'100%'}" />
+				</div>
+			</div> -->
+      <div class="field col-12">
+        <label>{{ 'JobScheduler::Action:ParamsFormat' | abpLocalization }}</label>
+        <p-select
+          [options]="textFormatOptions"
+          [(ngModel)]="header.paramsFormat"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{ width: '100%' }"
+          [placeholder]="'JobScheduler::Action:ParamsFormat' | abpLocalization"
+        ></p-select>
+      </div>
+      <div class="col-12">
+        <h5>{{ 'JobScheduler::Action:ActionParams' | abpLocalization }}</h5>
+        <div class="w-full card">
+          <div class="card-body" style="height: 220px">
+            <app-raw-editor
+              style="height: 220px"
+              [visible]="true"
+              [darkMode]="false"
+              height="14rem"
+              [loading]="loading"
+              [(content)]="header.actionParams"
+              appendTo="body"
+            >
+            </app-raw-editor>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-12">
+				<h5>{{'JobScheduler::Action:ActionExtraParams' | abpLocalization}}</h5>
+				<input [(ngModel)]="header.actionExtraParams" type="text" pInputText [style]="{'width':'100%'}" />
+			</div> -->
+    </div>
+    <div class="flex align-items-center justify-content-end gap-2 mt-4">
+      <p-button
+        styleClass="p-button-primary"
+        (click)="actionAdded()"
+        [text]="true"
+        [raised]="true"
+        icon="fa fa-check"
+        [label]="
+          (isNewAction() ? 'Infrastructure::Add' : 'Infrastructure::Save')
+            | abpLocalization
+        "
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>

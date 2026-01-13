@@ -1,0 +1,26 @@
+
+    <!-- <app-toolbar [displaySave]="false" [displayRemove]="false" [displaySend]="false"
+    [displayRelease]="false" [displayCreate]="false" *ngIf="mode === 'editing'">
+    <div>
+      <p-button [text]="true" [raised]="true" class="lg:mr-3" *ngIf="!editMode && mode === 'editing' && editedId?.length > 0" styleClass="p-button-info p-button-sm" autoWidth="false"
+        [label]="'Infrastructure::Edit' | abpLocalization" icon="fa fa-edit" (click)="edit(true)">
+      </p-button>
+      <p-button [text]="true" [raised]="true" class="lg:mr-3" *ngIf="!editMode && mode === 'editing' && editedId?.length > 0" styleClass="p-button-danger p-button-sm" autoWidth="false"
+        [label]="'Infrastructure::Delete' | abpLocalization" icon="fa fa-trash" (click)="deleteGateway(editedId)">
+      </p-button>
+      <p-button [text]="true" [raised]="true" class="lg:mr-3" *ngIf="editMode && mode === 'editing' && editedId?.length > 0" styleClass="p-button-warning p-button-sm" autoWidth="false"
+        [label]="'Infrastructure::Cancel' | abpLocalization" icon="fa fa-times" (click)="cancelEditing(true)">
+      </p-button>
+      <p-button [text]="true" [raised]="true" class="lg:mr-3" *ngIf="editMode && mode === 'editing' && editedId?.length > 0" styleClass="p-button-success p-button-sm" autoWidth="false"
+        [label]="'Infrastructure::Save' | abpLocalization" icon="fa fa-check" (click)="saveGateway()">
+      </p-button>
+    </div>
+  </app-toolbar> -->
+    <div *ngIf="mode === 'list'">
+        <app-gateways-list [refreshId]="refreshId" (create)="onCreate()" (edit)="onEdit($event)">
+        </app-gateways-list>
+    </div>
+    <div *ngIf="mode === 'editing'">
+        <app-gateway-settings [(editedId)]="editedId" (save)="onSave()" (back)="onBack()">
+        </app-gateway-settings>
+    </div>

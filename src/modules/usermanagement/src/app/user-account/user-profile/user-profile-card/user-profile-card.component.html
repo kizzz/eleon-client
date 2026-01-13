@@ -1,0 +1,21 @@
+<div class="card p-1 border-round m-0 w-14rem">
+  <div class="grid">
+    <div class="col-4 flex justify-content-center">
+      <!-- <p-skeleton shape="circle" size="48px" *ngIf="!icon?.fileContent"></p-skeleton> -->
+      <!-- <img *ngIf="icon?.fileContent" class="border-circle" -->
+      <!-- width="48px" -->
+      <!-- height="48px" -->
+      <!-- [src]="'data:image/png;base64,' + icon?.fileContent" alt=""> -->
+    </div>
+    <div class="col-8">
+      <p-progressBar mode="indeterminate"
+                  *ngIf="!user"></p-progressBar>
+      <div>
+        {{ user?.userName }}
+      </div>
+      <div>
+        <p-tag *ngFor="let role of roles" [value]="role.name"></p-tag>
+      </div>
+    </div>
+  </div>
+</div>

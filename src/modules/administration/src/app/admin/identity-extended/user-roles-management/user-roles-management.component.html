@@ -1,0 +1,101 @@
+<p-dialog [resizable]="false" [(visible)]="showDialog" [modal]="true" [closable]="false">
+  <ng-template pTemplate="header">
+    <div style="display: flex; width: 100% !important; justify-content: space-between;">
+      <div>
+        <span style="font-weight: 700; font-size: 1.25rem;">
+          {{ 'TenantManagement::UserRolesManagement:Title' | abpLocalization:getUserName() }}
+        </span>
+      </div>
+      <div>
+        <span class="icon-close-button" (click)="cancel()">
+          <i class="pi pi-times"></i>
+        </span>
+      </div>
+    </div>
+  </ng-template>
+  <div class="body wrapper">
+    <div *ngIf="showDialog">
+      <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+        [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" class="data-table"
+        styleClass="pr-table" [totalRecords]="totalRecords" [rows]="5" [loading]="loading" [value]="filteredRoles"
+        [paginator]="true">
+        <ng-template pTemplate="caption">
+          <div class="grid mt-0">
+            <div class="col-8 md:pl-4 p-0 flex align-items-center justify-content-end">
+              <div class="p-inputgroup">
+                <input pInputText [placeholder]="'Infrastructure::Search' | abpLocalization" [(ngModel)]="searchQuery" style="width: 100%;" (ngModelChange)="!searchQuery ? filter() : null">
+                <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-info" class="p-button-text" (click)="filter()"></button>
+              </div>
+            </div>
+            <div class="col-4 py-3 md:py-0 flex align-items-center justify-content-center lg:justify-content-end gap-2">
+              <div class="flex align-items-center">
+                <p-checkbox [binary]="true" [(ngModel)]="searchOnlySelected" (ngModelChange)="filter()" class="px-1"
+                inputId="only-selected">
+                </p-checkbox>
+                <label for="only-selected">
+                  {{'Infrastructure::OnlySelected' | abpLocalization}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="body" let-role>
+          <tr (click)="selectRole(role); pageStateService.setDirty()" [ngClass]="{'cursor-pointer': role.editable}">
+            <td>
+              <div class="flex align-items-center justify-content-between">
+                <div>
+                  <label [for]="role.id" class="pl-2 pr-2">
+                    <div class="flex align-items-center">
+                      <div [pTooltip]="getRowString(role)" tooltipPosition="top" placeholder="Top"
+                        [tooltipDisabled]="getRowString(role)?.length <= 69">
+                        {{getRowString(role)?.length > 69
+                        ? (getRowString(role) | slice:0:67) + '...'
+                        : getRowString(role)}}
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div style="width: 40px;">
+                  <p-checkbox [ngModel]="role.granted" binary="true" [disabled]="!role.editable || !canManageRoles" [inputId]="role.id"
+                    [tooltipDisabled]="role.editable" class="me-2 mr-1 ml-1"
+                    [pTooltip]="'TenantManagement::RoleUsersManagement:CanNotRemoveInheritedRole' | abpLocalization"
+                    tooltipPosition="bottom">
+                  </p-checkbox>
+                </div>
+              </div>
+            </td>
+  
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-full" colspan="2">
+              <div class="card w-full">
+                <div class="card-body w-full">
+                  <div class="card-header text-center">
+                    <span *ngIf="!roles?.length">{{'TenantManagement::UserRolesManagement:NoRoles' | abpLocalization}}</span>
+                    <span *ngIf="roles?.length && !filteredRoles?.length">{{'TenantManagement::UserRolesManagement:NoFilteredRoles' |
+                      abpLocalization}}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+  
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end mt-4 gap-3">
+      <p-button (click)="cancel()" [label]="'Infrastructure::Cancel' | abpLocalization" [text]="true"
+        [raised]="true" [disabled]="loading" [loading]="loading" severity="secondary" icon="fa fa-times">
+      </p-button>
+      <p-button (click)="save()" *ngIf="canManageRoles" [label]="'Infrastructure::Save' | abpLocalization" [text]="true" [raised]="true"
+        [disabled]="loading" [loading]="loading" icon="fa fa-check"
+        [icon]="loading ? 'fa fa-spin fa-spinner' : 'fa fa-check'">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

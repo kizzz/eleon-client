@@ -1,0 +1,24 @@
+<p-dialog
+  [header]="(isSupportTicket? 'Collaboration::SupportTicket:UserManagement' : 'Collaboration::UserManagement') | abpLocalization"
+  [visible]="showMainDialog" (visibleChange)="onMainDialogClosed()" [modal]="true" appendTo="body">
+  <div *ngIf="showMainDialog && chat" class="wrapper flex flex-column gap-3 align-items-center" style="min-width: 400px">
+    <app-chat-members-list *ngIf="members" [allowEdit]="allowEdit" [chatId]="chat.chat.id" (kickUser)="kickUser($event)"
+      (addUser)="onAddUserRequested()" [members]="members" [loading]="loading" [showSearch]="true" class="w-full">
+    </app-chat-members-list>
+  </div>
+  <ng-template pTemplate="footer">
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [header]="(isSupportTicket? 'Collaboration::SupportTicket:UserManagement:AddUser' : 'Collaboration::UserManagement:AddUser') | abpLocalization"
+  [(visible)]="showAddUserModal" [modal]="true" appendTo="body">
+  <div *ngIf="showAddUserModal" class="wrapper flex flex-column gap-3 align-items-center">
+    <app-chat-members-table-box selectionMode="multiple" [(selectedUsers)]="selectedUsersToAdd"
+      [preselectedUsers]="preselectedUsers">
+    </app-chat-members-table-box>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [text]="true" [raised]="true" icon="pi pi-check" [label]="'Infrastructure::Select' | abpLocalization" (click)="addUsers()" [loading]="loading" styleClass="p-button-outlined"></p-button>
+  </ng-template>
+</p-dialog>

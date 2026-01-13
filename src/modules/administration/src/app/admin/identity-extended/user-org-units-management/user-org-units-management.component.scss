@@ -1,0 +1,26 @@
+@import "primeflex/core/variables.scss";
+
+.wrapper {
+  max-width: 85vw;
+  min-width: 85vw;
+  width: 85vw;
+
+  @media screen and (min-width: $lg) {
+    max-width: 560px;
+    min-width: 560px;
+    width: 560px;
+  }
+}
+
+.icon-close-button {
+  cursor: pointer;
+  color: #6c757d;
+  transition: box-shadow 0.3s ease;
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+.icon-close-button:hover {
+  box-shadow: 0 0 0 5px rgba(108, 117, 125, 0.2);
+  background-color: rgba(108, 117, 125, 0.2);
+}

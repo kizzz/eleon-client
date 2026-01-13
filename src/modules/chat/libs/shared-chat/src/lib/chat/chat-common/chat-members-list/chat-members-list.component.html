@@ -1,0 +1,49 @@
+<p-table [loading]="loading" [value]="filteredMembers" [paginator]="true" [(rows)]="pageSize"
+  [rowsPerPageOptions]="[5,10,15]" sortMode="single" class="cell-center w-full">
+  <ng-template pTemplate="caption">
+    <div *ngIf="showSearch" class="p-inputgroup">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-search pr-1 pl-1"></i>
+        {{"Infrastructure::Search" | abpLocalization}}
+      </span>
+      <input type="text" pInputText #searchField
+        placeholder="{{'Infrastructure::Search' | abpLocalization}}" [(ngModel)]="searchQuery"
+        (input)="search($event.target.value)" style="width:auto">
+      <button type="button" pButton pRipple styleClass="p-button-info" class="p-button-text" icon="fas fa-user-plus" (click)="onAddUser()" *ngIf="allowEdit"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      <td class="text-center" style="padding:6px">
+        <div class="flex align-items-center gap-2">
+          <app-profile-picture [userId]="row.id" size="medium"></app-profile-picture>
+          <div class="textAlign">{{row.name}}</div>
+          <span *ngIf="row.role == ChatMemberRole.Administrator || row.role == ChatMemberRole.Owner" class="fas fa-crown" style="color: gold"></span>
+        </div>
+      </td>
+      <td class="text-center" style="padding:6px">
+        <div class="w-full flex justify-content-center">
+          <p-button [text]="true" [raised]="true" *ngIf="allowEdit && row.role != ChatMemberRole.Owner"
+                    [label]="row.role == ChatMemberRole.Administrator ? ('Collaboration::SetRole:Regular' | abpLocalization) : ('Collaboration::SetRole:Admin' | abpLocalization)" 
+                    [styleClass]="row.role == ChatMemberRole.Administrator ? 'p-button-danger' : 'p-button-secondary'" (click)="toggleUserRole(row)"></p-button>
+          <span *ngIf="row.role == ChatMemberRole.Owner" class="w-full text-center">{{ 'Collaboration::Owner' | abpLocalization }}</span>
+        </div>
+      </td>
+      <td appResponsiveColumn="40" *ngIf="allowEdit" style="padding:6px;">
+        <div class="w-full flex justify-content-end">
+          <button *ngIf="row.role != ChatMemberRole.Owner" pButton (click)="onKickUser(row)" [pTooltip]="'Collaboration::KickUser' | abpLocalization"
+          icon="fas fa-trash" class="p-button p-button-danger p-button-text"></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td class="w-full" colspan="100">
+        <span *ngIf="!searching">{{'Collaboration::NoUsersInChat' | abpLocalization}}</span>
+        <span *ngIf="searching">{{'Collaboration::NoResults' | abpLocalization}}</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

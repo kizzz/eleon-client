@@ -1,0 +1,35 @@
+*[dir='rtl'] :host ::ng-deep .textAlign {
+    text-align: right !important;
+  }
+  
+  :host ::ng-deep .textAlign {
+    text-align: left;
+  }
+
+  :host ::ng-deep p-splitbutton .p-splitbutton p-tieredmenu .p-tieredmenu{
+    width:180px;
+  }
+
+  :host ::ng-deep{
+    @media (min-width: 768px) {
+      .data-table .p-datatable .p-datatable-tbody>tr{
+        height: 49.44px !important;
+      }
+    }
+    @media (min-width: 992px) {
+      .data-table .p-datatable .p-datatable-tbody>tr{
+        height: 49.44px !important;
+      }
+    }    
+  }
+
+
+  :host ::ng-deep p-splitbutton .p-splitbutton p-tieredmenu .p-tieredmenu{
+    width:180px;
+  }
+
+  // :host ::ng-deep .p-datatable-table {
+  //   border-top-width: 1px;
+  //   border-top-style: solid;
+  //   border-top-color: var(--container-border-color);
+  // }

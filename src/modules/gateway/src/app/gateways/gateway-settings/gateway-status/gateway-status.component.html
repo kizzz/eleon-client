@@ -1,0 +1,39 @@
+<ng-template #revokeBtn>
+</ng-template>
+<p-message [severity]="severity" variant="simple" class="w-full">
+    <ng-template pTemplate>
+        <div class="flex align-items-center">
+            <div style="min-width:150px"><b>{{statusMsg}}<span
+                        *ngIf="loadedPrivateKey && !privateKeyExpired">:</span></b></div>
+            <div *ngIf="loadedPrivateKey && !privateKeyExpired" class="p-inputgroup">
+                <button *ngIf="gateway.status === gatewayStatuses.WaitingForRegistration && loadedPrivateKey"
+                    (click)="copyKey()" pButton
+                    [pTooltip]="'GatewayManagement::Gateway:CopyKeyToClipboard:Tooltip' | abpLocalization" icon="fas fa-copy"
+                    class="p-button-outlined p-button-warning" iconPos="left"></button>
+                <input class="key-input text-center" [ngModel]="loadedPrivateKey.key" type="text" pInputText
+                    [readOnly]="true" (click)="copyKey()" />
+                <button *ngIf="gateway.status === gatewayStatuses.WaitingForRegistration" (click)="revokeKey()" pButton
+                    [label]="'GatewayManagement::Gateway:RevokeKey' | abpLocalization"
+                    [pTooltip]="'GatewayManagement::Gateway:RevokeKey:Tooltip' | abpLocalization" icon="pi pi-refresh"
+                    class="p-button-outlined p-button-warning" iconPos="left"></button>
+                <button *ngIf="gateway.status === gatewayStatuses.WaitingForRegistration" (click)="cancelRegistration()"
+                    pButton [label]="'GatewayManagement::Gateway:CancelRegistration' | abpLocalization"
+                    [pTooltip]="'GatewayManagement::Gateway:CancelRegistration:Tooltip' | abpLocalization" icon="fa fa-times"
+                    class="p-button-outlined p-button-warning" iconPos="left"></button>
+            </div>
+            <div style="width:300px; font-weight: bold;" class="text-center"
+                *ngIf="loadedPrivateKey?.expiresAfterMs && !privateKeyExpired">
+                {{'GatewayManagement::Gateway:RegistrationKeyExpiresAfter' | abpLocalization}}
+                {{ loadedPrivateKey.expiresAfterMs | countdown: onKeyExpired }}
+            </div>
+            <button
+                *ngIf="gateway.status === gatewayStatuses.WaitingForRegistration && (!loadedPrivateKey || privateKeyExpired)"
+                (click)="revokeKey()" pButton [label]="'GatewayManagement::Gateway:RevokeKey' | abpLocalization"
+                [pTooltip]="'GatewayManagement::Gateway:RevokeKey:Tooltip' | abpLocalization" icon="pi pi-refresh"
+                class="p-button-outlined p-button-info ml-3" iconPos="left"></button>
+            <button *ngIf="gateway.status === gatewayStatuses.New" (click)="requestRegistration()" pButton
+                [label]="'GatewayManagement::Gateway:RequestRegistration' | abpLocalization" icon="fas fa-paper-plane"
+                class="p-button-outlined p-button-info ml-3" iconPos="left"></button>
+        </div>
+    </ng-template>
+</p-message>

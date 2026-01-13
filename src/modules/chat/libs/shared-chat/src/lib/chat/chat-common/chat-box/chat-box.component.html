@@ -1,0 +1,22 @@
+<app-loading [loading]="loading">
+<div class="flex align-items-center flex flex-column w-full nb-theme-default" [ngStyle]="{'height': height}">
+  <nb-chat class="h-full w-full" [noMessagesPlaceholder]="placeholder" [ngClass]="{'loading': loading}"
+    [scrollBottom]="scrollBottom">
+    <div *nbCustomMessage="'custom'; noStyles: true; let msg">
+      <app-chat-message [message]="msg"></app-chat-message>
+    </div>
+
+    <!-- All messages are custom messages for now -->
+    <nb-chat-message *ngFor="let msg of messages$ | async" [type]="msg.type" [customMessageData]="msg.data"
+      [ngClass]="msg.type">
+    </nb-chat-message>
+
+    <nb-chat-form *ngIf="showSendForm" (send)="sendMessage($event)" [dropFiles]="true" [nbSpinner]="loading" class="custom-chat-form">
+    </nb-chat-form>
+  </nb-chat>
+
+  <button *ngIf="canUserJoin" nbButton fullWidth status="success" class="text-center" (click)="joinChat()">
+    {{ 'Collaboration::JoinChat' | abpLocalization }}
+  </button>
+</div>
+</app-loading>

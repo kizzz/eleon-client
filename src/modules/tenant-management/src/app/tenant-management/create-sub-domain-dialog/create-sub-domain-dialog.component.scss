@@ -1,0 +1,17 @@
+
+.dialogWidth {
+  max-width: 20vw;
+  min-width: 20vw;
+  width: 20vw;
+}
+
+:host ::ng-deep .loading-dialog {
+  .p-dialog-header .p-dialog-header-icons {
+    display: none;
+  }
+}
+
+// :host ::ng-deep .loading-dialog {
+//   .p-dialog-content {
+//   }
+// }

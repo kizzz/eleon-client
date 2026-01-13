@@ -1,0 +1,17 @@
+:host ::ng-deep .p-password .p-inputtext{
+    border-radius: 6px;
+}
+
+.system-template-preview {
+    min-height: 50px;
+    transition: background-color 0.2s;
+    
+    &:hover {
+        background-color: var(--surface-hover);
+    }
+}
+
+.template-border {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}

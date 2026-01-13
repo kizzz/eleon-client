@@ -1,0 +1,47 @@
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" (visibleChange)="displayChange.emit($event)" [modal]=true
+    (onHide)="cancel()" [header]="'TenantManagement::Role:Add' | abpLocalization">
+    <div class="data grid">
+
+        <div class="col-12 field grid align-items-end">
+            <label appRequired class="col-4 form-label" for="current-password">
+                {{ 'TenantManagement::Role:Header:Name' | abpLocalization }}
+            </label>
+            <div class="col-8">
+                <input pInputText [(ngModel)]="roleName" class="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+                    (input)="resetNameValidator(); pageStateService.setDirty()" [disabled]="loading">
+            </div>
+        </div>
+        <div class="col-6 field grid">
+            <div class="col-2 flex align-items-center">
+                <p-checkbox [binary]="true" class="mr-5 pb-2" [(ngModel)]="isDefault" [disabled]="loading"
+                    (onChange)="pageStateService.setDirty()">
+                </p-checkbox>
+            </div>
+            <label class="col-10 form-label" for="current-password">
+                {{ 'TenantManagement::Role:Default' | abpLocalization }}
+            </label>
+        </div>
+
+        <div class="col-6 field grid">
+            <div class="col-2 flex align-items-center">
+                <p-checkbox [binary]="true" class="mr-5 pb-2" [(ngModel)]="isPublic" [disabled]="loading"
+                    (onChange)="pageStateService.setDirty()">
+                </p-checkbox>
+            </div>
+            <label class="col-10 form-label" for="current-password">
+                {{ 'TenantManagement::Role:Public' | abpLocalization }}
+            </label>
+        </div>
+
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button (click)="cancel()" [label]="'Infrastructure::Cancel' | abpLocalization" [text]="true"
+            [raised]="true" [disabled]="loading" severity="secondary" icon="fa fa-times">
+        </p-button>
+        <p-button (click)="create()" [label]="'Infrastructure::Save' | abpLocalization" [text]="true"
+            [raised]="true" [disabled]="loading" icon="fa fa-check"
+            [icon]="loading ? 'fa fa-spin fa-spinner' : 'fa fa-check'">
+        </p-button>
+    </ng-template>
+</p-dialog>

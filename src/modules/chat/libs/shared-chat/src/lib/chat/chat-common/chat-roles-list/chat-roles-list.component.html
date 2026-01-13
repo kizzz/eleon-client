@@ -1,0 +1,35 @@
+<p-table [loading]="loading" [value]="filtered" [paginator]="true" [(rows)]="pageSize"
+  [rowsPerPageOptions]="[5,10,15]" sortMode="single" class="cell-center w-full">
+  <ng-template pTemplate="caption">
+    <div class="p-inputgroup">
+      <input type="text" pInputText #searchField
+        placeholder="{{'Infrastructure::Search' | abpLocalization}}" [(ngModel)]="searchQuery"
+        (input)="search()" style="width:auto">
+      <button type="button" pButton pRipple styleClass="p-button-info" class="p-button-text" icon="pi pi-search" (click)="search(searchQuery)"></button>
+      <button type="button" pButton pRipple styleClass="p-button-info" class="p-button-text" icon="fas fa-plus"  (click)="openRolesDialog()" *ngIf="allowEdit"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <tr class="px-2">
+      <td class="text-center" style="padding:6px" [ngClass]="{ 'py-3': !allowEdit }">
+        <div class="flex align-items-center gap-2">
+          <span class="fa fa-user-tag"></span>
+          <div class="textAlign">{{row.name}}</div>
+        </div>
+      </td>
+      <td *ngIf="allowEdit" style="padding:6px;" class="flex justify-content-end">
+        <button pButton (click)="onRoleRemoved(row.id)" [pTooltip]="'Collaboration::RemoveRole' | abpLocalization"
+          icon="fas fa-trash" class="p-button p-button-danger p-button-text"></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td class="w-full" colspan="100">
+        <span *ngIf="!searching">{{'Collaboration::AnyRole' | abpLocalization}}</span>
+        <span *ngIf="searching">{{'Collaboration::NoResults' | abpLocalization}}</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

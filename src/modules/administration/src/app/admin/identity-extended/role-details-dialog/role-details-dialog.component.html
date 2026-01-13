@@ -1,0 +1,64 @@
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" (visibleChange)="displayChange.emit($event)" [modal]="true"
+    (onHide)="cancel()" [header]="'TenantManagement::Role:Edit' | abpLocalization">
+    <div class="wrapper">
+        <div class="grid">
+            <div class="col-12 field grid align-items-end">
+                <label appRequired class="col-3 form-label" for="current-password">
+                    {{ 'TenantManagement::Role:Header:Name' | abpLocalization }}
+                </label>
+                <div class="col-9">
+                    <input pInputText [(ngModel)]="role.name" class="w-full"
+                        [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+                        (input)="resetNameValidator(); pageStateService.setDirty()" [disabled]="loading">
+                </div>
+            </div>
+            <div class="col-12 field grid align-items-end">
+                <label class="col-3 form-label">
+                    {{ 'TenantManagement::Role:Default' | abpLocalization }}
+                </label>
+                <div class="col-9">
+                    <p-select
+                        [options]="yesNoOptions"
+                        [(ngModel)]="role.isDefault"
+                        optionLabel="label"
+                        optionValue="value"
+                        appendTo="body"
+                        [disabled]="loading"
+                        (onChange)="pageStateService.setDirty()"
+                        [style]="{ width: '100%' }"
+                        [placeholder]="'Infrastructure::SelectOption' | abpLocalization">
+                    </p-select>
+                </div>
+            </div>
+            <div class="col-12 field grid align-items-end">
+                <label class="col-3 form-label">
+                    {{ 'TenantManagement::Role:Public' | abpLocalization }}
+                </label>
+                <div class="col-9">
+                    <p-select
+                        [options]="yesNoOptions"
+                        [(ngModel)]="role.isPublic"
+                        appendTo="body"
+                        optionLabel="label"
+                        optionValue="value"
+                        [disabled]="loading"
+                        (onChange)="pageStateService.setDirty()"
+                        [style]="{ width: '100%' }"
+                        [placeholder]="'Infrastructure::SelectOption' | abpLocalization">
+                    </p-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="flex align-items-center gap-3 justify-content-end">
+            <p-button (click)="cancel()" [label]="'Infrastructure::Cancel' | abpLocalization" [text]="true"
+                [raised]="true" [disabled]="loading" severity="secondary" icon="fa fa-times">
+            </p-button>
+            <p-button (click)="update()" [label]="'Infrastructure::Save' | abpLocalization" [text]="true"
+                [raised]="true" [disabled]="loading" icon="fa fa-check"
+                [icon]="loading ? 'fa fa-spin fa-spinner' : 'fa fa-check'">
+            </p-button>
+        </div>
+    </ng-template>
+</p-dialog>

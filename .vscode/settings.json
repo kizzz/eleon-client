@@ -1,0 +1,39 @@
+{
+    "files.exclude": {
+        "**/.vs/**": true,
+        "**/extras/**": true,
+        "**/scripts/**": true,
+        "**/server/**": true,
+        "docs/**": true,
+        "custom-abp/**": true,
+        "EleonCoreDevDocs/**": true,
+        "EleonCoreDocs/**": true,
+        "vcportal/**": true,
+        "eleoncore-manager": true,
+        // "shared": true,
+        "**/node_modules/**": true,
+        "eloncoreproxy": true,
+        ".angular": true,
+        "**/.nx/**": true,
+        "**/dist/**": true,
+        "**/tmp/**": true,
+        "**/git/**": true,
+        "**/bin/**": true,
+        "Data": true,
+        "eleonsphere/deprecated": true
+    },
+    "typescript.tsserver.maxTsServerMemory": 8072,
+    "typescript.tsserver.nodePath": "'node'",
+    "files.watcherExclude": {
+        "**/dist/**": true,
+        "**/node_modules/**": true,
+        "**/.angular/**": true,
+        "**/.nx/cache/**": true
+    },
+    "search.exclude": {
+        "**/dist": true,
+        "**/node_modules": true,
+        "**/.nx": true
+    },
+    "nxConsole.generateAiAgentRules": true
+}

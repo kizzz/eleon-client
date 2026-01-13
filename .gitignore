@@ -1,0 +1,12 @@
+# Output
+debug/
+bin/
+
+# Build cache
+.nx/
+.angular/
+
+**/bin-build*/
+
+# Node
+node_modules/

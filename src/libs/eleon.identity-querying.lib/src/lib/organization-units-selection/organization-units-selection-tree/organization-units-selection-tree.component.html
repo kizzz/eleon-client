@@ -1,0 +1,153 @@
+<ng-container *ngIf="inlineCreation">
+  <!-- <p-button [text]="true" [raised]="true" *ngIf="inlineCreation" icon="pi pi-plus" (click)="selectedForOperation = null; displayCreate = true" styleClass="p-button-success"></p-button> -->
+  <div class="flex align-items-center sticky flex-wrap">
+    <div [ngClass]="{'col-8': isManage, 'col-12': isShowSearch || inlineCreation}">
+      <div *ngIf="inlineCreation || isManage">
+        <input pInputText #searchField [placeholder]="'Infrastructure::Search' | abpLocalization"
+          [(ngModel)]="searchQueryText" style="width: 100%;" (input)="filter()">
+      </div>
+      <div class="p-inputgroup" *ngIf="isShowSearch">
+        <input type="text" pInputText #searchField
+          placeholder="{{'Infrastructure::Search' | abpLocalization}}" [(ngModel)]="searchQueryText"
+          (input)="filter()">
+        <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+          (click)="searchQueryText = null"></button>
+      </div>
+    </div>
+    <div class="col-4" *ngIf="isManage">
+      <p-checkbox [binary]="true" [(ngModel)]="isOnlySelected" (ngModelChange)="filter()">
+      </p-checkbox>
+      &nbsp;
+      <span style="font-weight:bold">{{'Infrastructure::OnlySelected' | abpLocalization}}</span>
+    </div>
+  </div>
+</ng-container>
+<p-treeTable
+  [value]="organizationUnitsTreeFiltered"
+  styleClass="p-treetable-sm"
+  [loading]="loading || localLoading"
+  [scrollable]="true"
+  scrollHeight="400px"
+  (onNodeSelect)="nodeSelect($event, true)"
+  [selectionMode]="selectionMode === 'checkbox' ? '' : 'single'">
+
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-start gap-4">
+      <div class="col-8 p-0">
+        <div class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+            [(ngModel)]="searchQueryText"
+            (input)="filter()"
+            (ngModelChange)="filter()" />
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-search"
+            styleClass="p-button-info"
+            class="p-button-text"
+            (click)="filter()">
+          </button>
+        </div>
+      </div>
+
+      <div class="col-4 p-0 flex align-items-center" *ngIf="isManage">
+        <p-checkbox
+          [binary]="true"
+          [(ngModel)]="isOnlySelected"
+          (ngModelChange)="filter()"
+          class="mr-2">
+        </p-checkbox>
+        <span class="font-bold pl-2">
+          {{'Infrastructure::OnlySelected' | abpLocalization}}
+        </span>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- BODY TEMPLATE -->
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+    <tr
+      [ttRow]="rowNode"
+      [ttSelectableRow]="getWithUsers && !rowNode?.node?.data?.isAvailableSelection ? null : rowNode"
+      [style.cursor]="(isMove && showCloseIcon(rowNode?.node)) ? 'default' : 'pointer'">
+
+      <td (click)="toggleRowSelection(rowNode)">
+        <div class="flex gap-2 align-items-center justify-content-between">
+          <div>
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            <span class="fa fa-sitemap" *ngIf="rowNode?.node?.data?.parentId?.length > 0"></span>
+            <span class="fa fa-building mb-1" *ngIf="rowNode?.node?.data?.parentId?.length <= 0"></span>
+            <span>
+              {{ rowNode.node.label }}
+              {{ rowNode?.node?.data?.localCurrencyCode?.length > 0 && rowNode?.node?.data?.isCompany
+                ? (rowNode?.node?.data?.localCurrencyCode | currencySymbol)
+                : '' }}
+            </span>
+          </div>
+          <div class="pl-2">
+            <p-checkbox
+              [binary]="true"
+              [ngModel]="isRowSelected(rowNode)"
+              *ngIf="selectionMode === 'checkbox'"
+              [disabled]="disableCheckBoxSelection"
+              styleClass="table-body-checkbox">
+            </p-checkbox>
+          </div>
+        </div>
+      </td>
+
+      <td *ngIf="showStatus" style="width:5rem">
+        <p-tag
+          severity="success"
+          *ngIf="rowNode?.node?.data?.isEnabled"
+          [value]="'Infrastructure::Enabled' | abpLocalization">
+        </p-tag>
+        <p-tag
+          severity="info"
+          *ngIf="!rowNode?.node?.data?.isEnabled"
+          [value]="'Infrastructure::Disabled' | abpLocalization">
+        </p-tag>
+      </td>
+
+      <td
+        class="text-right"
+        style="width:14%; max-width:120px; min-width:120px;"
+        *ngIf="selectionMode !== 'checkbox' && !isOnlySingleSelectionMode">
+        <div class="flex justify-content-end">
+          <span
+            *ngIf="((!getWithUsers || rowNode?.node?.data?.isAvailableSelection) && !isMove) || (isMove && !showCloseIcon(rowNode?.node))"
+            class="fa fa-hand-pointer text-primary"
+            (click)="nodeSelect(rowNode, true)">
+          </span>
+          <span
+            *ngIf="isMove && showCloseIcon(rowNode?.node)"
+            class="fa fa-times-circle"
+            style="color: var(--danger-color);">
+          </span>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-100" colspan="2">
+        <div class="card w-100">
+          <div class="card-body w-full text-center">
+            <div class="card-header">
+              {{ 'Infrastructure::NoOrgUnits' | abpLocalization }}
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-treeTable>
+
+<div class="pt-2 flex justify-content-end" *ngIf="showSelectButton">
+  <p-button [text]="true" [raised]="true" icon="pi pi-check" [label]="'Infrastructure::Select' | abpLocalization" (click)="select()"></p-button>
+</div>

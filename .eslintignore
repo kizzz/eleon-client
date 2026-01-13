@@ -1,0 +1,8 @@
+**/server
+/custom-abp/*
+
+vcportal
+
+abp
+node_modules
+/bin

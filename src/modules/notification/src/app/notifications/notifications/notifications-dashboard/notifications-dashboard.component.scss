@@ -1,0 +1,30 @@
+
+*[dir='rtl'] :host ::ng-deep .textAlign {
+  text-align: right !important;
+}
+
+:host ::ng-deep .textAlign {
+  text-align: left;
+}
+
+:host ::ng-deep .p-datatable-table {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--container-border-color);
+}
+
+:host ::ng-deep .p-paginator {
+  flex-wrap: nowrap;
+  font-size: 0.8rem;
+  padding: 0;
+
+  .p-paginator-pages {
+    display: flex;
+    flex-wrap: nowrap;
+
+  }
+
+  .p-paginator-current {
+    text-wrap: nowrap;
+  }
+}

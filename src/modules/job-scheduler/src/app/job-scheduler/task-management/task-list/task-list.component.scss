@@ -1,0 +1,14 @@
+:host ::ng-deep .p-tag.status-inactive {
+  background: var(--gray-500);
+}
+:host ::ng-deep .p-tag.status-ready {
+  background: var(--green-500);
+}
+:host ::ng-deep .p-tag.status-running {
+  background: var(--yellow-500);
+}
+
+:host ::ng-deep .p-tooltip .p-tooltip-text {
+  white-space: nowrap;
+  max-width: none;
+}

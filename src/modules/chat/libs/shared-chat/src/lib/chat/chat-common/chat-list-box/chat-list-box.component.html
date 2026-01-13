@@ -1,0 +1,45 @@
+<div class="overflow-y-scroll max-h-25rem">
+  <ng-container *ngIf="loading; else chatsTemplate">
+    <div class="text-center text-gray-400 mt-5 text-lg font-bold">
+      {{ 'Infrastructure::Loading' | abpLocalization }}...
+    </div>
+  </ng-container>
+
+  <ng-template #chatsTemplate>
+    <ng-container *ngIf="chats?.length; else emptyChats">
+      <div *ngFor="let row of chats"
+        class="grid m-0 py-1 px-2 chat"
+        [ngClass]="{ 'selected': row?.chat?.id == selectedChat?.chat?.id && !!selectedChat?.chat?.id }"
+        (click)="onSelectionChange(row)">
+        <div class="col-6 flex align-items-center">
+          <div class="text-lg w-full flex align-items-center gap-3">
+            <app-chat-icon [chat]="row"></app-chat-icon>
+            <div class="m0 text-md w-full px-2 flex flex-column">
+              <div class="flex align-items-center justify-content-between gap-2">
+                <app-chat-title [chat]="row" [maxWidth]="'250px'" [sideBarView]="sideBarView" [fullView]="false"></app-chat-title>
+                <span *ngIf="row.unreadCount" class="unread-badge">
+                  +{{row.unreadCount}}
+                </span>
+              </div>
+              <div class="flex align-items-center gap-2 mt-1">
+                <app-profile-picture-group [userIds]="getChatImages(row)" [totalUsers]="row.chat.membersAmount" size="small">
+                </app-profile-picture-group>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 p-0 text-center badge badge-light text-md font-bold text-gray-500 flex align-items-center justify-content-between gap-2">
+          <span class="flex-1">{{row.lastChatMessage.creationTime | timeAgo:false}}</span>
+          <app-chat-controls [chat]="row" [compactView]="true" (onChatLeft)="onSelectionChange(null)"></app-chat-controls>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyChats>
+      <div class="text-center text-gray-400 mt-5 text-lg font-bold">
+        {{ this.menuView ? ('Collaboration::ChatList:NoChats:Short' | abpLocalization) : (this.searchQuery ? ('Collaboration::ChatList:NoChatsFound' | abpLocalization) : ('Collaboration::ChatList:NoChats' | abpLocalization)) }}
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

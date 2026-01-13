@@ -1,0 +1,44 @@
+
+
+:host ::ng-deep .p-tag.completed {
+  background: var(--green-800);
+}
+
+:host ::ng-deep .p-tag.new {
+  background: var(--yellow-500);
+}
+
+:host ::ng-deep .p-tag.executing {
+  background: var(--orange-500);
+}
+
+:host ::ng-deep .p-tag.executingfailed {
+  background: var(--red-500);
+}
+
+:host ::ng-deep .p-tag.errored {
+  background: var(--red-500);
+}
+
+::ng-deep .p-calendar .p-inputtext::placeholder {
+  text-align: center !important;
+}
+
+*[dir='rtl'] :host ::ng-deep .textAlign {
+  text-align: right !important;
+}
+
+:host ::ng-deep .textAlign {
+  text-align: left;
+}
+
+:host ::ng-deep .p-datatable-table {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--container-border-color);
+}
+
+:host ::ng-deep .p-datatable .p-sortable-column.p-highlight{
+  background: transparent;
+  color: inherit;
+}

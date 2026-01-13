@@ -1,0 +1,17 @@
+// ::ng-deep .chatOverlay {
+//     margin-left: 10px;
+  
+//     .p-overlaypanel-content {
+//       padding-left: 0;
+//       padding-right: 0;
+//       padding-bottom: 0;
+//     }
+//   }
+
+::ng-deep .p-overlaypanel:after {
+  border-bottom-color: #354bb1;
+}
+
+.view-all:hover {
+  background-color: var(--menuitem-hover-bg)
+}

@@ -1,0 +1,37 @@
+<div class="w-full">
+  <div class="field grid">
+    <label class="col-12 mb-2 md:col-3 md:mb-0">
+        {{'Infrastructure::Notification:Type' | abpLocalization}}
+    </label>
+    <div class="col-12 md:col-9">
+      <p-select [options]="typeOptions" [(ngModel)]="otpSettings.userOtpType" (ngModelChange)="_isDirty = true" appendTo="body"
+        optionValue="value" optionLabel="name" [filter]="false" autoWidth="false" [style]="{'width':'100%'}">
+      </p-select>
+    </div>
+  </div>
+  <div class="field grid" *ngIf="otpSettings.userOtpType == UserOtpType.Email || otpSettings.userOtpType == UserOtpType.Mixed">
+    <label class="col-12 mb-2 md:col-3 md:mb-0">
+        {{'Infrastructure::User:Email' | abpLocalization}}
+    </label>
+    <div class="col-12 md:col-9">
+      <input style="width: 100%;" pInputText type="text" [(ngModel)]="otpSettings.otpEmail" (ngModelChange)="_isDirty = true" [disabled]="loading"
+      [ngClass]="{'ng-invalid ng-dirty': emailInvalid}">
+    </div>
+  </div>
+  <div class="field grid" *ngIf="otpSettings.userOtpType == UserOtpType.Sms || otpSettings.userOtpType == UserOtpType.Mixed">
+    <label class="col-12 mb-2 md:col-3 md:mb-0">
+        {{'Infrastructure::User:Phonenumber' | abpLocalization}}
+    </label>
+    <div class="col-12 md:col-9">
+      <input style="width: 100%;" pInputText type="text" [(ngModel)]="otpSettings.otpPhoneNumber" (ngModelChange)="_isDirty = true" [disabled]="loading"
+      [ngClass]="{'ng-invalid ng-dirty': phoneInvalid}">
+    </div>
+  </div>
+  <!-- <div class="field grid">
+      <div class="col-3">
+          <p-button (click)="save()" [label]="'Infrastructure::Save' | abpLocalization" [disabled]="loading"
+              styleClass="w-8rem" [text]="true" [raised]="true" icon="fa fa-check">
+          </p-button>
+      </div>
+  </div> -->
+</div>

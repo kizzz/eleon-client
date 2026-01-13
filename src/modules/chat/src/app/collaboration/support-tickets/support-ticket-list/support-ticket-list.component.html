@@ -1,0 +1,28 @@
+<!-- <app-support-ticket-creation-modal [(showDialog)]="chatCreationDialogOpened"></app-support-ticket-creation-modal>
+
+<div class="flex flex-column align-items-center gap-3 py-2 h-full">
+  <div class="flex align-items-center gap-2 w-full px-2" style="flex-basis: 3rem">
+    <div class="p-inputgroup">
+      <input type="text" pInputText placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+        [(ngModel)]="searchText" (keydown.enter)="search()" (ngModelChange)="onSearchInput()">
+      <button type="button" (click)="search()" pButton pRipple icon="pi pi-search" styleClass="p-button-info"
+        class="p-button-text"></button>
+    </div>
+    <p-button styleClass="p-button-sm" icon="fas fa-plus-circle"
+      style="white-space: nowrap;width: 12rem" (click)="onCreate()" [raised]="true" [text]="true"
+      [label]="'Collaboration::CreateSupportTicket' | abpLocalization">
+    </p-button>
+  </div>
+
+  <div lazyScroll [scrollTreshold]="0" (scrollTresholdReached)="loadMore()" class="overflow-y-scroll w-full"
+    style="flex-grow: 1">
+    <app-support-tickets-search-results #chatSearchResults *ngIf="searching" style="flex: 1" class="w-full m-3"
+      [searchQuery]="searchQuery" [(selectedChat)]="selectedChat" (selectedChatChange)="selectedChatChange.emit($event)"
+      [(noChats)]="noChats" (noChatsChange)="noChatsChange.emit($event)">
+    </app-support-tickets-search-results>
+
+    <app-chat-list-latest #chatListLatest *ngIf="!searching" style="flex: 1" class="w-full m-3" mode="tickets"
+      [(selectedChat)]="selectedChat" (selectedChatChange)="selectedChatChange.emit($event)">
+    </app-chat-list-latest>
+  </div>
+</div> -->

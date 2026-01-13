@@ -1,0 +1,88 @@
+{
+  "name": "gateway",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "src/modules/gateway/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "bin/debug/modules/{projectName}",
+        "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
+        "index": "{workspaceRoot}/src/shared/index.html",
+        "main": "{projectRoot}/src/main.ts",
+        "tsConfig": "{projectRoot}/tsconfig.json",
+        "polyfills": [
+          "zone.js"
+        ],
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "{projectRoot}/src/assets"
+        ],
+        "styles": [
+          "{workspaceRoot}/src/shared/index.css"
+        ],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "{projectRoot}/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "release": {
+          "outputPath": "bin/release/modules/{projectName}"
+        },
+        "immurelease": {
+          "outputPath": "bin/immurelease/modules/{projectName}"
+        }
+      },
+      "defaultConfiguration": "debug"
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "port": 4206,
+        "publicHost": "http://localhost:4206"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "gateway:build:production"
+        },
+        "development": {
+          "buildTarget": "gateway:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "gateway:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "gateway:build",
+        "port": 4206,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "gateway:build:development"
+        },
+        "production": {
+          "buildTarget": "gateway:build:production"
+        }
+      }
+    }
+  }
+}

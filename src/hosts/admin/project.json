@@ -1,0 +1,102 @@
+{
+  "name": "admin",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "src/hosts/admin/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "preserveSymlinks": true,
+        "outputPath": "bin/debug/hosts/{projectName}",
+        "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
+        "index": "{projectRoot}/src/index.html",
+        "main": "{projectRoot}/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "{projectRoot}/tsconfig.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "{projectRoot}/src/favicon.ico",
+          "{projectRoot}/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/monaco-editor",
+            "output": "/assets/monaco/"
+          },
+          "{projectRoot}/src/web.config",
+          {
+            "glob": "**/*",
+            "input": "src/modules/primeng-layout/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "{workspaceRoot}/src/shared/index.css",
+          "{workspaceRoot}/src/modules/primeng-layout/src/styles.scss"
+        ],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "{projectRoot}/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "release": {
+          "outputPath": "bin/release/hosts/{projectName}"
+        },
+        "immurelease": {
+          "outputPath": "bin/immurelease/hosts/{projectName}"
+        }
+      },
+      "defaultConfiguration": "debug"
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "port": 4207,
+        "disableHostCheck": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "admin:build:production"
+        },
+        "development": {
+          "buildTarget": "admin:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "admin:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "admin:build",
+        "port": 4207,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "admin:build:development"
+        },
+        "production": {
+          "buildTarget": "admin:build:production"
+        }
+      }
+    }
+  }
+}

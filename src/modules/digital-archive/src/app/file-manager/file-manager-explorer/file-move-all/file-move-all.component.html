@@ -1,0 +1,60 @@
+
+  <div class="d-content">
+    <div class="row flex align-items-center justify-content-between">
+      <div class="col-md-auto col-sm-auto">
+        <div class="content-header bread-nav flex align-items-center">
+          <ng-container *ngFor="let path of folderPaths; let last = last;">
+            <button type="button" (click)="onPathClick(path)" class="btn btn-link">{{path.name}}</button>
+            <span *ngIf="!last" class="material-icons-outlined small-arrow">
+              arrow_right
+            </span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-12">
+        <div class="table-responsive table-responsive-dialog">
+          <table class="table">
+            <thead>
+              <tr class="d-flex">
+                <th class="col-12">Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="selectedFolderId">
+                <tr *ngFor="let folder of currentFolders" class="d-flex">
+                  <td class="col-12">
+                    <a role="button" class="d-flex align-items-center" (click)="onFolderClick(folder)">
+                      <span class="material-icons folder_shared">
+                        folder
+                      </span>
+                      {{folder.name }}
+                    </a>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 flex gap-3">
+        <div mat-dialog-actions class=" flex gap-3">
+          <p-button [text]="true" [raised]="true" (click)="onCancel()" icon="pi pi-times-circle"
+            [label]="'Infrastructure::Cancel' | abpLocalization">
+            
+          </p-button>
+          <p-button [text]="true" [raised]="true" (click)="onMoveAll()" type="submit" 
+            [label]="'FileManager::MoveHere' | abpLocalization" icon="pi pi-save"
+            >
+          </p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  

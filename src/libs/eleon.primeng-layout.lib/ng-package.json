@@ -1,0 +1,6 @@
+{
+  "dest": "../../../bin/debug/libs/eleon.primeng-layout.lib",
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}

@@ -1,0 +1,67 @@
+<app-page-title [title]="title" [showBack]="true" (back)="onBack()" icon="fas fa-plug">
+</app-page-title>
+
+<div class="card">
+    <div class="grid m-0" *ngIf="!editMode">
+        <div class="col-12 lg:col-3 grid field pr-only">
+            <div class="col-6 lg:col-5"><b>{{'GatewayManagement::Gateway:Name' | abpLocalization}}</b></div>
+            <div class="col-6 lg:col-7">{{header.data.name || '-'}}</div>
+        </div>
+        <div class="col-12 lg:col-3 grid field pr-only">
+            <div class="col-6 lg:col-5"><b>{{'GatewayManagement::Gateway:Protocol' | abpLocalization}}</b></div>
+            <div class="col-6 lg:col-7">{{getProtocolName(header.data.protocol) || '-'}}</div>
+        </div>
+        <div class="col-12 lg:col-3 grid field pr-only" *ngIf="header?.protocol?.value === GatewayProtocol.HTTPS">
+            <div class="col-6 lg:col-5"><b>{{'GatewayManagement::Gateway:IpAddress' | abpLocalization}}</b></div>
+            <div class="col-6 lg:col-7">{{header.data.ipAddress || '-'}}</div>
+        </div>
+        <div class="col-12 lg:col-3 grid field pr-only" *ngIf="header?.protocol?.value === GatewayProtocol.HTTPS">
+            <div class="col-6 lg:col-5"><b>{{'GatewayManagement::Gateway:Port' | abpLocalization}}</b></div>
+            <div class="col-6 lg:col-7">{{header.data.port || '-'}}</div>
+        </div>
+    </div>
+    <div class="grid gx-4 gy-4" *ngIf="editMode">
+        <div class="col-12 md:col-6">
+            <h5>{{'GatewayManagement::Gateway:Name' | abpLocalization}}</h5>
+            <div class="p-inputgroup">
+                <input [(ngModel)]="header.data.name" [ngClass]="{'ng-invalid ng-dirty': header.validators.nameEmpty}"
+                    type="text" pInputText [style]="{'width':'100%'}"
+                    (ngModelChange)="resetValidators(); state.setDirty();" />
+            </div>
+        </div>
+        <div class="col-12 md:col-6">
+            <h5>{{'GatewayManagement::Gateway:Protocol' | abpLocalization}}</h5>
+            <p-select [options]="gatewayProtocols" optionLabel="name" [style]="{'width':'100%'}"
+                [(ngModel)]="header.protocol">
+            </p-select>
+        </div>
+        <div *ngIf="header?.protocol?.value === GatewayProtocol.HTTPS" class="col-6 flex align-items-center">
+            <div style="flex-basis: 90%">
+                <h5>{{'GatewayManagement::Gateway:IpAddress' | abpLocalization}}</h5>
+                <div class="flex align-items-center">
+                    <input [(ngModel)]="header.data.ipAddress"
+                        [ngClass]="{'ng-invalid ng-dirty': header.validators.ipAddressEmpty || !isValidIPAddress()}"
+                        type="text" pInputText [style]="{'width':'100%'}"
+                        (ngModelChange)="resetValidators(); state.setDirty();" ipAddressValidator />
+                </div>
+            </div>
+            <div style="flex-basis: 10%" class="ml-1 mr-1">
+                <h5>{{'GatewayManagement::Gateway:Port' | abpLocalization}}</h5>
+                <div class="flex align-items-center">
+                    <p-inputNumber class="w-100" [inputStyle]="{'width':'100%'}"
+                        [ngClass]="{'ng-invalid ng-dirty': header?.validators.portEmpty}" [max]="65535"
+                        [showButtons]="false" (onInput)="resetValidators(); state.setDirty();"
+                        [(ngModel)]="header.data.port" [useGrouping]="false">
+                    </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!creatingNewGateway" class="card">
+    <div class="card-body">
+        <h3 class="card-title mb-4">{{'GatewayManagement::Gateway:StatusTitle' | abpLocalization}}</h3>
+        <app-gateway-status [gateway]="header.data"></app-gateway-status>
+    </div>
+</div>

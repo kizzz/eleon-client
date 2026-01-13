@@ -1,0 +1,4 @@
+
+body:has(> app-root > app-layout > .layout-blue){
+    --active-button: var(--primary-500);
+}

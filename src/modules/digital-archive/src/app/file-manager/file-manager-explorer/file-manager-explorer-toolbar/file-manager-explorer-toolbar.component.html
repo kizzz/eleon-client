@@ -1,0 +1,45 @@
+<div class="flex flex-row align-items-center mt-1 gap-3" *ngIf="!isMobileDevice">
+    <ng-container>
+      <p-button [text]="true" [raised]="true" *ngIf="fileManagerSelectedContentService.selectedItemsIds?.length>0" styleClass="p-button-secondary p-button-sm" icon="fa-solid fa-file-zipper" (click)="downloadAll()"
+        [label]="'FileManager::SaveAsZip' | abpLocalization">
+      </p-button>
+    </ng-container>
+    <ng-container>
+      <p-button [text]="true" [raised]="true"  *ngIf="isModifyAllowed && fileManagerSelectedContentService.selectedItemsIds?.length>0" styleClass="p-button-danger p-button-sm" (click)="deleteAll()"
+        icon="pi pi-times-circle" [label]="'FileManager::Delete' | abpLocalization"></p-button>
+    </ng-container>
+    <ng-container>
+      <p-button [text]="true" [raised]="true"  *ngIf="isRestoreAllowed && fileManagerSelectedContentService.selectedItemsIds?.length>0" styleClass="p-button-danger p-button-sm" (click)="restoreAll()"
+        icon="pi pi-arrow-left" [label]="'FileManager::Restore' | abpLocalization"></p-button>
+    </ng-container>
+    <ng-container>
+      <p-button [text]="true" [raised]="true" *ngIf="isModifyAllowed && fileManagerSelectedContentService.selectedItemsIds?.length>0" [label]="'FileManager::Move' | abpLocalization"
+          icon="pi pi-directions"
+          styleClass="p-button-warning p-button-sm" (click)="onMoved()" >
+      </p-button>
+    </ng-container>
+    <ng-container>
+      <p-button [text]="true" [raised]="true" *ngIf="isModifyAllowed && fileManagerSelectedContentService.selectedItemsIds?.length===1" [label]="'FileManager::Rename' | abpLocalization"
+          icon="pi pi-pencil" styleClass="p-button-sm"
+           (click)="onRename()" >
+      </p-button>
+    </ng-container>
+  </div>
+
+  <div class="flex flex-row align-items-center gap-2" *ngIf="isMobileDevice">
+    <i class="pi pi-download icon-button" style="color: #64748b;"
+      role="button" (click)="downloadAll()" *ngIf="fileManagerSelectedContentService.selectedItemsIds?.length>0" >
+    </i>
+    <i class="pi pi-times-circle icon-button" style="color: #ef4444;"  role="button" (click)="deleteAll()" 
+      *ngIf="isModifyAllowed && fileManagerSelectedContentService.selectedItemsIds?.length>0">
+    </i>
+    <i class="pi pi-arrow-left icon-button" role="button" style="color: #ef4444;" (click)="restoreAll()" 
+      *ngIf="isRestoreAllowed && fileManagerSelectedContentService.selectedItemsIds?.length>0">
+    </i>
+    <i class="pi pi-directions icon-button" style="color: #f97316;" role="button" (click)="onMoved()" 
+      *ngIf="isModifyAllowed && fileManagerSelectedContentService.selectedItemsIds?.length>0">
+    </i>
+    <i class="pi pi-pencil icon-button text-primary" role="button" (click)="onRename()" 
+      *ngIf="isModifyAllowed && fileManagerSelectedContentService.selectedItemsIds?.length===1">
+    </i>
+  </div>

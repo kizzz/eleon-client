@@ -1,0 +1,32 @@
+* {
+  --danger-color: #eb3d3d;
+}
+body:has(> app-root > app-layout > .layout-dark){
+    --topbar-menu-button-text-color: #99A1B7; 
+    --root-menuitem-text-color: #99A1B7;
+    --container-background-color: #374151;
+    --container-border-color: #424b57;
+    --container-addon-background-color: #374151;
+    --container-addon-border-color: #424b57;
+    --menuitem-hover-bg: hsla(0,0%,100%,.04);
+    // --active-button: var(--primary-500);
+    --active-menuitem-text-color: rgba(255,255,255,.87);
+    --active-menuitem-bg: hsla(0,0%,100%,.04);
+    --inline-menu-border-color: hsla(0,0%,100%,.12);
+    // --root-menuitem-text-color: #565674;
+  }
+  
+  body:has(> app-root > app-layout > .layout-light) {
+    --topbar-menu-button-text-color: #99A1B7; 
+    --root-menuitem-text-color: #99A1B7;
+    --container-background-color: #ffffff;
+    --container-border-color: #d1d5db;
+    --container-addon-background-color: #ffffff;
+    --container-addon-border-color: #d1d5db;// #e5e7eb;
+    --menuitem-hover-bg: rgba(0,0,0,.04);
+    // --active-button: var(--primary-500);
+    --active-menuitem-text-color: var(--primary-500);
+    --active-menuitem-bg: var(--primary-50);
+    --inline-menu-border-color: #e4e4e4;
+    --danger-color: #eb3d3d;
+  }

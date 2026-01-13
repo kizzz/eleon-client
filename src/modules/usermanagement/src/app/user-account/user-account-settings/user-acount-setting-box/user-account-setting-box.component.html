@@ -1,0 +1,54 @@
+<div class="card p-fluid" *ngIf="user?.userName?.length > 0">
+    <h5 class="mb-3">{{ 'Infrastructure::UserDetails' | abpLocalization }}</h5>
+    <div class="field grid">
+        <label appRequired class="col-12 mb-2 md:col-2 md:mb-0">
+            {{ 'Infrastructure::User:Username' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-10">
+            <input style="width: 100%;" pInputText type="text" [ngModel]="user.userName" [readonly]="true"
+                class="no-select">
+        </div>
+    </div>
+    <div class="field grid">
+        <label appRequired class="col-12 mb-2 md:col-2 md:mb-0">
+            {{'Infrastructure::User:Name' | abpLocalization}}
+        </label>
+        <div class="col-12 md:col-10">
+            <input style="width: 100%;" pInputText type="text" [(ngModel)]="user.name" (input)="resetValidators()"
+                [disabled]="loading" [ngClass]="{'ng-invalid ng-dirty': nameInvalid}">
+        </div>
+    </div>
+    <div class="field grid">
+        <label appRequired class="col-12 mb-2 md:col-2 md:mb-0">
+            {{'Infrastructure::User:Surname' | abpLocalization}}
+        </label>
+        <div class="col-12 md:col-10">
+            <input style="width: 100%;" pInputText type="text" [(ngModel)]="user.surname" (input)="resetValidators()"
+                [disabled]="loading" [ngClass]="{'ng-invalid ng-dirty': surnameInvalid}">
+        </div>
+    </div>
+    <div class="field grid">
+        <label appRequired class="col-12 mb-2 md:col-2 md:mb-0">
+            {{'Infrastructure::User:ContactEmail' | abpLocalization}}
+        </label>
+        <div class="col-12 md:col-10">
+            <input style="width: 100%;" pInputText type="text" [(ngModel)]="user.email" (input)="resetValidators()"
+                [disabled]="loading || !enableEmail" [ngClass]="{'ng-invalid ng-dirty': emailInvalid}">
+        </div>
+    </div>
+    <div class="field grid">
+        <label class="col-12 mb-2 md:col-2 md:mb-0">
+            {{'Infrastructure::User:Phonenumber' | abpLocalization}}
+        </label>
+        <div class="col-12 md:col-10">
+            <input style="width: 100%;" pInputText type="text" [(ngModel)]="user.phoneNumber" [disabled]="loading">
+        </div>
+    </div>
+    <div class="field grid">
+        <div class="col-3">
+            <p-button (click)="save()" [label]="'Infrastructure::Save' | abpLocalization" [disabled]="loading"
+                styleClass="w-8rem" [text]="true" [raised]="true" icon="fa fa-check">
+            </p-button>
+        </div>
+    </div>
+</div>

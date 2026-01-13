@@ -1,0 +1,11 @@
+*[dir='rtl'] :host ::ng-deep .textAlign {
+    text-align: right !important;
+  }
+  
+  :host ::ng-deep .textAlign {
+    text-align: left;
+  }
+
+  :host ::ng-deep .field > label{
+    display: flex !important;
+  }

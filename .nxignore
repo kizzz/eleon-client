@@ -1,0 +1,14 @@
+**/server
+/custom-abp/*
+!/custom-abp/npm/
+
+vcportal
+
+abp
+dist/
+output/
+tmp/
+build/
+node_modules/
+coverage/
+/bin

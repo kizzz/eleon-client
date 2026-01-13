@@ -1,0 +1,85 @@
+<div class="p-fluid">
+  <p-table
+    [value]="domains"
+    [loading]="loading"
+    dataKey="id"
+    responsiveLayout="scroll"
+    class="p-mb-3"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>{{ 'TenantManagement::Domain' | abpLocalization }}</th>
+        <th style="width: 60px"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-domain>
+      <tr>
+        <td>{{ domain.hostname }}</td>
+        <td style="width: 60px; text-align: center;">
+          <button
+            pButton
+            type="button"
+            icon="fa fa-trash"
+            class="p-button-rounded p-button-danger p-button-text"
+            (click)="removeApplicationDomain(domain)"
+            [disabled]="loading"
+            pTooltip="{{ 'TenantManagement::RemoveDomain' | abpLocalization }}"
+            tooltipPosition="top"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2">{{ 'TenantManagement::NoDomains' | abpLocalization }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  header="{{ 'TenantManagement::AddDomain' | abpLocalization }}"
+  [(visible)]="addDomainDialogVisible"
+  [modal]="true"
+  [style]="{ width: '500px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <p-table
+    [value]="availableDomains"
+    [loading]="loading"
+    dataKey="id"
+    responsiveLayout="scroll"
+		[paginator]="true"
+		[rows]="5"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>{{ 'TenantManagement::Domain' | abpLocalization }}</th>
+        <th style="width: 60px"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-domain>
+      <tr>
+        <td>{{ domain.hostname }}</td>
+        <td style="width: 60px; text-align: center;">
+          <button
+            pButton
+            type="button"
+            icon="fa fa-hand-pointer"
+            class="p-button-rounded p-button-primary p-button-text"
+            (click)="addApplicationDomain(domain)"
+            [disabled]="loading"
+            [pTooltip]="'TenantManagement::AddDomain' | abpLocalization"
+            tooltipPosition="top"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2">{{ 'TenantManagement::NoAvailableDomains' | abpLocalization }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

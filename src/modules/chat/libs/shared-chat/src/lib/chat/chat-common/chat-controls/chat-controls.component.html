@@ -1,0 +1,58 @@
+<app-chat-members-management-modal *ngIf="showUserManagement" [(showDialog)]="showManagementModal" [chat]="chat"></app-chat-members-management-modal>
+
+<div class="flex align-items-center gap-1">
+  <span *ngIf="showSettings && !showHiddenMenu"
+    (click)="openSettings(); $event.stopPropagation();"
+    [pTooltip]="'Collaboration::Settings' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-cog text-primary chat-control-button"></span>
+
+  <span *ngIf="showUserManagement && !showHiddenMenu"
+    (click)="openUserManagement(); $event.stopPropagation();"
+    [pTooltip]="'Collaboration::UserManagement' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-users text-primary chat-control-button"></span>
+	
+  <span *ngIf="showMute && !showHiddenMenu" [disabled]="loading" [loading]="loadingMute"
+    (click)="muteChat(); $event.stopPropagation();" 
+    [pTooltip]="(isSupportTicket ? 'Collaboration::SupportTicket:MuteChat' : 'Collaboration::MuteChat') | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-volume-up text-primary chat-control-button"></span>
+  <span *ngIf="showUnmute && !showHiddenMenu" [disabled]="loading" [loading]="loadingMute" style="color: gray"
+    (click)="unmuteChat(); $event.stopPropagation();" 
+    [pTooltip]="(isSupportTicket ? 'Collaboration::SupportTicket:UnmuteChat' : 'Collaboration::UnmuteChat') | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-volume-off chat-control-button"></span>
+
+  <span *ngIf="showArchive && !showHiddenMenu" [disabled]="loading" [loading]="loadingArchive"
+    (click)="archiveChat(); $event.stopPropagation();" 
+    [pTooltip]="'Collaboration::Archive' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-archive text-primary chat-control-button"></span>
+
+	<span *ngIf="showUnarchive && !showHiddenMenu" [disabled]="loading" [loading]="loadingArchive"
+    (click)="unarchiveChat(); $event.stopPropagation();" 
+    [pTooltip]="'Collaboration::Unarchive' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-boxes-packing text-primary chat-control-button"></span>
+
+  <span *ngIf="showLeave && !showHiddenMenu" [disabled]="loading" [loading]="loadingLeave"
+    (click)="leaveChat(); $event.stopPropagation();" [pTooltip]="'Collaboration::LeaveChat' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-sign-out text-primary chat-control-button"></span>
+  <span *ngIf="showPin && !showHiddenMenu" [disabled]="loading" [loading]="loadingPin"
+    (click)="pinChat(); $event.stopPropagation();" [pTooltip]="'Collaboration::PinChat' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-pin text-primary chat-control-button"></span>
+  <span *ngIf="showCloseTicket && !showHiddenMenu" [disabled]="loading" [loading]="loadingCloseTicket"
+    (click)="closeTicket(); $event.stopPropagation();" [pTooltip]="'Collaboration::CloseTicket' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-times-circle text-primary chat-control-button"></span>
+
+  <span *ngIf="showNavigateToFullPage && !showHiddenMenu" [disabled]="loading"
+    (click)="navigateToFullPage(); $event.stopPropagation();" [pTooltip]="'Collaboration::NavigateToFullPage' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-external-link-alt text-primary chat-control-button"></span>
+
+  <span *ngIf="showHiddenMenu" [disabled]="loading"
+    (click)="menu.toggle($event); $event.stopPropagation();" [pTooltip]="'Collaboration::ShowMenu' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-ellipsis-h text-primary chat-control-button"></span>
+
+  <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body" />
+
+  <span *ngIf="showCloseChatView" [disabled]="loading"
+    (click)="closeChatView(); $event.stopPropagation();" [pTooltip]="'Collaboration::CloseChatView' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-times text-primary chat-control-button"></span>
+</div>
+
+<app-group-chat-create-modal [chat]="chat" [(showDialog)]="showSettingsDialog" *ngIf="showSettingsDialog"></app-group-chat-create-modal>

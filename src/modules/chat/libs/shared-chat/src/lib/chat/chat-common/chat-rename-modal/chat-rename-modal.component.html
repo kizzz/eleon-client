@@ -1,0 +1,15 @@
+<p-dialog [resizable]="false" [header]="'Collaboration::RenameChat' | abpLocalization" [(visible)]="showDialog"
+  (visibleChange)="showDialogChange.emit($event)" [modal]="true">
+  <div class="wrapper flex flex-column gap-3 align-items-center">
+    <input pInputText [(ngModel)]="chatNewName" [style]="{'width':'100%'}" (keydown.enter)="onRename()"
+      [placeholder]="'Collaboration::EnterChatName' | abpLocalization" />
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="w-full flex align-items-center justify-content-between gap-3">
+      <p-button [text]="true" [raised]="true" icon="fa fa-times" [label]="'Infrastructure::Cancel' | abpLocalization" (click)="onCancel()"
+        [disabled]="loading" styleClass="p-button-outlined p-button-warning"></p-button>
+      <p-button [text]="true" [raised]="true" icon="pi pi-check" [label]="'Infrastructure::Rename' | abpLocalization" (click)="onRename()"
+        [loading]="loading" styleClass="p-button-outlined"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>

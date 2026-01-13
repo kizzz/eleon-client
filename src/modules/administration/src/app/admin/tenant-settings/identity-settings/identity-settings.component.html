@@ -1,0 +1,145 @@
+<div class="card p-fluid single-column-wrapper">
+  <div class="lg:col-6 md:col-6 sm:col-12">
+    <ng-container *ngFor="let group of settingGroups; index as i">
+      <div *ngIf="showSection(group)">
+        <h5>{{ group.name | abpLocalization }}</h5>
+        <div *ngFor="let setting of group.settings">
+          <ng-container
+            *ngIf="
+              setting.type == SettingType.String &&
+              showCommonStringInput(setting.name)
+            "
+          >
+            <div class="p-1">
+              <label>{{ setting.displayName }}</label>
+              <input
+                pInputText
+                [(ngModel)]="setting.value"
+                (ngModelChange)="state.setDirty()"
+                class="w-100"
+              />
+              <small>{{ setting.description }}</small>
+            </div>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              setting.type == SettingType.String &&
+              setting.name === 'TwoFactorAuthenticationOption'
+            "
+          >
+            <div class="p-1">
+              <label>{{ setting.displayName }}</label>
+              <p-select
+                [options]="twoFactorAuthOptions"
+                [(ngModel)]="setting.value"
+                appendTo="body"
+                optionValue="value"
+                optionLabel="name"
+                (onChange)="state.setDirty()"
+                [filter]="false"
+                autoWidth="false"
+                [style]="{ width: '100%' }"
+              >
+              </p-select>
+              <small>{{ setting.description }}</small>
+            </div>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              setting.type == SettingType.String &&
+              setting.name === 'SmsProviderOption'
+            "
+          >
+            <div class="p-1">
+              <label>{{ setting.displayName }}</label>
+              <p-select
+                [options]="smsProviderOptions"
+                [(ngModel)]="setting.value"
+                appendTo="body"
+                optionValue="value"
+                optionLabel="name"
+                (onChange)="state.setDirty()"
+                [filter]="false"
+                autoWidth="false"
+                [style]="{ width: '100%' }"
+              >
+              </p-select>
+              <small>{{ setting.description }}</small>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="setting.type == SettingType.Number">
+            <div class="p-1">
+              <label *ngIf="!showRequaredMark(setting)">{{
+                setting.displayName
+              }}</label>
+              <label *ngIf="showRequaredMark(setting)" appRequired>{{
+                setting.displayName
+              }}</label>
+
+              <p-inputNumber
+                [ngModel]="setting.value"
+                (ngModelChange)="setting.value = $event.toString()"
+                [inputStyle]="{ width: '100%' }"
+                [minValue]="1"
+                [style]="{ width: '100%' }"
+                class="w-100"
+                (onInput)="state.setDirty()"
+              ></p-inputNumber>
+              <small>{{ setting.description }}</small>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="setting.type == SettingType.Boolean">
+            <div class="p-1">
+              <p-checkbox
+                [binary]="true"
+                [(ngModel)]="setting.value"
+                trueValue="True"
+                falseValue="False"
+                [inputId]="setting.name"
+                [label]="setting.displayName"
+                (onChange)="onBooleanChange(setting, $event)"
+              >
+              </p-checkbox>
+              <div>
+                <small>{{ setting.description }}</small>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="setting.type == SettingType.Template">
+            <div class="p-1">
+              <div
+                class="system-template-preview p-3 template-border cursor-pointer hover:surface-hover"
+                (click)="openTwoFactorTemplateDialog(setting.name)"
+                [title]="'TenantManagement::ClickToEdit' | abpLocalization"
+              >
+                <div
+                  class="text-overflow-ellipsis white-space-nowrap overflow-hidden"
+                  *ngIf="twoFactorTemplateContent"
+                >
+                  {{ twoFactorTemplateContent }}
+                </div>
+                <div class="text-500 italic" *ngIf="!twoFactorTemplateContent">
+                  {{ 'TenantManagement::ClickToSetTemplate' | abpLocalization }}
+                </div>
+              </div>
+              <div>
+                <small>{{ setting.description }}</small>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <hr class="my-4" *ngIf="showSection(group)" />
+    </ng-container>
+  </div>
+</div>
+
+<!-- <app-create-template-dialog
+  [visible]="templateDialogVisible"
+  [header]="templateDialogHeader"
+  [templateName]="templateDialogName"
+  [fixedType]="templateDialogType"
+  (visibleChange)="onTemplateDialogVisibleChange($event)"
+  (saved)="onTemplateSaved($event)"
+>
+</app-create-template-dialog> -->

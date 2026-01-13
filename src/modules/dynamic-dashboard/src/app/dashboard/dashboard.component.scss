@@ -1,0 +1,54 @@
+@import "primeflex/core/variables.scss";
+
+gridster {
+  min-height: 100vh;
+  max-height: 5000px;
+  background: none;
+
+  @media screen and (min-width: $md) {
+    height: 120vh;
+    max-height: 120vh;
+  }
+
+  @media screen and (max-width: $md) {
+    gridster-item {
+      height: fit-content !important;
+    }
+  }
+}
+
+gridster-item {
+  background: transparent;
+}
+
+.custom-hover:hover {
+  box-shadow: 0 0 5px 5px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f !important;
+  z-index: 2 !important;
+  display: block !important;
+  transition: 0s !important;
+  background: transparent !important;
+}
+
+.icon-display {
+  transform: scale(4);
+}
+
+.drag-handler:hover {
+  color: blue !important;
+}
+
+:host ::ng-deep .material-icons {
+  font-size: var(--mdc-icon-button-icon-size);
+}
+
+.page-title-text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+:host ::ng-deep {
+  .dash-btn {
+    height: 2.5rem !important;
+    width: 7rem !important;
+  }
+}

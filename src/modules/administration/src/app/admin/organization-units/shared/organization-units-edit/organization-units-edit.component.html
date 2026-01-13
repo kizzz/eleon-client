@@ -1,0 +1,55 @@
+
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display"  [modal]=true (visibleChange)="closeEvent.emit()">
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+        <span class="pi pi-cog"></span>
+        <span class="font-bold white-space-nowrap">{{ 'Infrastructure::Settings' | abpLocalization }}</span>
+    </div>
+  </ng-template>
+    <div class="data">
+      <div *ngIf="!isMobileVersion()">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <label appRequired>
+                {{'Infrastructure::Name' | abpLocalization}}
+            </label>
+          </div>
+          <div class="col-8">
+            <input pInputText [(ngModel)]="orgUnitName" class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+            (input)="resetNameValidator()">
+          </div>
+        </div>
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+                {{'TenantManagement::IsActive' | abpLocalization}}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-checkbox [(ngModel)]="isEnabled" [binary]="true"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isMobileVersion()">
+        <div class="field lg:col-6 md:col-6 sm:col-12 pr-only">
+          <label appRequired>{{ 'Infrastructure::Name' | abpLocalization }}</label>
+          <input pInputText [(ngModel)]="orgUnitName" class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+            (input)="resetNameValidator()">
+        </div>
+        <div class="col-12 pr-only flex align-items-center">
+          <p-checkbox [(ngModel)]="isEnabled" [binary]="true"></p-checkbox>
+          <label class="mx-2 mb-1">
+            {{'Infrastructure::Status' | abpLocalization}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button [text]="true" [raised]="true" [label]="'Infrastructure::Cancel' | abpLocalization" icon="pi pi-times" styleClass="p-button-secondary"
+          (click)="display = false; closeEvent.emit()"></p-button>
+      <p-button [text]="true" [raised]="true" [label]="'Infrastructure::Save' | abpLocalization" icon="pi pi-check"
+          (click)="update()"></p-button>
+    </ng-template>
+  </p-dialog>

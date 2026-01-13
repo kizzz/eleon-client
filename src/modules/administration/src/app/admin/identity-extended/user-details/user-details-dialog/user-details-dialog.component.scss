@@ -1,0 +1,69 @@
+@import "primeflex/core/variables.scss";
+
+.wrapper {
+  max-width: 85vw;
+  min-width: 85vw;
+  width: 85vw;
+  max-height: 500px;
+  min-height: 500px;
+  height: 500px;
+
+  @media screen and (min-width: $lg) {
+    max-width: 520px;
+    min-width: 520px;
+    width: 520px;
+    max-height: 600px;
+    min-height: 500px;
+    height: 500px;
+  }
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding-bottom: 0px !important;
+}
+
+:host ::ng-deep p-password .p-password {
+  width: 100% !important;
+}
+
+:host ::ng-deep p-password .p-password .p-password-input {
+  width: 100% !important;
+}
+
+:host ::ng-deep p-password .p-password .p-icon-wrapper .p-icon {
+  vertical-align: baseline !important;
+}
+
+:host ::ng-deep p-password .p-password .p-inputtext {
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-tabview-nav-container .p-tabview-nav-content .p-tabview-nav {
+  padding: 0px !important;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding: 0.75rem;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.icon-close-button {
+  cursor: pointer;
+  color: #6c757d;
+  transition: box-shadow 0.3s ease;
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+.icon-close-button:hover {
+  box-shadow: 0 0 0 5px rgba(108, 117, 125, 0.2);
+  background-color: rgba(108, 117, 125, 0.2);
+}

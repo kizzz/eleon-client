@@ -1,0 +1,24 @@
+:host ::ng-deep .p-tag.completed {
+  background: var(--green-800);
+}
+
+:host ::ng-deep .p-tag.new {
+  background: var(--yellow-500);
+}
+
+:host ::ng-deep .p-tag.executing {
+  background: var(--orange-500);
+}
+
+:host ::ng-deep .p-tag.executingfailed {
+  background: var(--red-500);
+}
+
+:host ::ng-deep .p-tag.errored {
+  background: var(--red-500);
+}
+
+
+:host ::ng-deep .p-tag.canceled {
+  background: var(--blue-500);
+}

@@ -1,0 +1,59 @@
+<div class="grid m-0">
+  <div class="col-12 p-0">
+    <div class="grid flex align-items-center">
+      <div class="col-3">
+        <span>{{ 'TenantManagement::TenantSettings:ExternalLogin:ClientId' | abpLocalization }}</span>
+      </div>
+      <div class="col-9">
+        <input
+          style="width: 100%"
+          pInputText
+          [(ngModel)]="provider.clientId"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <div class="grid flex align-items-center">
+      <div class="col-3">
+        <span>{{ 'TenantManagement::TenantSettings:ExternalLogin:ClientSecret' | abpLocalization }}</span>
+      </div>
+      <div class="col-9">
+        <input
+          style="width: 100%"
+          pInputText
+          type="password"
+          [(ngModel)]="provider.clientSecret"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <div class="grid flex align-items-center">
+      <div class="col-3">
+        <span>{{ 'TenantManagement::TenantSettings:ExternalLogin:Authority' | abpLocalization }}</span>
+      </div>
+      <div class="col-9">
+        <input
+          style="width: 100%"
+          pInputText
+          [(ngModel)]="provider.authority"
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <div class="grid flex align-items-center">
+      <div class="col-3">
+        <span>{{ 'TenantManagement::TenantSettings:ExternalLogin:AdminIdentifier' | abpLocalization }}</span>
+      </div>
+      <div class="col-9">
+        <input
+          style="width: 100%"
+          pInputText
+          [(ngModel)]="provider.adminIdentifier"
+        >
+      </div>
+    </div>
+  </div>
+</div>

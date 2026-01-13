@@ -1,0 +1,54 @@
+
+*[dir='rtl'] :host ::ng-deep .textAlign {
+    text-align: right !important;
+  }
+  
+  :host ::ng-deep .textAlign {
+    text-align: left;
+  }
+
+  *[dir='rtl'] :host ::ng-deep .port-padding {
+    padding-right: 1rem !important;
+  }
+  
+  :host ::ng-deep .port-padding {
+    padding-left: 1rem !important;
+  }
+
+  .gateway-new {
+    max-width: 30vw;
+    min-width: 30vw;
+    width: 30vw;
+  }
+
+  .name-protocol-text-lg{
+    flex-basis: 24% !important;
+  }
+
+  .name-protocol-input-lg{
+    flex-basis: 76% !important;
+  }
+
+  .name-protocol-text-md{
+    flex-basis: 30% !important;
+  }
+
+  .name-protocol-input-md{
+    flex-basis: 70% !important;
+  }
+
+  .address-text-lg{
+    flex-basis: 40% !important;
+  }
+
+  .address-input-lg{
+    flex-basis: 60% !important;
+  }
+
+  .address-text-md{
+    flex-basis: 50% !important;
+  }
+
+  .address-input-md{
+    flex-basis: 50% !important;
+  }

@@ -1,0 +1,308 @@
+<div
+  class="dialog-overlay"
+  [style.display]="showDialog ? 'block' : 'none'"
+></div>
+<p-dialog
+  [style]="{ width: '550px', height: '600px' }"
+  [resizable]="false"
+  [(visible)]="showDialog"
+  [draggable]="false"
+  [modal]="true"
+  [closable]="false"
+  (visibleChange)="showDialogChange.emit($event)"
+>
+  <ng-template pTemplate="header">
+    <div class="flex w-full align-items-center justify-content-between">
+      <div>
+        <span style="font-size: 1.25rem; font-weight: 700">
+          {{ 'TenantManagement::TenantSettings:General' | abpLocalization }}
+        </span>
+      </div>
+      <div class="icon-close-button">
+        <i class="pi pi-times" (click)="close()"></i>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="showDialog" class="wrapper">
+    <p-tabs [(value)]="activeTabIndex">
+      <p-tablist>
+        <p-tab value="0">
+          {{ 'TenantManagement::TenantSettings:ContentSecuritySettings' | abpLocalization }}
+        </p-tab>
+        <p-tab value="1">
+          {{ 'TenantManagement::TenantSettings:IpIsolationSettings' | abpLocalization }}
+        </p-tab>
+        <p-tab value="2">
+          {{ 'TenantManagement::TenantSettings:HostnameSettings' | abpLocalization }}
+        </p-tab>
+        <p-tab value="3">
+          {{ 'TenantManagement::TenantSettings:ExternalLogin:Title' | abpLocalization }}
+        </p-tab>
+      </p-tablist>
+      <p-tabpanels>
+      <p-tabpanel value="0">
+        <div
+          class="flex flex-column align-items-start gap-5 w-100"
+          *ngIf="contentSecurityData"
+        >
+          <p-table
+            [loading]="loadingContentSecurity"
+            [value]="contentSecurityData.hostnames"
+            rowsEditor
+            [(editableRows)]="contentSecurityData.hostnames"
+            style="width: 100%; min-height: 200px"
+            [rowAdded]="onHostnameAdded"
+            [rowRemoved]="onHostnameRemoved"
+            [rowEdited]="onHostnameUpdated"
+            class="cell-center"
+            dataKey="id"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  {{
+                    'TenantManagement::TenantSettings:ContentSecuritySettings:Hostname'
+                      | abpLocalization
+                  }}
+                </th>
+                <app-table-header-controls></app-table-header-controls>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+              <tr [pEditableRow]="row">
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        [(ngModel)]="row.hostname"
+                        [pKeyFilter]="HostnameKeyFilter"
+                        [pValidateOnly]="true"
+                        [ngClass]="{
+                          'ng-invalid ng-dirty': row.validators.hostname
+                        }"
+                        type="text"
+                        pInputText
+                        [style]="{ width: '100%' }"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ row.hostname }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <app-table-row-controls></app-table-row-controls>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabpanel>
+
+      <p-tabpanel value="1">
+        <div
+          *ngIf="ipIsolationData"
+          class="flex flex-column align-items-start gap-5 w-100"
+        >
+          <div class="flex align-items-center gap-3 my-3">
+            <label class="font-semibold">
+              {{
+                'TenantManagement::TenantSettings:IpIsolationSettings:Enabled'
+                  | abpLocalization
+              }}
+            </label>
+            <p-select
+              [options]="ipIsolationSettingModeOptions"
+              [(ngModel)]="ipIsolationData.enabled"
+              [disabled]="loadingIpIsolation"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="false"
+              appendTo="body"
+              [style]="{ width: '10rem' }"
+            >
+            </p-select>
+          </div>
+
+          <p-table
+            [loading]="loadingIpIsolation"
+            [value]="ipIsolationData.whitelistedIps"
+            rowsEditor
+            [(editableRows)]="ipIsolationData.whitelistedIps"
+            style="width: 100%; min-height: 200px"
+            [rowAdded]="onIpAdded"
+            [rowRemoved]="onIpRemoved"
+            class="cell-center"
+            [dataKey]="ip"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  {{
+                    'TenantManagement::TenantSettings:IpIsolationSettings:WhitelistedIps'
+                      | abpLocalization
+                  }}
+                </th>
+                <th appResponsiveColumn="50">
+                  {{
+                    'TenantManagement::TenantSettings:IpIsolationSettings:Mode'
+                      | abpLocalization
+                  }}
+                </th>
+                <app-table-header-controls></app-table-header-controls>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+              <tr [pEditableRow]="row">
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        [(ngModel)]="row.ip"
+                        [pKeyFilter]="row.enabled"
+                        [pValidateOnly]="true"
+                        (ngModelChange)="resetValidators(); state.setDirty();"
+                        [ngClass]="{ 'ng-invalid ng-dirty': row.validators.ip }"
+                        type="text"
+                        pInputText
+                        [style]="{ width: '100%' }"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ row.ip }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                       <p-select
+                      [options]="ipIsolationModeOptions"
+                      [(ngModel)]="row.enabled"
+                      [disabled]="loadingIpIsolation"
+                      optionLabel="label"
+                      optionValue="value"
+                      [showClear]="false"
+                      appendTo="body"
+                      [style]="{ width: '10rem' }"
+                    />
+                </td>
+                <app-table-row-controls></app-table-row-controls>
+              </tr>
+            </ng-template>
+          </p-table>
+
+        </div>
+      </p-tabpanel>
+
+      <p-tabpanel value="2">
+        <div class="flex flex-column gap-3" *ngIf="hostnames">
+          <p-table
+            [loading]="loadingHostnames"
+            [value]="hostnames"
+            rowsEditor
+            [(editableRows)]="hostnames"
+            [rowAdded]="addHostname"
+            [rowEdited]="editHostname"
+            [rowRemoved]="deleteHostname"
+            dataKey="data.id"
+            [paginator]="true"
+            [rows]="rowsCount"
+            [totalRecords]="totalRecords"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  {{
+                    'TenantManagement::TenantSettings:HostnameSettings:Hostname'
+                      | abpLocalization
+                  }}
+                </th>
+                <app-table-header-controls></app-table-header-controls>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-hostname let-editing="editing">
+              <tr [pEditableRow]="hostname">
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <div class="flex w-100 gap-2">
+                        <div class="field grid w-full mb-0 gap-3">
+                          <p-select
+                            class="col-12 mb-2 md:col-2 md:mb-0"
+                            [options]="availableProtocolsList"
+                            [(ngModel)]="hostname.isSsl"
+                            [showClear]="false"
+                            appendTo="body"
+                            [filter]="false"
+                            autoWidth="false"
+                            [disabled]="loadingHostnames"
+                            optionValue="value"
+                            optionLabel="name"
+                          >
+                          </p-select>
+
+                          <input
+                            class="col-12 md:col-9"
+                            pInputText
+                            [(ngModel)]="hostname.domain"
+                            [ngClass]="{
+                              'ng-invalid ng-dirty':
+                                hostname.validators.domainRequired ||
+                                hostname.validators.domainInvalid
+                            }"
+                          />
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ hostname.data.url }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <app-table-row-controls
+                  [displayRemove]="!hostname.data.internal"
+                  [displayEdit]="!hostname.data.internal"
+                ></app-table-row-controls>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabpanel>
+
+      <p-tabpanel value="3">
+        <div class="wrapper">
+          <app-tenant-external-login-settings-box
+            *ngIf="showDialog"
+            #settingsBox
+            [tenantId]="tenantId"
+            (providersSaved)="close()"
+          >
+          </app-tenant-external-login-settings-box>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+    </p-tabs>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end gap-3 mt-2">
+      <p-button
+        (click)="close()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+        [text]="true"
+        [raised]="true"
+        icon="fa fa-times"
+        severity="secondary"
+      >
+      </p-button>
+      <p-button
+        (click)="handleSave()"
+        [disabled]="!isSaveAvailable || isSaving"
+        [label]="'Infrastructure::Save' | abpLocalization"
+        [text]="true"
+        [raised]="true"
+        icon="fa fa-check"
+        severity="primary"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

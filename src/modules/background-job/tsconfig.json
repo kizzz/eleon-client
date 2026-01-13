@@ -1,0 +1,48 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/test-setup.ts",
+    "src/**/*.test.ts"
+  ],
+  "compilerOptions":  {
+    "paths": {
+      "@eleon/contracts.lib": [
+        "src/shared/libs/eleon.contracts.lib/src/index.ts"
+      ],
+      "@eleon/proxy-utils.lib": [
+        "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"
+      ],
+
+      "@eleon/typescript-sdk.lib": [
+        "src/shared/libs/eleon.typescript-sdk.lib/src/index.ts"
+      ],
+
+      "@eleon/background-jobs-proxy": [
+        "src/modules/background-job/src/app/proxy/index.ts"
+      ],
+
+      "@eleon/angular-sdk.lib": [
+        "src/shared/libs/eleon.angular-sdk.lib/src/index.ts"
+      ],
+      "@eleon/editor.lib": [
+        "src/shared/libs/eleon.editor.lib/src/index.ts"
+      ],
+      "@eleon/localization.lib": [
+        "src/shared/libs/eleon.localization.lib/src/index.ts"
+      ],
+      "@eleon/primeng-ui.lib": [
+        "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
+      ],
+      "@eleon/page-title.lib": [
+        "src/shared/libs/eleon.page-title.lib/src/index.ts"
+      ],
+      "@eleon/page-state.lib": [
+        "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
+      ],
+      "@eleon/tables.lib": [
+        "src/shared/libs/eleon.tables.lib/src/index.ts"
+      ],
+    }
+  }
+}

@@ -1,0 +1,20 @@
+:host ::ng-deep .loading-dialog {
+  .p-dialog-header .p-dialog-header-icons {
+    display: none;
+  }
+}
+:host ::ng-deep p-password .p-password {
+  width: 100% !important;
+}
+
+:host ::ng-deep p-password .p-password .p-password-input {
+  width: 100% !important;
+}
+
+:host ::ng-deep p-password .p-password .p-icon-wrapper .p-icon {
+  vertical-align: baseline !important;
+}
+
+:host ::ng-deep p-password .p-password .p-inputtext {
+  border-radius: 6px;
+}

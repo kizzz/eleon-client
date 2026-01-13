@@ -1,0 +1,10 @@
+<div class="card p-fluid grid">
+  <div class="col-12 m-0 p-0">
+    <div class="field lg:col-6 md:col-6 sm:col-12 pr-only">
+      <label>{{ 'TenantManagement::DisplayName:Timezone' | abpLocalization }}</label>
+      <p-select [options]="timezones" [(ngModel)]="selectedTimezone" optionValue="value" optionLabel="name"
+        [filter]="true" autoWidth="false" [style]="{'width': width }" (onChange)="state.setDirty()">
+      </p-select>
+    </div>
+  </div>
+</div>

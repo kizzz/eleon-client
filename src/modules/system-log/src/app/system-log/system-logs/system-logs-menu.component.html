@@ -1,0 +1,128 @@
+<p-popover
+  #op
+  (onHide)="onOverlayHide()"
+  (onShow)="onOverlayShow()"
+  styleClass="menu-overlay"
+>
+  <ng-template #content>
+    <div
+      class="flex flex-column rounded-top border-round-top bgi-no-repeat px-2 py-3"
+      [style.background-color]="'#da5151'"
+      style="min-width: 350px"
+    >
+      <h3 class="text-xl md:text-3xl text-white font-bold px-4 m-0 py-0">
+        {{ 'SystemLog::SystemWarning' | abpLocalization }}
+      </h3>
+    </div>
+
+    <div class="tab-content w-full" style="max-width: min(350px, 90vw)">
+      <div class="tab-pane fade">
+        <div
+          class="logs-scroll-container d-flex flex-column"
+          (scroll)="onLogsScroll($event)"
+        >
+          <p-table
+            class="system-logs-table w-full"
+            dataKey="id"
+            [value]="logs"
+            [loading]="loading"
+            [rowHover]="true"
+          >
+            <ng-template pTemplate="body" let-log>
+              <tr (click)="onLogRowClick(log)" style="cursor: pointer;">
+                <td appResponsiveColumn="20">
+                  <i
+                    class="fa fa-info-circle fa-lg"
+                    style="color: var(--blue-500)"
+                    *ngIf="log.logLevel === SystemLogLevel.Info"
+                  ></i>
+                  <i
+                    class="fa fa-exclamation-triangle fa-lg"
+                    style="color: var(--yellow-500)"
+                    *ngIf="log.logLevel === SystemLogLevel.Warning"
+                  ></i>
+                  <i
+                    class="fa fa-circle-exclamation fa-lg"
+                    style="color: var(--red-500)"
+                    *ngIf="
+                      log.logLevel === SystemLogLevel.Error ||
+                      log.logLevel === SystemLogLevel.Critical
+                    "
+                  ></i>
+                </td>
+                <td>
+                  <div class="m0 text-md w-full px-2 flex align-items-center">
+                    <app-ellipsis
+                      class="w-full"
+                      [text]="log.message"
+                      [disableToolTip]="true"
+                    >
+                    </app-ellipsis>
+                  </div>
+                </td>
+                <td appResponsiveColumn="75">
+                  <span
+                    class="w-full col-3 p-0 text-center badge badge-light text-md font-bold text-gray-500 flex align-items-center justify-content-end"
+                  >
+                  {{ log.lastModificationTime | notificationDate }}
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td class="text-center text-gray-400 font-bold py-4">
+                  {{ 'SystemLog::NoRows' | abpLocalization }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <div
+          class="text-center border-top font-bold text-lg view-all"
+          style="cursor: pointer; height: 3rem"
+        >
+          <hr class="mt-0" />
+          <a
+            class="text-gray-500"
+            (click)="
+              op.toggle($event); $event.stopPropagation(); viewAllClicked()
+            "
+            #link
+          >
+            {{ 'Collaboration::ViewAll' | abpLocalization }}
+            <i class="fa fa-angle-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-popover>
+
+<app-system-log-details-dialog
+  [log]="selectedLog"
+  [isMobile]="isMobile"
+  [(visible)]="showDetailsDialog"
+  (hide)="onDetailsDialogHide()"
+  (readStatusChange)="onReadStatusChange()"
+></app-system-log-details-dialog>
+
+<button
+  [class]="
+    'p-link layout-topbar-button ' +
+    (opened ? 'menu-button-active' : 'menu-button-inactive')
+  "
+  [pTooltip]="'SystemLog::SystemWarning' | abpLocalization"
+  pBadge
+  tooltipPosition="bottom"
+  [value]="count"
+  (click)="op.toggle($event)"
+>
+  <i class="fa-solid" [ngClass]="warningIcon"></i>
+  <span>{{ 'SystemLog::SystemWarning' | abpLocalization }}</span>
+
+  <div *ngIf="count !== 0" class="unread-badge">
+    <div class="bullet"></div>
+    {{ count }}
+  </div>
+</button>

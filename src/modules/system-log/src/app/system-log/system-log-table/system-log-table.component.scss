@@ -1,0 +1,67 @@
+.centeredText {
+  text-align: center;
+}
+
+*[dir="rtl"] :host ::ng-deep .adaptiveText {
+  text-align: right !important;
+  //margin-right: 2rem !important;
+}
+
+:host ::ng-deep .adaptiveText {
+  text-align: left;
+  //margin-left: 2rem !important;
+}
+
+.small-filters {
+  flex-basis: 50%;
+}
+
+.field {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  :host ::ng-deep .security-tabs .p-datatable .p-datatable-tbody > tr > td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.114rem;
+    padding-bottom: 1.113rem;
+  }
+}
+
+@media (min-width: 992px) {
+  :host ::ng-deep .security-tabs .p-datatable .p-datatable-tbody > tr > td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.114rem;
+    padding-bottom: 1.113rem;
+  }
+}
+
+
+:host ::ng-deep  p-multiselect .p-multiselect {
+  border-radius: 6px !important;
+}
+
+
+:host ::ng-deep  p-select .p-select {
+  border-radius: 6px !important;
+}
+
+:host ::ng-deep  p-select .p-select .p-select-label {
+  border: 0 !important;
+}
+
+:host ::ng-deep .p-inputgroup > .p-inputwrapper:last-child > .p-component > .p-select-label
+{
+  border: 0 !important;
+}
+.expand-vertical td.field-col {
+  white-space: normal !important;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.expand-vertical .p-datatable-tbody > tr > td {
+  vertical-align: top;
+}

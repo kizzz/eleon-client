@@ -1,0 +1,18 @@
+{
+    "remoteDependencies": [
+        {
+          "url": "/modules/language",
+          "expose": "./Module"
+        },
+        {
+          "url": "/modules/usermanagement",
+          "expose": "./Module"
+        },
+        {
+          "url": "/modules/logo",
+          "expose": "./Module"
+        }
+    ],
+    "moduleSettings": [
+    ]
+}

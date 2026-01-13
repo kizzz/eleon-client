@@ -1,0 +1,474 @@
+<p-panel [toggleable]="true" [collapsed]="true" toggler="header">
+  <ng-template pTemplate="header">
+    <i class="fa-solid fa-sliders text-gray-700 text-xl mr-2"></i>
+    <label *ngIf="filtersCount > 0" class="font-bold">
+      {{ 'SystemLog::AppliedFilters' | abpLocalization : filtersCount }}
+    </label>
+    <label *ngIf="filtersCount < 1" class="font-bold">
+      {{ 'SystemLog::NoFilters' | abpLocalization }}
+    </label>
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Clear' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="clearEntityFilter(); $event.stopPropagation()"
+    >
+      <span class="pi pi-times"></span>
+    </button>
+  </ng-template>
+  <ng-template pTemplate="icons">
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Reload' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="getEntityChanges(entityLastLoadEvent); $event.stopPropagation()"
+    >
+      <span class="pi pi-refresh"></span>
+    </button>
+  </ng-template>
+  <div class="grid">
+    <div
+      class="field col-12 logs"
+      [ngClass]="{ 'col-12': minifiedFilters, 'md:col-4': !minifiedFilters }"
+    >
+      <label>{{ 'Infrastructure::AuditLog:Date' | abpLocalization }}</label>
+      <div class="p-inputgroup">
+        <p-datepicker
+          #entityCalendar
+          styleClass="w-full"
+          selectionMode="range"
+          [(ngModel)]="entityDateRangeFilter"
+          [disabled]="entityloading"
+          [style]="{ 'text-align': 'center' }"
+          appendTo="body"
+          [readonlyInput]="true"
+          placeholder="{{ 'Infrastructure::AuditLog:Date' | abpLocalization }}"
+          (onSelect)="onDateRangeSelected(entityCalendar)"
+        >
+        </p-datepicker>
+        <button
+          type="button"
+          pButton
+          icon="far fa-calendar"
+          class="p-button-text"
+          (click)="showEntityCalendar($event)"
+        ></button>
+      </div>
+    </div>
+    <div
+      class="field col-12 logs"
+      [ngClass]="{ 'col-12': minifiedFilters, 'md:col-4': !minifiedFilters }"
+    >
+      <label>{{
+        'Infrastructure::EntityChange:ChangeType' | abpLocalization
+      }}</label>
+      <p-select
+        [options]="localizedEntityChangeTypes"
+        [(ngModel)]="selectedEntityChangeType"
+        optionValue="value"
+        optionLabel="name"
+        [filter]="false"
+        autoWidth="false"
+        [style]="{ width: '100%' }"
+      >
+      </p-select>
+    </div>
+    <div
+      class="field col-12 logs"
+      [ngClass]="{ 'col-12': minifiedFilters, 'md:col-4': !minifiedFilters }"
+    >
+      <label>{{
+        'Infrastructure::EntityChange:ObjectType' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="entityTypeFullName"
+        [disabled]="entityloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div class="col-12 flex">
+      <div class="p-inputgroup justify-content-end">
+        <p-button
+          [text]="true"
+          (click)="searchEntityChanges()"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Search' | abpLocalization"
+          icon="pi pi-search"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          (click)="clearEntityFilter()"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Clear' | abpLocalization"
+          icon="pi pi-times"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+
+<p-table
+  *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+  [scrollable]="scrollable"
+  [responsive]="true"
+  responsiveLayout="stack"
+  [breakpoint]="breakpoint"
+  scrollDirection="both"
+  [lazy]="true"
+  (onLazyLoad)="getEntityChanges($event)"
+  [rows]="rowsCount"
+  styleClass="pr-table"
+  [totalRecords]="entityTotalRecords"
+  [loading]="entityloading"
+  (onRowSelect)="onEntityChangesSelect($event)"
+  [value]="entityChangeRows"
+  [paginator]="true"
+  selectionMode="single"
+  sortOrder="-1"
+  sortMode="single"
+  sortField="ChangeTime"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th appResponsiveColumn="10"></th>
+      <th class="when-big-width-cell-center" appResponsiveColumn="110">
+        {{ 'Infrastructure::EntityChange:ChangeType' | abpLocalization }}
+      </th>
+      <th
+        class="when-big-width-cell-center"
+        appResponsiveColumn="180"
+        pSortableColumn="changeTime"
+      >
+        {{ 'Infrastructure::AuditLog:Date' | abpLocalization }}
+        <p-sortIcon field="changeTime"></p-sortIcon>
+      </th>
+      <th pSortableColumn="entityTypeFullName">
+        {{ 'Infrastructure::EntityChange:ObjectType' | abpLocalization }}
+        <p-sortIcon field="entityTypeFullName"></p-sortIcon>
+      </th>
+      <th appResponsiveColumn="290">
+        {{ 'Infrastructure::EntityChange:UpdatedById' | abpLocalization }}
+      </th>
+      <th appResponsiveColumn="10"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <tr [pSelectableRow]="row">
+      <td style="width: 10px">
+        <div class="flex align-items-center">
+          <i
+            class="pi pi-copy text-primary cursor-pointer"
+            pTooltip="{{ row.id }}"
+            tooltipPosition="top"
+            tooltipClass="tooltip-one-line"
+            (click)="copyId(row.id, $event); $event.stopPropagation()"
+          >
+          </i>
+        </div>
+      </td>
+      <td appResponsiveColumn="110" class="when-big-width-cell-center">
+        <span class="p-column-title">{{
+          'Infrastructure::EntityChange:ChangeType' | abpLocalization
+        }}</span>
+        <div [ngClass]="{ adaptiveText: isMobile }" style="flex-basis: 75%">
+          <p-tag
+            [severity]="getSeverityForEntityChangeType(row.changeType)"
+            [value]="getEntityChangeTypeName(row.changeType)"
+          ></p-tag>
+        </div>
+      </td>
+      <!-- <td appResponsiveColumn="150" class="when-big-width-cell-center">
+        <span class="p-column-title">{{'Infrastructure::AuditLog:LogId' |
+          abpLocalization}}</span>
+        <span class="column-content">
+          {{row.id}}
+        </span>
+      </td> -->
+      <td appResponsiveColumn="180" class="when-big-width-cell-center">
+        <span class="p-column-title">{{
+          'Infrastructure::AuditLog:Date' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ row.changeTime | date : 'short' }}
+        </span>
+      </td>
+      <td>
+        <span class="p-column-title">{{
+          'Infrastructure::EntityChange:ObjectType' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ getEntityTypeNameLocal(row.entityTypeFullName) }}
+        </span>
+      </td>
+      <td appResponsiveColumn="290">
+        <span class="p-column-title">{{
+          'Infrastructure::EntityChange:UpdatedById' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ row.updatedById || '-' }}
+        </span>
+      </td>
+
+      <td style="width: 10px">
+        <div class="flex align-items-center">
+          <span class="fa fa-magnifying-glass text-primary"></span>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-full" colspan="4">
+        <div class="card w-full">
+          <div class="card-body w-full">
+            <div class="card-header text-center">
+              {{ getEmptyEntityChangesName() }}
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-dialog
+  *ngIf="showEntityChangesDetails && !!selectedEntityChange"
+  [(visible)]="showEntityChangesDetails"
+  (onHide)="selectedEntityChange = null"
+  [modal]="true"
+  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
+  [closable]="true"
+  [resizable]="false"
+  appendTo="body"
+  [draggable]="false"
+  [baseZIndex]="10000"
+  [focusOnShow]="false"
+  [contentStyle]="{
+    padding: '0',
+    overflow: 'hidden',
+    display: 'flex',
+    'flex-direction': 'column'
+  }"
+>
+  <ng-template pTemplate="header" class="p-dialog-header">
+    <div class="d-flex align-items-center justify-content-start">
+      <span class="fa fa-file-contract"></span>
+      <span class="p-dialog-title">
+        {{ 'Infrastructure::AuditLog:Details' | abpLocalization }}
+      </span>
+    </div>
+  </ng-template>
+
+  <div
+    style="
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 0 1rem;
+    "
+  >
+    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+      <div class="textAlign">
+        <p-tabView>
+          <p-tabPanel>
+            <ng-template pTemplate="header">
+              <span>
+                {{ 'Infrastructure::GeneralInformation' | abpLocalization }}
+              </span>
+            </ng-template>
+
+            <ul class="list-none p-0 m-0">
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li cursor-pointer"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::EntityChange:ChangeType' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <p-tag
+                    [severity]="
+                      getSeverityForEntityChangeType(
+                        selectedEntityChange.changeType
+                      )
+                    "
+                    [value]="
+                      getEntityChangeTypeName(selectedEntityChange.changeType)
+                    "
+                  ></p-tag>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::EntityChange:ObjectType' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900" style="overflow-wrap: anywhere">
+                    {{
+                      getEntityTypeNameLocal(
+                        selectedEntityChange.entityTypeFullName
+                      )
+                    }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:Date' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{
+                      selectedEntityChange.changeTime
+                        | date : 'dd/MM/y HH:mm:ss'
+                    }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::EntityChange:UpdatedById' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{ selectedEntityChange.updatedById || '-' }}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </p-tabPanel>
+
+          <p-tabPanel>
+            <ng-template pTemplate="header">
+              <span>
+                {{ 'Infrastructure::AuditLog:Actions' | abpLocalization }}
+              </span>
+            </ng-template>
+
+            <p-table
+              [value]="selectedEntityChange?.propertyChanges || []"
+              class="w-full"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appResponsiveColumn="120">
+                    {{
+                      'Infrastructure::EntityChanges:PropertyName'
+                        | abpLocalization
+                    }}
+                  </th>
+                  <th style="white-space: nowrap">
+                    {{
+                      'Infrastructure::EntityChanges:OldValue' | abpLocalization
+                    }}
+                  </th>
+                  <th style="white-space: nowrap">
+                    {{
+                      'Infrastructure::EntityChanges:NewValue' | abpLocalization
+                    }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-prop>
+                <tr>
+                  <td appResponsiveColumn="120">
+                    {{ prop.propertyName | abpLocalization }}
+                  </td>
+                  <td style="overflow-wrap: anywhere">
+                    {{ prop.originalValue }}
+                  </td>
+                  <td style="overflow-wrap: anywhere">{{ prop.newValue }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabPanel>
+          <p-tabPanel
+            *ngIf="
+              selectedEntityChange?.extraProperties &&
+              (selectedEntityChange?.extraProperties | keyvalue)?.length > 0
+            "
+          >
+            <ng-template pTemplate="header">
+              <span>
+                {{
+                  'Infrasctructure::EntityChanges:ExtraProperties'
+                    | abpLocalization
+                }}
+              </span>
+            </ng-template>
+
+            <p-table
+              [value]="selectedEntityChange?.extraProperties | keyvalue"
+              [responsiveLayout]="'scroll'"
+              class="p-datatable-sm mt-3 expand-vertical"
+            >
+              <ng-template pTemplate="body" let-prop>
+                <tr>
+                  <td class="text-500 font-medium">
+                    {{ prop.key | abpLocalization }}
+                  </td>
+                  <td class="text-900 field-col">
+                    <span style="overflow-wrap: anywhere">{{
+                      prop.value
+                    }}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+
+    <!-- footer / close -->
+    <div style="padding: 1rem; text-align: right">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary p-button-sm"
+        style="width: 10rem"
+        (click)="showEntityChangesDetails = false"
+        icon="fa fa-times"
+        label="{{ 'Infrastructure::Close' | abpLocalization }}"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,55 @@
+::ng-deep .notificationsOverlay {
+  margin-left: 10px;
+
+  .p-overlaypanel-content {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+}
+
+::ng-deep .p-overlaypanel:after {
+  border-bottom-color: #354bb1;
+}
+
+
+.unread-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  color: var(--green-500);
+  font-weight: bold;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+
+  .bullet {
+    border-radius: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: var(--green-500);
+  }
+
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+
+.view-all:hover {
+  background-color: var(--menuitem-hover-bg)
+}

@@ -1,0 +1,480 @@
+<p-panel [toggleable]="true" [collapsed]="true" toggler="header">
+  <ng-template pTemplate="header">
+    <i class="fa-solid fa-sliders text-gray-700 text-xl mr-2"></i>
+    <label *ngIf="filtersCount > 0" class="font-bold">
+      {{ 'SystemLog::AppliedFilters' | abpLocalization : filtersCount }}
+    </label>
+    <label *ngIf="filtersCount < 1" class="font-bold">
+      {{ 'SystemLog::NoFilters' | abpLocalization }}
+    </label>
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Clear' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="clearAuditFilter(); $event.stopPropagation()"
+    >
+      <span class="pi pi-times"></span>
+    </button>
+  </ng-template>
+  <ng-template pTemplate="icons">
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Reload' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="getAuditLogs(auditLastLoadEvent); $event.stopPropagation()"
+    >
+      <span class="pi pi-refresh"></span>
+    </button>
+  </ng-template>
+  <div class="grid">
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{ 'Infrastructure::AuditLog:Date' | abpLocalization }}</label>
+      <div class="p-inputgroup">
+        <p-datepicker
+          #auditCalendar
+          selectionMode="range"
+          styleClass="w-full"
+          [(ngModel)]="auditDateRangeFilter"
+          [disabled]="auditloading"
+          [style]="{ 'text-align': 'center' }"
+          appendTo="body"
+          [readonlyInput]="true"
+          placeholder="{{ 'Infrastructure::AuditLog:Date' | abpLocalization }}"
+          (onSelect)="onDateRangeSelected(auditCalendar)"
+        >
+        </p-datepicker>
+        <button
+          type="button"
+          pButton
+          icon="far fa-calendar"
+          class="p-button-text"
+          (click)="showAuditCalendar($event)"
+        ></button>
+      </div>
+    </div>
+    <div
+      class="field logs"
+      *ngIf="!userId"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{ 'Infrastructure::AuditLog:UserName' | abpLocalization }}</label>
+      <input
+        [(ngModel)]="userName"
+        [disabled]="auditloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{ 'Infrastructure::AuditLog:URL' | abpLocalization }}</label>
+      <input
+        [(ngModel)]="url"
+        [disabled]="auditloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:MinDuration' | abpLocalization
+      }}</label>
+      <p-inputNumber
+        class="w-full"
+        [step]="1"
+        [min]="0"
+        [showButtons]="false"
+        [(ngModel)]="minExecutionDuration"
+        styleClass="w-full"
+        style="width: 100%"
+        [inputStyle]="{ width: '100%', 'text-align': 'center' }"
+      ></p-inputNumber>
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:MaxDuration' | abpLocalization
+      }}</label>
+      <p-inputNumber
+        class="w-full"
+        [step]="1"
+        [min]="0"
+        styleClass="w-full"
+        style="width: 100%"
+        [inputStyle]="{ width: '100%', 'text-align': 'center' }"
+        [showButtons]="false"
+        [(ngModel)]="maxExecutionDuration"
+      ></p-inputNumber>
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:HTTPMethod' | abpLocalization
+      }}</label>
+      <p-select
+        [options]="types"
+        [(ngModel)]="httpMethod"
+        autoWidth="false"
+        optionValue="value"
+        [style]="{ width: '100%' }"
+        optionLabel="name"
+      ></p-select>
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:HTTPStatusCode' | abpLocalization
+      }}</label>
+      <p-select
+        [options]="httpStatusCodes"
+        [(ngModel)]="selectedHttpStatusCode"
+        optionValue="value"
+        autoWidth="false"
+        [style]="{ width: '100%' }"
+        optionLabel="name"
+      ></p-select>
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:ApplicationName' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="applicationName"
+        [disabled]="auditloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:IpAddress' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="clientIpAddress"
+        [disabled]="auditloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:CorrelationId' | abpLocalization
+      }}</label>
+      <input
+        [(ngModel)]="correlationId"
+        [disabled]="auditloading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+      />
+    </div>
+    <div
+      class="field logs"
+      [ngClass]="{
+        'col-6 md:col-2': !minifiedFilters,
+        'col-12': minifiedFilters
+      }"
+    >
+      <label>{{
+        'Infrastructure::AuditLog:HasException' | abpLocalization
+      }}</label>
+      <p-select
+        [options]="hasExceptions"
+        optionValue="value"
+        [(ngModel)]="hasException"
+        autoWidth="false"
+        [style]="{ width: '100%' }"
+        optionLabel="name"
+      ></p-select>
+    </div>
+    <div class="col-12 flex">
+      <div class="p-inputgroup justify-content-end">
+        <p-button
+          [text]="true"
+          (click)="searchAuditLog()"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Search' | abpLocalization"
+          icon="pi pi-search"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          (click)="clearAuditFilter()"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Clear' | abpLocalization"
+          icon="pi pi-times"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+<p-table
+  *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+  [scrollable]="scrollable"
+  [responsive]="true"
+  responsiveLayout="stack"
+  [breakpoint]="breakpoint"
+  scrollDirection="both"
+  class="cell-center"
+  [lazy]="true"
+  (onLazyLoad)="getAuditLogs($event)"
+  (onRowSelect)="onRowSelect($event)"
+  [rows]="rowsCount"
+  styleClass="pr-table"
+  [totalRecords]="auditTotalRecords"
+  [loading]="auditloading"
+  [value]="auditRows"
+  [paginator]="true"
+  selectionMode="single"
+  sortOrder="-1"
+  sortMode="single"
+  sortField="UserName"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th appResponsiveColumn="10"></th>
+      <th class="when-big-width-cell-center">
+        {{ 'Infrastructure::AuditLog:HTTPRequest' | abpLocalization }}
+      </th>
+      <th
+        class="when-big-width-cell-center"
+        appResponsiveColumn="140"
+        pSortableColumn="userName"
+        *ngIf="!userId"
+      >
+        {{ 'Infrastructure::AuditLog:UserName' | abpLocalization }}
+        <p-sortIcon field="userName"></p-sortIcon>
+      </th>
+      <th
+        class="when-big-width-cell-center"
+        appResponsiveColumn="130"
+        pSortableColumn="clientIpAddress"
+      >
+        {{ 'Infrastructure::AuditLog:IpAddress' | abpLocalization }}
+        <p-sortIcon field="clientIpAddress"></p-sortIcon>
+      </th>
+      <th
+        class="when-big-width-cell-center"
+        appResponsiveColumn="150"
+        pSortableColumn="executionTime"
+      >
+        {{ 'Infrastructure::AuditLog:Time' | abpLocalization }}
+        <p-sortIcon field="executionTime"></p-sortIcon>
+      </th>
+      <th
+        *ngIf="!minifiedFilters"
+        class="when-big-width-cell-center"
+        appResponsiveColumn="140"
+        pSortableColumn="executionDuration"
+      >
+        {{ 'Infrastructure::Duration:Ms' | abpLocalization }}
+        <p-sortIcon field="executionDuration"></p-sortIcon>
+      </th>
+      <th
+        *ngIf="!minifiedFilters"
+        class="when-big-width-cell-center"
+        appResponsiveColumn="140"
+        pSortableColumn="applicationName"
+      >
+        {{ 'Infrastructure::AuditLog:ApplicationName' | abpLocalization }}
+        <p-sortIcon field="applicationName"></p-sortIcon>
+      </th>
+      <th
+        *ngIf="!minifiedFilters"
+        class="when-big-width-cell-center"
+        appResponsiveColumn="190"
+        pSortableColumn="correlationId"
+      >
+        {{ 'Infrastructure::AuditLog:CorrelationId' | abpLocalization }}
+        <p-sortIcon field="correlationId"></p-sortIcon>
+      </th>
+      <th appResponsiveColumn="20"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+    <tr [pSelectableRow]="row">
+      <td style="width: 10px">
+        <div class="flex align-items-center">
+          <i
+            class="pi pi-copy text-primary cursor-pointer"
+            pTooltip="{{ row.id }}"
+            tooltipPosition="top"
+            tooltipClass="tooltip-one-line"
+            (click)="copyId(row.id, $event); $event.stopPropagation()"
+          >
+          </i>
+        </div>
+      </td>
+      <td class="when-big-width-cell-center">
+        <span class="p-column-title">
+          {{ 'Infrastructure::AuditLog:HTTPRequest' | abpLocalization }}
+        </span>
+        <div class="textAlign flex align-items-center column-content gap-2">
+          <p-tag
+            severity="{{ getSeverity(row.httpStatusCode) }}"
+            value="{{ row.httpStatusCode }}"
+          ></p-tag>
+          <p-tag
+            severity="{{ getSeverityForMethod(row.httpMethod) }}"
+            value="{{ row.httpMethod }}"
+          ></p-tag>
+          <span>
+            {{ row.url }}
+          </span>
+        </div>
+      </td>
+      <td
+        appResponsiveColumn="140"
+        class="when-big-width-cell-center"
+        *ngIf="!userId"
+      >
+        <span class="p-column-title">{{
+          'Infrastructure::AuditLog:UserName' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ row.userName }}
+        </span>
+      </td>
+      <td appResponsiveColumn="130" class="when-big-width-cell-center">
+        <span class="p-column-title">{{
+          'Infrastructure::AuditLog:IpAddress' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ row.clientIpAddress }}
+        </span>
+      </td>
+      <td appResponsiveColumn="150" class="when-big-width-cell-center">
+        <span class="p-column-title">{{
+          'Infrastructure::AuditLog:Time' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ row.executionTime | date : 'short' }}
+        </span>
+      </td>
+      <td
+        *ngIf="!minifiedFilters"
+        appResponsiveColumn="140"
+        class="when-big-width-cell-center"
+      >
+        <span class="p-column-title">{{
+          'Infrastructure::Duration:Ms' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ row.executionDuration }}
+        </span>
+      </td>
+      <td
+        *ngIf="!minifiedFilters"
+        appResponsiveColumn="140"
+        class="when-big-width-cell-center"
+      >
+        <span class="p-column-title">{{
+          'Infrastructure::AuditLog:ApplicationName' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          {{ getApplicationNameLocal(row.applicationName) }}
+        </span>
+      </td>
+      <td
+        *ngIf="!minifiedFilters"
+        appResponsiveColumn="190"
+        class="when-big-width-cell-center"
+      >
+        <span class="p-column-title">{{
+          'Infrastructure::AuditLog:CorrelationId' | abpLocalization
+        }}</span>
+        <span class="column-content">
+          <app-ellipsis [text]="row.correlationId"></app-ellipsis>
+        </span>
+      </td>
+      <td
+        appResponsiveColumn="20"
+        class="when-big-width-cell-center"
+        class="row-buttons"
+      >
+        <span class="fa fa-magnifying-glass text-primary cursor-pointer">
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-full" colspan="8">
+        <div class="card w-full">
+          <div class="card-body w-full">
+            <div class="card-header text-center">
+              {{ getEmptyAuditLogsMessage() }}
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<app-audit-log-details #logDetails></app-audit-log-details>

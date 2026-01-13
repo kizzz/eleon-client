@@ -1,0 +1,25 @@
+<div *ngIf="data" class="w-full">
+  <div class="field grid">
+    <label class="col-12 mb-2 md:col-3 md:mb-0" appRequired>{{ 'TenantManagement::OtpSettings:OtpType' | abpLocalization }}</label>
+		<div class="col-12 md:col-9">
+			<p-select [options]="otpTypes" optionLabel="name" optionValue="value" autoWidth="false" [style]="{'width':'100%'}"
+				[(ngModel)]="data.userOtpType" appendTo="body" (onChange)="isDirty = true" [disabled]="disabled">
+			</p-select>
+		</div>
+  </div>
+  <div *ngIf="showEmailInput" class="field grid">
+    <label class="col-12 mb-2 md:col-3 md:mb-0" appRequired>{{ 'TenantManagement::OtpSettings:Email' | abpLocalization }}</label>
+    <div class="col-12 md:col-9">
+			<input style="width: 100%;" pInputText type="text" [(ngModel)]="data.otpEmail" (ngModelChange)="data.validators.otpEmail = false;isDirty = true" [disabled]="disabled"
+      [ngClass]="{'ng-invalid ng-dirty' : data.validators.otpEmail}">
+    </div>
+  </div>
+  <div *ngIf="showSmsInput" class="field grid">
+    <label class="col-12 mb-2 md:col-3 md:mb-0" appRequired>{{ 'TenantManagement::OtpSettings:PhoneNumber' | abpLocalization }}</label>
+
+		<div class="col-12 md:col-9">
+			<p-inputMask style="width: 100%;" styleClass="w-full" dir="ltr" [(ngModel)]="data.otpPhoneNumber" (ngModelChange)="data.validators.phoneNumber = false;isDirty = true"
+        [unmask]="true" mask="(999) 99-9999999" [disabled]="disabled" [ngClass]="{'ng-invalid ng-dirty' : data.validators.phoneNumber}"></p-inputMask>
+		</div>
+  </div>
+</div>

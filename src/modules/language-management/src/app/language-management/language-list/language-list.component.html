@@ -1,0 +1,72 @@
+<app-page-title [title]="'LanguageManagement::LanguageList:Title' | abpLocalization" icon="fas fa-language">
+</app-page-title>
+<div class="content">
+  <div class="mt-2">
+    <p-table [value]="languages" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+      [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint"
+      scrollDirection="both" class="cell-center" [loading]="loading" [paginator]="true" sortMode="single" [rows]="15"
+      [rowsPerPageOptions]="[15,25,50]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th appResponsiveColumn="150">
+            {{"LanguageManagement::Language:Name" | abpLocalization}}
+          </th>
+          <th appResponsiveColumn="150">
+            {{"LanguageManagement::Language:Code" | abpLocalization}}
+          </th>
+          <th appResponsiveColumn="150">
+            {{"LanguageManagement::Language:IsDefault" | abpLocalization}}
+          </th>
+          <th appResponsiveColumn="150">
+            {{"LanguageManagement::Language:IsEnabled" | abpLocalization}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td>
+            <div class="p-column-title">
+              {{"LanguageManagement::Language:Name" | abpLocalization}}
+            </div>
+            <div class="column-content">
+              <div class="flex align-items-center gap-2">
+                <span class="symbol symbol-20px me-4">
+                  <img class="rounded-1"
+                    [src]="'/resources/media/flags/svg/' + (row.flagIcon || row.twoLetterISOLanguageName) + '.svg'"
+                    alt="sakai" />
+                </span>
+                <span>{{row.displayName}}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="p-column-title">
+              {{"LanguageManagement::Language:Code" | abpLocalization}}
+            </div>
+            <div class="column-content">
+              {{row.twoLetterISOLanguageName}}
+            </div>
+          </td>
+          <td>
+            <div class="p-column-title">
+              {{"LanguageManagement::Language:IsDefault" | abpLocalization}}
+            </div>
+            <div class="column-content">
+              <p-radioButton [inputId]="row.id" name="defaultLanguage" [value]="row" [disabled]="!row.isEnabled"
+                [(ngModel)]="defaultLanguage" (ngModelChange)="onDefaultLanguageChange($event)"></p-radioButton>
+            </div>
+          </td>
+          <td>
+            <div class="p-column-title">
+              {{"LanguageManagement::Language:IsEnabled" | abpLocalization}}
+            </div>
+            <div class="column-content">
+              <p-toggleSwitch [(ngModel)]="row.isEnabled" (ngModelChange)="onLanguageEnabledChange(row, $event)"
+                [disabled]="row.isDefault" style="transform: scale(0.85);"></p-toggleSwitch>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

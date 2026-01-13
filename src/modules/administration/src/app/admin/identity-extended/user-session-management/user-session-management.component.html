@@ -1,0 +1,22 @@
+<div class="dialog-overlay" [style.display]="visible ? 'block' : 'none'"></div>
+<p-dialog [resizable]="false" [(visible)]="visible" [draggable]="false" (onHide)="closeDialog()" [closable]="false">
+  <ng-template pTemplate="header">
+      <div style="display: flex; width: 100% !important; justify-content: space-between;">
+          <div>
+              <span style="font-size: 1.25rem; font-weight: 700;">
+                {{ 'TenantManagement::Sessions' | abpLocalization }} - {{ entityDisplayName }}
+              </span>
+          </div>
+          <div>
+              <span class="icon-close-button">
+                  <i class="pi pi-times" (click)="closeDialog()"></i>
+              </span>
+          </div>
+      </div>
+  </ng-template>
+  <ng-template pTemplate="body">
+    <div class="table-container">
+      <app-user-sessions [userId]="user.id" *ngIf="visible"></app-user-sessions>
+    </div>
+  </ng-template>
+</p-dialog>

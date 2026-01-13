@@ -1,0 +1,12 @@
+<p-dialog [resizable]="false" *ngIf="display" [header]="title" [(visible)]="display" (visibleChange)="closeEvent.emit()" [modal]="true"
+  [draggable]="false">
+  <div class="wrapper">
+    <app-organization-units-selection-tree [isMove]="isMove"
+      [isAnySelectionAvailable]="selectedOrgUnit.parentId !== null" (selectionEvent)="onSelect($event)"
+      [blocklist]="[selectedOrgUnit.id, selectedOrgUnit.parentId]" selectionMode="single" [isFlat]="false"
+      [selectedOrgUnit]="selectedOrgUnit"
+      [style]="{ width: width }" [inlineCreation]="true" [onlyUsers]="false">
+    </app-organization-units-selection-tree>
+  </div>
+</p-dialog>
+<!-- [anyName]="'Parent Unit'" -->

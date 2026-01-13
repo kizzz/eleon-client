@@ -1,0 +1,25 @@
+.overlay {
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  cursor: crosshair;
+
+  &:not(.drawing) {
+    background-color: #00000075;
+    .rectangle {
+      display: none;
+    }
+  }
+}
+
+.rectangle {
+  border: 2px solid white;
+  position: absolute;
+}
+
+.rectangle-background {
+  position: absolute;
+  background-color: #00000075;
+}

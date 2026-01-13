@@ -1,0 +1,48 @@
+<app-page-title [title]="currentTabTitle | abpLocalization" icon="fas fa-cog"></app-page-title>
+<div class="content md:mt-0 mt-2">
+  <ng-container [ngSwitch]="currentTabKey">
+    <ng-container *ngSwitchCase="'general'">
+      <div class="w-100 mt-3 m-3">
+        <app-general-tenant-settings></app-general-tenant-settings>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'telemetry'">
+      <div class="w-100 mt-3 m-3">
+        <app-telemetry-settings></app-telemetry-settings>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'notifications'">
+      <div class="w-100 mt-3 m-3">
+        <app-email-settings></app-email-settings>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'identity'">
+      <div class="w-100 mt-3 m-3">
+        <app-identity-settings></app-identity-settings>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'time-zone'">
+      <ng-container *abpPermission="'SettingManagement.TimeZone'">
+        <div class="w-100 mt-3 m-3">
+          <app-time-zone-settings [width]="timeZoneWidth"></app-time-zone-settings>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'appearance'">
+      <div class="w-100 mt-3 m-3">
+        <app-appearance-settings></app-appearance-settings>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<div class="card-footer flex align-items-center gap-2" *ngIf="showButtons()">
+  <p-button [text]="true" [raised]="true" autoWidth="false" class="mx-1" *ngIf="showTestEmailButton()"
+    [label]="'TenantManagement::SendTestEmail' | abpLocalization" icon="fa fa-check" (click)="sendTestEmail()" [loading]="loading">
+  </p-button>
+</div>

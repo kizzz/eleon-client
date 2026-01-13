@@ -1,0 +1,76 @@
+<div #createSubDomainDialog class="loading-dialog">
+  <p-dialog [resizable]="false" [header]="title" [(visible)]="display" [modal]="true" disabled="loading" [draggable]="false">
+    <div *ngIf="display" class="dialogWidth flex align-items-center">
+      <div class="grid dialogHeader">
+        <div class="col-4 flex align-items-center">
+          <b>
+            {{'Infrastructure::SubDomain' | abpLocalization}}:
+          </b>
+        </div>
+        <div class="col-8">
+          <input [(ngModel)]="name" type="text" pInputText [style]="{'width':'100%'}"
+          [ngClass]="{'ng-invalid ng-dirty': nameEmpty}" maxlength="230"
+          [disabled]="loading" (keydown)="onKeyPress($event)"/>
+        </div>
+        <div class="col-4">
+          <b>
+            {{'Infrastructure::TenantManagement:URL' | abpLocalization}}:
+          </b>
+        </div>
+        <div class="col-8">
+          {{getCreatedSubdomainName()}}
+        </div>
+        <div class="col-12">
+          <div class="grid">
+            <div class="lg:col-6 md:col-6 sm:col-12 row">
+              <div class="col-6">
+                <b>
+                  {{'Infrastructure::TenantManagement:AddToDns' | abpLocalization}}:
+                </b>
+              </div>
+              <div class="col-6 text-center">
+                <p-checkbox [(ngModel)]="isAddToDns" [binary]="true" [disabled]="loading">
+                </p-checkbox>
+              </div>
+            </div>
+            <div class="lg:col-6 md:col-6 sm:col-12 row">
+              <div class="col-6">
+                <b>
+                  {{'Infrastructure::TenantManagement:AddToIis' | abpLocalization}}:
+                </b>
+              </div>
+              <div class="col-6 text-center">
+                <p-checkbox [(ngModel)]="isAddToIis" [binary]="true" [disabled]="loading">
+                </p-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="loading" style="text-align: center;" class="grid">
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        </div>
+        <div *ngIf="errorMessage?.length > 0" class="grid">
+          <p-message severity="error" [text]="errorMessage"></p-message>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div style="text-align:right">
+        <p-button [text]="true" [raised]="true" class="mr-1 ml-1" [disabled]="loading" (click)="closeDialog()" label="{{'Infrastructure::Close' | abpLocalization}}" styleClass="p-button-danger"></p-button>
+        <p-button [text]="true" [raised]="true" class="mr-1 ml-1" [disabled]="loading" (click)="create()" label="{{'Infrastructure::Create' | abpLocalization}}" styleClass="p-button-success"></p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <ng-container *ngIf="beforeButton; else defaultButton">
+    <div class="input-group w-full flex">
+      <p *ngTemplateOutlet="beforeButton"></p>
+      <button pButton (click)="showDialog()" style="width:3rem" icon="fa fa-list" [disabled]="disabled"></button>
+    </div>
+  </ng-container>
+  <ng-template #defaultButton>
+    <div (click)="showDialog()">
+      <div *ngTemplateOutlet="button">
+      </div>
+    </div>
+  </ng-template>
+</div>

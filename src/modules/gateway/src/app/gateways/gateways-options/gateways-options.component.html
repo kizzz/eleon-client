@@ -1,0 +1,27 @@
+<!-- <app-page-title [title]="'GatewayManagement::GatewayOptions' | abpLocalization" icon="fas fa-cog"
+    [businessSelection]="false">
+</app-page-title> -->
+<div class="card">
+    <div *ngIf="isStaticKeyEnabled" class="field">
+        <label class="mx-4">{{ 'GatewayManagement::StaticKey:Enabled' | abpLocalization
+            }}</label>
+        <div class="p-inputgroup">
+            <button (click)="copyKey()" pButton
+                [pTooltip]="'GatewayManagement::StaticKey:CopyToClipboard' | abpLocalization" icon="fas fa-copy"
+                class="p-button-outlined p-button-warning" iconPos="left"></button>
+            <input class="key-input text-center" [ngModel]="staticKey" type="text" pInputText [readOnly]="true"
+                (click)="copyKey()" />
+            <button (click)="disableStaticKey()" pButton
+                [label]="'GatewayManagement::StaticKey:Disable' | abpLocalization"
+                [pTooltip]="'GatewayManagement::StaticKey:Disable:Tooltip' | abpLocalization" icon="fa fa-times"
+                class="p-button-outlined p-button-warning" iconPos="left"></button>
+        </div>
+    </div>
+    <div *ngIf="!isStaticKeyEnabled">
+        <label class="mx-4" style="line-height: 2.5rem">{{ 'GatewayManagement::StaticKey:Disabled' | abpLocalization
+            }}</label>
+        <button (click)="enableStaticKey()" pButton [label]="'GatewayManagement::StaticKey:Enable' | abpLocalization"
+            [pTooltip]="'GatewayManagement::StaticKey:Enable:Tooltip' | abpLocalization" icon="fa fa-check"
+            class="p-button-outlined p-button-info" iconPos="left"></button>
+    </div>
+</div>

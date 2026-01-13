@@ -1,0 +1,107 @@
+<div class="content">
+  
+    <app-page-title [title]="'Infrastructure::Home' | abpLocalization" icon="fas fa-home">
+    </app-page-title>
+    <app-widget-selection-dialog #widgetSelectionDialog (selectEvent)=addItem($event) [notDisplayWidgets]="existingWidgets">
+    </app-widget-selection-dialog>
+  
+
+  <!-- <div class="flex justify-content-between align-items-center mb-1">
+    <div
+      class="flex justify-content-between align-items-center font-medium text-xl lg:text-3xl text-900 page-title-text">
+      <i class="fas fa-home" style="font-size: large;"></i>&nbsp;
+      <span>
+        {{'Infrastructure::Home' | abpLocalization}}
+      </span>
+    </div>
+    <div *ngIf="!editMode && hasLoggedIn">
+      <p-button [text]="true" [raised]="true" [disabled]="loading" styleClass="p-button-primary p-button-sm mr-1 ml-1"
+        autoWidth="false" [label]="'Infrastructure::Edit' | abpLocalization" icon="fa fa-edit"
+        (click)="enableEditMode()">
+      </p-button>
+    </div>
+    <div *ngIf="editMode" class="flex">
+      <p-button [text]="true" [raised]="true" [disabled]="loading" styleClass="p-button-danger p-button-sm mr-1 ml-1"
+        autoWidth="false" [label]="'Infrastructure::Cancel' | abpLocalization" icon="fa fa-trash"
+        (click)="cancelEditing()">
+      </p-button>
+      <div>
+        <app-widget-selection-dialog (selectEvent)=addItem($event) [notDisplayWidgets]="existingWidgets">
+          <ng-template template="button">
+            <p-button [text]="true" [raised]="true" [disabled]="loading"
+              styleClass="p-button-primary p-button-sm mr-1 ml-1" autoWidth="false"
+              [label]="'Infrastructure::Add' | abpLocalization" icon="fa fa-plus">
+            </p-button>
+          </ng-template>
+        </app-widget-selection-dialog>
+      </div>
+      <p-button [text]="true" [raised]="true" [disabled]="loading" styleClass="p-button-success p-button-sm mr-1 ml-1"
+        autoWidth="false" [label]="'Infrastructure::Save' | abpLocalization" icon="fa fa-check" (click)="save()">
+      </p-button>
+    </div>
+  </div> -->
+
+  <div *ngIf="hasLoggedIn">
+    <gridster [options]="options">
+      <gridster-item #gridsterItem [item]="item" *ngFor="let item of dashboard"
+        [ngClass]="{'custom-hover': isMouseOver}" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+        <div class="gridster-item-content">
+          <div class="item-buttons flex justify-content-end" *ngIf="editMode">
+            <button style="color: black; position: absolute;left: 45%;top: 45%;z-index: 10;" (click)="toggleDragging()"
+              class="drag-handler" mat-icon-button>
+              <mat-icon class="icon-display">open_with</mat-icon>
+            </button>
+            <button (click)="removeItem($event, item)" pButton type="button" icon="fa fa-trash"
+              [pTooltip]="'Infrastructure::Tooltip:RemoveWidget' | abpLocalization"
+              class="p-button-text p-button-rounded p-button-danger" style="font-size: 1.5rem;">
+            </button>
+          </div>
+          <div>
+            <ndc-dynamic [ndcDynamicComponent]="item?.template"></ndc-dynamic>
+          </div>
+        </div>
+      </gridster-item>
+    </gridster>
+  </div>
+</div>
+<!-- <div class="card">
+  <div class="card-header">{{ '::Welcome' | abpLocalization }}</div>
+  <div class="card-body">
+    <div class="md:col-auto">
+      <img src="/assets/images/homePage/first.png" style="max-width: 600px;"
+          class="w-100 mb-5 my-md-3">
+    </div>
+    <p *ngIf="!hasLoggedIn">
+      <a (click)="login()" class="btn btn-primary" role="button"
+        ><i class="fa fa-sign-in me-1" aria-hidden="true"></i>{{ 'AbpAccount::Login' | abpLocalization }}</a
+      >
+    </p>
+  </div>
+</div> -->
+<!-- <div class="card mt-5" *ngIf="!hasLoggedIn">
+  <div class="card-body">
+    <div class="grid flex justify-content-center">
+      <div class="md:col-auto">
+        <img src="/assets/images/homePage/second.png"
+            class="w-100 mb-5 my-md-3">
+      </div>
+    </div> -->
+<!-- <div class="grid">
+      <div class="md:col-auto text-center">
+        <img src="/assets/images/avdar/avdar.png" style="max-width: 400px;"
+            class="w-100 mb-5 my-md-3">
+      </div>
+      <div class="md:col flex align-items-center">
+        <div class="pe-0 pe-md-4">
+          <small class="text-uppercase text-muted"></small>
+          <h2 class="mb-4">
+            {{ '::HomeHeaderMessage' | abpLocalization }}
+          </h2>
+          <p class="mb-4">
+            {{ '::HomeLongCardMessage' | abpLocalization }}
+          </p>
+        </div>
+      </div>
+    </div> -->
+<!-- </div>
+</div> -->

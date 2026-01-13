@@ -1,0 +1,231 @@
+<app-page-title
+  [title]="'Lifecycle::Menu:Lifecycle:Reports' | abpLocalization"
+  icon="fa-regular fa-rectangle-list"
+>
+</app-page-title>
+
+<div class="content mt-3">
+  <div class="grid m-0">
+    <div class="lg:col-8 md:col-8 col-12">
+      <div class="card-body">
+        <p-table
+          *appResponsiveTable="
+            'md';
+            let scrollable;
+            let breakpoint = breakpoint
+          "
+          [scrollable]="scrollable"
+          responsiveLayout="stack"
+          [breakpoint]="breakpoint"
+          scrollDirection="both"
+          class="cell-center"
+          styleClass="pr-table"
+          [totalRecords]="totalRecords"
+          [paginator]="true"
+          [rows]="rowsCount"
+          [lazy]="true"
+          (onLazyLoad)="loadDocs($event)"
+          [loading]="loading"
+          [value]="preparedDocuments"
+          (onRowSelect)="onSelect($event)"
+          selectionMode="single"
+          sortMode="single"
+        >
+          <ng-template pTemplate="caption">
+            <div class="grid mt-0">
+              <div class="col-12 md:col-6 flex align-items-center py-0">
+                <div class="p-inputgroup">
+                  <input
+                    type="text"
+                    pInputText
+                    #searchField
+                    placeholder="{{
+                      'Infrastructure::Search' | abpLocalization
+                    }}"
+                    [(ngModel)]="searchQueryText"
+                  />
+                  <button
+                    type="button"
+                    (click)="search($event)"
+                    pButton
+                    pRipple
+                    icon="pi pi-search"
+                    styleClass="p-button-info"
+                    class="p-button-text"
+                  ></button>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    icon="pi pi-times-circle"
+                    class="p-button-danger p-button-text"
+                    (click)="clear($event)"
+                  ></button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <!-- <th
+                class="when-big-width-cell-center"
+                appResponsiveColumn="220"
+                pSortableColumn="documentObjectType"
+              >
+                {{
+                  'Lifecycle::DashboardPage:Header:ObjectType' | abpLocalization
+                }}
+                <p-sortIcon field="documentObjectType"></p-sortIcon>
+              </th> -->
+              <th class="when-big-width-cell-center" appResponsiveColumn="170">
+                {{
+                  'Lifecycle::DashboardPage:Header:CreatedAt' | abpLocalization
+                }}
+              </th>
+              <th
+                class="when-big-width-cell-center"
+                appResponsiveColumn="170"
+                pSortableColumn="statusDate"
+              >
+                {{
+                  'Lifecycle::DashboardPage:Header:UpdatedAt' | abpLocalization
+                }}
+                <p-sortIcon field="statusDate"></p-sortIcon>
+              </th>
+              <th class="when-big-width-cell-center" appResponsiveColumn="170">
+                {{
+                  'Lifecycle::DashboardPage:Header:UpdatedBy' | abpLocalization
+                }}
+              </th>
+              <th class="when-big-width-cell-center" appResponsiveColumn="170">
+                {{
+                  'Lifecycle::DashboardPage:Header:Groupname' | abpLocalization
+                }}
+              </th>
+              <th class="when-big-width-cell-center" appResponsiveColumn="170">
+                {{ 'Lifecycle::DashboardPage:Header:Status' | abpLocalization }}
+              </th>
+              <th class="when-big-width-cell-center" appResponsiveColumn="120">
+                {{ 'Infrastructure::Actions' | abpLocalization }}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row>
+            <tr [pSelectableRow]="row">
+              <!-- <td appResponsiveColumn="220" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">{{
+                  'Lifecycle::DashboardPage:Header:ModuleObjectType'
+                    | abpLocalization
+                }}</span>
+                <span class="column-content">
+                  {{
+                    'Lifecycle::DocumentObjectType:' + row.documentObjectType
+                      | abpLocalization
+                  }}
+                </span>
+              </td> -->
+              <td appResponsiveColumn="170" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">{{
+                  'Lifecycle::DashboardPage:Header:CreatedAt' | abpLocalization
+                }}</span>
+                <span class="column-content">
+                  {{ row.creationTime | date : 'M/d/yy, H:mm' }}
+                </span>
+              </td>
+              <td appResponsiveColumn="170" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">{{
+                  'Lifecycle::DashboardPage:Header:UpdatedAt' | abpLocalization
+                }}</span>
+                <span class="column-content">
+                  {{
+                    row.lastModificationTime
+                      ? (row.lastModificationTime | date : 'M/d/yy, H:mm')
+                      : '-'
+                  }}
+                </span>
+              </td>
+              <td appResponsiveColumn="170" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">{{
+                  'Lifecycle::DashboardPage:Header:UpdatedBy' | abpLocalization
+                }}</span>
+                <span class="column-content">
+                  {{ row.lastModifierId || '-' }}
+                </span>
+              </td>
+              <td appResponsiveColumn="170" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">{{
+                  'Lifecycle::DashboardPage:Header:Groupname' | abpLocalization
+                }}</span>
+                <span class="column-content">
+                  {{ row.groupName || '-' }}
+                </span>
+              </td>
+              <td appResponsiveColumn="170" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">{{
+                  'Lifecycle::DashboardPage:Header:Status' | abpLocalization
+                }}</span>
+                <span class="column-content">
+                  <p-tag
+                    [value]="getStatusLabel(row?.status)"
+                    [severity]="getStatusColor(row?.status)"
+                  ></p-tag>
+                </span>
+              </td>
+              <td appResponsiveColumn="120" class="when-big-width-cell-center">
+                <span class="non-editing-only p-column-title">
+                  {{ 'Infrastructure::Actions' | abpLocalization }}
+                </span>
+                <span class="column-content">
+                  <i
+                    class="fa-solid fa-magnifying-glass"
+                    style="cursor: pointer"
+                    (click)="openDetailsDialog(row); $event.stopPropagation()"
+                    pTooltip="{{
+                      'Infrastructure::ViewDetails' | abpLocalization
+                    }}"
+                  >
+                  </i>
+                </span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr class="table-emptymessage">
+              <td class="w-100" colspan="7">
+                <div class="card w-100">
+                  <div class="card-body w-100">
+                    <div class="card-header">
+                      {{
+                        'Lifecycle::DashboardPage:NoPendingDocumets'
+                          | abpLocalization
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <div class="lg:col-4 md:col-4 col-12">
+      <div class="card">
+        <div class="card-body">
+          <app-lifecycle-trace-card
+            [mode]="TraceCardMode.History"
+            [statesGroupAuditTree]="statesGroupAuditTree"
+          >
+          </app-lifecycle-trace-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-lifecycle-report-details-dialog
+  [(visible)]="showDetailsDialog"
+  [report]="selectedReportForDetails"
+  [isMobile]="false"
+  (hide)="onDetailsDialogHide()"
+>
+</app-lifecycle-report-details-dialog>

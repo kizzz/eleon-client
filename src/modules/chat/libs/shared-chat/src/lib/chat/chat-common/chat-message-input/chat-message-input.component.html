@@ -1,0 +1,8 @@
+<textarea #messageInput class="form-control form-control-flush mb-3" rows="1" data-kt-element="input"
+  placeholder="Type a message" [(ngModel)]="messageText"></textarea>
+
+<div class="flex flex-stack">
+  <button class="btn btn-primary" type="button" data-kt-element="send" (click)="submitMessage()">
+    Send
+  </button>
+</div>

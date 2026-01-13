@@ -1,0 +1,97 @@
+<p-dialog
+  [resizable]="false"
+  [(visible)]="showDialog"
+  (visibleChange)="showDialogChange.emit($event)"
+  [header]="
+    'TenantManagement::TenantSettings:IpIsolationSettings' | abpLocalization
+  "
+  [modal]="true"
+>
+  <div *ngIf="showDialog && data" class="wrapper">
+    <div class="flex flex-column align-items-start gap-5 w-100">
+      <p-checkbox
+        [(ngModel)]="data.enabled"
+        binary="true"
+        class="my-3"
+        [label]="
+          'TenantManagement::TenantSettings:IpIsolationSettings:Enabled'
+            | abpLocalization
+        "
+      ></p-checkbox>
+
+      <p-table
+        [loading]="loading"
+        [value]="data.whitelistedIps"
+        rowsEditor
+        [(editableRows)]="data.whitelistedIps"
+        style="width: 100%; min-height: 200px"
+        [rowAdded]="onIpAdded"
+        [rowRemoved]="onIpRemoved"
+        class="cell-center"
+        [rowFactory]="whitelistedIpFactory"
+        [dataKey]="ip"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              {{
+                'TenantManagement::TenantSettings:IpIsolationSettings:WhitelistedIps'
+                  | abpLocalization
+              }}
+            </th>
+            <app-table-header-controls></app-table-header-controls>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr [pEditableRow]="row">
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input
+                    [(ngModel)]="row.ip"
+                    [pKeyFilter]="IPv4AddressKeyFilter"
+                    [pValidateOnly]="true"
+                    [ngClass]="{ 'ng-invalid ng-dirty': row.validators.ip }"
+                    type="text"
+                    pInputText
+                    [style]="{ width: '100%' }"
+                    (ngModelChange)="resetValidators(); state.setDirty()"
+                  />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ row.ip }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <app-table-row-controls></app-table-row-controls>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-between">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        [disabled]="loading"
+        (click)="cancel()"
+        icon="pi pi-times"
+        label="{{ 'Infrastructure::Cancel' | abpLocalization }}"
+        styleClass="p-button-secondary"
+      >
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        [disabled]="loading"
+        (click)="save()"
+        icon="fa fa-check"
+        label="{{ 'Infrastructure::Save' | abpLocalization }}"
+        styleClass="p-button-primary"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,175 @@
+  <app-page-title [title]="getTitle()" icon="fas fa-cog">
+  </app-page-title>
+  <div class="content">
+    <div class="grid m-0">
+      <div class="col-12 md:col-3 lg:col-3">
+        <p-tree class="w-full" [value]="categories" selectionMode="single" (onNodeSelect)="nodeSelect($event)" [(selection)]="selected"
+          scrollHeight="75vh" [virtualScroll]="true" [virtualScrollItemSize]="40">  
+
+          <ng-template pTemplate="category" let-category>
+            <b>{{category.label}}</b>
+          </ng-template>
+          <ng-template pTemplate="group" let-group>
+            <div class="flex align-items-center justify-content-between">
+              <span>
+                {{ showDisplayName(group.data?.displayName || group.label) | truncate:24 }}
+              </span>
+              <span class="flex gap-3">
+                <ng-container *ngIf="group.data.dynamic; else systemGroup">
+                  <span class="buttons" (click)="editGroup(group)">
+                    <i class="fa fa-edit text-primary"></i>
+                  </span>
+                  <span class="buttons" (click)="deleteGroup(group)">
+                    <i class="fa fa-trash" style="color: var(--danger-color);"></i>
+                  </span>
+                </ng-container>
+                <ng-template #systemGroup>
+                  <p-tag icon="fa fa-shield" severity="secondary" value="system" [rounded]="true"/>
+                </ng-template>
+              </span>
+            </div>
+          </ng-template>
+        </p-tree>
+      </div>
+      <div class="col-12 md:col-9 lg:col-9">
+        <div class="treeTableContainer">
+          <p-treeTable [value]="permissionsTree" [loading]="loading" #treeTable>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ 'TenantManagement::Permission:PermissionTable:Column:Name' | abpLocalization }}</th>
+                <th>{{ 'TenantManagement::Permission:PermissionTable:Column:DisplayName' | abpLocalization }}</th>
+                <th style="width: 80px"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr [ttRow]="rowNode">
+                <td>
+                  <div class="flex align-items-center justify-content-start">
+                      <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                      {{rowData?.name}} ({{rowData?.order}})
+                  </div>
+                </td>
+                <td>
+                  <div class="flex align-items-center justify-content-start">
+                      {{ showDisplayName(rowData?.displayName) }}
+                  </div>
+                </td>
+                <td style="width:80px">
+                  <ng-container *ngIf="rowData.dynamic !== true; else dynamic">
+                    <p-tag icon="fa fa-shield" severity="secondary" value="system" [rounded]="true"/>
+                  </ng-container>
+                  <ng-template #dynamic>
+                    <div class="column-content text-center gap-3">
+                      <span class="buttons m-2" (click)="editRow(rowNode.node)">
+                          <i class="fa fa-edit text-primary"></i>
+                      </span>
+                      <span class="buttons m-2" (click)="deleteRow(rowNode.node)">
+                        <i class="fa fa-trash" style="color: var(--danger-color);"></i>
+                      </span>
+                    </div>
+                  </ng-template>
+              </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr class="table-emptymessage">
+                  <td class="w-full" colspan="3">
+                    <div class="card w-full">
+                      <div class="card-body w-full text-center">
+                        {{ "TenantManagement::Permissions:List:Empty" | abpLocalization}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+            </ng-template>
+          </p-treeTable>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<p-dialog [resizable]="false" [header]="groupDialogTitle" [(visible)]="groupDialogShow"
+ [modal]="true" [draggable]="false" (visibleChange)="groupDialogVisibleChange($event)" *ngIf="group?.data">
+  <div class="dialog-standard">
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Permission:Category'| abpLocalization}}</label>
+      <div class="col-12 md:col-8 flex align-items-center gap-2">
+        <input type="text" pInputText [(ngModel)]="group.data.categoryName" class="w-full" *ngIf="group.createCustomCategory"
+          [ngClass]="{'ng-invalid ng-dirty': group.validators.categoryEmpty}" (input)="resetGroupValidators()"/>
+        <p-select [options]="categoryList" [(ngModel)]="group.data.categoryName" [showClear]="false" *ngIf="!group.createCustomCategory"
+          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
+          optionValue="value" optionLabel="name" (onChange)="resetPermissionValidators()">
+        </p-select>
+        <p-checkbox [binary]="true" [(ngModel)]="group.createCustomCategory" [disabled]="loading"
+          [label]="'TenantManagement::New' | abpLocalization">
+        </p-checkbox>
+      </div>
+    </div>
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Permission:Name'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="group.data.name" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': group.validators.nameEmpty}" (input)="resetGroupValidators()" />
+      </div>
+    </div>
+    <div class="mt-2 flex gap-3" style="justify-content: end;">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" 
+      (onClick)="closeGroupDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button> 
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+          (onClick)="saveGroup()" [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog [resizable]="false" [header]="permissionDialogTitle" [(visible)]="permissionDialogShow" *ngIf="customPermission?.data"
+ [modal]="true" [draggable]="false" (visibleChange)="permissionDialogVisibleChange($event)">
+  <div class="dialog-standard">
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Permission:Parent'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <p-select [options]="parentList" [(ngModel)]="customPermission.data.parentName" [showClear]="false" (onChange)="resetPermissionValidators()"
+          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
+          optionValue="value" optionLabel="name" [ngClass]="{'ng-invalid ng-dirty': customPermission.validators.parentNotSelected}">
+        </p-select>
+      </div>
+    </div>
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Permission:PermissionKey'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="customPermission.data.displayName" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': customPermission.validators.permissionKeyInvalid}" (input)="resetPermissionValidators()" />
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Permission:PermissionName'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="customPermission.data.name" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': customPermission.validators.permissionNameInvalid}" (input)="resetPermissionValidators()" />
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Permission:Order'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <p-inputNumber [style]="{'width':'100%'}"
+            [inputStyle]="{'width':'100%'}" [step]="1" [min]="0" class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': customPermission.validators.orderInvalid}" (onInput)="resetPermissionValidators()"
+            [showButtons]="true" [(ngModel)]="customPermission.data.order">
+          </p-inputNumber>
+      </div>
+    </div>
+
+    <div class="mt-2 flex gap-3" style="justify-content: end;">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" 
+      (onClick)="closePermissionDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button> 
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+          (onClick)="savePermission()" [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

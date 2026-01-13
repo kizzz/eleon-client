@@ -1,0 +1,60 @@
+
+:host ::ng-deep .p-tag.completed {
+  background: var(--green-800);
+}
+
+:host ::ng-deep .p-tag.new {
+  background: var(--yellow-500);
+}
+
+:host ::ng-deep .p-tag.executing {
+  background: var(--orange-500);
+}
+
+:host ::ng-deep .p-tag.executingfailed {
+  background: var(--red-500);
+}
+
+:host ::ng-deep .p-tag.errored {
+  background: var(--red-500);
+}
+
+.blue-linear-gradient{
+  background: rgb(7,212,224) !important;;
+  background: linear-gradient(90deg, rgba(7,212,224,0.09287464985994398) 0%, rgba(20,194,238,0.4066001400560224) 50%, rgba(62,250,255,0.6306897759103641) 100%) !important;;
+}
+
+.blue-grey-linear-gradient{
+  background: rgb(107,232,240) !important;;
+  background: linear-gradient(90deg, rgba(107,232,240,0.09287464985994398) 0%, rgba(133,220,242,0.45702030812324934) 50%, rgba(195,225,226,0.7147233893557423) 100%) !important;;
+}
+.orange-linear-gradient{
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(245,169,4,0.3561799719887955) 0%);
+}
+
+
+:host ::ng-deep .loading .p-tabpanels {
+  position: relative;
+  background-color: rgb(5 5 8 / 39%);
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+:host ::ng-deep .p-tabpanels {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+
+.text-danger {
+  color: var(--red-500);
+}
+
+.text-info {
+  color: var(--blue-500);
+}
+.tab-container {
+  height: 550px;
+  overflow-y: auto;
+}

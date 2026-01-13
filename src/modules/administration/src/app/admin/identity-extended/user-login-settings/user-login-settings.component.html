@@ -1,0 +1,29 @@
+<p-dialog [resizable]="false" [(visible)]="showDialog" (visibleChange)="showDialogChange.emit($event)"
+  [header]="'TenantManagement::UserLoginSettings' | abpLocalization" [modal]="true">
+  <div *ngIf="showDialog" class="wrapper">
+    <p-tabs [(activeIndex)]="currentTabIx">
+      <p-tablist>
+        <p-tab value="0">{{'TenantManagement::UserLoginSettings:UserCertificateIsolation' | abpLocalization}}</p-tab>
+        <p-tab value="1">{{'TenantManagement::UserLoginSettings:UserOtpSettings' | abpLocalization}}</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+         <p-tabpanel value="0">
+          <app-user-isolation-settings [user]="user"></app-user-isolation-settings>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+          <app-user-otp-settings [user]="user"></app-user-otp-settings>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end mt-4 gap-2">
+      <button (click)="cancel()" pButton icon="fa fa-times" [label]="'Infrastructure::Cancel' | abpLocalization"
+        class="p-button-secondary mr-3" iconPos="left" [disabled]="loading"></button>
+      <button (click)="save()" pButton [icon]="loading ? 'fa fa-spin fa-spinner' : 'fa fa-check'"
+        [label]="'Infrastructure::Save' | abpLocalization" [disabled]="loading"
+        class="p-button-primary mr-3" iconPos="left"></button>
+    </div>
+  </ng-template>
+</p-dialog>

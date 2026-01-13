@@ -1,0 +1,10 @@
+<app-control-delegation-list [loading]="loading" [userTemplate]="activeDelegationUser"
+  [controlDelegations]="activeDelegations" [rowAdded]="addDelegation" [rowRemoved]="disableDelegation" (reloadEvent)="reload($event)"
+  [rowEdited]="updateDelegation" (userSelected)="onUserSelected($event.row, $event.user)" [showLastLogin]="true">
+</app-control-delegation-list>
+<ng-template #activeDelegationUser let-row>
+  <span>{{row.data.delegatedToUserName}}</span>
+</ng-template>
+
+<app-control-delegation-creation-dialog #creationDialog
+  (added)="onDelegationAdded()"></app-control-delegation-creation-dialog>

@@ -1,0 +1,72 @@
+<p-table
+  class="w-full"
+  [value]="notifications"
+  [lazy]="true"
+  [virtualScroll]="true"
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  [rowHover]="true"
+  [loading]="loading"
+  [virtualScrollItemSize]="virtualScrollItemSize"
+  scrollHeight="25rem"
+  (onLazyLoad)="loadNotifications($event)"
+>
+  <ng-template pTemplate="body" let-notification>
+    <tr
+      class="cursor-pointer hover:bg-gray-100"
+      (click)="openNotificationDialog(notification)"
+    >
+      <td appResponsiveColumn="20">
+        <i class="fa fa-envelope text-gray-500 mr-2"></i>
+      </td>
+      <td>
+        <app-ellipsis
+          class="w-full"
+          [text]="localizeNotificationContent(notification)"
+        >
+        </app-ellipsis>
+      </td>
+      <td appResponsiveColumn="20">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          *ngIf="notification.isRedirectEnabled"
+          icon="pi pi-arrow-circle-right"
+          styleClass="p-button-rounded p-button-text p-0 pl-1 button-inline-sized"
+          (click)="
+            redirectByNotification(notification); $event.stopPropagation()
+          "
+          [pTooltip]="
+            'NotificatorModule::NotificationViewer:RedirectTo'
+              | abpLocalization : notification.redirectUrl
+          "
+          tooltipPosition="top"
+        >
+        </p-button>
+      </td>
+      <td appResponsiveColumn="75">
+        <span
+          class="w-full col-3 p-0 text-center badge badge-light text-md font-bold text-gray-500 flex align-items-center justify-content-end"
+        >
+          {{ notification.creationTime | notificationDate }}
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="2">
+        <div class="text-center text-gray-400 mt-5 text-lg font-bold">
+          {{ 'NotificatorModule::NoNotifications' | abpLocalization }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<app-notification-details-dialog
+  [(visible)]="showMessageDetailsDialog"
+  [notification]="selectedNotification"
+  (closed)="onNotificationDialogClosed()"
+>
+</app-notification-details-dialog>

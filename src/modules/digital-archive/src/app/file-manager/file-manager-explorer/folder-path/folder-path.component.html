@@ -1,0 +1,15 @@
+<div class=" flex align-items-center justify-content-between breadcrumb-wrapper">
+  <div class="breadcrumb-controls">
+    <div class="flex gap-1">
+      <i class="fa fa-arrow-up text-primary icon-button" role="button" (click)="up()"
+      [pTooltip]="'FileManager::Up'| abpLocalization" tooltipPosition="top">
+      </i>
+      <i class="fa fa-rotate-right text-primary icon-button" role="button" (click)="refresh()"
+        [pTooltip]="'FileManager::Reload'| abpLocalization" tooltipPosition="top">
+      </i>
+    </div>
+  </div>
+  <div  *ngIf="folderPaths?.length > 0">
+    <p-breadcrumb class="max-w-full" [model]="breadcrumbs" [home]="home"></p-breadcrumb>
+  </div>
+</div>

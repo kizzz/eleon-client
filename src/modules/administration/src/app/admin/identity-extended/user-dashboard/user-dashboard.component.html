@@ -1,0 +1,204 @@
+<app-page-title
+  [title]="'TenantManagement::User:Dashboard:Title' | abpLocalization"
+  icon="fas fa-users"
+>
+</app-page-title>
+<div class="content">
+  <div #tableCard>
+    <p-table
+      *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+      [scrollable]="scrollable"
+      [responsive]="true"
+      responsiveLayout="stack"
+      [breakpoint]="breakpoint"
+      scrollDirection="both"
+      class="data-table"
+      [lazy]="true"
+      (onLazyLoad)="loadUsers($event)"
+      [rows]="rowsCount"
+      styleClass="pr-table"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [value]="rows"
+      [paginator]="true"
+      sortMode="single"
+      sortField="Name"
+      sortOrder="-1"
+      [rowHover]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid mt-0">
+          <div
+            class="col-12 md:col-6 md:pl-4 p-0 flex align-items-center justify-content-end"
+          >
+            <div class="p-inputgroup">
+              <input
+                type="text"
+                pInputText
+                #searchField
+                placeholder="{{ 'Infrastructure::Search' | abpLocalization }}"
+                name="random-user-search-field"
+                form="off"
+                spellcheck="false"
+                autocomplete="new-text"
+                [(ngModel)]="searchQueryText"
+              />
+              <button
+                type="button"
+                (click)="search($event)"
+                pButton
+                pRipple
+                icon="pi pi-search"
+                styleClass="p-button-info"
+                class="p-button-text"
+              ></button>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-times-circle"
+                class="p-button-danger p-button-text"
+                (click)="clear($event)"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 170px" class="text-center">
+            {{ 'TenantManagement::User:Actions' | abpLocalization }}
+          </th>
+          <th [appResponsiveColumn]="20">
+            {{ 'TenantManagement::User:Id' | abpLocalization }}
+          </th>
+          <th pSortableColumn="name">
+            {{ 'TenantManagement::User:Name' | abpLocalization }}
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="userName">
+            {{ 'TenantManagement::User:Username' | abpLocalization }}
+            <p-sortIcon field="userName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email">
+            {{ 'TenantManagement::User:ContactEmail' | abpLocalization }}
+            <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="phoneNumber">
+            {{ 'TenantManagement::User:Phonenumber' | abpLocalization }}
+            <p-sortIcon field="phoneNumber"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="100" pSortableColumn="isActive">
+            <span class="w-full text-center">
+              {{ 'TenantManagement::User:IsActive' | abpLocalization }}
+              <p-sortIcon field="isActive"></p-sortIcon>
+            </span>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td style="width: 170px">
+            <div class="column-content">
+              <p-splitButton
+                #splitButton
+                icon="fa fa-cog"
+                appendTo="body"
+                (onClick)="click(splitButton, $event); selectUser(row)"
+                [label]="'TenantManagement::User:Actions' | abpLocalization"
+                [model]="items"
+                (onDropdownClick)="selectUser(row)"
+                raised text
+              >
+              </p-splitButton>
+            </div>
+          </td>
+          <td>
+            <span class="column-content">
+              <i
+                class="pi pi-copy text-primary cursor-pointer"
+                pTooltip="{{ row.id }}"
+                tooltipPosition="top"
+                tooltipClass="tooltip-one-line"
+                (click)="copyId(row.id, $event); $event.stopPropagation()"
+              >
+              </i>
+            </span>
+          </td>
+          <td>
+            <span class="column-content flex align-items-center gap-3">
+              <app-profile-picture
+                [userId]="row.id"
+                class="big-width-only"
+              ></app-profile-picture>
+              {{ row.name }} {{ row.surname || '' }}
+            </span>
+          </td>
+          <td>
+            <span class="column-content">
+              {{ row.userName }}
+            </span>
+          </td>
+          <td>
+            <span class="column-content">
+              {{ row.email }}
+            </span>
+          </td>
+          <td>
+            <span class="column-content">
+              {{ row.phoneNumber }}
+            </span>
+          </td>
+
+          <td appResponsiveColumn="100" class="text-center">
+            <span class="non-editing-only p-column-title">
+              {{ 'TenantManagement::User:IsActive' | abpLocalization }}
+            </span>
+            <span class="column-content">
+              <i
+                *ngIf="row.isActive"
+                class="pi pi-check-circle"
+                style="font-size: medium; color: #22c55e"
+              >
+              </i>
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="5">
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header text-center">
+                  <span *ngIf="!searchQueryText?.length">
+                    {{ 'TenantManagement::User:NoRows' | abpLocalization }}
+                  </span>
+                  <span *ngIf="searchQueryText?.length > 0">
+                    {{ 'TenantManagement::User:NoRowsFound' | abpLocalization }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<app-identity-user-extended></app-identity-user-extended>
+<app-user-details-dialog
+  *ngIf="displayCreateDialog"
+  (closeEvent)="closeCreateModal($event)"
+  [showDialog]="displayCreateDialog"
+>
+</app-user-details-dialog>
+
+<app-user-details-dialog
+  *ngIf="displayEditDialog"
+  [editedUser]="selectedUser"
+  (closeEvent)="closeEditModal($event)"
+  [showDialog]="displayEditDialog"
+>
+</app-user-details-dialog>

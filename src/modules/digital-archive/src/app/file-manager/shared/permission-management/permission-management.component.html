@@ -1,0 +1,83 @@
+<p-tabs [(value)]="activeIndex">
+  <p-tablist>
+    <p-tab [value]="0">
+      <span class="flex">
+        <i class="fas fa-users hidden md:inline-flex"></i>
+        <i class="fas fa-users hidden inline-flex md:hidden pr-3 pl-3"></i>
+        <span class="hidden md:inline-flex pr-3 pl-3">
+          {{'FileManager::Permissions:Users' | abpLocalization}}
+        </span>
+      </span>
+    </p-tab>
+    <p-tab [value]="1">
+      <span class="flex">
+        <i class="fas fa-user-tag hidden md:inline-flex"></i>
+        <i class="fas fa-user-tag hidden inline-flex md:hidden pr-3 pl-3"></i>
+        <span class="hidden md:inline-flex pr-3 pl-3">
+          {{'FileManager::Permissions:Roles' | abpLocalization}}
+        </span>
+      </span>
+    </p-tab>
+    <p-tab [value]="2">
+      <span class="flex">
+        <i class="fa fa-sitemap hidden md:inline-flex"></i>
+        <i class="fa fa-sitemap hidden inline-flex md:hidden pr-3 pl-3"></i>
+        <span class="hidden md:inline-flex pr-3 pl-3">
+          {{'FileManager::Permissions:OrganizationUnits' | abpLocalization}}
+        </span>
+      </span>
+    </p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel [value]="0">
+      <app-permission-management-table #ut [permissions]="permissionGroups[actorTypes.User]"
+        [defaultPermissions]="[permissionDefaultGroups[actorTypes.Role]]"
+        [header]="'FileManager::Permissions:Users' | abpLocalization" (reloadEvent)="reload($event)"
+        [archiveId]="config.data.archiveId" [folderId]="config.data.folderId" [actorType]="actorTypes.User"
+        [loading]="loading" [newActorId]="selectedUser?.id" [newActorDisplayName]="selectedUser?.name"
+        *ngIf="activeIndex === 0">
+
+        <div class="d-flex justify-content-end align-items-center">
+            <p-button [pTooltip]="'Infrastructure::OrganizationUnit:Members:Add' | abpLocalization"
+              icon="pi pi-plus" [label]="'Infrastructure::OrganizationUnit:Members:Add' | abpLocalization"
+              tooltipPosition="top" [raised]="true" [text]="true" styleClass="p-button-sm"
+              (click)="showUserSelection(ut)">
+            </p-button>
+        </div>
+      </app-permission-management-table>
+    </p-tabpanel>
+    <p-tabpanel [value]="1">
+      <app-permission-management-table #ur [permissions]="permissionGroups[actorTypes.Role]"
+        [defaultPermissions]="[permissionDefaultGroups[actorTypes.Role]]"
+        [header]="'FileManager::Permissions:Roles' | abpLocalization" (reloadEvent)="reload($event)"
+        [archiveId]="config.data.archiveId" [folderId]="config.data.folderId" [actorType]="actorTypes.Role"
+        [loading]="loading" [newActorId]="selectedRole?.id" [newActorDisplayName]="selectedRole?.name"
+        *ngIf="activeIndex === 1">
+
+        <div class="d-flex justify-content-end align-items-center">
+              <p-button [pTooltip]="'Infrastructure::OrganizationUnit:Members:Add' | abpLocalization" icon="pi pi-plus"
+                tooltipPosition="top" [label]="'Infrastructure::OrganizationUnit:Roles:Add' | abpLocalization"
+                [raised]="true" [text]="true" styleClass="p-button-sm"
+                (click)="showRoleSelection(ur)">
+              </p-button>
+            </div>
+      </app-permission-management-table>
+    </p-tabpanel>
+    <p-tabpanel [value]="2">
+      <app-permission-management-table #uo [permissions]="permissionGroups[actorTypes.OrganizationUnit]"
+        [defaultPermissions]="[permissionDefaultGroups[actorTypes.OrganizationUnit]]"
+        [header]="'FileManager::Permissions:OrganizationUnits' | abpLocalization" (reloadEvent)="reload($event)"
+        [archiveId]="config.data.archiveId" [folderId]="config.data.folderId" [actorType]="actorTypes.OrganizationUnit"
+        [loading]="loading" [newActorId]="selectedOrgUnit?.id" [newActorDisplayName]="selectedOrgUnit?.displayName"
+        *ngIf="activeIndex === 2">
+        <div class="d-flex justify-content-end align-items-center">
+              <p-button [pTooltip]="'Infrastructure::OrganizationUnit:Add' | abpLocalization" icon="pi pi-plus"
+                tooltipPosition="top" [label]="'Infrastructure::OrganizationUnit:Add' | abpLocalization"
+                [raised]="true" [text]="true" styleClass="p-button-sm"
+                (click)="showOrgUnitSelection(uo)">
+              </p-button>
+            </div>
+      </app-permission-management-table>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -1,0 +1,19 @@
+<div *ngIf="!isHidden" class="layout-sidebar" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <div class="layout-sidebar-top">
+
+        <a class="layout-topbar-logo" routerLink="/">
+            <ec-container [key]="'layout-primeng-logo'"></ec-container>
+
+        </a>
+        <button class="layout-sidebar-anchor p-link" type="button" (click)="anchor()"></button>
+    </div>
+    <app-menu-profile #menuProfileStart *ngIf="menuProfilePosition === 'start'"></app-menu-profile>
+    
+    <div #menuContainer class="layout-menu-container gap-2" [ngClass]="{'flex-row': isStatic, 'flex': isHorizontal}">
+      <ec-container [key]="'layout-primeng-sidebar-menu'"></ec-container>
+      <div>
+        <app-menu></app-menu>
+      </div>
+    </div>
+    <app-menu-profile #menuProfileEnd *ngIf="menuProfilePosition === 'end' && menuMode !== 'horizontal'"></app-menu-profile>
+</div>

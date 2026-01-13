@@ -1,0 +1,34 @@
+<div class="h-full dialog-standard">
+
+    <!-- <h2 *ngIf="setting.permissionType === FileShareStatus.None"> {{ 'FileManager::ChoosingSharingType' | abpLocalization }}  </h2> -->
+    <!-- <h2 *ngIf="setting.permissionType !== FileShareStatus.None">
+      <i [class]="fileShareIcons[setting.permissionType]"></i>
+      {{ 'FileManager::SharePermissions' | abpLocalization }}
+    </h2> -->
+    <div class="col-12 px-0">
+        <div class="grid flex align-items-center">
+            <div class="col-4">
+                <span appRequired>
+                  {{ 'FileManager::PermissionType' | abpLocalization }}
+                </span>
+            </div>
+            <div class="col-8">
+              <p-select [options]="options" optionValue="value" optionLabel="key" [(ngModel)]="newPermissionType"
+                  appendTo="body" autoWidth="false" [style]="{'width':'100%'}" class="w-full"></p-select>
+            </div>
+        </div>
+    </div>
+    <div class="w-full flex justify-content-end gap-3 align-items-center">
+        <p-button [text]="true" [raised]="true" *ngIf="setting.permissionType !== FileShareStatus.None"
+            icon="pi pi-times-circle" styleClass="p-button-danger text-red-400"
+            [label]="'FileManager::Share:CancelFileChanges' | abpLocalization" (click)="cancel()" [loading]="loading">
+        </p-button>
+        <p-button (click)="close()" [label]="'Infrastructure::Cancel' | abpLocalization" [text]="true"
+            [raised]="true" [disabled]="loading" [loading]="loading" severity="secondary" icon="fa fa-times">
+        </p-button>
+        <p-button [text]="true" [raised]="true" *ngIf="setting.permissionType === FileShareStatus.None"
+            icon="pi pi-share-alt" [label]="'FileManager::Share' | abpLocalization" (click)="share()"
+            [loading]="loading" [disabled]="loading">
+        </p-button>
+    </div>
+</div>

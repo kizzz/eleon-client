@@ -1,0 +1,73 @@
+<p-dialog [resizable]="false" [(visible)]="showDialog" [header]="'TenantManagement::TenantSettings:HostnameSettings' | abpLocalization"
+  [modal]="true">
+  <div *ngIf="showDialog" class="wrapper">
+    <p-table [loading]="loading" [value]="hostnames" rowsEditor [(editableRows)]="hostnames" [rowAdded]="addHostname"
+          [rowEdited]="editHostname" [rowRemoved]="deleteHostname" [rowFactory]="hostnameRowFactory" dataKey="data.id"
+          [paginator]="true" [rows]="rowsCount" [totalRecords]="totalRecords" >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{'TenantManagement::TenantSettings:HostnameSettings:Hostname' | abpLocalization}}</th>
+          <!-- <th>{{'TenantManagement::TenantSettings:HostnameSettings:Default' | abpLocalization}}</th> -->
+          <!-- <th>{{'TenantManagement::TenantSettings:HostnameSettings:IsSsl' | abpLocalization}}</th> -->
+          <!-- <th>{{'TenantManagement::TenantSettings:HostnameSettings:AcceptsClientCertificate' | abpLocalization}}</th> -->
+          <app-table-header-controls></app-table-header-controls>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-hostname let-editing="editing">
+        <tr [pEditableRow]="hostname">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <div class="flex w-100 gap-2">
+                  <div class="field grid w-full mb-0 gap-3">
+                    <p-select class="col-12 mb-2 md:col-2 md:mb-0" [options]="availableProtocolsList" [(ngModel)]="hostname.isSsl" [showClear]="false"
+                      appendTo="body" [filter]="false" autoWidth="false" [disabled]="loading"
+                      optionValue="value" optionLabel="name">
+                    </p-select>
+
+                    <input class="col-12 md:col-9" pInputText [(ngModel)]="hostname.domain" [ngClass]="{'ng-invalid ng-dirty': hostname.validators.domainRequired || hostname.validators.domainInvalid}">
+                  </div>
+
+                  <!-- <div class="flex flex-column align-items-center gap-2 w-100"> -->
+                    <!-- <label for="port">{{'TenantManagement::TenantSettings:HostnameSettings:Port' | abpLocalization}}</label> -->
+                      <!-- <input  id="port" pInputText class="w-100" [(ngModel)]="hostname.port" 
+                        [ngClass]="{'ng-invalid ng-dirty': hostname.validators.port}"> -->
+                    <!-- <div class="p-inputgroup w-full flex w-100">
+                      <input style="min-width:0" class="no-select flex-1 w-100" [value]="hostname.certificateFileName"
+                        [placeholder]="'TenantManagement::TenantSettings:HostnameSettings:Certificate' | abpLocalization"
+                        type="text" pInputText [ngClass]="{'ng-invalid ng-dirty': hostname.validators.certificate}" />
+                      <p-fileUpload mode="basic" maxFileSize="1000000" [customUpload]="true"
+                        (uploadHandler)="uploadFile(hostname, $event)" [auto]="true"
+                        [chooseLabel]="(hostname.certificateFileName ? 'Infrastructure::Change' : 'Infrastructure::Browse') | abpLocalization"
+                        [chooseIcon]="certificateFileName ? 'pi pi-file-edit' : 'pi pi-file-import' ">
+                      </p-fileUpload>
+                    </div> -->
+                    <!-- <input pInputText
+                      [placeholder]="'TenantManagement::TenantSettings:HostnameSettings:CertificatePassword' | abpLocalization"
+                      type="password" class="w-100" [(ngModel)]="hostname.certificatePassword"> -->
+                  <!-- </div> -->
+                </div>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ hostname.data.url }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <!-- <td>
+            <p-checkbox [(ngModel)]="hostname.data.acceptsClientCertificate" [readonly]="!editing"
+              binary="true"></p-checkbox>
+          </td> -->
+          <!-- <td>
+            <p-checkbox [(ngModel)]="hostname.data.default" [readonly]="!editing" binary="true"></p-checkbox>
+          </td> -->
+          <!-- <td>
+            <p-checkbox [(ngModel)]="hostname.data.isSsl" [readonly]="!editing"
+            binary="true"></p-checkbox>
+          </td> -->
+          <app-table-row-controls [displayRemove]="!hostname.data.internal"
+            [displayEdit]="!hostname.data.internal"></app-table-row-controls>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>

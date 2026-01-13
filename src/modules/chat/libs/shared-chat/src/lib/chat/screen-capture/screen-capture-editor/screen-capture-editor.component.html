@@ -1,0 +1,16 @@
+<p-dialog [resizable]="false" [header]="'Infrastructure::EditScreenshot' | abpLocalization" [(visible)]="showDialog"
+  (visibleChange)="onShowDialogChange($event)" [modal]="true">
+  <div class="wrapper flex flex-column gap-3 align-items-center">
+    <app-image-drawer-box #drawer *ngIf="showDialog" [width]="drawerWidth" [height]="drawerHeight" [src]="src" (save)="onSave($event)"
+      (cancel)="onCancel()">
+    </app-image-drawer-box>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="w-100 flex align-items-center justify-content-between">
+      <p-button [text]="true" [raised]="true" icon="fa fa-times" [label]="'Infrastructure::Cancel' | abpLocalization" (click)="onCancel()"
+        styleClass="p-button-outlined p-button-warning"></p-button>
+      <p-button [text]="true" [raised]="true" icon="pi pi-check" [label]="'Infrastructure::OK' | abpLocalization" (click)="save()"
+        styleClass="p-button-outlined"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>

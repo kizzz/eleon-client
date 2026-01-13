@@ -1,0 +1,36 @@
+<p-dialog [resizable]="false" [(visible)]="showDialog" (visibleChange)="showDialogChange.emit($event)"
+  [header]="'TenantManagement::TenantSettings:ClientIsolationSettings' | abpLocalization" [modal]="true">
+  <div *ngIf="showDialog" class="wrapper">
+    <div class="flex flex-column align-items-start gap-2 w-100">
+      <div class="flex align-items-start my-3">
+        <p-checkbox [(ngModel)]="data.enabled" binary="true"
+          [label]="'TenantManagement::TenantSettings:ClientIsolationSettings:Enabled' | abpLocalization"></p-checkbox>
+      </div>
+      <div *ngIf="data.enabled" class="p-inputgroup w-full flex w-100">
+        <input style="min-width:0" class="no-select flex-1 w-100" [value]="data.certificateFileName"
+          [placeholder]="'TenantManagement::TenantSettings:HostnameSettings:Certificate' | abpLocalization" type="text"
+          pInputText [ngClass]="{'ng-invalid ng-dirty': data.validators.certificate}" />
+        <p-fileUpload mode="basic" maxFileSize="1000000" [customUpload]="true" (uploadHandler)="uploadFile($event)"
+          [auto]="true"
+          [chooseLabel]="(data.certificateFileName ? 'Infrastructure::Change' : 'Infrastructure::Browse') | abpLocalization"
+          [chooseIcon]="data.certificateFileName ? 'pi pi-file-edit' : 'pi pi-file-import' ">
+        </p-fileUpload>
+      </div>
+      <input *ngIf="data.enabled" pInputText
+        [placeholder]="'TenantManagement::TenantSettings:HostnameSettings:CertificatePassword' | abpLocalization"
+        type="password" class="w-100" [(ngModel)]="data.password">
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-between gap-3">
+      <p-button [text]="true" [raised]="true" [disabled]="loading" (click)="cancel()"
+        icon="pi pi-times"
+        label="{{'Infrastructure::Cancel' | abpLocalization}}" styleClass="p-button-secondary">
+      </p-button>
+      <p-button [text]="true" [raised]="true" [disabled]="loading" (click)="save()" icon="fa fa-check"
+         label="{{'Infrastructure::Save' | abpLocalization}}" styleClass="p-button-primary">
+        </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

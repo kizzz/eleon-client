@@ -1,0 +1,8 @@
+<div class="flex flex-column align-items-center w-full gap-4">
+  <p-select [options]="providers" [(ngModel)]="selectedProvider" optionLabel="name" [style]="{width: '100%'}"
+    [placeholder]="'TenantManagement::SelectExternalLoginProvider' | abpLocalization" class="w-full"
+    appendTo="body"></p-select>
+  <app-tenant-external-login-provider-settings *ngIf="selectedProvider?.data?.type !== localProviderType" [provider]="selectedProvider.data"
+    class="w-full">
+  </app-tenant-external-login-provider-settings>
+</div>

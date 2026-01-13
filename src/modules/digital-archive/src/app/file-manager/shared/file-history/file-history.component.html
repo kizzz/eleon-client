@@ -1,0 +1,79 @@
+
+
+<!-- <span class="p-dialog-title">
+  <span [class]="config?.data?.headerIcon"></span>
+  {{ config?.data?.header}}
+</span>
+<div class="p-dialog-header-icons">
+  <button [ngClass]="'p-dialog-header-icon p-dialog-header-maximize p-link'" type="button"
+    role="button" (click)="close()">
+    <TimesIcon [styleClass]="'p-dialog-header-close-icon'"/>
+  </button>
+</div> -->
+
+<p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+  [scrollable]="scrollable" [breakpoint]="breakpoint" [responsive]="true" responsiveLayout="stack" scrollDirection="both"
+  styleClass="pr-table"[loading]="loading" [value]="files" [paginator]="true" [rows]="5" style="min-height: 200px;" dataKey="id">
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="text-center">{{ 'FileManager::Name' | abpLocalization }}</th>
+      <th class="text-center" style="width: 8rem;">{{ 'FileManager::Type' | abpLocalization }}</th>
+      <th class="text-center" style="width: 6rem;">{{ 'FileManager::Size' | abpLocalization }}</th>
+      <th class="text-center" style="width: 180px;">{{ 'FileManager::LastModified' | abpLocalization }}</th>
+      <th class="text-center" style="width: 200px;">{{ 'FileManager::ModifiedBy' | abpLocalization }}</th>
+      <th class="text-center" style="width:1rem;"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-file>
+    <tr [pEditableRow]="reviewer">
+      <td>
+        <span class="non-editing-only p-column-title">
+          {{'FileManager::Name' | abpLocalization}}
+        </span>
+        <div class="column-content textAlign flex gap-2">
+          <div>
+            <i [ngClass]="getIconFile(file)" style="font-size: medium;"></i>
+          </div>
+          <app-ellipsis [text]="file.name"></app-ellipsis>
+        </div>
+      </td>
+      <td class="md:text-center lg:text-center sm:textAlign" style="width: 6rem;">
+        <span class="non-editing-only p-column-title">
+          {{'FileManager::Type' | abpLocalization}}
+        </span>
+        <span class="column-content">
+          {{ docViewer.resolveContentTypeName(file.name) | truncate }}
+        </span>
+      </td>
+      <td class="md:text-center lg:text-center sm:textAlign" style="width: 6rem;">
+        <span class="non-editing-only p-column-title">
+          {{'FileManager::Size' | abpLocalization}}
+        </span>
+        <span class="column-content">
+          {{ file.size | fileSize }}
+        </span>
+      </td>
+      <td class="md:text-center lg:text-center sm:textAlign" style="width: 180px;">
+        <span class="non-editing-only p-column-title">
+          {{'FileManager::LastModified' | abpLocalization}}
+        </span>
+        <span class="column-content">
+          {{file.lastModificationTime | date:"dd/MM/yyyy hh:mm a"}}
+        </span>
+      </td>
+      <td style="width: 180px;">
+        <span class="non-editing-only p-column-title">
+          {{'FileManager::ModifiedBy' | abpLocalization}}
+        </span>
+        <div class="column-content textAlign flex align-items-center gap-2">
+          <app-profile-picture class="hidden md:block" [userId]="getUserId(file)"
+            *ngIf="getUserId(file)?.length > 0" size="medium"></app-profile-picture>
+            <app-ellipsis [text]="file.lastModifierName"></app-ellipsis>
+        </div>
+      </td>
+      <td class="text-center row-buttons" style="width:1rem">
+        <i class="pi pi-download mr-2 text-primary" role="button" (click)="download(file)"></i>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

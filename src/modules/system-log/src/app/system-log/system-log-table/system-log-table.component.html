@@ -1,0 +1,307 @@
+<p-panel [toggleable]="true" [collapsed]="true" toggler="header">
+  <ng-template pTemplate="header">
+    <i class="fa-solid fa-sliders text-gray-700 text-xl mr-2"></i>
+    <label *ngIf="filtersCount > 0" class="font-bold">
+      {{ 'SystemLog::AppliedFilters' | abpLocalization : filtersCount }}
+    </label>
+    <label *ngIf="filtersCount < 1" class="font-bold">
+      {{ 'SystemLog::NoFilters' | abpLocalization }}
+    </label>
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Clear' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="clear($event); $event.stopPropagation()"
+    >
+      <span class="pi pi-times"></span>
+    </button>
+  </ng-template>
+
+  <ng-template pTemplate="icons">
+    <button
+      [pTooltip]="'SystemLog::Tooltip:Reload' | abpLocalization"
+      tooltipPosition="top"
+      class="p-panel-header-icon p-link mr-2"
+      (click)="onLoadLogs(lastLazyLoadEvent); $event.stopPropagation()"
+    >
+      <span class="pi pi-refresh"></span>
+    </button>
+  </ng-template>
+  <div class="grid">
+    <div class="grid field col-12 m-0 md:col-4">
+      <label>{{ 'Infrastructure::Search' | abpLocalization }}</label>
+      <input
+        [(ngModel)]="searchQueryText"
+        [disabled]="loading"
+        type="text"
+        pInputText
+        [style]="{ width: '100%' }"
+        maxlength="230"
+        [placeholder]="'Infrastructure::Search' | abpLocalization"
+        (keyup.enter)="search($event)"
+      />
+    </div>
+    <div class="grid field col-12 m-0 md:col-4">
+      <label>{{ 'SystemLog::LogList:Date' | abpLocalization }}</label>
+      <div class="p-inputgroup">
+        <p-datepicker
+          #cal
+          appCalendarButtonClass
+          class="w-full"
+          selectionMode="range"
+          [showIcon]="true"
+          [placeholder]="'SystemLog::LogList:SelectDateRange' | abpLocalization"
+          [(ngModel)]="dateRangeFilter"
+          [disabled]="loading"
+          [maxDate]="maxSelectableDate"
+          [style]="{ 'text-align': 'center' }"
+          [readonlyInput]="true"
+          (onSelect)="onDateRangeSelected(cal)"
+        >
+        </p-datepicker>
+      </div>
+    </div>
+    <div *ngIf="!isSystemAlerts" class="grid field col-12 m-0 md:col-4">
+      <label>{{ 'SystemLog::LogList:Status' | abpLocalization }}</label>
+      <div class="p-inputgroup">
+        <p-select
+          [options]="logLevelOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="{{ 'SystemLog::LogList:MinLogLevel' | abpLocalization }}"
+          [(ngModel)]="minLogLevel"
+          [disabled]="loading"
+          class="w-full"
+          fluid
+        >
+        </p-select>
+      </div>
+    </div>
+    <div class="grid field col-12 m-0 md:col-4" *ngIf="isSystemAlerts">
+      <label class="col-12 pl-0">{{
+        'SystemLog::ShowResolvedLogs' | abpLocalization
+      }}</label>
+      <p-select
+        class="col-12 pl-0"
+        [options]="showResolvedOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="{{ 'SystemLog::ShowResolvedLogs' | abpLocalization }}"
+        [(ngModel)]="showResolvedLogs"
+        [disabled]="loading"
+        (onChange)="onLoadLogs(lastLazyLoadEvent)"
+        fluid
+      ></p-select>
+    </div>
+    <div class="col-12 flex">
+      <div class="p-inputgroup justify-content-end">
+        <p-button
+          [text]="true"
+          (click)="search($event)"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Search' | abpLocalization"
+          icon="pi pi-search"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          (click)="clear($event)"
+          class="lg:mr-3"
+          styleClass="p-button"
+          [label]="'Infrastructure::Clear' | abpLocalization"
+          icon="pi pi-times"
+        >
+        </p-button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+
+<p-table
+  #logs
+  *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+  [scrollable]="scrollable"
+  [breakpoint]="breakpoint"
+  selectionMode="multiple"
+  [(selection)]="selectedLogs"
+  [metaKeySelection]="false"
+  responsiveLayout="stack"
+  [value]="filteredItems"
+  (onLazyLoad)="onLoadLogs($event)"
+  [lazy]="true"
+  [rows]="rowsCount"
+  [loading]="loading || jobRetrying"
+  [showCurrentPageReport]="true"
+  [paginator]="true"
+  [pageLinks]="3"
+  [totalRecords]="totalRecords"
+  sortOrder="-1"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th appResponsiveColumn="20" *ngIf="isSystemAlerts">
+        <p-tableHeaderCheckbox
+          *ngIf="!showResolvedLogs"
+        ></p-tableHeaderCheckbox>
+      </th>
+      <th appResponsiveColumn="10"></th>
+      <!-- <th style="width:120px" pSortableColumn="refKey">
+        <div>
+          {{'SystemLog::LogList:Doc' | abpLocalization}}
+          <p-sortIcon field="refKey"></p-sortIcon>
+        </div>
+      </th> -->
+      <th appResponsiveColumn="50">
+      </th>
+      <th>
+        <div>
+          {{ 'SystemLog::LogList:Message' | abpLocalization }}
+        </div>
+      </th>
+      <th appResponsiveColumn="150">
+        <div>
+          {{ 'SystemLog::LogList:ApplicationName' | abpLocalization }}
+        </div>
+      </th>
+      <!-- <th appResponsiveColumn="120">
+        <div>
+          {{'SystemLog::LogList:ModuleName' | abpLocalization}}
+        </div>
+      </th> -->
+      <th appResponsiveColumn="180">
+        <div>
+          {{ 'SystemLog::LogList:Date' | abpLocalization }}
+        </div>
+      </th>
+      <th appResponsiveColumn="10"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+    <tr (click)="onSelect(row)">
+      <td *ngIf="isSystemAlerts" style="width: 20px" (click)="$event.stopPropagation()">
+        <p-tableCheckbox
+          *ngIf="!showResolvedLogs"
+          [value]="row"
+        ></p-tableCheckbox>
+        <span *ngIf="showResolvedLogs && row.isArchived">
+          <i class="pi pi-check"></i>
+        </span>
+      </td>
+      <td style="width: 10px">
+        <div class="flex align-items-center">
+          <i
+            class="pi pi-copy text-primary cursor-pointer"
+            pTooltip="{{ row.id }}"
+            tooltipPosition="top"
+            tooltipClass="tooltip-one-line"
+            (click)="copyId(row.id, $event); $event.stopPropagation()"
+          >
+          </i>
+        </div>
+      </td>
+      <td
+        appResponsiveColumn="50"
+        class="justify-content-start"
+        style="text-align: center"
+      >
+        <div class="non-editing-only p-column-title" style="flex-basis: 25%">
+          <span>
+            {{ 'SystemLog::LogList:Severity' | abpLocalization }}
+          </span>
+        </div>
+        <div [ngClass]="{ adaptiveText: isMobile }" style="flex-basis: 75%">
+          <i
+                  class="fa fa-info-circle fa-lg"
+                  style="color: var(--blue-500)"
+                  *ngIf="row.logLevel === SystemLogLevel.Info"
+                ></i>
+                <i
+                  class="fa fa-exclamation-triangle fa-lg"
+                  style="color: var(--yellow-500)"
+                  *ngIf="row.logLevel === SystemLogLevel.Warning"
+                ></i>
+                <i
+                  class="fa fa-circle-exclamation fa-lg"
+                  style="color: var(--red-500)"
+                  *ngIf="row.logLevel === SystemLogLevel.Error || row.logLevel === SystemLogLevel.Critical"
+                ></i> 
+        </div>
+      </td>
+      <td class="justify-content-start">
+        <div class="non-editing-only p-column-title" style="flex-basis: 25%">
+          <span>
+            {{ 'SystemLog::LogList:Message' | abpLocalization }}
+          </span>
+        </div>
+        <div class="adaptiveText" style="flex-basis: 75%">
+          <span class="column-content flex align-items-center">
+            <app-ellipsis [disableToolTip]="true" [text]="row.message">
+            </app-ellipsis>
+          </span>
+        </div>
+      </td>
+      <td appResponsiveColumn="150" class="justify-content-start">
+        <div class="non-editing-only p-column-title" style="flex-basis: 25%">
+          <span>
+            {{ 'SystemLog::LogList:ApplicationName' | abpLocalization }}
+          </span>
+        </div>
+        <div class="adaptiveText" style="flex-basis: 75%">
+          <span class="column-content flex align-items-center">
+            <app-ellipsis [text]="row.applicationName"> </app-ellipsis>
+          </span>
+        </div>
+      </td>
+      <!-- <td class="justify-content-start">
+        <div class="non-editing-only p-column-title" style="flex-basis:25%">
+          <span>
+            {{'SystemLog::LogList:ModuleName' | abpLocalization}}
+          </span>
+        </div>
+        <div class="adaptiveText" style="flex-basis:75%">
+          <span class="column-content flex align-items-center">
+            <app-ellipsis [text]="row.moduleName">
+            </app-ellipsis>
+          </span>
+        </div>
+      </td> -->
+      <td appResponsiveColumn="180" class="justify-content-start">
+        <div class="non-editing-only p-column-title" style="flex-basis: 25%">
+          <span>
+            {{ 'SystemLog::LogList:Date' | abpLocalization }}
+          </span>
+        </div>
+        <div [ngClass]="{ adaptiveText: isMobile }" style="flex-basis: 75%">
+          <span class="column-content">
+            {{ row.lastModificationTime | date : 'dd/MM/y HH:mm:ss' }}
+          </span>
+        </div>
+      </td>
+      <td style="width: 10px">
+        <div class="flex align-items-center">
+          <span
+            class="fa fa-magnifying-glass text-primary"
+          ></span>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-100" [attr.colspan]="isSystemAlerts ? 6 : 5">
+        <div class="card p-fluid w-100 text-center">
+          {{ getEmptyMessage() }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<app-system-log-details-dialog
+  [log]="selectedLog"
+  [isMobile]="isMobile"
+  [(visible)]="showDetailsDialog"
+  (hide)="closeDetails()"
+  (readStatusChange)="markReaded()"
+></app-system-log-details-dialog>

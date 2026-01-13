@@ -1,0 +1,307 @@
+<app-page-title [title]="title" icon="fa fa-cog"> </app-page-title>
+
+<div class="content">
+  <!-- Test Result Messages -->
+  <p-message
+    severity="success"
+    *ngIf="provider?.tests.testPassed"
+    [text]="'StorageModule::ProvidersOptions:TestSuccessTitle' | abpLocalization"
+  ></p-message>
+
+  <p-message
+    severity="error"
+    *ngIf="provider?.tests?.testFailed"
+    [text]="'StorageModule::ProvidersOptions:TestFailTitle' | abpLocalization"
+  ></p-message>
+
+  <div #tableCard class="card table-card">
+    <div class="card-body">
+      <h3 class="card-title mb-4">
+        &nbsp; {{ 'StorageModule::ProvidersOptions:General' | abpLocalization }}
+      </h3>
+
+      <ul class="list-none p-0 m-0">
+        <li
+          class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+        >
+          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+            {{ 'StorageModule::StorageProvider:Id' | abpLocalization }}
+          </label>
+
+          <div
+            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center gap-2"
+          >
+            <span class="text-900">{{
+              provider?.originalData?.id || '-'
+            }}</span>
+
+            <button
+              pButton
+              type="button"
+              class="p-button-text p-button-sm"
+              (click)="copyId(provider?.originalData?.id)"
+              pTooltip="Copy ID"
+              tooltipPosition="top"
+            >
+              <i class="pi pi-copy"></i>
+            </button>
+          </div>
+        </li>
+
+        <li
+          *ngIf="!editMode"
+          class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+        >
+          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+            {{ 'StorageModule::StorageProvider:Name' | abpLocalization }}
+          </label>
+          <div
+            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+          >
+            <span class="text-900">{{ provider?.name || '-' }}</span>
+          </div>
+        </li>
+        <li
+          *ngIf="editMode"
+          class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+        >
+          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+            {{ 'StorageModule::StorageProvider:Name' | abpLocalization }}
+            <span class="text-red-500">*</span>
+          </label>
+          <div
+            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+          >
+            <input
+              [(ngModel)]="provider.name"
+              [ngClass]="{
+                'ng-invalid ng-dirty': provider.validators.nameEmpty
+              }"
+              (change)="resetProviderValidators()"
+              (input)="state.setDirty()"
+              type="text"
+              pInputText
+              class="w-full"
+              [disabled]="loading"
+            />
+          </div>
+        </li>
+
+        <li
+          class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+        >
+          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+            {{ 'StorageModule::StorageProvider:Type' | abpLocalization }}
+          </label>
+          <div
+            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+          >
+            <span class="text-900">{{
+              provider?.originalData?.storageProviderTypeName || '-'
+            }}</span>
+          </div>
+        </li>
+
+        <li
+          *ngIf="!editMode"
+          class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+        >
+          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+            {{ 'StorageModule::StorageProvider:IsActive' | abpLocalization }}
+          </label>
+          <div
+            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+          >
+            <span class="text-900">{{
+              getIsActiveText(provider?.originalData?.isActive)
+            }}</span>
+          </div>
+        </li>
+        <li
+          *ngIf="editMode"
+          class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+        >
+          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+            {{ 'StorageModule::StorageProvider:IsActive' | abpLocalization }}
+          </label>
+          <div
+            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+          >
+            <p-select
+              class="w-full"
+              [options]="isActiveOptions"
+              [style]="{ width: '100%' }"
+              [(ngModel)]="provider.originalData.isActive"
+              optionLabel="label"
+              optionValue="value"
+              [disabled]="loading"
+              (onChange)="state.setDirty()"
+              appendTo="body"
+            ></p-select>
+          </div>
+        </li>
+      </ul>
+      <!-- SETTINGS -->
+      <div class="mt-5">
+        <div class="">
+          <h3 class="mb-4">
+            &nbsp;
+            {{
+              ('StorageModule::ProvidersOptions:Settings' | abpLocalization) ||
+                ' '
+            }}
+          </h3>
+
+          <p-table
+            [value]="settings"
+            responsiveLayout="scroll"
+            [loading]="
+              loadingSettings ||
+              loadingProvider ||
+              provider?.tests?.waitingForTest
+            "
+            class="w-full"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 40%">
+                  {{
+                    'StorageModule::ProvidersOptions:SettingKey'
+                      | abpLocalization
+                  }}
+                </th>
+                <th style="width: 60%">
+                  {{
+                    'StorageModule::ProvidersOptions:SettingValue'
+                      | abpLocalization
+                  }}
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-setting>
+              <tr>
+                <!-- Setting name + required indicator + description -->
+                <td>
+                  <div>
+                    <b>{{ setting.key }}</b>
+                    <span *ngIf="setting?.type?.required" class="text-red-500"
+                      >*</span
+                    >
+                  </div>
+
+                  <!-- Optional description -->
+                  <div
+                    *ngIf="setting?.type?.description"
+                    class="text-sm text-gray-500"
+                  >
+                    {{ setting.type.description }}
+                  </div>
+                </td>
+
+                <td>
+                  <ng-container [ngSwitch]="setting.type?.type">
+                    <ng-container
+                      *ngSwitchCase="
+                        storageProviderSettingsTypes.MultilineString
+                      "
+                    >
+                      <!-- Masked -->
+                      <textarea
+                        *ngIf="!editMode && setting.type.hidden"
+                        disabled
+                        pTextarea
+                        [autoResize]="true"
+                        class="w-full"
+                      >*********
+                      </textarea>
+
+                      <!-- Real editable value -->
+                      <textarea
+                        *ngIf="editMode || !setting.type.hidden"
+                        [(ngModel)]="setting.value"
+                        pTextarea
+                        [autoResize]="true"
+                        (ngModelChange)="resetProviderTests()"
+                        (input)="state.setDirty()"
+                        [disabled]="loading || !editMode"
+                        class="w-full"
+                      ></textarea>
+                    </ng-container>
+
+                    <!-- Boolean -->
+                    <p-select
+                      *ngSwitchCase="storageProviderSettingsTypes.Boolean"
+                      [options]="boolSettingsOptions"
+                      [(ngModel)]="setting.value"
+                      (onChange)="state.setDirty()"
+                      [disabled]="loading || !editMode"
+                      [style]="{ width: '100%' }"
+                      class="w-full"
+                    ></p-select>
+
+                    <!-- Default text input -->
+                    <ng-container *ngSwitchDefault>
+                      <!-- Masked -->
+                      <input
+                        *ngIf="!editMode && setting.type.hidden"
+                        type="text"
+                        disabled
+                        pInputText
+                        value="*********"
+                        class="w-full"
+                      />
+
+                      <!-- Real editable value -->
+                      <input
+                        *ngIf="editMode || !setting.type.hidden"
+                        [(ngModel)]="setting.value"
+                        type="text"
+                        pInputText
+                        [disabled]="loading || !editMode"
+                        (ngModelChange)="resetProviderTests()"
+                        (input)="state.setDirty()"
+                        class="w-full"
+                      />
+                    </ng-container>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+              <tr class="table-emptymessage">
+                <td colspan="2">
+                  <div class="card w-full">
+                    <div class="card-body w-full text-center">
+                      {{
+                        'StorageModule::ProvidersOptions:Config:EmptyMessage'
+                          | abpLocalization
+                      }}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORAGE EXPLORER -->
+  <!-- <p-dialog
+    header="{{ 'StorageModule::ExploreStorage' | abpLocalization }}"
+    [(visible)]="showExplorerDialog"
+    [modal]="true"
+    [style]="{ width: '40vw', height: '80vh' }"
+    [dismissableMask]="true"
+    (onHide)="onCloseExplorer()"
+  >
+    <app-file-manager-explorer
+      *ngIf="showExplorerDialog"
+      [viewMode]="fileExplorerView.OnlyExplorer"
+      [archiveId]="provider?.originalData?.id"
+    ></app-file-manager-explorer>
+  </p-dialog>
+</div> -->

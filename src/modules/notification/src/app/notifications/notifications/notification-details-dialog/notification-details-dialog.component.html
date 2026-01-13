@@ -1,0 +1,40 @@
+<p-dialog
+  [header]=""
+  [visible]="visible"
+  (visibleChange)="handleVisibleChange($event)"
+  (onHide)="handleHide()"
+  appendTo="body"
+  [modal]="true"
+>
+  <ng-template pTemplate="header">
+    <div
+      class="inline-flex align-items-center justify-content-center gap-2"
+      style="font-size: 1.6rem"
+    >
+      <span
+        class="fa fa-info-circle text-blue-500"
+        *ngIf="notification"
+      ></span>
+
+      <span class="font-bold white-space-nowrap">
+        {{ 'NotificatorModule::NotificationViewer:Details' | abpLocalization }}
+      </span>
+    </div>
+  </ng-template>
+
+  <div style="width: min(500px, 90vw)">
+    <div style="height: 24rem">
+      <textarea
+        style="height: 100%; width: 100%; resize: none"
+        *ngIf="notification"
+        [readonly]="true"
+      >
+{{ getContentLocalization(notification) }}
+      </textarea>
+    </div>
+
+    <div class="flex justify-content-end mt-2">
+      <span>{{ notification?.creationTime | date : 'medium' }}</span>
+    </div>
+  </div>
+</p-dialog>

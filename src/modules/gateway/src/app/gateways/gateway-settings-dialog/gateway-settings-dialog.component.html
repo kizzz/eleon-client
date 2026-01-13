@@ -1,0 +1,124 @@
+<div>
+    <p-dialog [header]="title" [(visible)]="display" [modal]="true" [draggable]="false" (onHide)="closeDialog()">
+        <div class="grid gateway-new" *ngIf="display">
+
+            <p-tabs value="general">
+                <p-tablist>
+                    <p-tab value="general">
+                        <div class="flex align-items-center gap-2">
+                            <i class="fas fa-info"></i>
+                            <span class="hidden md:inline">{{'GatewayManagement::Gateway:Settings:General' | abpLocalization}}</span>
+                        </div>
+                    </p-tab>
+                    <p-tab value="eventbus">
+                        <div class="flex align-items-center gap-2">
+                            <i class="fas fas fa-stream"></i>
+                            <span class="hidden md:inline">{{'GatewayManagement::Gateway:Settings:EventBus' | abpLocalization}}</span>
+                        </div>
+                    </p-tab>
+                </p-tablist>
+                <p-tabpanels>
+                    <p-tabpanel value="general">
+                        <div class="m-3">
+                            <div class="col-12">
+                                <div class="flex align-items-center justify-content-between">
+                                    <div class="textAlign"
+                                        [ngClass]="{'name-protocol-text-lg': !changeSize, 'name-protocol-text-md': changeSize}">
+                                        <span appRequired>
+                                            {{'GatewayManagement::Gateway:Name' | abpLocalization}}
+                                        </span>
+                                    </div>
+                                    <div
+                                        [ngClass]="{'name-protocol-input-lg': !changeSize, 'name-protocol-input-md': changeSize}">
+                                        <input [(ngModel)]="header.data.name"
+                                            [ngClass]="{'ng-invalid ng-dirty': header.validators.nameEmpty}" type="text"
+                                            pInputText [style]="{'width':'100%'}"
+                                            (ngModelChange)="resetValidators(); state.setDirty();" [disabled]="loading" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field grid">
+                                <label class="mb-2 col-5 md:mb-0" style="font-weight: 600;">{{'GatewayManagement::Gateway:VpnPort' | abpLocalization}}</label>
+                                <div class="col-7">
+                                    <span>
+                                        {{header.data.vpnPort}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field grid">
+                                <label class="mb-2 col-5 md:mb-0" style="font-weight: 600;">{{'GatewayManagement::Gateway:VpnAdapterName' | abpLocalization}}</label>
+                                <div class="col-7">
+                                    <span>
+                                        {{header.data.vpnAdapterName}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field grid">
+                                <label class="mb-2 col-5 md:mb-0" style="font-weight: 600;">{{'GatewayManagement::Gateway:VpnPublicKey' | abpLocalization}}</label>
+                                <div class="col-7">
+                                    <span>
+                                        {{header.data.vpnPublicKey}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel value="eventbus">
+                        <div class="m-3">
+                            <div class="col-12">
+                                <div class="flex flex-column align-items-start">
+                                    <div class="textAlign"
+                                        [ngClass]="{'name-protocol-text-lg': !changeSize, 'name-protocol-text-md': changeSize}">
+                                        <label appRequired>
+                                            {{'GatewayManagement::Gateway:EventBus' | abpLocalization}}
+                                        </label>
+                                    </div>
+                                    <p-select [options]="eventBuses" optionLabel="name" optionValue="id"
+                                        [style]="{'width':'100%', 'text-align':'left'}" style="width: 100%"
+                                        [disabled]="loading" [(ngModel)]="header.data.eventBusId" appendTo="body">
+                                    </p-select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="flex align-items-center justify-content-between">
+                                    <div class="textAlign"
+                                        [ngClass]="{'name-protocol-text-lg': !changeSize, 'name-protocol-text-md': changeSize}">
+                                        <span appRequired>
+                                            {{'GatewayManagement::Gateway:SelfHostEventBus' | abpLocalization}}
+                                        </span>
+                                    </div>
+                                    <div
+                                        [ngClass]="{'name-protocol-input-lg': !changeSize, 'name-protocol-input-md': changeSize}">
+                                        <p-checkbox [binary]="true" class="mr-5" [(ngModel)]="header.data.selfHostEventBus">
+                                        </p-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                </p-tabpanels>
+            </p-tabs>
+        </div>
+        <ng-template pTemplate="footer">
+            <div>
+                <p-button [text]="true" [raised]="true" styleClass="p-button-danger mr-1 ml-1" [disabled]="loading"
+                    (onClick)="closeDialog()">{{"Infrastructure::Close" | abpLocalization}}</p-button>
+                <p-button [text]="true" [raised]="true" styleClass="p-button-info mr-1 ml-1" [disabled]="loading"
+                    (onClick)="saveGateway()">{{"Infrastructure::Save" | abpLocalization}}</p-button>
+            </div>
+        </ng-template>
+    </p-dialog>
+    <ng-container *ngIf="beforeButton; else defaultButton">
+        <div class="input-group w-full d-flex">
+            <p *ngTemplateOutlet="beforeButton"></p>
+            <button pButton (click)="showDialog()" style="width:3rem" icon="fa fa-list"></button>
+        </div>
+    </ng-container>
+    <ng-template #defaultButton>
+        <div (click)="showDialog()">
+            <div *ngTemplateOutlet="button">
+            </div>
+        </div>
+    </ng-template>
+</div>

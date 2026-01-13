@@ -1,0 +1,175 @@
+
+  <app-page-title
+    [title]="'EventManagementModule::SystemEvents:Queues' | abpLocalization"
+    icon="fas fa-database"
+  >
+  </app-page-title>
+  <div class="content">
+    <p-table responsiveLayout="stack"  scrollDirection="both" class="data-table" [rowHover]="true"
+				styleClass="pr-table" [loading]="loading" [value]="rows" [lazy]="true" (onLazyLoad)="loadQueues($event)"
+				[paginator]="true" [rows]="rowsCount" [totalRecords]="totalRecords" sortMode="single" sortField="name" sortOrder="-1">
+			<!-- *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable" [breakpoint]="breakpoint" -->
+			<ng-template pTemplate="header">
+				<tr>
+					<th pSortableColumn="displayName">
+						{{ "EventManagementModule::Queue:DisplayName" | abpLocalization }}
+						<p-sortIcon field="displayName"></p-sortIcon>
+					</th>
+					<th pSortableColumn="name">
+						{{ "EventManagementModule::Queue:Name" | abpLocalization }}
+						<p-sortIcon field="name"></p-sortIcon>
+					</th>
+					<th appResponsiveColumn="256" pSortableColumn="fillPercentage">
+						{{ "EventManagementModule::Queue:Usage" | abpLocalization  }}
+						<p-sortIcon field="fillPercentage"></p-sortIcon>
+					</th>
+					<th appResponsiveColumn="128">
+						<!--For delete and edit-->
+					</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-row>
+				<tr>
+					<td>
+						<span class="non-editing-only p-column-title">
+							{{"EventManagementModule::Queue:DisplayName" | abpLocalization}}
+						</span>
+						<span class="column-content flex align-items-center gap-3">
+							<i class="fas fa-database"></i>
+							<app-ellipsis [text]="row.displayName"></app-ellipsis>
+						</span>
+					</td>
+					<td>
+						<span class="non-editing-only p-column-title">
+							{{"EventManagementModule::Queue:Name" | abpLocalization}}
+						</span>
+						<span class="column-content flex align-items-center gap-3">
+							<app-ellipsis [text]="row.name"></app-ellipsis>
+						</span>
+					</td>
+					<td>
+						<span class="non-editing-only p-column-title">
+							{{"EventManagementModule::Queue:EventsCount" | abpLocalization}}
+						</span>
+						<span>
+							{{ row.count + " / " + (row.messagesLimit === 0 ? '∞' : row.messagesLimit) }}
+							(
+							<span [ngStyle]="{
+								color: getColor(row.fillPercentage)
+							}">
+								{{row.fillPercentage | number:'1.1-1' }}%
+							</span>
+							)
+						</span>
+					</td>
+					<!-- <td class="column-content text-center">
+						<span class="non-editing-only p-column-title">
+							{{ "EventManagementModule::Queue:EventsLimit" | abpLocalization }}
+						</span>
+						<span class="column-content text-center">
+							{{row.messagesLimit === 0 ? '∞' : row.messagesLimit}}
+						</span>
+					</td> -->
+					<td>
+						<span class="column-content flex align-items-center justify-content-end gap-2">
+							<div class="manage-icon">
+								<span class="buttons cursor-pointer mx-2" (click)="showDetailedQueue(row)">
+									<i class="fa fa-magnifying-glass text-primary" style="color: var(--primary-color);"></i>
+								</span>
+							</div>
+							<div class="manage-icon">
+								<span class="buttons cursor-pointer mx-2" (click)="editQueue(row)">
+									<i class="fa fa-edit text-primary" style="color: var(--primary-color);"></i>
+								</span>
+							</div>
+							<div class="manage-icon">
+								<span class="buttons cursor-pointer mx-2" (click)="deleteQueue(row)" *ngIf="!row.isSystem">
+									<i class="fa fa-trash" style="color: var(--danger-color);"></i>
+								</span>
+							</div>
+						</span>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr class="table-emptymessage">
+					<td class="w-full" colspan="6">
+						<div class="card w-full">
+							<div class="card-body w-full">
+								<div class="card-header text-center">
+									{{'EventManagementModule::Queue:List:Empty'| abpLocalization}}
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</ng-template>
+		</p-table>
+  </div>
+
+<p-dialog [resizable]="false" [header]="dialogModel?.dialogTitle" [(visible)]="showDialog" [modal]="true" [draggable]="false" *ngIf="dialogModel?.data">
+  <div class="dialog-standard">
+    <div class="field grid" *ngIf="!dialogModel?.queue?.isSystem">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'EventManagementModule::Queue:DisplayName'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="dialogModel.data.displayName" class="w-full" (input)="resetValidators()" />
+      </div>
+    </div>
+		<div class="field grid" *ngIf="!dialogModel?.queue?.isSystem">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'EventManagementModule::Queue:Name'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="dialogModel.data.name" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': dialogModel.validators.nameInvalid}" (input)="resetValidators()" />
+      </div>
+    </div>
+		<div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'EventManagementModule::Queue:EventsLimit'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="number" pInputText [(ngModel)]="dialogModel.data.messagesLimit" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': dialogModel.validators.limitInvalid}" (input)="resetValidators()" />
+					<p-message severity="info" variant="simple" size="small" class="mt-1">{{getLocalizedLimitHelpMessage(dialogModel.queue?.isSystem)}}</p-message>
+      </div>
+    </div>
+
+		<div class="field grid" *ngIf="!dialogModel.queue?.isSystem">
+			<label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'EventManagementModule::Queue:MessagesForwarding'| abpLocalization}}</label>
+
+			<div class="col-12 md:col-8">
+				<div class="p-inputgroup">
+					<span class="p-inputgroup-addon">
+						<p-checkbox 
+							[ngModel]="dialogModel.data.forwardAll" 
+							binary="true"
+							[pTooltip]="'EventManagementModule::Queue:ForwardAll' | abpLocalization"
+							tooltipPosition="top"
+							inputId="forwardAllCheckbox"
+							(click)="toggleForwardAll()">
+						</p-checkbox>
+						<label for="forwardAllCheckbox" class="ml-2">{{'EventManagementModule::Queue:ForwardAllMinified' | abpLocalization}}</label>
+					</span>
+					<input pInputText [(ngModel)]="dialogModel.forwardingInput" 
+					[placeholder]="(dialogModel.data.forwardAll ? 'EventManagementModule::Queue:Forwarding:All:Placeholder' : 'EventManagementModule::Queue:Forwarding:Placeholder') | abpLocalization" 
+					(keydown.enter)="addForwarding()" [disabled]="loading || dialogModel.data.forwardAll" />
+					<button pButton icon="fa fa-check" [label]="'Infrastructure::Add' | abpLocalization" (click)="addForwarding()" [loading]="loading" class="p-button-outlined" [disabled]="loading || dialogModel.data.forwardAll"></button>
+				</div>
+			</div>
+		</div>
+
+		<div class="field grid w-full m-0 p-0" *ngIf="!dialogModel.queue?.isSystem">
+			<div class="chip-container">
+				<p-chip *ngFor="let message of dialogModel.data.forwarding" [label]="message" [removable]="!dialogModel.data.forwardAll" (onRemove)="removeMessageForwarding(message)"></p-chip>
+			</div>
+		</div>
+
+    <div class="mt-2 flex gap-3" style="justify-content: end;">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="fa fa-times" 
+      (onClick)="closeDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button> 
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+          (onClick)="saveQueue()" [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<app-queue-messages-dialog #queueDetailed></app-queue-messages-dialog>

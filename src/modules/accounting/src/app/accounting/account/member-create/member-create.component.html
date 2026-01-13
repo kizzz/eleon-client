@@ -1,0 +1,60 @@
+<p-dialog
+  [resizable]="true"
+  [header]="localizationService.instant('AccountingModule::Member:Edit')"
+  [(visible)]="display"
+  [modal]="true"
+  [draggable]="false"
+  [style]="{ width: '600px' }"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+  <div class="dialog-standard w-full">
+    <div class="grid m-0">
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'AccountingModule::Header:MemberType' | abpLocalization }}</label>
+        <p-select
+          [options]="memberTypeOptions"
+          [(ngModel)]="editedMember.type"
+          appendTo="body"
+          optionValue="value"
+          optionLabel="name"
+          [style]="{'width':'100%'}"
+          [placeholder]="'AccountingModule::Header:MemberType' | abpLocalization">
+        </p-select>
+      </div>
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'AccountingModule::Header:RefId' | abpLocalization }}</label>
+        <input
+          [(ngModel)]="editedMember.refId"
+          (ngModelChange)="resetRefIdValidator()"
+          [ngClass]="{'ng-invalid ng-dirty': refIdEmpty}"
+          type="text"
+          pInputText
+          [style]="{'width':'100%'}" />
+      </div>
+    </div>
+
+    <div class="mt-2 flex justify-content-end gap-3">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="cancel()"
+        [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="pi pi-check"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="save()"
+        [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+

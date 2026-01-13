@@ -1,0 +1,29 @@
+.doc-uploader {
+    padding: 0.6875rem 0.5625rem;
+    background-color: #6083ef;
+    border-color: #6083ef;
+    color: #fff;
+    font-size: .875rem;
+    line-height: 1rem;
+    border-style: solid;
+    border-width: 0.0625rem;
+    text-transform: uppercase;
+    transition-duration: .15s;
+    transition-property: background-color,border-color,box-shadow,color;
+    transition-timing-function: ease-in;
+    appearance: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    font-family: Open Sans, sans-serif;
+    font-weight: 700;
+    height: 100%;
+    width: 2.5rem;
+    border-right: 1px solid var(--gray-500);
+}

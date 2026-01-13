@@ -1,0 +1,36 @@
+@import "primeflex/core/variables.scss";
+
+
+.h-dialog-fixed-height {
+    min-height: 75vh;
+    @media screen and (min-width: $md) {
+        min-height: 500px;
+    }
+}
+
+.dialog-standard {
+    width: 85vw;
+    // min-height: 90vh;
+    @media screen and (min-width: $md) {
+        width: 500px;
+        // min-height: 400px;
+    }
+}
+
+.dialog-medium {
+    width: 85vw;
+    // min-height: 90vh;
+    @media screen and (min-width: $md) {
+        width: 700px;
+        // min-height: 600px;
+    }
+}
+
+.dialog-max {
+    width: 85vw;
+    // min-height: 90vh;
+    @media screen and (min-width: $md) {
+        width: 800px;
+        // min-height: 600px;
+    }
+}

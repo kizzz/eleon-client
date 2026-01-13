@@ -1,0 +1,74 @@
+<ng-container>
+  <div class="card p-fluid single-column-wrapper">
+    <div class="field half-width-field">
+      <label class="block">{{ 'TenantManagement::SystemCurrency' | abpLocalization }}</label>
+
+      <div class="flex flex-wrap align-items-center gap-2">
+        <p-select
+          [options]="currencyOptions"
+          [(ngModel)]="newCurrency"
+          appendTo="body"
+          (onChange)="onCurrencyChange()"
+          optionValue="value"
+          optionLabel="name"
+          [filter]="false"
+          [style]="{'width':'100%'}"
+        >
+        </p-select>
+
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-primary"
+          (click)="showCurrencyRates = true"
+          icon="fa fa-money-bill"
+          [label]="'Infrastructure::ShowCurrencyRates' | abpLocalization"
+        >
+        </p-button>
+      </div>
+
+      <p-dialog [(visible)]="showCurrencyRates" [modal]="true">
+        <ng-template pTemplate="header" class="p-dialog-header">
+          <div class="d-flex align-items-center justify-content-start">
+            <span class="fa fa-money-bill"></span>
+            <span class="p-dialog-title">
+              {{ 'Infrastructure::Currency:Rates:Title' | abpLocalization }}
+            </span>
+          </div>
+        </ng-template>
+        <div style="min-width: max(18vw, 250px);">
+          <app-currency-dashboard [showTitle]="false"></app-currency-dashboard>
+        </div>
+      </p-dialog>
+    </div>
+
+    <div class="half-width-field">
+      <h4>{{ 'TenantManagement::LoggingOptions' | abpLocalization }}</h4>
+
+      <div class="field">
+        <div class="flex align-items-center gap-2">
+          <label>{{ 'TenantManagement::Logging:SendLogsFromUI' | abpLocalization }}</label>
+          <p-checkbox
+            [(ngModel)]="systemHealthSettings.logging.sendLogsFromUI"
+            (onChange)="onSystemHealthSettingsChange()"
+            binary="true"
+          ></p-checkbox>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>{{ 'TenantManagement::Logging:MinimumLogLevel' | abpLocalization }}</label>
+        <p-select
+          [(ngModel)]="systemHealthSettings.logging.minimumLogLevel"
+          [options]="logLevelOptions"
+          optionValue="value"
+          optionLabel="name"
+          (onChange)="onSystemHealthSettingsChange()"
+          appendTo="body"
+          [style]="{'width':'100%'}"
+        >
+        </p-select>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,112 @@
+<div>
+  <p-dialog
+    [resizable]="false"
+    [header]="title"
+    [(visible)]="display"
+    [modal]="true"
+    [draggable]="false"
+    (onHide)="closeDialog()"
+  >
+    <div class="grid m-0 storage-provider-new" *ngIf="display">
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'StorageModule::StorageProvider:Name' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <input
+              style="width: 100%"
+              type="text"
+              pInputText
+              [(ngModel)]="provider.name"
+              (change)="resetProviderValidators()"
+              [disabled]="loading"
+              [ngClass]="{
+                'ng-invalid ng-dirty': provider.validators.nameEmpty
+              }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+          <ng-container
+            *ngFor="let dropdown of typeDropdowns; let level = index"
+          >
+          <div class="grid flex align-items-center">
+            <div class="col-4">
+              <span appRequired>
+                {{
+                  level === 0
+                    ? ('StorageModule::StorageProvider:Type' | abpLocalization)
+                    : typeDropdowns[level - 1]?.selected?.name ||
+                      ('StorageModule::StorageProvider:Type' | abpLocalization)
+                }}
+              </span>
+            </div>
+            <div class="col-8">
+              <p-select
+                [(ngModel)]="dropdown.selected"
+                [options]="dropdown.options"
+                optionLabel="name"
+                appendTo="body"
+                styleClass="w-full"
+                placeholder="Select storage type"
+                [disabled]="loading || loadingStorageTypes"
+                [style]="{ width: '100%' }"
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    provider.validators.selectedTypeEmpty &&
+                    level === typeDropdowns.length - 1
+                }"
+                (onChange)="onTypeSelection($event.value, level)"
+              >
+              </p-select>
+            </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3 justify-content-end">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-secondary"
+          icon="pi pi-times"
+          [disabled]="loading"
+          (onClick)="closeDialog()"
+          [label]="'Infrastructure::Cancel' | abpLocalization"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-primary"
+          icon="fa fa-check"
+          (onClick)="saveStorageProvider()"
+          [label]="'Infrastructure::Create' | abpLocalization"
+          [disabled]="loading"
+        >
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <ng-container *ngIf="beforeButton; else defaultButton">
+    <div class="input-group w-full d-flex">
+      <p *ngTemplateOutlet="beforeButton"></p>
+      <button
+        pButton
+        (click)="showDialog()"
+        style="width: 3rem"
+        icon="fa fa-list"
+      ></button>
+    </div>
+  </ng-container>
+  <ng-template #defaultButton>
+    <div (click)="showDialog()">
+      <div *ngTemplateOutlet="button"></div>
+    </div>
+  </ng-template>
+</div>

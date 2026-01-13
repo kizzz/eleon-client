@@ -1,0 +1,24 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="/home">
+        <ec-container [key]="'layout-primeng-logo'"></ec-container>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+      <ec-container [key]="'layout-primeng-topbar-right'"></ec-container>
+        
+      <p-popover #op styleClass="menu-overlay ">
+        <p-menu #menu [model]="profileItems" [style]="{ width: '16rem' }" (click)="resetProfileMenu(menu, $event, op)"></p-menu>
+      </p-popover>
+
+      <app-profile-picture class="layout-topbar-button mr-1" *ngIf="profileService.userProfile?.id"
+      [userId]="profileService.userProfile.id" style="cursor:pointer" (click)="op.toggle($event)"></app-profile-picture>
+    </div>
+</div>

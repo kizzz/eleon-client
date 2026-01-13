@@ -1,0 +1,42 @@
+:host ::ng-deep nb-chat {
+  .header {
+    display: none;
+  }
+
+  .message {
+    margin: 0 !important;
+  }
+
+  nb-chat-message {
+    margin: 0 !important;
+    
+    &.custom {
+      nb-chat-message-text,
+      nb-chat-avatar {
+        display: none !important;
+      }
+    }
+  }
+
+  &.loading {
+    .send-button {
+      background-color: var(--blue-300);
+      pointer-events: none;
+    }
+  }
+
+  nb-spinner {
+    z-index: 10;
+  }
+}
+
+:host ::ng-deep .nb-theme-default nb-chat .messages {
+  padding: 1rem 0.65rem;
+}
+
+
+:host ::ng-deep .custom-chat-form .message-row .send-button {
+  background-color: #6083ef;
+  border-color: #6083ef;
+  color: #fff;
+}

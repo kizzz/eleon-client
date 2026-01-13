@@ -1,0 +1,2 @@
+npx nx run-many --target=build --projects="administration,eleoncorechat,digital-archive,dynamic-dashboard,language,logo,primeng-layout,sakai-ng-layout,usermanagement,notification,system-log,host,host-administration,accounting,health-check,system-queue,telemetry,control-delegation,calendar,audit,gateway,background-job,job-scheduler,lifecycle,google,language-management,templating"
+npx nx build immu

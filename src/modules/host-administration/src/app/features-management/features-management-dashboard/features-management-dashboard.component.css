@@ -1,0 +1,15 @@
+.buttons {
+  cursor: pointer;
+}
+
+.treeTableContainer {
+  border: 1px solid var(--surface-200);
+  background: #ffffff;
+  color: var(--surface-200);
+  padding: 1.25rem;
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-treenode-label {
+  width: 100% !important;
+}

@@ -1,0 +1,147 @@
+<div>
+    <p-dialog [resizable]="false" [header]="title" [(visible)]="display" [modal]="true" [draggable]="false">
+        <div #tableCard>
+            <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+            [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint"
+            scrollDirection="both" class="cell-center" [lazy]="true" (onLazyLoad)="loadAccounts($event)"
+            [rows]="rowsCount" styleClass="pr-table" [totalRecords]="totalRecords" [loading]="loading"
+            [value]="rows" [paginator]="true" selectionMode="single" sortOrder="-1" sortMode="single"
+            sortField="CreationTime">
+            <ng-template pTemplate="caption">
+                <div class="grid pb-4 md:pb-0">
+                    <div class="col-11 md:pl-4 p-0">
+                        <div class="p-inputgroup">
+                            <input type="text" pInputText #searchField
+                                placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+                                [(ngModel)]="searchQueryText">
+                            <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+                                styleClass="p-button-info" class="p-button-text"></button>
+                            <button type="button" pButton pRipple icon="pi pi-times-circle"
+                                class="p-button-danger p-button-text" (click)="clear($event)"></button>
+                        </div>
+                    </div>
+                    <div class="col-1 py-3 md:py-0 flex align-items-center justify-content-end">
+                        <p-button [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm"
+                            autoWidth="false" [label]="'AccountingModule::Reload' | abpLocalization"
+                            icon="pi pi-sync" (click)="reloadAccounts()">
+                        </p-button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="when-big-width-cell-center" style="width:1%; max-width: 100px; min-width: 100px;"
+                        pSortableColumn="id">
+                        {{ "AccountingModule::Header:Id" | abpLocalization }}
+                        <p-sortIcon field="id"></p-sortIcon>
+                    </th>
+                    <th class="when-big-width-cell-center"
+                        pSortableColumn="accountName">
+                        {{ "AccountingModule::Header:AccountName" | abpLocalization }}
+                        <p-sortIcon field="accountName"></p-sortIcon>
+                    </th>
+                    <th class="when-big-width-cell-center" appResponsiveColumn="200">
+                        {{ "AccountingModule::Header:Initiator" | abpLocalization }}
+                    </th>
+                    <th class="when-big-width-cell-center" appResponsiveColumn="150"
+                        pSortableColumn="creationTime">
+                        {{ "AccountingModule::Header:CreationDate" | abpLocalization }}
+                        <p-sortIcon field="creationTime"></p-sortIcon>
+                    </th>
+                    <th class="when-big-width-cell-center" appResponsiveColumn="150"
+                        pSortableColumn="accountStatus">
+                        {{ "AccountingModule::Header:AccountStatus" | abpLocalization }}
+                        <p-sortIcon field="accountStatus"></p-sortIcon>
+                    </th>
+                    <th class="when-big-width-cell-center" appResponsiveColumn="200">
+                        {{"AccountingModule::Header:OrganizationUnit" | abpLocalization }}
+                    </th>
+                    <th appResponsiveColumn="40" class="lg:justify-content-end">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+                <tr [pSelectableRow]="row">
+                    <td style="width:1%; max-width: 100px; min-width: 100px;">
+                        <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Id' |
+                            abpLocalization}}</span>
+                        <span class="column-content">
+                            {{row.data.docEntry | slice:0:8}}
+                        </span>
+                    </td>
+                    <td class="when-big-width-cell-center">
+                        <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountName' |
+                            abpLocalization}}</span>
+                        <span class="column-content">
+                            {{row.data.accountName }}
+                        </span>
+                    </td>
+                    <td appResponsiveColumn="200" class="when-big-width-cell-center">
+                        <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Initiator' |
+                            abpLocalization}}</span>
+                        <span class="column-content">
+                            {{row.data.creatorName}}
+                        </span>
+                    </td>
+                    <td appResponsiveColumn="150" class="when-big-width-cell-center">
+                        <span class="non-editing-only p-column-title">{{'AccountingModule::Header:CreationDate'
+                            |
+                            abpLocalization}}</span>
+                        <span class="column-content">
+                            {{row.data.creationTime | date:'shortDate'}}
+                        </span>
+                    </td>
+                    <td appResponsiveColumn="150" class="when-big-width-cell-center">
+                        <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountStatus'
+                            |
+                            abpLocalization}}</span>
+                        <span class="column-content">
+                            <app-account-status-tag class="mr-3"
+                                [value]="row.data.accountStatus"></app-account-status-tag>
+                        </span>
+                    </td>
+                    <td appResponsiveColumn="200" class="when-big-width-cell-center">
+                        <span class="non-editing-only p-column-title">
+                            {{ 'AccountingModule::Header:OrganizationUnit' | abpLocalization }}
+                        </span>
+                        <span class="column-content">
+                            {{row.data.organizationUnitName}}
+                        </span>
+                    </td>
+                    <td appResponsiveColumn="40" class="lg:justify-content-end row-buttons">
+                        <span class="text-primary" style="cursor: pointer;"(click)="onSelect(row)">
+                            <i class="fa fa-hand-pointer"></i>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr class="table-emptymessage">
+                    <td class="w-full" colspan="9">
+                        <div class="card w-full">
+                            <div class="card-body w-full">
+                                <div class="card-header">
+                                    {{'AccountingModule::NoAccounts' | abpLocalization}}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        </div>
+    </p-dialog>
+    <ng-container *ngIf="beforeButton; else defaultButton">
+        <div class="p-inputgroup w-full flex">
+            <p *ngTemplateOutlet="beforeButton"></p>
+            <button pButton (click)="onShowBtnClick()" style="width:3rem" icon="fa fa-list"
+                class="p-button-text"></button>
+        </div>
+    </ng-container>
+    <ng-template #defaultButton>
+        <div (click)="onShowBtnClick()">
+            <div *ngTemplateOutlet="button">
+            </div>
+        </div>
+    </ng-template>
+</div>

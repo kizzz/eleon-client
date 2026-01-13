@@ -1,0 +1,20 @@
+<div class="field">
+  <label [ngClass]="foregroundClass">
+    {{ title }}
+  </label>
+  <div class="flex align-items-center" style="flex-direction:column">
+    <div>
+      <img [src]="src" style="max-width:170px; max-height: 50px">
+    </div>
+    <div class="flex mt-3">
+      <p-fileUpload #fileUpload mode="basic" maxFileSize="1000000" [customUpload]="true"
+        (uploadHandler)="onFileUpload($event)" [auto]="true" [chooseLabel]="'Infrastructure::Change' | abpLocalization"
+        chooseIcon="pi pi-file-edit" styleClass="p-button-text p-button-raised" class="mr-2 ml-2">
+      </p-fileUpload>
+      <p-button [text]="true" [raised]="true" autoWidth="false"
+        [ngStyle]="{'width.px' : fileUpload.offsetWidth}" class="mr-2 ml-2"
+        (click)="reset.emit()" icon="pi pi-refresh" [label]='"Infrastructure::Reset" | abpLocalization'>
+      </p-button>
+    </div>
+  </div>
+</div>

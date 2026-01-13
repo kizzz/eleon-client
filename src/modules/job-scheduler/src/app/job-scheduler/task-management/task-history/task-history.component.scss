@@ -1,0 +1,32 @@
+:host ::ng-deep .p-tag.task-exec-status {
+  &.initializing {
+    background: var(--yellow-500);
+  }
+  &.executing {
+    background: var(--blue-500);
+  }
+  &.failed {
+    background: var(--red-500);
+  }
+  &.completed {
+    background: var(--green-800);
+  }
+}
+
+:host ::ng-deep .p-tag.action-exec-status {
+  &.notstarted {
+    background: var(--gray-500);
+  }
+  &.initializing {
+    background: var(--yellow-500);
+  }
+  &.executing {
+    background: var(--blue-500);
+  }
+  &.failed {
+    background: var(--red-500);
+  }
+  &.completed {
+    background: var(--green-800);
+  }
+}

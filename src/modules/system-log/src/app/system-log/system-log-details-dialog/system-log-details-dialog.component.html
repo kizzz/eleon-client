@@ -1,0 +1,254 @@
+<p-dialog
+  [visible]="visible"
+  (visibleChange)="onVisibleChange($event)"
+  (onHide)="onHide()"
+  [modal]="true"
+  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
+  [closable]="true"
+  [resizable]="false"
+  appendTo="body"
+  [draggable]="false"
+  [baseZIndex]="10000"
+  [focusOnShow]="false"
+  [contentStyle]="{
+    padding: '0',
+    overflow: 'hidden',
+    display: 'flex',
+    'flex-direction': 'column'
+  }"
+  *ngIf="log"
+>
+  <ng-template pTemplate="header" class="p-dialog-header">
+    <div class="d-flex align-items-center justify-content-start">
+      <span class="fa fa-list-check"></span>
+      <span class="p-dialog-title">
+        {{ 'SystemLog::SystemLog:Details' | abpLocalization }}
+      </span>
+    </div>
+  </ng-template>
+
+  <div
+    style="
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 0 1rem;
+    "
+  >
+    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+      <div class="textAlign">
+        <p-tabs value="details">
+          <p-tablist>
+            <p-tab value="details">
+              {{ 'Infrastructure::GeneralInformation' | abpLocalization }}
+            </p-tab>
+            <p-tab value="extras" *ngIf="hasExtraProperties">
+              {{ 'SystemLog::ExtraProperties' | abpLocalization }}
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="details">
+            <ul class="list-none p-0 m-0">
+              <li
+                *ngIf="log?.logLevel !== systemLogLevel.Info"
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:Unread' | abpLocalization }}
+                </label>
+
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center gap-2"
+                >
+                  <p-checkbox
+                    [binary]="true"
+                    [(ngModel)]="log!.isArchived"
+                    (ngModelChange)="onReadStatusChange()"
+                  ></p-checkbox>
+                </div>
+              </li>
+
+              <li
+                *ngIf="log?.logLevel !== systemLogLevel.Info && log!.isArchived"
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:LastUpdatedTime' | abpLocalization }}
+                </label>
+
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center gap-2"
+                >
+                  <span class="text-900">
+                    {{ log?.lastModificationTime | date : 'short' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                *ngIf="log?.logLevel !== systemLogLevel.Info && log!.isArchived"
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:UpdatedBy' | abpLocalization }}
+                </label>
+
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center gap-2"
+                >
+                  <span class="text-900">{{ log?.lastModifierId }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:Id' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ log?.id || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:Severity' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <p-tag
+                    [severity]="getSeverity(log?.logLevel)"
+                    [value]="getSeverityLabel(log?.logLevel)"
+                  ></p-tag>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:LogTime' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{ log?.creationTime | date : 'dd/MM/y HH:mm:ss' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:ApplicationName' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ log?.applicationName || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:InitiatorType' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ log?.initiatorType || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:InitiatorId' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ log?.initiatorId || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-start border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:Message' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900" style="overflow-wrap: anywhere">
+                    {{ log?.message || '-' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+                  {{ 'SystemLog::SystemLog:Count' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ log?.count || '1' }}</span>
+                </div>
+              </li>
+            </ul>
+            </p-tabpanel>
+
+            <p-tabpanel value="extras" *ngIf="hasExtraProperties">
+            <p-table
+              [value]="log?.extraProperties | keyvalue"
+              [responsiveLayout]="'scroll'"
+              class="p-datatable-sm mt-3 expand-vertical"
+            >
+              <ng-template pTemplate="body" let-prop>
+                <tr>
+                  <td class="text-500 font-medium">
+                    {{ prop.key | abpLocalization }}
+                  </td>
+                  <td class="text-900 field-col">
+                    <span style="overflow-wrap: anywhere">{{ prop.value }}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+
+    <!-- footer / close -->
+    <div style="padding: 1rem; text-align: right">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary p-button-sm"
+        style="width: 10rem"
+        (click)="onVisibleChange(false)"
+        icon="fa fa-times"
+        label="{{ 'Infrastructure::Close' | abpLocalization }}"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

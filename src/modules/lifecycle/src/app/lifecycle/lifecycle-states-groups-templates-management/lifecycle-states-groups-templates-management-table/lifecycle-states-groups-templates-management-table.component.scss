@@ -1,0 +1,17 @@
+:host ::ng-deep .p-datatable-table {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: var(--container-border-color);
+  }
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td{
+    padding: 0;
+  }
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.p-highlight{
+  color: inherit !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr.rowexpansion {
+  background-color: transparent;
+}

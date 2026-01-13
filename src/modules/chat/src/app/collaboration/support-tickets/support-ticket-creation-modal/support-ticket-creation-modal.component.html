@@ -1,0 +1,17 @@
+<p-dialog [resizable]="false" [header]="'Collaboration::CreateSupportTicket:Title' | abpLocalization" [(visible)]="showDialog"
+  (visibleChange)="showDialogChange.emit($event)" [modal]="true" [draggable]="false">
+  <div class="wrapper flex flex-column gap-3 align-items-center">
+    <input pInputText [(ngModel)]="chatName" [style]="{'width':'100%'}"
+      [placeholder]="'Collaboration::EnterTicketTitle' | abpLocalization" />
+    <app-chat-members-table-box *ngIf="showDialog" selectionMode="multiple" [(selectedUsers)]="selectedUsers">
+    </app-chat-members-table-box>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="w-100 flex align-items-center justify-content-between">
+      <div></div>
+      <p-button [text]="true" [raised]="true" icon="pi pi-check"
+        [label]="'Infrastructure::Create' | abpLocalization" (click)="onCreatePressed()" [loading]="loading"
+        styleClass="p-button-outlined"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,20 @@
+.chat-btn {
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: var(--blue-200);
+    text-align: center;
+    background-color: var(--blue-100);
+
+    i {
+        color: var(--blue-800);
+    }
+}
+
+.chat-btn:hover {
+    background-color: var(--blue-200);
+    transition: background-color 0.15s ease-in-out;
+
+    i {
+        color: var(--blue-900);
+    }
+}

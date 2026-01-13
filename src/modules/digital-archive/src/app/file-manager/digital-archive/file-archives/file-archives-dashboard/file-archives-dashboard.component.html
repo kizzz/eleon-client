@@ -1,0 +1,147 @@
+<app-page-title [title]="'FileManager::FileArchives' | abpLocalization"
+icon="fa-solid fa-folder-tree">
+</app-page-title>
+<div class="content">
+<div #tableCard>
+  <p-table #archivesTable *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+    [scrollable]="scrollable" [breakpoint]="breakpoint" [responsive]="true" responsiveLayout="stack" scrollDirection="both"
+    [lazy]="true" (onLazyLoad)="loadFileArchives($event)" [rows]="rowsCount" selectionMode="single"
+    styleClass="pr-table" class="data-table" [totalRecords]="totalRecords" [loading]="loading" [value]="rows" [paginator]="true"
+    sortOrder="-1" sortMode="single" dataKey="data.id" editMode="row">
+    <ng-template pTemplate="caption">
+      <div class="grid mt-0">
+        <div class="col-8 md:col-6 lg:col-6 md:pl-4 p-0 flex align-items-center">
+          <div class="p-inputgroup">
+            <input type="text" pInputText #searchField
+              placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+              [(ngModel)]="searchQueryText">
+            <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+              styleClass="p-button-info" class="p-button-text">
+            </button>
+            <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+              (click)="clear($event)">
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">
+          {{ "FileManager::FileArchive:Name" | abpLocalization }}
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th appResponsiveColumn="170" class="when-big-width-cell-center">
+          {{ "FileManager::HierarchyType" | abpLocalization }}
+        </th>
+        <th appResponsiveColumn="170" class="when-big-width-cell-center">
+          {{ "FileManager::FileArchive:StorageProvider" | abpLocalization }}
+        </th>
+        <th appResponsiveColumn="200" class="when-big-width-cell-center">
+          {{ 'FileManager::PersonalizedArchive' | abpLocalization }}
+        </th>
+        <th appResponsiveColumn="110" class="when-big-width-cell-center">
+          {{ 'FileManager::Active' | abpLocalization }}
+        </th>
+        <th *ngIf="isDrivesMode" appResponsiveColumn="110">
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+      <tr #rowRef [pSelectableRow]="row">
+        <td class="pt-0 pb-0" (click)="onRowClick(row)">
+          <span class="non-editing-only p-column-title">
+            {{'FileManager::FileArchive:Name' | abpLocalization}}
+          </span>
+          <span class="column-content">
+            
+                <!-- <div class="column-content textAlign pointer" (click)="viewDetails(row)">-->
+                <div class="column-content textAlign pointer">
+                  <span class="pl-2 pr-2">
+                    <i class="fa-solid fa-folder-tree"></i>
+                  </span>
+                  <span>
+                    {{row.data.name}}
+                  </span>
+                </div>
+          </span>
+        </td>
+        <td appResponsiveColumn="170" class="when-big-width-cell-center pt-0 pb-0">
+          <span class="non-editing-only p-column-title">
+            {{ 'FileManager::HierarchyType' | abpLocalization }}
+          </span>
+          <span class="column-content">
+            {{ hierarchyTypeLabel(row.data.fileArchiveHierarchyType) }}
+          </span>
+        </td>
+        
+        <td appResponsiveColumn="170" class="when-big-width-cell-center pt-0 pb-0">
+          <span class="non-editing-only p-column-title">
+            {{'FileManager::FileArchive:StorageProvider' | abpLocalization}}
+          </span>
+          <span class="column-content">
+                <span class="column-content">
+                  {{row.data.storageProviderName}}
+                </span>
+          </span>
+        </td>
+        <td appResponsiveColumn="200" class="when-big-width-cell-center pt-0 pb-0">
+          <span class="non-editing-only p-column-title">
+            {{ 'FileManager::PersonalizedArchive' | abpLocalization }}
+          </span>
+          <span class="column-content">
+            {{ row.data.isPersonalizedArchive ? ('Infrastructure::Yes' | abpLocalization) : ('Infrastructure::No' | abpLocalization) }}
+          </span>
+        </td>
+        <td appResponsiveColumn="110" class="when-big-width-cell-center pt-0 pb-0">
+          <span class="non-editing-only p-column-title">
+            {{ 'FileManager::Active' | abpLocalization }}
+          </span>
+          <span class="column-content">
+            {{ row.data.isActive ? ('Infrastructure::Yes' | abpLocalization) : ('Infrastructure::No' | abpLocalization) }}
+          </span>
+        </td>
+        <td *ngIf="isDrivesMode" style="width:110px" class="row-buttons pt-0 pb-0">
+            <div class="flex align-items-center justify-content-end gap-2">
+              <i (click)="openPermissions(row)" class="fa-solid fa-list-check"
+                [pTooltip]="'FileManager::Permissions' | abpLocalization"
+                tooltipPosition="top">
+              </i>
+              <i (click)="removeFileArchive(row)" class="fa fa-trash" style="color: red"
+                [pTooltip]="'FileManager::Delete' | abpLocalization"
+                tooltipPosition="top">
+              </i>
+            </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr class="table-emptymessage">
+        <td class="w-full" [attr.colspan]="isDrivesMode ? 6 : 5">
+          <div class="card w-full">
+            <div class="card-body w-full">
+              <div class="card-header text-center">
+                <span *ngIf="!searchQueryText?.length">
+                  {{'FileManager::FileArchive:NoFileArchives' | abpLocalization}}
+                </span>
+                <span *ngIf="searchQueryText?.length > 0">
+                  {{'FileManager::FileArchive:NoFileArchivesFound' | abpLocalization}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+</div>
+<app-edit-folder [selectedArchive]="selectedArchiveDto" *ngIf="selectedRow.displayEdit" [display]="selectedRow.displayEdit"
+(saveEvent)="updateFolderName($event)" (closeEvent)="closeEditDialog(selectedRow)">
+</app-edit-folder>
+<app-create-file-archive-dialog
+  [display]="createDialogVisible"
+  [archive]="dialogArchive"
+  (saved)="onDialogSaved($event)"
+  (closeEvent)="onCreateDialogClose()">
+</app-create-file-archive-dialog>

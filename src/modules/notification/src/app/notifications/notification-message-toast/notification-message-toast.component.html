@@ -1,0 +1,14 @@
+<p-toast 
+	position="top-right" 
+	key="notification-message" 
+	[baseZIndex]="5000"
+  appendTo="body">
+	<ng-template let-message pTemplate="message">
+			<div class="flex align-items-start" style="flex: 1; max-width: 95%;">
+          <i [ngClass]="message?.data?.icon" class="mr-2 text-2xl"></i>
+					<span class="font-bold text-900 truncate-text">
+              {{ message?.data?.content }}
+          </span>
+			</div>
+	</ng-template>
+	</p-toast>

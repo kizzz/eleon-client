@@ -1,0 +1,34 @@
+<div *ngIf="errorMessage">
+  <p-message severity="error" [text]="errorMessage"></p-message>
+</div>
+<div *ngIf="!errorMessage && data" class="p-fluid grid m-0">
+  <div class="col-12 field pr-only py-1">
+    <!-- <label style="font-size: 13px">{{ 'TenantManagement::TenantSettings:UserIsolationSettings' | abpLocalization }}</label> -->
+    <div>
+      <p-checkbox [(ngModel)]="data.enabled" binary="true" inputId="isolationEnabled" (onChange)="isDirty = true"></p-checkbox>
+      <label class="text-lg mx-2 mb-1" for="isolationEnabled">
+        <span>{{'TenantManagement::TenantSettings:UserIsolationSettings:Enabled' | abpLocalization}}</span>
+      </label>
+    </div>
+  </div>
+  <ng-container>
+    <div class="field col-12 md:col-6 pr-only">
+      <label>{{ 'TenantManagement::UserLoginSettings:SslCertificate' | abpLocalization }}</label>
+      <div class="p-inputgroup w-full flex w-100">
+        <input style="min-width:0" class="no-select flex-1 w-100" [value]="data.certificateFileName" readonly [disabled]="!data.enabled"
+          [placeholder]="'TenantManagement::TenantSettings:HostnameSettings:Certificate' | abpLocalization" type="text"
+          autocomplete="asdasdasdasdasd" pInputText [ngClass]="{'ng-invalid ng-dirty': data.validators.certificate}" (input)="isDirty = true"/>
+        <p-fileUpload  #fileUploadComponent mode="basic" maxFileSize="1000000" [customUpload]="true" (uploadHandler)="uploadFile($event)"
+          [auto]="true" [chooseLabel]="null" uploadStyleClass="uploadButton" chooseStyleClass="uploadButton"
+          [chooseIcon]="data.certificateFileName ? 'pi pi-file-edit' : 'pi pi-file-import'">
+        </p-fileUpload>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6 pr-only">
+      <label>{{ 'TenantManagement::UserLoginSettings:SslCertificatePassword' | abpLocalization }}</label>
+      <input pInputText [ngClass]="{'ng-invalid ng-dirty': data.validators.password}" [disabled]="!data.enabled"
+        [placeholder]="'TenantManagement::TenantSettings:HostnameSettings:CertificatePassword' | abpLocalization"
+        autocomplete="off" type="password" class="w-100" [(ngModel)]="data.password" (input)="isDirty = true; data.validators.password = false">
+    </div>
+  </ng-container>
+</div>

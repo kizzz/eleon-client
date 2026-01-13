@@ -1,0 +1,239 @@
+<app-page-title [title]="'HealthCheckModule::Details:Title' | abpLocalization: details?.data?.type + ' ' + details?.data?.initiatorName" [icon]="getTypeIcon(details?.data?.type)">
+</app-page-title>
+  
+  <div class="content" *ngIf="details?.data">
+        <div class="card p-fluid">
+          <h5 class="mb-3">{{ 'Infrastructure::GeneralInformation' | abpLocalization }}</h5>
+          <ul class="list-none p-0 m-0">
+            <li style="height: 49.44px;"
+              class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap">
+              <div class="text-500 w-6 md:w-3 font-medium">{{'HealthCheckModule::Header:Id' | abpLocalization}}</div>
+              <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+               {{ details?.data?.id || '-' }}
+              </div>
+            </li>
+						<li style="height: 49.44px;"
+              class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap">
+              <div class="text-500 w-6 md:w-3 font-medium">{{'HealthCheckModule::Header:Type' | abpLocalization}}</div>
+              <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+                {{ details?.data?.type || '-' }}
+              </div>
+            </li>
+						<li style="height: 49.44px;"
+              class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap">
+              <div class="text-500 w-6 md:w-3 font-medium">{{'HealthCheckModule::Header:Initiator' | abpLocalization}}</div>
+              <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+               {{ details?.data?.initiatorName || '-' }}
+              </div>
+            </li>
+            <li style="height: 49.44px;"
+              class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap">
+              <div class="text-500 w-6 md:w-3 font-medium">{{'HealthCheckModule::Header:CreationTime' | abpLocalization}}</div>
+              <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+                {{ details?.data?.creationTime | date:'short' || '-' }}
+              </div>
+            </li>
+						<li style="height: 49.44px;"
+              class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap">
+              <div class="text-500 w-6 md:w-3 font-medium">{{'HealthCheckModule::Header:Status' | abpLocalization}}</div>
+              <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+                <p-tag [value]="getStatusName(details?.data?.status)" [severity]="getStatusClass(details?.data?.status)"></p-tag>
+              </div>
+            </li>
+          </ul>
+        </div>
+      <!-- <div class="field col-12 sm:col-12 lg:col-6 md:col-6">
+        <div class="card p-fluid">
+          
+        </div>
+      </div> -->
+    <div class="card p-fluid m-1">
+      <h5>
+        {{'HealthCheckModule::Reports' | abpLocalization}}
+      </h5>
+      <div class="grid">
+        <div class="field col-12 md:col-6">
+          <div #executionsContainer>
+            <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+              [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"
+              class="data-table" [value]="details?.data?.reports" rowGroupMode="subheader" groupRowsBy="serviceName">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appResponsiveColumn="140">
+                    {{ "HealthCheckModule::Report:Header:CheckName" | abpLocalization }}
+                  </th>
+									<th appResponsiveColumn="140">
+                    {{ "HealthCheckModule::Report:Header:ServiceName" | abpLocalization }}
+                  </th>
+                  <th appResponsiveColumn="140">
+                    {{ "HealthCheckModule::Report:Header:CreationTime" | abpLocalization }}
+                  </th>
+									<th appResponsiveColumn="140">
+                    {{ "HealthCheckModule::Report:Header:Status" | abpLocalization }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="groupheader" let-rowHeader>
+                  <tr pRowGroupHeader>
+                      <td colspan="9999">
+                          <i class="fa-solid fa-computer mr-2"></i>
+                          <span class="font-bold">{{rowHeader.serviceName || ('HealthCheckModule::Report:NoService' | abpLocalization)}}</span>
+                      </td>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-row>
+                <tr [pSelectableRow]="row" (click)="select(row)" class="cursor-pointer"
+                  [ngClass]="{'blue-grey-linear-gradient': colorOfRow(row)}">
+									<td style="width:200px">
+                    <span class="non-editing-only p-column-title">
+                      {{ "HealthCheckModule::Report:Header:CheckName" | abpLocalization }}
+                    </span>
+                    <span class="column-content">
+                      {{ row.checkName || '-' }}
+                    </span>
+                  </td>
+									<td style="width:200px">
+                    <span class="non-editing-only p-column-title">
+                      {{ "HealthCheckModule::Report:Header:ServiceName" | abpLocalization }}
+                    </span>
+                    <span class="column-content">
+                      {{ row.serviceName || '-' }}
+                    </span>
+                  </td>
+                  <td style="width:200px">
+                    <span class="non-editing-only p-column-title">
+                      {{ "HealthCheckModule::Report:Header:CreationTime" | abpLocalization }}
+                    </span>
+                    <span class="column-content">
+                      {{row.creationTime | date:'short'}}
+                    </span>
+                  </td>
+                  <td style="width:200px">
+                    <span class="non-editing-only p-column-title">
+                      {{ "HealthCheckModule::Report:Header:Status" | abpLocalization }}
+                    </span>
+                    <span class="column-content">
+                      <p-tag [value]="getStatusName(row.status)" [severity]="getStatusClass(row.status)"></p-tag>
+                    </span>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr class="table-emptymessage">
+                  <td class="w-100" colspan="9999">
+                    <div class="card w-100">
+                      <div class="card-body w-100 text-center">
+                        <div class="card-header">
+                          {{ 'HealthCheckModule::HealthCheck:NoReports' | abpLocalization }}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+        <div class="field col-12 md:col-6">
+          <div>
+            <p-tabs [(value)]="activeTab">
+              <p-tablist>
+                <p-tab value="details">
+                  <div class="flex align-items-center gap-2">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="hidden md:inline">{{'HealthCheckModule::Report:Details' | abpLocalization}}</span>
+                  </div>
+                </p-tab>
+                <p-tab value="extra">
+                  <div class="flex align-items-center gap-2">
+                    <i class="fas fa-file-code"></i>
+                    <span class="hidden md:inline">{{'HealthCheckModule::Report:ExtraInformation' | abpLocalization}}</span>
+                  </div>
+                </p-tab>
+              </p-tablist>
+              <p-tabpanels>
+                <p-tabpanel value="details">
+                  <div class="w-full" *ngIf="!!selectedReport?.id">
+									<div class="field grid">
+										<label class="mb-2 col-5 md:mb-0" style="font-weight: 700;">{{'HealthCheckModule::Report:Header:CheckName' | abpLocalization}}</label>
+										<div class="col-7">{{selectedReport?.checkName || '-'}}</div>
+									</div>
+									<div class="field grid">
+										<label class="mb-2 col-5 md:mb-0" style="font-weight: 700;">{{'HealthCheckModule::Report:Header:ServiceName' | abpLocalization}}</label>
+										<div class="col-7">{{selectedReport?.serviceName || '-'}}</div>
+									</div>
+									<div class="field grid">
+										<label class="mb-2 col-5 md:mb-0" style="font-weight: 700;">{{'HealthCheckModule::Report:Header:Status' | abpLocalization}}</label>
+										<div class="col-7"><p-tag [value]="getStatusName(selectedReport?.status)" [severity]="getStatusClass(selectedReport?.status)"></p-tag></div>
+									</div>
+									<div class="field grid">
+										<label class="mb-2 col-5 md:mb-0" style="font-weight: 700;">{{'HealthCheckModule::Report:Header:Message' | abpLocalization}}</label>
+										<div class="col-7">{{selectedReport?.message || '-'}}</div>
+									</div>
+									<!-- <div class="field grid">
+										<label class="mb-2 col-5 md:mb-0" style="font-weight: 700;">{{'HealthCheckModule::Report:Header:IsPublic' | abpLocalization}}</label>
+										<div class="col-7">{{!selectedReport?.isPublic ? ('HealthCheckModule::Report:Header:Public' | abpLocalization) : ('HealthCheckModule::Report:Header:Private' | abpLocalization)}}</div>
+									</div> -->
+									<div class="field grid">
+										<label class="mb-2 col-5 md:mb-0" style="font-weight: 700;">{{'HealthCheckModule::Report:Header:CreationTime' | abpLocalization}}</label>
+										<div class="col-7">{{selectedReport?.creationTime | date: 'medium' }}</div>
+									</div>
+                  </div>
+                  <div class="w-full" *ngIf="!selectedReport?.id">
+                    <span class="text-center">
+                      {{'HealthCheckModule::Report:NoDetails' | abpLocalization}}
+                    </span>
+                  </div>
+                </p-tabpanel>
+                <p-tabpanel value="extra">
+                  <div *ngIf="selectedReport?.extraInformation && selectedReport?.extraInformation.length > 0">
+                  
+                    <p-message *ngFor="let info of selectedReport?.extraInformation"
+                      [severity]="info.severity == 0 ? 'info' : info.severity == 1 ? 'warn' : 'error'"
+                      [closable]="false">
+                      <div class="grid w-full">
+                        <div class="col-11 p-0">
+                          <app-ellipsis [text]="info.key + ' ' + info.value" class="w-full"></app-ellipsis>
+                        </div>
+                        <div class="col-1 p-0 flex justify-content-end gap-2">
+                          <span class="fa fa-magnifying-glass text-primary cursor-pointer" (click)="openMessageDetails(info)"></span>
+                        </div>
+                      </div>
+                    </p-message>
+                  
+                  </div>
+                  <div *ngIf="!selectedReport?.extraInformation || selectedReport?.extraInformation.length === 0">
+                    {{'HealthCheckModule::Report:NoExtraInformation' | abpLocalization}}
+                  </div>
+                </p-tabpanel>
+              </p-tabpanels>
+            </p-tabs>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  	<p-dialog [(visible)]="showMessageDetailsDialog" (onHide)="selectedMessage = null" appendTo="body" [modal]="true">
+		<ng-template pTemplate="header">
+				<div class="inline-flex align-items-center justify-content-center gap-2" style="font-size: 1.6rem;">
+					<span class="{{selectedMessage?.severity === 2 ? 'fa-solid fa-triangle-exclamation text-danger' : 
+					selectedMessage?.severity === 0 ? 'fa fa-info-circle text-info' : 'fa fa-exclamation-triangle text-warning'}}"></span>
+					<span class="font-bold white-space-nowrap">
+							{{(selectedMessage?.severity === 2 ? 'HealthCheckModule::ExtraInformation:Details:Error' : 
+							selectedMessage?.severity === 0 ? 'HealthCheckModule::ExtraInformation:Details:Info' : 'HealthCheckModule::ExtraInformation:Details:Warning') | abpLocalization}}
+					</span>
+				</div>
+		</ng-template>
+		<div style="width: min(500px, 90vw)">
+			<div style="height: 24rem;">
+        <textarea 
+          style="height: 100%; width: 100%; resize: none;"
+            *ngIf="selectedMessage" 
+            pInputTextarea 
+            [ngModel]="selectedMessage.key + '\n\n' + selectedMessage.value" 
+            [readonly]="true">
+        </textarea>
+      </div>
+		</div>
+	</p-dialog>

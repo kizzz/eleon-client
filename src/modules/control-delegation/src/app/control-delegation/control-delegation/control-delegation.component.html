@@ -1,0 +1,29 @@
+
+  
+    <app-page-title [title]="'TenantManagement::ControlDelegation' | abpLocalization" icon="fa fa-key">
+    </app-page-title>
+  
+  <div class="content">
+    <div #tableCard class="card table-card">
+      <div class="card-body">
+        <p-tabs value="byUser">
+          <p-tablist>
+            <p-tab value="byUser">
+              {{ 'TenantManagement::ControlDelegation:ByUser:Title' | abpLocalization }}
+            </p-tab>
+            <p-tab value="toUser">
+              {{ 'TenantManagement::ControlDelegation:ToUser:Title' | abpLocalization }}
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="byUser">
+              <app-control-delegation-by-user></app-control-delegation-by-user>
+            </p-tabpanel>
+            <p-tabpanel value="toUser">
+              <app-control-delegation-to-user></app-control-delegation-to-user>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+  </div>

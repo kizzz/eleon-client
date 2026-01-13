@@ -1,0 +1,59 @@
+@import "primeflex/core/variables.scss";
+
+.wrapper {
+  max-width: 85vw;
+  min-width: 85vw;
+  width: 85vw;
+
+  @media screen and (min-width: $lg) {
+    max-width: 520px;
+    min-width: 520px;
+    width: 520px;
+    max-height: 350px;
+    min-height: 350px;
+    height: 350px;
+  }
+}
+
+.dark{
+  background-color: #282936 !important;
+}
+
+.light{
+  background-color: white !important;
+}
+
+.icon-close-button {
+  cursor: pointer;
+  color: #6c757d;
+  transition: box-shadow 0.3s ease;
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+.icon-close-button:hover {
+  box-shadow: 0 0 0 5px rgba(108, 117, 125, 0.2);
+  background-color: rgba(108, 117, 125, 0.2);
+}
+
+:host ::ng-deep{
+  @media (min-width: 768px) {
+    .data-table .p-datatable .p-datatable-tbody>tr >td{
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
+    .data-table .p-datatable .p-datatable-tbody>tr{
+      height: 49.44px !important;
+    }
+    
+  }
+  @media (min-width: 992px) {
+    .data-table .p-datatable .p-datatable-tbody>tr >td{
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
+    .data-table .p-datatable .p-datatable-tbody>tr{
+      height: 49.44px !important;
+    }
+  }    
+}

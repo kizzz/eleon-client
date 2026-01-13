@@ -1,0 +1,29 @@
+<ng-container *ngIf="enabled">
+	<p-popover #op styleClass="menu-overlay" (onHide)="opened = false" (onShow)="opened = true">
+		<ng-template #content>
+			<div class="font-bold p-3">{{ 'Infrastructure::QuickRelogin:Title' | abpLocalization }}</div>
+			<p-listbox #userBox
+				[options]="users"
+				dataKey="id"
+				(onChange)="onSelected($event);($event.value ? userBox.updateModel(null) : null)"
+				optionLabel="displayUserName"
+				[filter]="true"
+				class="w-full md:w-56"
+				[virtualScroll]="true"
+				[virtualScrollItemSize]="30"
+				[filterPlaceholder]="'Infrastructure::QuickRelogin:Placeholder' | abpLocalization"
+				[listStyle]="{'max-height': '16.5rem'}">
+				<ng-template let-user pTemplate="item">
+					<app-profile-picture [userId]="user.id" size="medium"></app-profile-picture>
+					<div>{{ user.displayUserName | truncate:18 }}</div>
+				</ng-template>
+			</p-listbox>
+		</ng-template>
+	</p-popover>
+
+	<button [class]="'p-link layout-topbar-button ' + (opened ? 'menu-button-active': 'menu-button-inactive')"
+			[pTooltip]="'Infrastructure::QuickRelogin:Tooltip' | abpLocalization" pBadge tooltipPosition="bottom" (click)="op.toggle($event);openDialog()">
+			<i class="fa fa-people-arrows"></i>
+			<span>{{ 'Infrastructure::QuickRelogin' | abpLocalization }}</span>
+	</button>
+</ng-container>

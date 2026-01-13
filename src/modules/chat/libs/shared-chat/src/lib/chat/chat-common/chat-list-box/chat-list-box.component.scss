@@ -1,0 +1,33 @@
+.chat:hover,
+.chat.selected {
+  background-color: var(--surface-ground);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  a {
+    color: var(--primary-500) !important;
+    transition: all 0.3s ease;
+  }
+}
+
+.chats-loader {
+  font-size: 1.2rem;
+  color: var(--gray-700);
+  border-radius: 5%;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+.unread-badge {
+  min-width: 1.5rem;
+  font-size: 0.8rem;
+  border-radius: 50%;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--green-500);
+  background-color: #e8fff3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

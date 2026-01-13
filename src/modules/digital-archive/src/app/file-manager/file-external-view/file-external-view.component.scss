@@ -1,0 +1,15 @@
+:host ::ng-deep {
+
+    .p-inputnumber-input  {
+        width: 4rem;
+    }
+
+    .external-view {
+        background-image: url('/assets/media/auth/bg4.jpg');
+        height: 100vh;
+    }
+    
+    [data-bs-theme="dark"] .external-view {
+        background-image: url('/assets/media/auth/bg4-dark.jpg');
+    }
+}

@@ -1,0 +1,43 @@
+// :host ::ng-deep .dialogs {
+//   @layer bootstrap-base {
+//       // Bootstrap initializaton
+//       @import "bootstrap/scss/functions";
+//       @import "bootstrap/scss/variables";
+//       @import "bootstrap/scss/variables-dark";
+//       @import "bootstrap/scss/maps";
+//       // @import "bootstrap/scss/mixins";
+//       @import "bootstrap/scss/utilities";
+//       @import "bootstrap/scss/bootstrap";
+//   }
+// }
+.selected {
+    color: #009ef7
+  }
+  
+  .icons {
+    cursor: pointer;
+    font-size: medium;
+    margin-bottom: -0.5rem;
+}
+
+:host ::ng-deep {
+  .p-organizationchart-node-content:has(.linked-org-unit) {
+    background-color: lightgreen;
+  }
+
+  .p-datatable-header{
+    height: 55.75px;
+  }
+
+  .mobile-height {
+    height: 300px !important;
+    max-height: 300px !important;
+    min-height: 300px !important;
+    padding-top: 0px !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+.text-danger{
+	color: var(--danger-color);
+}

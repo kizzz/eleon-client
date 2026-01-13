@@ -1,0 +1,36 @@
+<div *ngIf="loading">
+  <div class="w-100">{{'Infrastructure::Loading'}}...</div>
+</div>
+<ng-container *ngIf="!loading">
+  <div *ngFor="let typeSettings of settings;let first = first">
+    <div class="grid" *ngIf="first">
+      <div class="col-4">
+
+      </div>
+      <div class="col-8 grid">
+        <div class="col-6 text-center">
+          <h6>
+            {{'NotificatorModule::UserNotificationSettings:SendNative' | abpLocalization}}
+          </h6>
+        </div>
+        <div class="col-6 text-center">
+          <h6>
+            {{'NotificatorModule::UserNotificationSettings:SendEmail' | abpLocalization}}
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4">
+        <h6>
+          {{typeSettings.title}}
+        </h6>
+      </div>
+      <div class="col-8">
+        <app-notification-type-settings [settings]="typeSettings.data"
+          [(loading)]="loadingSettings">
+        </app-notification-type-settings>
+      </div>
+    </div>
+  </div>
+</ng-container>

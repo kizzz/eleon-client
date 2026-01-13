@@ -1,0 +1,17 @@
+@import "primeflex/core/variables.scss";
+
+.wrapper {
+  max-width: 85vw;
+  min-width: 85vw;
+  width: 85vw;
+
+  @media screen and (min-width: $lg) {
+    max-width: 500px;
+    min-width: 500px;
+    width: 500px;
+  }
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding-bottom: 0px !important;
+}

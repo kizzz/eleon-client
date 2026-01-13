@@ -1,0 +1,185 @@
+<div *ngIf="fullStatesGroupTemplate || statesGroupAuditTree">
+  <div>
+    <h5 class="card-title" *ngIf="fullStatesGroupTemplate">
+      <i class="fas fa-list-check"></i>
+      {{ fullStatesGroupTemplate?.groupName }}
+    </h5>
+    <span
+      *ngIf="statesGroupAuditTree"
+      class="flex align-items-center gap-2 w-full mb-2"
+    >
+      <i class="fas fa-list-check"></i>
+
+      <h5 class="card-title m-0">
+        {{ statesGroupAuditTree?.groupName }} 
+        {{ docId }}
+      </h5>
+
+      <span class="ml-2 text-500">
+        {{
+          getStatusAuditText(
+            statesGroupAuditTree.currentState?.status,
+            statesGroupAuditTree.currentState?.currentActor?.statusDate,
+            statesGroupAuditTree.currentState?.currentActor?.displayName
+          )
+        }}
+      </span>
+
+      <p-tag
+        class="ml-auto"
+        [value]="getGroupStatusValue(statesGroupAuditTree.currentState?.status)"
+        [severity]="getGroupStatusSeverity(statesGroupAuditTree.currentState?.status)"
+      ></p-tag>
+    </span>
+    <p-accordion
+      [activeIndex]="0"
+      collapseIcon="pi pi-minus"
+      expandIcon="pi pi-plus"
+    >
+      <p-accordionTab
+        #tab
+        *ngFor="
+          let step of mode == TraceCardMode.Template
+            ? fullStatesGroupTemplate?.states
+            : statesGroupAuditTree?.states
+        "
+      >
+        <ng-template pTemplate="header">
+          <!-- Make the whole header clickable -->
+          <div
+            class="flex align-items-center gap-2 w-full"
+            (click)="tab.toggle($event)"
+          >
+            <i class="fa-solid fa-shoe-prints"></i>
+
+            <span class="font-bold whitespace-nowrap">
+              {{ step.stateName }} ({{
+                getTypeLocalization(step.approvalType)
+              }})
+            </span>
+
+            <p-badge
+              [value]="
+                getReviewers(step.actors)?.length +
+                getApprovers(step.actors)?.length
+              "
+            />
+
+            <span class="ml-auto flex align-items-center gap-2">
+              <p-tag
+                class="mr-2"
+                *ngIf="mode == TraceCardMode.History"
+                [value]="getGroupStatusValue(step.status)"
+                [severity]="getGroupStatusSeverity(step.status)"
+              ></p-tag>
+
+              <!-- your right-aligned toggle icon -->
+              <i
+                class="pi"
+                [ngClass]="tab.selected ? 'pi-minus' : 'pi-plus'"
+                (click)="$event.stopPropagation(); tab.toggle($event)"
+              ></i>
+            </span>
+          </div>
+        </ng-template>
+        <div *ngIf="getApprovers(step.actors)?.length">
+          <span class="block text-600 font-medium mb-3">
+            <i class="fa-solid fa-user-check"></i>
+            {{ 'Lifecycle::States:Actors:Approvers' | abpLocalization }}</span
+          >
+          <ul class="p-0 m-0 list-none">
+            <li
+              *ngFor="let approver of getApprovers(step.actors)"
+              class="flex align-items-center py-2 border-bottom-1 surface-border"
+            >
+              <div
+                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0"
+              >
+                <i
+                  *ngIf="approver.actorType === lifecycleActorTypes.User"
+                  class="fa-solid fa-user"
+                ></i>
+                <i
+                  *ngIf="approver.actorType === lifecycleActorTypes.Role"
+                  class="fa-solid fa-user-tag"
+                ></i>
+              </div>
+              <span class="text-900 line-height-3">
+                {{ approver.displayName }}
+                <span
+                  *ngIf="mode == TraceCardMode.History && approver.isActive"
+                >
+                  {{
+                    getActorStatusText(
+                      approver.status,
+                      approver.statusDate | date : 'M/d/yy, H:mm'
+                    ) | abpLocalization
+                  }}
+                </span>
+              </span>
+              <p-tag
+                class="ml-auto"
+                *ngIf="mode == TraceCardMode.History && approver.isActive"
+                [value]="getActorStatusValue(approver)"
+                [severity]="getActorStatusSeverity(approver)"
+              ></p-tag>
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="getReviewers(step.actors)?.length" style="margin-top: 15px;">
+          <span class="block text-600 font-medium mb-3">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            {{ 'Lifecycle::States:Actors:Reviewers' | abpLocalization }}</span
+          >
+          <ul class="p-0 m-0 list-none">
+            <li
+              *ngFor="let reviewer of getReviewers(step.actors)"
+              class="flex align-items-center py-2 border-bottom-1 surface-border"
+            >
+              <div
+                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0"
+              >
+                <i
+                  *ngIf="reviewer.actorType === lifecycleActorTypes.User"
+                  class="fa-solid fa-user"
+                ></i>
+                <i
+                  *ngIf="reviewer.actorType === lifecycleActorTypes.Role"
+                  class="fa-solid fa-user-tag"
+                ></i>
+              </div>
+              <span class="text-900 line-height-3">
+                {{ reviewer.displayName }}
+                <span
+                  *ngIf="mode == TraceCardMode.History && reviewer.isActive"
+                >
+                  {{
+                    getActorStatusText(
+                      reviewer.status,
+                      reviewer.statusDate | date : 'M/d/yy, H:mm'
+                    ) | abpLocalization
+                  }}
+                </span>
+              </span>
+              <p-tag
+                class="ml-auto"
+                *ngIf="mode == TraceCardMode.History && reviewer.isActive"
+                [value]="getActorStatusValue(reviewer)"
+                [severity]="getActorStatusSeverity(reviewer)"
+              ></p-tag>
+            </li>
+          </ul>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+    <div *ngIf="mode == TraceCardMode.Template
+            ? fullStatesGroupTemplate?.states.length === 0
+            : statesGroupAuditTree?.states?.length === 0">
+      <p>{{ 'Lifecycle::States:NoStepsAddedYet' | abpLocalization }}</p>
+
+    </div>
+  </div>
+</div>
+<div *ngIf="!fullStatesGroupTemplate && !statesGroupAuditTree">
+  <p>{{ 'Lifecycle::StatesGroup:NotSelected' | abpLocalization }}</p>
+</div>

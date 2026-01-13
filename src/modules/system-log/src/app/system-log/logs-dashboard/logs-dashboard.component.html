@@ -1,0 +1,38 @@
+<app-page-title 
+  [title]="pageTitle" 
+  icon="{{ pageIcon }}">
+</app-page-title>
+
+<div class="content mt-2">
+  <!-- Render specific content depending on active route -->
+  <ng-container [ngSwitch]="currentRoute">
+    
+    <app-system-log-table
+      *ngSwitchCase="'system'"
+      [rowsCount]="rowsCount">
+    </app-system-log-table>
+    
+    <app-system-log-table
+      *ngSwitchCase="'systemalerts'"
+      [rowsCount]="rowsCount"
+      [minLogLevel]="systemLogLevel.Warning"
+      [isSystemAlerts]="true">
+    </app-system-log-table>
+
+    <app-entity-changes-table
+      *ngSwitchCase="'audit'"
+      [rowsCount]="rowsCount">
+    </app-entity-changes-table>
+
+    <app-audit-logs-table
+      *ngSwitchCase="'requests'"
+      [rowsCount]="rowsCount">
+    </app-audit-logs-table>
+
+    <app-user-security-logs
+      *ngSwitchCase="'security'"
+      [rowsCount]="rowsCount"
+      [userId]="currentUserId">
+    </app-user-security-logs>
+  </ng-container>
+</div>

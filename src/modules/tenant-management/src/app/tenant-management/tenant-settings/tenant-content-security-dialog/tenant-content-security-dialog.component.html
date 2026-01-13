@@ -1,0 +1,42 @@
+<p-dialog [resizable]="false" [(visible)]="showDialog" (visibleChange)="showDialogChange.emit($event)"
+  [header]="'TenantManagement::TenantSettings:ContentSecuritySettings' | abpLocalization" [modal]="true">
+  <div *ngIf="showDialog && data" class="wrapper">
+    <div class="flex flex-column align-items-start gap-5 w-100">
+      <p-table [loading]="loading" [value]="data.hostnames" rowsEditor [(editableRows)]="data.hostnames"
+        style="width: 100%; min-height: 200px;" [rowAdded]="onHostnameAdded" [rowRemoved]="onHostnameRemoved"
+        [rowEdited]="onHostnameUpdated" class="cell-center" [rowFactory]="hostnameFactory" [dataKey]="ip">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>{{'TenantManagement::TenantSettings:ContentSecuritySettings:Hostname' | abpLocalization}}</th>
+            <app-table-header-controls></app-table-header-controls>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr [pEditableRow]="row">
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input [(ngModel)]="row.hostname" [pKeyFilter]="HostnameKeyFilter" [pValidateOnly]="true"
+                    [ngClass]="{'ng-invalid ng-dirty': row.validators.hostname}" type="text" pInputText
+                    [style]="{'width':'100%'}" />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ row.hostname }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <app-table-row-controls></app-table-row-controls>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-between">
+      <div></div>
+      <button (click)="close()" pButton icon="fa fa-check" [label]="'Infrastructure::Ok' | abpLocalization"
+        class="p-button-rounded p-button-outlined p-button-info mr-3" iconPos="left"></button>
+    </div>
+  </ng-template>
+</p-dialog>

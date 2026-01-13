@@ -1,0 +1,30 @@
+  .data {
+    width: 85vw;
+  }
+  
+  @media (min-width: 576px) {
+    .data {
+      width: 54vw;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .data {
+      width: 31vw;
+    }
+  }
+  
+  @media (min-width: 992px) { 
+    .data {
+      width: 24vw;
+    }
+  }
+
+
+  :host ::ng-deep .p-dialog .p-dialog-content{
+    padding-bottom: 1rem!important;
+  }
+
+  .sm-align{
+    flex-basis: 40%;
+  }

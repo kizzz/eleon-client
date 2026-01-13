@@ -1,0 +1,212 @@
+<app-page-title
+  [title]="'JobScheduler::Tasks:Title:List' | abpLocalization"
+  icon="fas fa-list-check"
+>
+</app-page-title>
+<div class="card">
+  <div class="card-body">
+    <p-table
+      [value]="rows"
+      responsiveLayout="scroll"
+      [loading]="loading"
+      class="cell-center"
+      [lazy]="true"
+      (onLazyLoad)="loadTasks($event)"
+      [rows]="rowsCount"
+      [totalRecords]="totalRecords"
+      [value]="rows"
+      [paginator]="true"
+      sortMode="single"
+      selectionMode="single"
+    >
+      <ng-template pTemplate="caption">
+        <div class="row pb-4 md:pb-0">
+          <div
+            class="col-12 md:col-6 md:pl-4 p-0 flex align-items-center justify-content-end"
+          >
+            <div class="p-inputgroup">
+              <input
+                type="text"
+                style="max-width: 50%"
+                pInputText
+                #searchField
+                placeholder="{{ 'Infrastructure::Search' | abpLocalization }}"
+                [(ngModel)]="searchQueryText"
+              />
+              <button
+                type="button"
+                (click)="search($event)"
+                pButton
+                pRipple
+                icon="pi pi-search"
+                styleClass="p-button-info"
+                class="p-button-text"
+              ></button>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-times-circle"
+                class="p-button-danger p-button-text"
+                (click)="clear($event)"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th appResponsiveColumn="20">
+            {{ 'JobScheduler::Task:Id' | abpLocalization }}
+          </th>
+
+          <th pSortableColumn="name">
+            {{ 'JobScheduler::Task:Name' | abpLocalization }}
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="240" pSortableColumn="lastRunTimeUtc">
+            {{ 'JobScheduler::Task:LastRunTime' | abpLocalization }}
+            <p-sortIcon field="lastRunTimeUtc"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="240" pSortableColumn="nextRunTimeUtc">
+            {{ 'JobScheduler::Task:NextRunTime' | abpLocalization }}
+            <p-sortIcon field="nextRunTimeUtc"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="100">
+            {{ 'JobScheduler::Task:Status' | abpLocalization }}
+          </th>
+          <!-- <th>
+						{{'JobScheduler::Task:Duration' | abpLocalization}}
+          </th> -->
+          <th appResponsiveColumn="10"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr (click)="editTask(row)" class="cursor-pointer">
+          <td appResponsiveColumn="20">
+          <i
+            class="pi pi-copy text-primary cursor-pointer"
+            pTooltip="{{ row.data.id }}"
+            tooltipPosition="top"
+            tooltipClass="tooltip-one-line"
+            (click)="copyId(row.data.id, $event); $event.stopPropagation()"
+          >
+          </i>
+          </td>
+
+          <td>
+            <i class="fas fa-list-check mr-2"></i>
+            <span>{{ row.data.name }}</span>
+          </td>
+          <td appResponsiveColumn="220">
+            {{
+              !!row?.data.lastRunTimeUtc
+                ? (row?.data.lastRunTimeUtc | date : 'MMM d, y, H:mm:ss' : 'UTC')
+                : ('JobScheduler::Task:NoLastRunTime' | abpLocalization)
+            }}
+          </td>
+          <td appResponsiveColumn="220">
+            {{
+              !!row?.data.nextRunTimeUtc
+                ? (row?.data.nextRunTimeUtc | date : 'MMM d, y, H:mm:ss' : 'UTC')
+                : ('JobScheduler::Task:NoNextRunTime' | abpLocalization)
+            }}
+          </td>
+          <td appResponsiveColumn="10">
+            <p-tag
+              [styleClass]="'status-' + row.status.key"
+              [value]="row.status.localized"
+              [icon]="row.status.icon"
+            >
+            </p-tag>
+          </td>
+          <!-- <td>
+						<app-duration *ngIf="!!row.data?.lastDurationSeconds" [value]="row.data?.lastDurationSeconds" [unitOrEnd]="'s'" [conditions]="[
+								{ condition: '<0m', class: 'text-purple-500', style: 'font-weight:700;' },
+								{ condition: '<30m', class: 'text-green-500', style: 'font-weight:400;' },
+								{ condition: '30m-60m', class: 'text-orange-500', style: 'font-weight:600;' },
+								{ condition: '>60m', class: 'text-red-500', style: 'font-weight:700;' },
+							]"></app-duration>
+						<span *ngIf="!row.data?.lastDurationSeconds">-</span>
+					</td> -->
+
+          <!-- Icons column -->
+          <td appResponsiveColumn="10">
+            <div class="flex align-items-center justify-content-end">
+              <span class="fa fa-magnifying-glass text-primary"></span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="9999">
+            <div class="card w-full">
+              <div class="card-body w-full text-center">
+                {{ 'JobScheduler::Tasks:List:EmptyMessage' | abpLocalization }}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [resizable]="false"
+  [header]="'JobScheduler::Tasks:CreateTask:Title' | abpLocalization"
+  [(visible)]="showCreateDialog"
+  [modal]="true"
+  [draggable]="false"
+  *ngIf="!!newTask && showCreateDialog"
+>
+  <div class="dialog-standard">
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'JobScheduler::Tasks:Name' | abpLocalization
+      }}</label>
+      <div class="col-12 md:col-8">
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="newTask.name"
+          class="w-full"
+        />
+      </div>
+    </div>
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'JobScheduler::Task:Description' | abpLocalization
+      }}</label>
+      <div class="col-12 md:col-8">
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="newTask.description"
+          class="w-full"
+        />
+      </div>
+    </div>
+    <div class="mt-2 flex gap-3 justify-content-end">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        (onClick)="onTaskCreateCancel()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+      >
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="fa fa-check"
+        (onClick)="onTaskCreate()"
+        [label]="'Infrastructure::Save' | abpLocalization"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

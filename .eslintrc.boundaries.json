@@ -1,0 +1,55 @@
+{
+  "settings": {
+    "boundaries/elements": [
+      {
+        "type": "client-lib",
+        "pattern": "client/libs/**"
+      },
+      {
+        "type": "client-mod",
+        "pattern": "client/modules/**"
+      },
+      {
+        "type": "client-app",
+        "pattern": "client/apps/**"
+      },
+      {
+        "type": "client-host",
+        "pattern": "client/hosts/**"
+      }
+    ]
+  },
+  "rules": {
+    "boundaries/element-types": [
+      2,
+      {
+        "default": "allow",
+        "rules": [
+          {
+            "from": "client-host",
+            "allow": [
+              "client-app"
+            ]
+          },
+          {
+            "from": "client-app",
+            "allow": [
+              "client-mod",
+              "client-lib"
+            ]
+          },
+          {
+            "from": "client-mod",
+            "allow": [
+              "client-lib"
+            ]
+          },
+          {
+            "from": "client-lib",
+            "allow": []
+          }
+        ]
+      }
+    ]
+  }
+}

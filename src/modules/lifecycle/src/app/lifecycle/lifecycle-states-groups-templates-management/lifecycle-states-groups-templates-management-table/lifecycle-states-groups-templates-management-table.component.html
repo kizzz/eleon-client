@@ -1,0 +1,103 @@
+<p-table #statesGroupTable *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+responsiveLayout="scroll" [breakpoint]="breakpoint" scrollDirection="both" class="cell-center"
+[lazy]="true" (onLazyLoad)="loadStatesGroup($event)" [rows]="rowsCount" [totalRecords]="totalRecords"
+[loading]="loading" [value]="rows" editMode="row" [paginator]="true" dataKey="id" (onRowSelect)="select($event)"
+selectionMode="single" expandableRows="true">
+<ng-template pTemplate="header">
+  <tr>
+    <th style="min-width: 100px">{{ "Lifecycle::StatesGroup:Name" | abpLocalization }}</th>
+    <th appResponsiveColumn="110">{{ "Lifecycle::StatesGroup:Type" | abpLocalization }}</th>
+    <th style="width:1%; max-width: 100px; min-width: 100px;" *ngIf="isLifecycleManager()">
+    </th>
+    <th style="width:80px" *ngIf="isLifecycleManager()">{{ "Lifecycle::StatesGroup:Active" | abpLocalization }}</th>
+    <th style="width:100px" *ngIf="isLifecycleManager()">
+    </th>
+  </tr>
+</ng-template>
+<ng-template pTemplate="body" let-stategroup let-index="rowIndex" let-editing="editing" let-expanded="expanded">
+  <tr #rowRef [pSelectableRow]="stategroup" [pEditableRow]="stategroup" (click)="navigateToDashboard(stategroup, $event)">
+    <td style="min-width: 100px">
+      <p-cellEditor>
+        <ng-template pTemplate="input">
+          <div class="flex align-items-center">
+            <input pInputText type="text"  (click)="$event.stopPropagation();" [(ngModel)]="stategroup.groupName" class="w-full">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="output">
+          <div class="flex align-items-center">
+            <span class="p-3 pointer">
+              <i *ngIf="!expanded" (click)="expandRow(stategroup, $event, editing);edit(stategroup)" class="fas fa-chevron-right">
+              </i>
+              <i *ngIf="expanded" (click)="expandRow(stategroup, $event, editing);edit(stategroup)" class="fas fa-chevron-down">
+              </i>
+            </span>
+            {{stategroup.groupName}}
+          </div>
+        </ng-template>
+      </p-cellEditor>
+    </td>
+    <td style="width:50px" *ngIf="isLifecycleManager()">
+      <div *ngIf="!editing">
+
+      </div>
+      
+    </td>
+    <td style="width:1%; max-width: 100px; min-width: 100px;" (click)="$event.stopPropagation();" >
+      <span class="p-column-title">
+      </span>
+      <div *ngIf="!!stategroup?.id?.length && isLifecycleManager()">
+        <span class="text-primary pointer" (click)="addStateRow(stategroup);$event.stopPropagation();" *ngIf="!editingRow && !lifecycleService.getIsEditing()">
+          <i class="fa fa-plus"></i> {{ 'Lifecycle::States:AddSteps' | abpLocalization }}
+        </span>
+      </div>
+    </td>
+    <td style="width:80px" *ngIf="isLifecycleManager()">
+      <div>
+        <p-toggleswitch *ngIf="editing" [(ngModel)]="stategroup.isActive" (click)="$event.stopPropagation()"></p-toggleswitch>
+				<span class="fa fa-check" *ngIf="stategroup.isActive && !editing"></span>
+      </div>
+    </td>
+    <td style="width:100px" class="row-buttons" [alignFrozen]="direction" pFrozenColumn *ngIf="isLifecycleManager()">
+      <div class="flex justify-content-center">
+				<div *ngIf="editing" class="flex align-items-center">
+					<button (click)="saveEditedState(stategroup, rowRef);$event.stopPropagation()" pButton type="button"
+						[pTooltip]="'Infrastructure::Save' | abpLocalization" icon="fa fa-check"
+						class="p-button-text p-button-rounded p-button-success">
+					</button>
+					<button (click)="cancelStateEditing(stategroup);$event.stopPropagation()" pButton type="button" icon="fa fa-ban"
+						[pTooltip]="'Infrastructure::Cancel' | abpLocalization"
+						class="p-button-text p-button-rounded p-button-danger">
+					</button>
+				</div>
+        <ng-container *ngIf="!editing">
+          <button (click)="editState(stategroup);$event.stopPropagation()" pButton type="button" icon="fa fa-edit"
+          [pTooltip]="'Infrastructure::Edit' | abpLocalization"
+          class="p-button-text p-button-rounded p-button-primary"></button>
+          <button (click)="removeState(stategroup);$event.stopPropagation();" pButton type="button" icon="fa fa-trash"
+            [pTooltip]="'Infrastructure::Remove' | abpLocalization"
+            class="p-button-text p-button-rounded p-button-danger">
+          </button>
+        </ng-container>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+<ng-template #expandedrow let-row>
+  <tr class="p-0 m-0 rowexpansion">
+    <td colspan="5">
+      <app-lifecycle-states-templates-management [isLifecycleManage]="isLifecycleManager()"
+        [statesGroup]="row">
+      </app-lifecycle-states-templates-management>
+    </td>
+  </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+  <tr class="table-emptymessage">
+    <td class="w-full" colspan="5">
+      <div class="card w-full">
+        {{ 'Lifecycle::NoWorkflowsAddedYet' | abpLocalization }}
+      </div>
+    </td>
+  </tr>
+</ng-template>
+</p-table>

@@ -1,0 +1,46 @@
+<div class="text-center tenant-table-box wrapper">
+  <p-table #selectionBox [value]="tenants" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+  [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"  rows="5" [lazy]="true"
+    (onLazyLoad)="onLoadTenants($event)" [paginator]="true" [totalRecords]="totalRecords" [loading]="loading"
+    [selectionMode]="currentSelectionMode" [metaKeySelection]="!isMultiple" [(selection)]="selectedTenants"
+    class="data-table">
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-search pr-1 pl-1"></i>
+          {{"Infrastructure::Search" | abpLocalization}}
+        </span>
+        <input type="text" pInputText #searchField
+          placeholder="{{'Infrastructure::Search' | abpLocalization}}" (ngModel)="filter"
+          (input)="selectionBox.filterGlobal($event.target.value, 'contains')" style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 200px" class="text-center">{{"Infrastructure::Name"| abpLocalization}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tenant>
+      <tr [pSelectableRow]="tenant">
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"Infrastructure::Name"| abpLocalization}}
+          </span>
+          <div class="column-content">
+            <app-ellipsis [text]="tenant?.name" style="width: 200px; max-width: 200px;"></app-ellipsis>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <p>
+        {{ "Infrastructure::Tenant:EmptyMessage" | abpLocalization}}
+      </p>
+    </ng-template>
+  </p-table>
+  <div class="mt-2 flex justify-content-end">
+    <p-button [text]="true" [raised]="true" (onClick)="selectTenants($event)" icon="fa fa-check"
+      [label]="'Infrastructure::Select' | abpLocalization">
+    </p-button>
+  </div>
+</div>

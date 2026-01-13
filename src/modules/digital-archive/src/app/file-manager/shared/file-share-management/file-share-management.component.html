@@ -1,0 +1,179 @@
+<div class="h-dialog-fixed-height h-full flex justify-content-between flex-column dialog-max p-3">
+
+<!-- <h2 *ngIf="setting.permissionType === FileShareStatus.None"> {{ 'FileManager::ChoosingSharingType' | abpLocalization }}  </h2> -->
+<!-- <h2 *ngIf="setting.permissionType !== FileShareStatus.None">
+  <i [class]="fileShareIcons[setting.permissionType]"></i>
+  {{ 'FileManager::SharePermissions' | abpLocalization }}
+</h2> -->
+
+  <div class="flex flex-wrap gap-3" *ngIf="setting.permissionType === FileShareStatus.None">
+    <div class="flex align-items-center" *ngFor="let option of options">
+        <p-radioButton [name]="option.key" [value]="option.value" [(ngModel)]="newPermissionType" [inputId]="option.key + 'Id'"
+          (ngModelChange)="confirmSharePermissionChanges(option.value)"
+          [disabled]="loading"></p-radioButton>
+        <label [for]="option.key + 'Id'" class="ml-2">{{ option.key }}</label>
+    </div>
+  </div>
+  
+  <p-table
+  #dt1 [loading]="loading" [value]="setting.reviewers" rowsEditor [(editableRows)]="setting.reviewers"
+  [rowAdded]="addReviewer" [paginator]="true"  [rows]="4" [rowRemoved]="rowRemoved"
+  [rowEdited]="editReviewer" editMode="row" style="min-height: 200px;"
+  [rowFactory]="reviewerRowFactory" dataKey="id" *ngIf="setting.permissionType !== FileShareStatus.None"
+  [globalFilterFields]="['reviewerKeyLabel']" >
+  <ng-template pTemplate="caption">
+    <div class="grid" >
+      <div class="col-12 md:col-5 flex" >
+        <div class="p-inputgroup">
+          <input pInputText #searchField
+          placeholder="{{'Infrastructure::Search' | abpLocalization}}" [(ngModel)]="searchQueryText">
+          <button type="button" (click)="dt1.filterGlobal(searchQueryText, 'contains')" pButton pRipple icon="pi pi-search"
+            styleClass="p-button-info" class="p-button-text">
+          </button>
+        </div>
+      </div>
+      <div class="col-12 flex gap-3 md:col-7 justify-content-end align-items-end">
+        <p-button [text]="true" [raised]="true" *ngIf="setting.permissionType !== FileShareStatus.None" icon="pi pi-times-circle"
+          styleClass="p-button-danger text-red-400 p-button-sm" [label]="'FileManager::Share:CancelFileChanges' | abpLocalization"
+          (click)="cancel()" [loading]="loading">
+        </p-button>
+        <p-button [text]="true" [raised]="true" 
+          *ngIf="setting.permissionType !== FileShareStatus.None && setting.permissionType !== FileShareStatus.Readonly" 
+          icon="fa-solid fa-floppy-disk" styleClass="p-button-success p-button-sm" 
+          [label]="'FileManager::Share:SaveFileChanges' | abpLocalization" (click)="save()" [loading]="loading">
+        </p-button>
+        <p-button [text]="true" [raised]="true" icon="fa fa-plus" (click)="add()" *ngIf="setting.permissionType !== FileShareStatus.None"
+          [label]="'FileManager::Add'|abpLocalization" styleClass="p-button-sm">
+        </p-button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="text-center" style="max-width: 2rem;">{{ 'FileManager::Share:Url' | abpLocalization }}</th>
+      <th class="text-center" style="max-width: 8rem;">{{ 'FileManager::Share:ReviewerType' | abpLocalization }}</th>
+      <th class="text-center">{{ 'FileManager::Share:ReviewerLabel' | abpLocalization }}</th>
+      <th class="text-center" style="max-width: 21rem;">{{ 'FileManager::Share:ExpirationDateTime' | abpLocalization }}</th>
+      <th class="text-center" style="max-width: 5rem;">{{ 'FileManager::Share:ReviewerLastDateTime' | abpLocalization }}</th>
+      <th class="text-center">{{ 'FileManager::Share:ReviewerStatus' | abpLocalization }}</th>
+      <th class="text-center"></th>
+      <th class="text-center"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-reviewer let-editing>
+    <tr [pEditableRow]="reviewer">
+      <td style="max-width: 2rem;">
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+          </ng-template>
+          <ng-template pTemplate="output">
+            <div *ngIf="reviewer.id && setting.permissionType !== FileShareStatus.None && reviewer.reviewerStatus === reviewerStatus.Active" class="flex gap-2 justify-content-center align-items-center">
+              <a [href]="getUrl(reviewer)" target="_blank"
+                [pTooltip]="'FileManager::BrowseLink' | abpLocalization" tooltipPosition="top">
+                <i class="pi pi-external-link text-primary"></i>
+              </a>
+              <i class="pi pi-copy fa-lg text-primary cursor-pointer" role="button" (click)="copiedToClipboard()" [cdkCopyToClipboard]="getUrl(reviewer)"
+              [pTooltip]="'FileManager::CopyLink' | abpLocalization" tooltipPosition="top"></i>
+          </div>
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td style="max-width: 8rem;">
+        <div class="flex justify-content-center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-select [options]="reviewerOptions" class="w-full" optionLabel="key" optionValue="value"
+              appendTo="body"
+              [(ngModel)]="reviewer.reviewerType" (onChange)="reviewer.reviewerKeyLabel = null; reviewer.reviewerKey = null; reviewer.externalLink = null;"></p-select>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ getReviewerTypeName(reviewer.reviewerType) }}
+            </ng-template>
+          </p-cellEditor>
+        </div>
+      </td>
+      <td>
+        <div class="flex justify-content-center gap-2">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div class="flex align-items-center">
+                <ng-template #beforeButton>
+                  <input [value]="getReviewerLabel(reviewer)" type="text"
+                    pInputText [readonly]="true"/>
+                </ng-template>
+                <div *ngIf="reviewer.reviewerType !== reviewerType.External"
+                  class="input-group w-full flex p-inputgroup">
+                <input [value]="getReviewerLabel(reviewer)" type="text"
+                                pInputText [readonly]="true"/>
+                <button pButton (click)="showIdentitySelection()" class="p-button-text" style="width:3rem" icon="fa fa-list"></button>
+              </div>
+                <div *ngIf="reviewer.reviewerType === reviewerType.External">
+                  <app-file-share-management-external-private
+                    [beforeButton]="beforeButton"
+                    [key]="reviewer.reviewerKey" [externalPrivateType]="reviewer.externalPrivateType"
+                    (selectionEvent)="reviewer.externalLink = $event; reviewer.reviewerKey = $event?.loginKey">
+                  </app-file-share-management-external-private>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <span *ngIf="getReviewerLabel(reviewer) as label" [pTooltip]="label" tooltipPosition="top">{{ label | truncate:25 }}</span>
+            </ng-template>
+          </p-cellEditor>
+        </div>
+      </td>
+      <td style="max-width: 21rem;">
+        <div class="flex justify-content-center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <app-date-picker [(value)]="reviewer.expirationDateTime"></app-date-picker>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ reviewer.expirationDateTime | date }}
+            </ng-template>
+          </p-cellEditor>
+        </div>
+      </td>
+      <td>
+        <div class="flex justify-content-center">{{ reviewer.lastLoginAttemptDate | date:'short' }}</div>
+      </td>
+      <td>
+        <div class="flex justify-content-center">
+          <p-tag *ngIf="isExpired(reviewer)" [value]="'FileManager::ReviewerStatuses:Expired' | abpLocalization"
+            severity="danger">
+          </p-tag>
+          <p-tag *ngIf="!isExpired(reviewer)"  [value]="'FileManager::ReviewerStatuses:' + reviewerStatus[reviewer.reviewerStatus] | abpLocalization"
+            [severity]="fileReviewerSeverities[reviewer.reviewerStatus]">
+          </p-tag>
+        </div>
+      </td>
+      <td class="text-center">
+        <ng-container *ngIf="!isExpired(reviewer)">
+          <span role="button" (click)="enableReviewer(reviewer)" class="text-primary"
+            *ngIf="reviewer.reviewerStatus === reviewerStatus.Suspended">
+            {{'FileManager::Unsuspend' | abpLocalization}}
+          </span>
+          <span (click)="enableReviewer(reviewer)" class="text-success"
+            *ngIf="reviewer.reviewerStatus === reviewerStatus.Canceled">
+            {{ 'FileManager::Enable' | abpLocalization }}
+          </span>
+          <span (click)="disableReviewer(reviewer)" role="button"
+            [pTooltip]="'FileManager::DisableReviewer' | abpLocalization" tooltipPosition="top"
+            class="fa-regular fa-circle-stop ml-2 cursor-pointer" style="color:var(--danger-color)"
+            *ngIf="reviewer.reviewerStatus === reviewerStatus.Active">
+          </span>
+        </ng-container>
+      </td>
+      <app-table-row-controls [displayRemove]="true" [displayAdd]="false"*ngIf="setting.permissionType !== FileShareStatus.None"
+        [displayEdit]="true" [middleControls]="controls">
+      </app-table-row-controls>
+    </tr>
+  </ng-template>
+  </p-table>
+  
+  <div class="w-full flex justify-content-end align-items-end gap-3 align-items-center ">
+      <p-button [raised]="true" [text]="true" [label]="'Infrastructure::Close' | abpLocalization" (click)="close()"></p-button>      
+
+      <p-button [text]="true" [raised]="true" *ngIf="setting.permissionType === FileShareStatus.None" icon="pi pi-share-alt" [label]="'FileManager::Share' | abpLocalization" (click)="share()" [loading]="loading"> </p-button>
+  </div>
+</div>

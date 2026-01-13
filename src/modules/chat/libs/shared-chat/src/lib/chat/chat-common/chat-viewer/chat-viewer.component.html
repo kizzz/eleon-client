@@ -1,0 +1,45 @@
+<div class="flex flex-column gap-1 align-items-center w-full h-full">
+  <ng-container *ngIf="chat">
+    <div class="flex align-items-center justify-content-between w-full px-4">
+      <div class="flex align-items-center font-bold text-gray-600 text-lg">
+        <app-chat-title [chat]="chat" [maxWidth]="sideBarView ? '200px' : '400px'" [showRename]="true" [showSupport]="true" [sideBarView]="sideBarView" [fullView]="true" (onBackClicked)="onBack()"></app-chat-title>
+      </div>
+      <!-- <div *ngIf="!isMobileVersion()" class="flex justify-content-center">
+        <app-profile-picture-group *recreateOnChange="chat" [userIds]="getChatImages()" [totalUsers]="membersAmount()"
+          [excludeUser]="currentUserId" size="small">
+        </app-profile-picture-group>
+      </div> -->
+
+      <div class="flex align-items-center">
+        <app-chat-controls [chat]="chat" [chatId]="chat.chat.id" (onChatLeft)="onLeaveChat()" [sideBarView]="sideBarView"></app-chat-controls>
+        <button *ngIf="showClose" pButton class="p-button-text" icon="fa fa-times" (click)="close()"></button>
+      </div>
+    </div>
+    <div class="flex align-items-center justify-content-between w-full px-4">
+      <div class="flex gap-2">
+        <p-tag *ngFor="let tag of showedTags" [value]="tag" [rounded]="true" severity="secondary" class="custom-tag"></p-tag>
+        <p-tag *ngIf="showMoreTags" [value]="'...'" [rounded]="true" severity="secondary" class="custom-tag cursor-pointer" (click)="tagsOverlay.toggle($event)"></p-tag>
+        <p-popover #tagsOverlay styleClass="menu-overlay" (onHide)="opened = false" (onShow)="opened = true" appendTo="body">
+          <p-listbox #userBox [options]="chat?.chat?.tags" class="w-full md:w-56" [listStyle]="{'max-height': '12rem'}">
+          </p-listbox>
+        </p-popover>
+      </div>
+      <app-profile-picture-group *recreateOnChange="chat" [userIds]="getChatImages()" [totalUsers]="membersAmount()" size="small" class="cursor-pointer" (click)="showManagementModal = true"
+        [showTooltip]="true" [tooltipText]="'Collaboration::ChatMembers:Members' | abpLocalization">
+      </app-profile-picture-group>
+    </div>
+    <div #chatWrapper class="w-full flex-1 relative">
+      <app-chat-box *recreateOnChange="chat" class="h-full m-3 absolute" [chat]="chat" (chatChange)="close()"
+        [height]="(chatWrapper.offsetHeight - 20) + 'px'" [style.width.px]="chatWrapper.offsetWidth - 20">
+      </app-chat-box>
+    </div>
+  </ng-container>
+
+  <div *ngIf="!chat" class="w-full h-full flex align-items-center justify-content-center">
+    <div class="select-chat-msg">
+      {{ 'Collaboration::ChatList:SelectChatToStart' | abpLocalization }}
+    </div>
+  </div>
+</div>
+
+<app-chat-members-management-modal *ngIf="showManagementModal" [(showDialog)]="showManagementModal" [chat]="chat"></app-chat-members-management-modal>

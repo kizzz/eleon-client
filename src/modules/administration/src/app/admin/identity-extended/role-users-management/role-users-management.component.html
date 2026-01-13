@@ -1,0 +1,158 @@
+<p-dialog [resizable]="false" [visible]="showDialog && !selectingNewUsers" (visibleChange)="showDialog = $event"
+  [header]="'TenantManagement::RoleUsersManagement:Title' | abpLocalization:role?.name" [modal]="true">
+  <div *ngIf="showDialog" class="wrapper">
+    <p-table [value]="users" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+      [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint"
+      scrollDirection="both" [loading]="loading" [lazy]="true" (onLazyLoad)="loadUsers($event)" [(rows)]="rowsCount"
+      (rowsChange)="loadUsers()" [totalRecords]="totalRecords" [paginator]="true" sortMode="single" class="cell-center"
+      [rowsPerPageOptions]="[5, 10, 15]" rowsEditor [(editableRows)]="users" dataKey="id" [rowRemoved]="onRowRemove"
+      [(first)]="roleUserFirstIndex" (onPage)="pageChange($event)">
+      <ng-template pTemplate="caption">
+        <div class="grid flex align-items-center sticky pt-1">
+          <div class="col-6 md:col-8 p-0">
+            <div>
+              <input pInputText [placeholder]="'Infrastructure::Search' | abpLocalization" [(ngModel)]="searchQuery"
+                (keydown.enter)="loadUsers()" style="width: 100%;" (input)="loadUsers()">
+            </div>
+          </div>
+          <div class="col-6 md:col-4 p-0 text-center">
+            <p-button (click)="startSelectingNewUsers()" [label]="'Infrastructure::AddUser' | abpLocalization"
+              [text]="true" [raised]="true" icon="fa fa-plus">
+            </p-button>
+          </div>
+        </div>
+      </ng-template>
+      <!-- <ng-template pTemplate="header">
+        <tr>
+          <th appResponsiveColumn="150">
+            {{"TenantManagement::RoleUsersManagement:User" | abpLocalization}}
+          </th>
+          <th appResponsiveColumn="100">
+          </th>
+        </tr>
+      </ng-template> -->
+      <ng-template pTemplate="body" let-row>
+        <tr [pEditableRow]="row">
+          <td>
+            <div class="p-column-title">
+              {{"TenantManagement::RoleUsersManagement:User" | abpLocalization}}
+            </div>
+            <div class="column-content" style="width: 70% !important">
+              <div class="flex align-items-center gap-2">
+                <app-profile-picture [userId]="row.user.id" size="medium"></app-profile-picture>
+                <div class="textAlign w-full">
+                  <app-ellipsis [text]="getUserName(row)"></app-ellipsis>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td appResponsiveColumn="180">
+            <div class="p-column-title">
+              {{"TenantManagement::RoleUsersManagement:RoleSource" | abpLocalization}}
+            </div>
+            <div class="column-content" style="width: 70% !important">
+              <div *ngIf="!row.editable" class="textAlign">
+                <div class="flex align-items-center">
+                  <i class="fa fa-sitemap"></i>&nbsp;
+                  <app-ellipsis [text]="getRowProvidersString(row)" 
+                    *ngIf="!!getRowProvidersString(row)?.length"></app-ellipsis>
+                    <span *ngIf="!getRowProvidersString(row)?.length">
+                      -
+                    </span>
+                </div>
+              </div>
+            </div>
+          </td>
+          <app-table-row-controls [disableRemove]="!row.editable" width="50px"
+            [removeTooltip]="row.editable ? null : ('TenantManagement::RoleUsersManagement:CanNotRemoveInheritedRole' | abpLocalization)">
+          </app-table-row-controls>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="3">
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header text-center">
+                  {{'TenantManagement::RoleUsersManagement:NoUsersMatch' | abpLocalization}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end mt-4">
+      <button (click)="close()" pButton icon="fa fa-check" [label]="'Infrastructure::Ok' | abpLocalization"
+        class="p-button-info mr-3" iconPos="left" [disabled]="loading"></button>
+    </div>
+  </ng-template> -->
+</p-dialog>
+
+<p-dialog [resizable]="false" [(visible)]="selectingNewUsers" (onHide)="cancelSelectingNewUsers()"
+  [header]="'TenantManagement::RoleUsersManagement:SelectNewUsers' | abpLocalization:role?.name" [modal]="true">
+  <div *ngIf="showDialog && selectingNewUsers" class="wrapper">
+    <p-table [value]="users" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+      [scrollable]="scrollable" [responsive]="true" responsiveLayout="both" [breakpoint]="breakpoint"
+      scrollDirection="both" [loading]="loading" [lazy]="true" (onLazyLoad)="loadUsers($event)" [(rows)]="rowsCount"
+      class="cell-center" [(first)]="newUserFirstIndex" [totalRecords]="totalRecords" (onPage)="pageChange($event)"
+      [paginator]="true" sortMode="single" [rowsPerPageOptions]="[5,10,15,20]" dataKey="id">
+      <ng-template pTemplate="caption">
+        <ng-container *ngTemplateOutlet="search"></ng-container>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr [pEditableRow]="row">
+          <td>
+            <div class="flex align-items-center gap-2">
+              <app-profile-picture [userId]="row.user.id" size="medium"></app-profile-picture>
+              <div class="textAlign">{{getUserName(row)}}</div>
+            </div>
+          </td>
+          <td style="max-width: 80px">
+            <button (click)="addNewUserToRole(row)" pButton type="button" icon="fa fa-hand-point-up"
+              [pTooltip]="'Infrastructure::Select' | abpLocalization" tooltipPosition="bottom"
+              class="p-button-text p-button-rounded p-button-primary"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="2">
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header text-center">
+                  {{'TenantManagement::RoleUsersManagement:NoUsersMatch' | abpLocalization}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end mt-4 gap-3">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary button-sm" style="width: 10rem"
+        (click)="cancelSelectingNewUsers()" icon="fa fa-times" label="{{'Infrastructure::Cancel' | abpLocalization}}"
+        [disabled]="loading">
+      </p-button>
+    </div>
+  </ng-template>
+
+</p-dialog>
+
+<ng-template #search>
+  <div class="grid">
+    <div class="col-12">
+      <div class="p-inputgroup">
+        <input pInputText [placeholder]="'Infrastructure::Search' | abpLocalization" [(ngModel)]="searchQuery"
+          (keydown.enter)="reload()"  style="width: 100%;">
+        <button pButton class="p-button-outlined p-button-text" (click)="reload()" icon="pi pi-search"></button>
+      </div>
+    </div>
+  </div>
+</ng-template>

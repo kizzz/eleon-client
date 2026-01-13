@@ -1,0 +1,9 @@
+<p-popover #op>
+  <app-state-actor-template-table-box
+    [documentObjectType]="documentObjectType">
+  </app-state-actor-template-table-box>
+</p-popover>
+
+<button type="button" pButton (click)="op.toggle($event)">
+  {{ title }}
+</button>

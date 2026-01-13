@@ -1,0 +1,109 @@
+<!-- <div class="grid">
+  <div class="col-4 flex align-items-center align-content-center justify-content-center">
+    <b>{{ 'FileManager::DefaultPermission' | abpLocalization }}</b>
+  </div>
+  <div class="col flex flex-column text-center align-items-center" *ngFor="let permissionType of fileManagerPermissionLocalizedTypes">
+    {{ permissionType.key }}
+    <p-checkbox [binary]="true" [ngModel]="checkPermission(defaultPermission, permissionType.value)" inputId="binary"
+    [disabled]="readPermissionType !== permissionType.value && !checkPermission(defaultPermission, readPermissionType)"
+    (onChange)="updateDefault($event?.checked, defaultPermission, permissionType.value); "></p-checkbox>
+  </div>
+</div> -->
+<p-table [loading]="loading" [value]="permissions" rowsEditor [(editableRows)]="permissions"
+    (editableRowsChange)="permissionChanged($event)" [rowAdded]="addPermission"
+    [rowEdited]="editPermission" [frozenValue]="defaultPermissions" [paginator]="true"
+    [totalRecords]="permissions?.length" [rows]="4" [rowFactory]="permissionRowFactory"
+    dataKey="uniqueKey" [rowRemoved]="onRowRemove">
+
+  <ng-template pTemplate="caption">
+    <div class="grid mx-0 my-0">
+      <div class="col-6 md:col-8 flex align-items-center p-0">
+        <div class="p-inputgroup">
+          <input type="text" pInputText [(ngModel)]="searchQueryText"
+            placeholder="{{'Infrastructure::Search' | abpLocalization}}">
+          <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+            styleClass="p-button-info" class="p-button-text"></button>
+          <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+            (click)="clear($event)"></button>
+        </div>
+      </div>
+      <div class="col-6 md:col-4 flex align-items-center justify-content-end p-0">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="text-center">{{ 'FileManager::Name' | abpLocalization }}</th>
+      <th class="text-center" style="width:60px" *ngFor="let permissionType of fileManagerPermissionLocalizedTypes">
+        {{ permissionType.key }}
+      </th>
+      <th class="text-center"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="frozenbody" let-permission>
+    <tr [pEditableRow]="permission" style="background-color: #EEF2FF;">
+      <td>
+        <b>{{ 'FileManager::DefaultPermission' | abpLocalization }}</b>
+      </td>
+      <td *ngFor="let permissionType of fileManagerPermissionTypes">
+        <div class="flex justify-content-center text-center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-checkbox [binary]="true" [ngModel]="checkPermission(permission, permissionType)" inputId="binary"
+                [disabled]="readPermissionType !== permissionType && !checkPermission(permission, readPermissionType)"
+                (onChange)="updateDefault($event?.checked, permission, permissionType)">
+              </p-checkbox>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <i *ngIf="checkPermission(permission, permissionType)" class="pi pi-check-circle" style="color:greenyellow"></i>
+              <i *ngIf="!checkPermission(permission, permissionType)" class="pi pi-times-circle" style="color:red"></i>
+            </ng-template>
+          </p-cellEditor>
+        </div>
+      </td>
+      <app-table-row-controls [displayRemove]="false" [displayAdd]="false" [displayEdit]="true"></app-table-row-controls>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-permission>
+    <tr [pEditableRow]="permission">
+      <td>{{ permission.actorDisplayName }}</td>
+      <td *ngFor="let permissionType of fileManagerPermissionTypes">
+        <div class="flex justify-content-center text-center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-checkbox [binary]="true" [ngModel]="checkPermission(permission, permissionType)" inputId="binary"
+                [disabled]="readPermissionType !== permissionType && !checkPermission(permission, readPermissionType)"
+                (onChange)="togglePermission($event?.checked, permission, permissionType)">
+              </p-checkbox>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <i *ngIf="checkPermission(permission, permissionType)" class="pi pi-check-circle" style="color:greenyellow"></i>
+              <i *ngIf="!checkPermission(permission, permissionType)" class="pi pi-times-circle" style="color:red"></i>
+            </ng-template>
+          </p-cellEditor>
+        </div>
+      </td>
+      <app-table-row-controls [displayRemove]="true" [displayAdd]="false" [displayEdit]="true"></app-table-row-controls>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="footer" *ngIf="permissions && permissions?.length === 0">
+    <tr *ngIf="permissions && permissions?.length === 0">
+      <td colspan="7">
+        <div class="card w-full">
+          <div class="card-body w-full">
+            <div class="card-header text-center">
+              <span style="font-weight: normal;">
+                {{ 'FileManager::NoSpecial' | abpLocalization }} {{ header }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

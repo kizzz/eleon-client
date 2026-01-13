@@ -1,0 +1,28 @@
+.buttons{
+    cursor: pointer;
+}
+
+:host ::ng-deep .p-treetable .p-treetable-header {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+
+
+  :host ::ng-deep .p-treenode-content{
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+  }
+
+
+  :host ::ng-deep .p-tree .p-treenode .p-tree-toggler{
+    display: none !important;
+  }
+
+  :host ::ng-deep .p-tree .p-treenode .p-treenode-label{
+    width: 100% !important;
+  }
+
+
+  

@@ -1,0 +1,30 @@
+<!-- <app-toolbar [displayCreate]="false" [displaySave]="false" [displayRemove]="false" [displaySend]="false">
+</app-toolbar> -->
+
+    <app-page-title [title]="'Collaboration::SupportTicketList:Title' | abpLocalization" icon="fas fa-flag">
+    </app-page-title>
+  <div #mobileView class="card block md:hidden md:mt-0 mt-2" style="height: calc(100vh - 190px)">
+    <div *ngIf="mobileView.offsetHeight > 0" class="h-100 w-100">
+      <div class="w-full h-full">
+        <app-support-ticket-list class="h-full w-full" [(selectedChat)]="selectedChat" [(noChats)]="noChats"></app-support-ticket-list>
+      </div>
+      <p-drawer [visible]="!!selectedChat" (visibleChange)="onSidebarVisibleChange($event)" styleClass="w-screen"
+        position="right">
+        <ng-template pTemplate="headless">
+          <app-support-ticket-viewer class="h-full w-full pt-3" [(chat)]="selectedChat" [noChats]="noChats"
+            [showClose]="true"></app-support-ticket-viewer>
+        </ng-template>
+      </p-drawer>
+    </div>
+  </div>
+  <div #wideView class="card hidden md:block" style="height: calc(100vh - 190px)">
+    <p-splitter *ngIf="wideView.offsetHeight > 0" stateKey="chat-viewer" [panelStyle]="{'min-width.px' : 300}"
+      [panelSizes]="[30, 70]" [layout]="'horizontal'" stateStorage="local" [gutterSize]="5">
+      <ng-template pTemplate>
+        <app-support-ticket-list class="h-full w-full" [(selectedChat)]="selectedChat" [(noChats)]="noChats"></app-support-ticket-list>
+      </ng-template>
+      <ng-template pTemplate>
+        <app-support-ticket-viewer class="h-full w-full" [(chat)]="selectedChat" [noChats]="noChats"></app-support-ticket-viewer>
+      </ng-template>
+    </p-splitter>
+  </div>

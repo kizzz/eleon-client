@@ -1,0 +1,129 @@
+<p-dialog [resizable]="false" [header]="title" [visible]="showMainDialog" (visibleChange)="onMainDialogClosed()" [modal]="true"
+  appendTo="body" styleClass="dialog-content-padding-1">
+  <div style="min-width: 400px; min-height: 450px">
+    <p-tabs [(value)]="activeIndex" class="w-full tab-view-no-padding" style="flex-basis: 3rem">
+      <p-tablist>
+        <p-tab [value]="0">
+          <div class="flex align-items-center gap-2">
+            <i class="fa fa-cog"></i>
+            <span class="hidden md:inline">{{'Collaboration::Chat:Settings:General' | abpLocalization}}</span>
+          </div>
+        </p-tab>
+        <p-tab [value]="1">
+          <div class="flex align-items-center gap-2">
+            <i class="fa fa-users"></i>
+            <span class="hidden md:inline">{{'Collaboration::Chat:Settings:Members' | abpLocalization}}</span>
+          </div>
+        </p-tab>
+        <p-tab [value]="2">
+          <div class="flex align-items-center gap-2">
+            <i class="fa fa-user-tag"></i>
+            <span class="hidden md:inline">{{'Collaboration::Chat:Settings:Roles' | abpLocalization}}</span>
+          </div>
+        </p-tab>
+        <p-tab [value]="3">
+          <div class="flex align-items-center gap-2">
+            <i class="fa fa-sitemap"></i>
+            <span class="hidden md:inline">{{'Collaboration::Chat:Settings:Units' | abpLocalization}}</span>
+          </div>
+        </p-tab>
+      </p-tablist>
+      <p-tabpanels>
+      <p-tabpanel [value]="0">
+        <div class="wrapper flex flex-column gap-3 align-items-center">
+          <div class="field grid w-full m-0">
+            <label appRequired class="col-12 mb-2 md:col-3 md:mb-0">
+              {{'Collaboration::Chat:Name' | abpLocalization}}
+            </label>
+            <div class="col-12 md:col-9">
+              <input pInputText 
+                [(ngModel)]="chatName" 
+                [ngClass]="{'ng-invalid ng-dirty': nameInvalid}"
+                [style]="{'width':'100%'}" 
+                [placeholder]="'Collaboration::EnterChatName' | abpLocalization" 
+                *ngIf="!isUpdate" />
+              <div class="p-inputgroup" *ngIf="isUpdate">
+                <input pInputText [(ngModel)]="chatName" [style]="{'width':'100%'}"
+                [placeholder]="'Collaboration::EnterChatName' | abpLocalization" />
+                <button pButton icon="fa fa-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="saveName()" [loading]="loading" class="p-button-outlined"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field grid w-full m-0">
+            <label appRequired class="col-12 mb-2 md:col-3 md:mb-0">
+              {{'Collaboration::CreateGroupChat:PublicChat' | abpLocalization}}
+            </label>
+            <div class="col-12 md:col-9">
+              <p-checkbox [(ngModel)]="isPublic" [binary]="true" [style]="{'width':'100%'}" (onChange)="onPublicChatChanged()" style="width: 100%" class="w-full"></p-checkbox>
+            </div>
+          </div>
+
+          <div class="field grid w-full m-0">
+            <label appRequired class="col-12 mb-2 md:col-3 md:mb-0">
+              {{ 'Collaboration::CreateChat:DefaultChatRole' | abpLocalization }}
+            </label>
+            <div class="col-12 md:col-9">
+              <p-select [options]="defaultChatRoleOptions" [(ngModel)]="selectedDefaultChatRole" optionLabel="name" optionValue="value"
+                          [placeholder]="'Collaboration::CreateGroupChat:DefaultChatRole' | abpLocalization" (onChange)="defaultRoleChanged()"
+                          [appendTo]="'body'" [style]="{'width':'100%'}" class="hide-dropdown-border">
+              </p-select>          
+            </div>
+          </div>
+
+          <div class="field grid w-full m-0">
+            <label appRequired class="col-12 mb-2 md:col-3 md:mb-0">
+              {{ 'Collaboration::Tags' | abpLocalization}}
+            </label>
+            <div class="col-12 md:col-9 grid field m-0">
+              <div class="p-inputgroup">
+                <input pInputText [(ngModel)]="tagInput" [placeholder]="'Collaboration::Enter:Tag' | abpLocalization" (keydown.enter)="addTag()" />
+                <button pButton icon="fa fa-check" [label]="'Infrastructure::Add' | abpLocalization" (click)="addTag()" [loading]="loading" class="p-button-outlined"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field grid w-full m-0 px-3" style="max-width: 400px;">
+            <div class="chip-container">
+              <p-chip *ngFor="let tag of tags" [label]="tag" class="custom-chip" [removable]="true" (onRemove)="removeTag(tag)"></p-chip>
+            </div>
+          </div>
+        </div>
+      </p-tabpanel>
+
+      <p-tabpanel [value]="1">
+        <app-chat-members-list *ngIf="members" [chatId]="chat?.chat?.id" [allowEdit]="allowEditUsers" [showSearch]="true" (kickUser)="removeUser($event)" (addUser)="onAddUserRequested()"  class="w-full" [members]="members">
+        </app-chat-members-list>
+      </p-tabpanel>
+
+      <p-tabpanel [value]="2">
+        <app-chat-roles-list [allowEdit]="allowEditRoleAndUnits" [(roles)]="selectedRoles" (visibilityChange)="showRolesDialog = $event" class="w-full"></app-chat-roles-list>
+      </p-tabpanel>
+
+      <p-tabpanel [value]="3">
+
+        <app-chat-units-list [allowEdit]="allowEditRoleAndUnits" [(units)]="selectedUnits" (visibilityChange)="showUnitsDialog = $event" class="w-full"></app-chat-units-list>
+      </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </div>
+
+  <ng-template pTemplate="footer" *ngIf="!isUpdate">
+    <div class="w-full flex align-items-center justify-content-end" >
+      <p-button [text]="true" [raised]="true" icon="pi pi-check" [label]="'Infrastructure::Create' | abpLocalization" (click)="onCreatePressed()" [loading]="loading" styleClass="p-button-outlined"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [resizable]="false" [header]="'Collaboration::UserManagement:AddUser' | abpLocalization" [(visible)]="showAddUserModal"
+  [modal]="true" appendTo="body">
+  <div class="wrapper flex flex-column gap-3 align-items-center" style="min-width: 400px;">
+    <app-chat-members-table-box *ngIf="showAddUserModal" selectionMode="multiple" class="w-full"
+      [(selectedUsers)]="selectedUsersToAdd" (selectedUsersChange)="onSelectedUsersChange($event)" [preselectedUsers]="preselectedUsers">
+    </app-chat-members-table-box>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [text]="true" [raised]="true" icon="pi pi-check" [label]="'Infrastructure::Select' | abpLocalization"
+      (click)="addUsers()" [loading]="loading" styleClass="p-button-outlined"></p-button>
+  </ng-template>
+</p-dialog>

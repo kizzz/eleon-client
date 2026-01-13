@@ -1,0 +1,47 @@
+
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" [modal]="true" [closable]="false" [draggable]="false" [blockScroll]="true">
+    <ng-template pTemplate="header">
+        <div style="display: flex; width: 100% !important; justify-content: space-between;">
+            <div>
+                <span style="font-size: 1.25rem; font-weight: 700;">
+                    <i class="pi pi-cog"></i>
+                    {{'FileManager::ArchiveSettings' | abpLocalization}}
+                </span>
+            </div>
+            <div>
+                <span class="icon-close-button">
+                    <i class="pi pi-times" (click)="closeDialog()"></i>
+                </span>
+            </div>
+        </div>
+    </ng-template>
+  <div class="wrapper">
+    <div class="grid field">
+        <label appRequired class="col-4">
+            {{'FileManager::Name' | abpLocalization}}
+        </label>
+          <div class="col-8">
+            <input pInputText [(ngModel)]="selectedArchive.name" class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+            (input)="resetNameValidator(); pageStateService.setDirty()" [disabled]="loading">
+          </div>
+      </div>
+      <!-- <div class="grid field">
+        <label class="col-4">
+            {{'FileManager::DeleteArchive' | abpLocalization}}
+        </label>
+        <div class="col-8">
+            <p-checkbox [binary]="true" [(ngModel)]="isDeleteArchive" 
+            [disabled]="loading" (onChange)="pageStateService.setDirty()">
+          </p-checkbox>
+        </div>
+    </div> -->
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [text]="true" [disabled]="loading" [raised]="true" [loading]="loading" (click)="closeDialog()" severity="secondary"
+        [label]="'Infrastructure::Cancel' | abpLocalization" icon="fa fa-times">
+      </p-button>
+    <p-button [text]="true" [disabled]="loading" [raised]="true" [loading]="loading" [label]="'Infrastructure::Save' | abpLocalization"
+        (click)="save()" icon="fa fa-check"></p-button>
+  </ng-template>
+</p-dialog>

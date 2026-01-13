@@ -1,0 +1,27 @@
+<p-drawer [(visible)]="opened" (visibleChange)="onSidebarVisibilityChange($event)" styleClass="w-screen lg:w-30rem"
+  [position]="position">
+  <ng-template pTemplate="headless">
+    <div class="w-full h-full flex flex-column">
+      <div class="flex align-items-center justify-content-between py-3 px-1">
+        <ng-container *ngIf="!selectedChat">
+          <div class="flex font-bold text-gray-600 flex-1 px-4 text-xl">
+            <span class="fa fa-comments mr-2"></span> <span>{{'Collaboration::ChatList:Title' | abpLocalization}}</span>
+          </div>
+
+          <div class="card-toolbar gap-1 flex align-items-center justify-content-end">
+            <span class="fas fa-external-link-alt text-primary cursor-pointer p-2" (click)="navigateToFullPage()"></span>
+            <span class="fa fa-times text-primary cursor-pointer p-2" (click)="close()"></span>
+          </div>
+        </ng-container>
+      </div>
+
+      <div *ngIf="opened" class="flex-1 flex">
+        <app-chat-list *ngIf="!selectedChat" [(selectedChat)]="selectedChat" (noChats)="close()" [sideBarView]="true"></app-chat-list>
+        <div #chatWrapper class="w-full flex-1 relative" *ngIf="selectedChat">
+          <app-chat-viewer [(chat)]="selectedChat" [sideBarView]="true">
+          </app-chat-viewer>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-drawer>

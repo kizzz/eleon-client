@@ -1,0 +1,100 @@
+
+  <app-page-title [title]="'StorageModule::ProvidersOptions:List:Title' | abpLocalization" icon="fas fa-copy">
+  </app-page-title>
+  <div class="content md:mt-0 mt-3">
+    <div #tableCard>
+      <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable" [breakpoint]="breakpoint"
+          [value]="providers" responsiveLayout="stack" [loading]="loading"
+          [rows]="rowsCount" [totalRecords]="totalRecords" [paginator]="true"
+          scrollDirection="both" class="data-table" [responsive]="true"
+          (onRowSelect)="editStorageProvider($event?.data)" selectionMode="single">
+          <!-- <ng-template pTemplate="caption">
+            <div class="grid mt-0">
+              <div class="col-12 md:col-6 md:pl-4 p-0 flex align-items-center justify-content-end">
+                <div class="p-inputgroup">
+                  <input type="text" pInputText #searchField
+                    placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+                    (keydown.enter)="search($event)" [(ngModel)]="searchQueryText" (ngModelChange)="onSearchInput()">
+                  <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+                    styleClass="p-button-info" class="p-button-text"></button>
+                  <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+                    (click)="clear($event)"></button>
+                </div>
+              </div>
+              <div class="col-12 md:col-6 py-3 md:py-0 flex align-items-center justify-content-center lg:justify-content-end">
+                
+              </div>
+            </div>
+          </ng-template> -->
+          <ng-template pTemplate="header">
+            <tr>
+              <th>
+                {{"StorageModule::StorageProvider:Name" | abpLocalization}}
+              </th>
+              <th>
+                {{"StorageModule::StorageProvider:Type" | abpLocalization}}
+              </th>
+              <th style="width:1%; max-width: 120px; min-width: 120px;">
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-row>
+            <tr [pSelectableRow]="row">
+              <td>
+                <span class="p-column-title">
+                  {{"StorageModule::StorageProvider:Name" | abpLocalization}}
+                </span>
+                <div class="column-content textAlign">
+                  <span>
+                    <i class="fas fa-copy px-2"></i>
+                    {{row.data.name}}
+                  </span>
+                </div>
+              </td>
+              <td>
+                <span class="p-column-title">
+                  {{"StorageModule::StorageProvider:Type" | abpLocalization}}
+                </span>
+                <div class="column-content">
+                  <span>
+                    {{row.data.fullType}}
+                  </span>
+                </div>
+              </td>
+              <td style="width:1%; max-width: 60px;min-width: 60px;" class="row-buttons">
+                <div class="column-content flex justify-content-end gap-3 text-center py-2 md:py-0">
+                  <span (click)="editStorageProvider(row.data, $event)"
+                    [pTooltip]="'StorageModule::ProvidersOptions:EditProvider:Tooltip' | abpLocalization"
+                    class="text-primary fa fa-cog cursor-pointer hover-button">
+                  </span>
+                  <span (click)="removeStorageProvider(row, $event)"
+                    [pTooltip]="'StorageModule::ProvidersOptions:RemoveProvider:Tooltip' | abpLocalization"
+                    class="icon-button">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr class="table-emptymessage">
+              <td class="w-full" colspan="3">
+                <div class="card w-full">
+                  <div class="card-body w-full text-center">
+                    <span *ngIf="searchQueryText?.length > 0">
+                      {{ "StorageModule::ProvidersOptions:List:EmptyMessage" | abpLocalization}}
+                    </span>
+                    <span *ngIf="!searchQueryText?.length">
+                      {{ "StorageModule::ProvidersOptions:List:NoRows:EmptyMessage" | abpLocalization}}
+                    </span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+    </div>
+  </div>
+
+<app-storage-provider-create-dialog #storageProviderCreateDialog (createdStorage)="createStorage($event)">
+</app-storage-provider-create-dialog>

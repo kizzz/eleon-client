@@ -1,0 +1,23 @@
+:host ::ng-deep {
+  .p-tabview .p-tabview-panels {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  .p-tag.status-inactive {
+    background: var(--gray-500);
+  }
+
+  .p-tag.status-ready {
+    background: var(--green-500);
+  }
+
+  .p-tag.status-running {
+    background: var(--yellow-500);
+  }
+}
+
+.custom-li {
+	height: 49.44px;
+}

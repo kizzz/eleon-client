@@ -1,0 +1,15 @@
+
+<div class="flex align-items-center gap-1">
+  <span *ngIf="sideBarView && fullView"
+    (click)="onBack(); $event.stopPropagation();"
+    [pTooltip]="'Collaboration::SupportTicket:UserManagement' | abpLocalization"
+    tooltipPosition="bottom" class="fas fa-arrow-left text-primary cursor-pointer p-2"></span>
+
+  <span *ngIf="fullView" class="fa fa-comments"></span>
+
+  <span class="truncate-text text-900"
+    [style.max-width]="maxWidth"
+    [pTooltip]="chat.chat.name">
+    {{chat.chat.name}}
+  </span>
+</div>

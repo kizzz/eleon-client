@@ -1,0 +1,25 @@
+
+:host ::ng-deep .box-height{
+    // height: 70vh !important;
+    // min-height: 70vh !important;
+    // max-height: 70vh !important;
+}
+
+:host ::ng-deep .p-treetable-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+// Fix z-index for checkboxes in table body to prevent overlapping with sticky header
+:host ::ng-deep .table-body-checkbox {
+    position: relative;
+    z-index: 1;
+}
+
+
+//   :host ::ng-deep p-treeTableToggler button {
+//     padding-bottom: 7px;   
+// }
+
+

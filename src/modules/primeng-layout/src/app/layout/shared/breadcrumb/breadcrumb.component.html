@@ -1,0 +1,28 @@
+<div class=" flex align-items-center breadcrumb-wrapper">
+    <div class="breadcrumb-controls">
+        <div class="flex">
+            <i class="fa fa-arrow-left icon-button" [pTooltip]="'FileManager::Back'| abpLocalization"
+                tooltipPosition="top" role="button" (click)="back()">
+            </i>
+            <i class="fa fa-rotate-right icon-button" role="button" (click)="refresh()"
+                [pTooltip]="'FileManager::Reload'| abpLocalization" tooltipPosition="top">
+            </i>
+        </div>
+    </div>
+    <div>
+
+        <p-breadcrumb class="max-w-full" [model]="breadcrumbs" [home]="home"></p-breadcrumb>
+
+        <!-- <div class="content-header mb-2" style="display: flex; align-items: end;">
+        &nbsp; <i class="fa fa-home" *ngIf="folderPaths?.length > 0" style="font-size:large; vertical-align: middle;"></i> &nbsp;
+        <ng-container *ngFor="let path of folderPaths; let last = last;">
+          <span (click)="onPathClick(path)" style="cursor: pointer;font-weight: 600;font-size: initial;">
+            {{path.name | truncate}}
+          </span>
+          <span class="material-icons-outlined small-arrow align-middle">
+            arrow_right
+          </span>
+        </ng-container>
+      </div> -->
+    </div>
+</div>

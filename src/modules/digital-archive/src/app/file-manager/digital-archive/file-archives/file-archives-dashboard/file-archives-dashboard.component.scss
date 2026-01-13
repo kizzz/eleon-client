@@ -1,0 +1,34 @@
+// div > div.col-12.md\:col-6.md\:pl-4.p-0.d-flex.align-items-center.justify-content-end {
+//   padding: 0 !important;
+// }
+// :host ::ng-deep{
+//   @media (min-width: 768px) {
+//     .data-table .p-datatable .p-datatable-tbody>tr{
+//       height: 49.44px !important;
+//     }
+//   }
+//   @media (min-width: 992px) { 
+
+//     .data-table .p-datatable .p-datatable-tbody>tr{
+//       height: 49.44px !important;
+//     }
+//   }    
+// }
+
+::ng-deep .archivePermissionDialog {
+  .p-dialog-header{
+    app-file-dynamic-dialog-header{
+      width: 100%;
+    }
+  }
+}
+
+::ng-deep .dialog-pb-custom {
+  .p-dialog-content{
+    padding-bottom: 0px !important;
+  }
+}
+
+tr {
+  height: 36.75px !important;
+}

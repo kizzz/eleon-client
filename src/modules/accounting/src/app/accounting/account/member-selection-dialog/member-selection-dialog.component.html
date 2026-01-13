@@ -1,0 +1,102 @@
+<div>
+  <p-dialog
+    [resizable]="false"
+    [header]="title"
+    [(visible)]="display"
+    [modal]="true"
+    [draggable]="false"
+    [style]="{ width: '800px' }"
+    (onShow)="onDialogShow()"
+    (onHide)="onDialogHide()"
+  >
+    <div #tableCard>
+      <p-table
+        *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+        [scrollable]="scrollable"
+        [responsive]="true"
+        responsiveLayout="stack"
+        [breakpoint]="breakpoint"
+        scrollDirection="both"
+        class="cell-center"
+        styleClass="pr-table"
+        [value]="rows"
+        [loading]="false"
+        [paginator]="false"
+        selectionMode="multiple"
+        [(selection)]="selectedRows"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 50px">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th appResponsiveColumn="100" class="when-big-width-cell-center" pSortableColumn="type">
+              {{ 'AccountingModule::Row:MemberType' | abpLocalization }}
+              <p-sortIcon field="type"></p-sortIcon>
+            </th>
+            <th class="when-big-width-cell-center" pSortableColumn="refId">
+              {{ 'AccountingModule::Row:RefId' | abpLocalization }}
+              <p-sortIcon field="refId"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="row"></p-tableCheckbox>
+            </td>
+            <td style="width: 1%; max-width: 100px; min-width: 100px">
+              <span class="non-editing-only p-column-title">{{
+                'AccountingModule::Row:MemberType' | abpLocalization
+              }}</span>
+              <span class="column-content">
+                {{ getMemberTypeName(row.data.type) }}
+              </span>
+            </td>
+            <td class="when-big-width-cell-center">
+              <span class="non-editing-only p-column-title">{{
+                'AccountingModule::Row:RefId' | abpLocalization
+              }}</span>
+              <span class="column-content">
+                {{ row.data.refId || '-' }}
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-full" colspan="3">
+              <div class="card w-full">
+                <div class="card-body w-full">
+                  <div class="card-header">
+                    {{ 'AccountingModule::NoMembers' | abpLocalization }}
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="mt-2 flex justify-content-end">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          (onClick)="cancel()"
+                    [label]="'Infrastructure::Cancel' | abpLocalization"
+          icon="fa fa-times"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          [raised]="true"
+          (onClick)="onSelect()"
+          icon="fa fa-check"
+          [label]="'Infrastructure::Select' | abpLocalization"
+        >
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

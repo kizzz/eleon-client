@@ -1,0 +1,27 @@
+<p-dialog [resizable]="false" [(visible)]="showDialog" (visibleChange)="cancel()" [modal]="true"
+  [header]="'TenantManagement::ProfilePictureSettings:CropPicture' | abpLocalization">
+  <div *ngIf="showDialog" class="wrapper">
+    <div class="cropper-wrapper">
+      <div class="loading-block" *ngIf="isLoading">
+        <div class="spinner"></div>
+      </div>
+      <div class="alert alert-warning" *ngIf="loadError">{{ loadImageErrorText }}</div>
+      <div class="cropper">
+        <img #image alt="image" [src]="src" (load)="imageLoaded($event)" (error)="imageLoadError($event)" />
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm" autoWidth="false"
+        [label]="'Infrastructure::Cancel' | abpLocalization" icon="fa fa-times"
+          (click)="cancel()" [disabled]="isLoading || exporting">
+        </p-button>
+      <p-button (click)="save()" icon="fa fa-check" [label]="'Infrastructure::Save' | abpLocalization"
+        [loading]="exporting" [disabled]="isLoading" styleClass="p-button-sm p-button-success"
+        [raised]="true" [text]="true">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

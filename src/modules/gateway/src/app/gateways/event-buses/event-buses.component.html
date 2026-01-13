@@ -1,0 +1,109 @@
+<app-page-title [title]="'GatewayManagement::EventBus:List:Title' | abpLocalization" icon="fas fa-stream">
+</app-page-title>
+<div class="mt-4">
+    <p-table [value]="eventBuses" selectionMode="single" dataKey="data.id" responsiveLayout="stack" [loading]="loading"
+        class="cell-center data-table" [rows]="15" [paginator]="true" selectionMode="single" styleClass="pr-table">
+        <ng-template pTemplate="caption">
+            <div class="grid mt-0">
+                <div class="col-12 md:col-6 md:pl-4 p-0 flex align-items-center justify-content-end">
+                    <div class="p-inputgroup">
+                        <input type="text" pInputText #searchField
+                            placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+                            (keydown.enter)="search()" [(ngModel)]="searchQueryText">
+                        <button type="button" (click)="search()" pButton pRipple icon="pi pi-search"
+                            styleClass="p-button-info" class="p-button-text"></button>
+                        <button type="button" pButton pRipple icon="pi pi-times-circle"
+                            class="p-button-danger p-button-text" (click)="clear()"></button>
+                    </div>
+                </div>
+                <div
+                    class="col-12 md:col-6 py-3 md:py-0 flex align-items-center justify-content-center lg:justify-content-end">
+                    <p-button [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm mr-3"
+                        autoWidth="false" [label]="'Infrastructure::Reload' | abpLocalization" icon="pi pi-sync"
+                        (click)="loadGateways()">
+                    </p-button>
+                    <app-bus-create-dialog (createdEventBus)="loadEventBuses()">
+                        <ng-template template="button">
+                            <p-button [text]="true" [raised]="true" styleClass="p-button-info" [outlined]="true"
+                                autoWidth="false" [label]="'Infrastructure::Add' | abpLocalization"
+                                icon="fa fa-plus">
+                            </p-button>
+                        </ng-template>
+                    </app-bus-create-dialog>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    {{"GatewayManagement::EventBus:Name" | abpLocalization}}
+                </th>
+                <th appResponsiveColumn="200" class="text-center">
+                    {{"GatewayManagement::EventBus:Provider" | abpLocalization}}
+                </th>
+                <th appResponsiveColumn="200" class="text-center">
+                    {{"GatewayManagement::EventBus:Status" | abpLocalization}}
+                </th>
+                <th appResponsiveColumn="100">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+            <tr [pSelectableRow]="row">
+                <td>
+                    <span class="non-editing-only p-column-title">
+                        {{"GatewayManagement::EventBus:Name" | abpLocalization}}
+                    </span>
+                    <div class="textAlign">
+                        <span class="column-content">
+                            <span class="px-2">
+                                <i class="fas fas fa-stream plug-icon">
+                                </i>
+                            </span>
+                            {{row.data.name}}
+                        </span>
+                    </div>
+                </td>
+                <td appResponsiveColumn="200" class="text-center">
+                    <span class="non-editing-only p-column-title">
+                        {{"GatewayManagement::EventBus:Provider" | abpLocalization}}
+                    </span>
+                    <span class="column-content">
+                        {{row.localizedProvider}}
+                    </span>
+                </td>
+                <td appResponsiveColumn="200" class="text-center">
+                    <span class="non-editing-only p-column-title">
+                        {{"GatewayManagement::EventBus:Status" | abpLocalization}}
+                    </span>
+                    <span class="column-content">
+                        <!-- <app-gateway-status-tag class="mr-3" [value]="row.data.status">
+                        </app-gateway-status-tag> -->
+                    </span>
+                </td>
+                <td appResponsiveColumn="100">
+                    <div class="flex justify-content-center">
+                        <!-- <span (click)="removeGateway(row)" [pTooltip]="'Infrastructure::Remove' | abpLocalization"
+                            tooltipPosition="bottom" class="icon-button">
+                            <i class="fa fa-trash"></i>
+                        </span> -->
+                        <!-- <button pButton class="p-button-text p-button-danger" icon="fa fa-trash" (click)="removeGateway(row)"
+                            [pTooltip]="'Infrastructure::Remove' | abpLocalization">
+                        </button> -->
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr class="table-emptymessage">
+                <td class="w-full" colspan="4">
+                    <div class="card w-full">
+                        <div class="card-body w-full text-center">
+                            {{ "GatewayManagement::EventBus:List:EmptyMessage" | abpLocalization}}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

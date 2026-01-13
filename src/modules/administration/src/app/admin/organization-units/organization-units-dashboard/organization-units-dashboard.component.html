@@ -1,0 +1,339 @@
+
+
+<div class="dialogs">
+  <app-organization-units-local-create *ngIf="displayCreate" [display]="displayCreate" [parentOrgUnit]="selectedUnit?.data"
+    [parentChildrenOrgUnits]="selectedUnitChildren" (saveEvent)="createOrgUnit($event)"
+    (closeEvent)="close()"></app-organization-units-local-create>
+
+  <!-- <app-organization-units-create *ngIf="displayCompanyCreate" [display]="displayCompanyCreate"
+    [parentOrgUnit]="orgUnitGeneric" [parentChildrenOrgUnits]="genericOrgUnitChildren"
+    (saveEvent)="createOrgUnitCompany($event)" (closeEvent)="close()">
+  </app-organization-units-create> -->
+
+  <app-organization-units-clone *ngIf="displayClone" [display]="displayClone" [selectedOrgUnit]="selectedUnit?.data"
+    [parentChildrenOrgUnits]="getChildrenOrgUnits(selectedUnit?.data?.parentId)" (cloneEvent)="clone($event)"
+    (closeEvent)="close()"></app-organization-units-clone>
+
+  <app-organization-units-move *ngIf="displayMove" [display]="displayMove" [isMove]="true"
+    [selectedOrgUnit]="selectedUnit?.data" (moveEvent)="move($event)"
+    (closeEvent)="close()"></app-organization-units-move>
+</div>
+
+<app-page-title [title]="'Infrastructure::OrganizationUnit:Header:Title' | abpLocalization" icon="fa fa-sitemap">
+  <ng-template #afterTitleContent>
+    <div class="md:col-auto text-primary ml-2 mr-2" *ngIf="listView==='list'" (click)="setListView('grid')">
+      <span class="material-icons cursor-pointer flex" style="padding-top: 0.5rem">
+        apps
+      </span>
+    </div>
+    <div class="md:col-auto text-primary ml-2 mr-2" *ngIf="listView==='grid'" (click)="setListView('list')">
+      <span class="material-icons cursor-pointer flex" style="padding-top: 0.5rem">
+        view_list
+      </span>
+    </div>
+  </ng-template>
+  <ng-template #rightContent>
+    <div *ngIf="!isMobileVersion()" class="flex flex-wrap md:column-gap-3 mt-2 md:mt-0 row-gap-2 md:row-gap-0">
+      <!-- <p-button (click)="displayCompanyCreate = true" [text]="true" [raised]="true" icon="fas fa-plus" size="small"
+        [label]="'Infrastructure::AddCompany' | abpLocalization" iconPos="left" class="hidden md:block">
+      </p-button> -->
+      <p-button [text]="true" [raised]="true" *ngIf="selectedUnit?.data?.id" icon="pi pi-reply" class="w-6 md:w-auto"
+        [label]="'Infrastructure::OrganizationUnit:Header:Move' | abpLocalization" size="small" severity="warning"
+        (click)="displayMove = true">
+      </p-button>
+      <p-button [text]="true" [raised]="true" *ngIf="selectedUnit?.data?.id" (click)="displayClone=true"
+        class="w-6 md:w-auto" icon="pi pi-clone me-1"
+        [label]="'Infrastructure::OrganizationUnit:Header:Clone' | abpLocalization" size="small">
+      </p-button>
+      <p-button [text]="true" [raised]="true" *ngIf="selectedUnit?.data?.id" (click)="removeOrgUnit($event)"
+        class="w-6 md:w-auto" icon="fas fa-times me-1"
+        [label]="'Infrastructure::OrganizationUnit:Header:Remove' | abpLocalization" size="small" severity="danger">
+      </p-button>
+      <p-button [text]="true" [raised]="true" icon="fas fa-plus" class="w-6 md:w-auto"
+        [label]="'Infrastructure::OrganizationUnit:Header:Add' | abpLocalization" size="small"
+        (click)="displayCreate = true">
+      </p-button>
+    </div>
+    <div *ngIf="isMobileVersion()" class="flex justify-content-start" style="gap: 0.32rem !important;">
+      <!-- <p-button (click)="displayCompanyCreate = true" [text]="true" 
+        [raised]="true" icon="fas fa-plus" styleClass="p-button-sm" class="hidden md:block"
+        [pTooltip]="'Infrastructure::AddCompany' | abpLocalization" tooltipPosition="bottom">
+      </p-button> -->
+      <p-button [text]="true" [raised]="true" *ngIf="selectedUnit?.data?.id" icon="pi pi-reply"
+        styleClass="p-button-sm p-button-warning" (click)="displayMove = true"
+        [pTooltip]="'Infrastructure::OrganizationUnit:Header:Move' | abpLocalization" tooltipPosition="bottom">
+      </p-button>
+      <p-button [text]="true" [raised]="true" *ngIf="selectedUnit?.data?.id" (click)="displayClone=true"
+        icon="pi pi-clone" styleClass="p-button-sm"
+        [pTooltip]="'Infrastructure::OrganizationUnit:Header:Clone' | abpLocalization" tooltipPosition="bottom">
+      </p-button>
+      <p-button [text]="true" [raised]="true" *ngIf="selectedUnit?.data?.id" (click)="removeOrgUnit($event)"
+        icon="fas fa-times" severity="danger" styleClass="p-button-sm"
+        [pTooltip]="'Infrastructure::OrganizationUnit:Header:Remove' | abpLocalization" tooltipPosition="bottom">
+      </p-button>
+      <p-button [text]="true" [raised]="true" icon="fas fa-plus"
+        styleClass="p-button-sm" (click)="displayCreate = true"
+        [pTooltip]="'Infrastructure::OrganizationUnit:Header:Add' | abpLocalization" tooltipPosition="bottom">
+      </p-button>
+    </div>
+  </ng-template>
+</app-page-title>
+<div class="content">
+  <div class="card mt-2" [style.height]="!selectedUnit ? 'calc(100vh - 150px)' : 'auto'">
+    <div class="grid" *ngIf="listView === 'grid'">
+      <div class="col-12 lg:col-4" [ngClass]="{'mobile-height': isMobileVersion()}">
+        <div class="mt-3">
+          <app-organization-units-selection-tree [anySelected]="checked" [maxHeight]="getHeightForOrg()" [showStatus]="true"
+            [isAnySelectionAvailable]="false" isOnlySingleSelectionMode="true" [isShowSearch]="true"
+            (selectionEvent)="orgUnitsSelection($event)" selectionMode="single" [onlyUsers]="false">
+          </app-organization-units-selection-tree>
+        </div>
+      </div>
+      <div class="col-12 lg:col-8">
+        <div *ngIf="!selectedUnit">
+          <ng-container *ngTemplateOutlet="orgUnitNotSelected"></ng-container>
+        </div>
+        <div *ngIf="selectedUnit">
+          <ng-container *ngTemplateOutlet="orgUnitDetails"></ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="listView === 'list'">
+      <ng-container *ngTemplateOutlet="mainView"></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #mainView>
+  <div class="grid">
+    <div class="col-12">
+      <p-card *ngIf="organizationUnits">
+        <p-scrollPanel [style]="{ width: '100%', height: '500px' }">
+          <div class="p-3">
+            <p-organizationChart [value]="organizationUnits" selectionMode="single" [(selection)]="selectedUnit"
+              (selectionChange)="onSelect()">
+              <ng-template let-node pTemplate="default">
+                <div [class]="'p-2 text-center' + (node?.data?.parentId?.length <=0 ? ' linked-org-unit' : '')">
+                  <div class="font-bold">
+                    <span *ngIf="node?.data?.displayName" class="fa fa-sitemap"></span>
+                    {{ node.data.displayName }}
+                    <span *ngIf="node?.data?.isCompany && !!node?.data?.localCurrencyCode?.length">
+                      {{node?.data?.localCurrencyCode | currencySymbol}}
+                    </span>
+                  </div>
+                </div>
+              </ng-template>
+            </p-organizationChart>
+          </div>
+        </p-scrollPanel>
+      </p-card>
+    </div>
+    <div class="col-12">
+      <ng-container *ngTemplateOutlet="orgUnitDetails"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #orgUnitDetails>
+  <div class="card" styleClass="mx-3 mb-3 mt-0" *ngIf="selectedUnit?.data?.id">
+    <div class="p-3">
+      <h3 class="pb-0">
+        {{"Infrastructure::OrganizationUnit:Details" | abpLocalization:selectedUnit.data.displayName}}
+      </h3>
+      <div class="flex justify-content-start align-items-center">
+        <div class="text-md flex align-items-center" style="flex-wrap: wrap;">
+          <div *ngIf="selectedUnit?.data?.parentId?.length && getParentNodeName()?.length > 0">
+            <span class="fa fa-sitemap"></span>
+            <ng-container *ngFor="let breadcrumb of orgUnitBreadcrumbs; let last = last">
+              <span>
+                {{ breadcrumb }}
+                <ng-container>&nbsp;<i class="fas fa-chevron-right"></i>&nbsp;</ng-container>
+                <span *ngIf="last"> &nbsp; </span>
+              </span>
+            </ng-container>
+          </div>
+          <div>
+            <span class="fa fa-sitemap text-xl" *ngIf="selectedUnit?.data?.parentId?.length"></span>
+            <span class="fa fa-sitemap text-xl" *ngIf="!selectedUnit?.data?.parentId?.length"></span>
+            <span class="px-1">{{ selectedUnit?.data?.displayName?.trim() }}</span>
+          </div>
+        </div>
+        <div class="pl-2 pr-2">
+          <app-organization-units-edit [display]="displayEdit" [selectedUnit]="selectedUnit?.data"
+            [isEnabled]="selectedUnit?.data.isEnabled" [orgUnitName]="selectedUnit?.data?.displayName"
+            (saveEvent)="updateOrgUnit($event)" (closeEvent)="close()">
+          </app-organization-units-edit>
+          <span (click)="displayEdit=true" class="fa fa-cog text-primary cursor-pointer" [pTooltip]="'Infrastructure::Settings' | abpLocalization" tooltipPosition="top">
+          </span>
+        </div>
+      </div>
+
+      <p-tabs value="members">
+        <p-tablist>
+          <p-tab value="members">
+            <div class="flex align-items-center gap-2">
+              <i class="fas fa-users"></i>
+              <span class="hidden md:inline" pBadge severity="warning">
+                {{'Infrastructure::OrganizationUnit:Members:Title' | abpLocalization}}
+              </span>
+            </div>
+          </p-tab>
+          <p-tab value="roles">
+            <div class="flex align-items-center gap-2">
+              <i class="fas fa-user-tag"></i>
+              <span class="hidden md:inline" pBadge severity="warning">
+                {{'Infrastructure::OrganizationUnit:Roles:Title' | abpLocalization}}
+              </span>
+            </div>
+          </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+        <p-tabpanel value="members">
+          <ng-template appResponsiveTable="md" let-scrollable let-breakpoint="breakpoint" let-direction="direction">
+            <p-table [value]="unitMembers" [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack"
+              [breakpoint]="breakpoint" scrollDirection="both" class="cell-center" [lazy]="true"
+              [loading]="loadingDetails" (onLazyLoad)="loadMembersData()">
+              <ng-template pTemplate="caption">
+                <div class="flex justify-content-end" style="position: relative; bottom: 12%;">
+                  <p-button styleClass="p-button-sm" autoWidth="false" [raised]="true" [text]="true"
+                          [pTooltip]='"Infrastructure::OrganizationUnit:Members:Add" | abpLocalization'
+                          tooltipPosition="top" icon="fa fa-plus"
+                          [label]='"Infrastructure::OrganizationUnit:Members:Add" | abpLocalization'
+                          (click)="openUserSelectionDialog()">
+                        </p-button>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appResponsiveColumn="130">
+                    {{ 'Infrastructure::OrganizationUnit:Members:UserName' | abpLocalization }}
+                  </th>
+                  <th appResponsiveColumn="130">
+                    {{ 'Infrastructure::OrganizationUnit:Members:Name' | abpLocalization }}
+                  </th>
+                  <th appResponsiveColumn="130">
+                    {{ 'Infrastructure::OrganizationUnit:Members:Email' | abpLocalization }}
+                  </th>
+                  <th appResponsiveColumn="100"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-member>
+                <tr>
+                  <td>
+                    <div class="p-column-title">
+                      {{ 'Infrastructure::OrganizationUnit:Members:UserName' | abpLocalization }}
+                    </div>
+                    <div class="column-content">
+                      {{member.userName}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="p-column-title">
+                      {{ 'Infrastructure::OrganizationUnit:Members:Name' | abpLocalization }}
+                    </div>
+                    <div class="column-content">
+                      {{member.name}} {{member.surname}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="p-column-title">
+                      {{ 'Infrastructure::OrganizationUnit:Members:Email' | abpLocalization }}
+                    </div>
+                    <div class="column-content">
+                      {{member.email}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flex justify-content-end gap-2">
+                      <span [pTooltip]="'Infrastructure::ManagePermissions' | abpLocalization" tooltipPosition="top" (click)="permissionManagement.showUser(member)" class="fa fa-cog cursor-pointer text-primary"></span>
+                      <span [pTooltip]='"Infrastructure::Remove" | abpLocalization' tooltipPosition="top" (click)="removeMember(member)" class="fa fa-trash cursor-pointer text-danger" *ngIf="!member.isReadOnly">
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </ng-template>
+        </p-tabpanel>
+        <p-tabpanel value="roles">
+          <ng-template appResponsiveTable="md" let-scrollable let-breakpoint="breakpoint" let-direction="direction">
+            <p-table [value]="unitRoles" [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack"
+              [breakpoint]="breakpoint" scrollDirection="both" class="cell-center" [lazy]="true"
+              [loading]="loadingDetails" (onLazyLoad)="loadRolesData()">
+              <ng-template pTemplate="caption">
+                <div class="flex justify-content-end" style="position: relative; bottom: 12%;">
+                   <p-button styleClass="p-button-sm" autoWidth="false" [raised]="true"
+                          [pTooltip]='"Infrastructure::OrganizationUnit:Roles:Add" | abpLocalization'
+                          tooltipPosition="top" icon="fa fa-plus" [text]="true" (click)="openRoleSelectionDialog()"
+                          [label]='"Infrastructure::OrganizationUnit:Roles:Add" | abpLocalization'>
+                        </p-button>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th appResponsiveColumn="130">
+                    {{ 'Infrastructure::OrganizationUnit:Roles:Name' | abpLocalization }}
+                  </th>
+                  <th appResponsiveColumn="130">
+                    {{ 'Infrastructure::OrganizationUnit:Roles:From' | abpLocalization }}
+                  </th>
+                  <th appResponsiveColumn="100"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-role>
+                <tr>
+                  <td>
+                    <div class="p-column-title">
+                      {{ 'Infrastructure::OrganizationUnit:Roles:Name' | abpLocalization }}
+                    </div>
+                    <div class="column-content">
+                      {{role.name}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="p-column-title">
+                      {{ 'Infrastructure::OrganizationUnit:Roles:From' | abpLocalization }}
+                    </div>
+                    <div class="column-content">
+                      {{role.inheritedFrom || selectedUnit?.data?.displayName }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flex justify-content-end gap-2">
+                      <span [pTooltip]="'Infrastructure::ManagePermissions' | abpLocalization" tooltipPosition="top" (click)="permissionManagement.showRole(role)" class="fa fa-cog cursor-pointer text-primary"></span>
+                      <span [pTooltip]='"Infrastructure::Remove" | abpLocalization' tooltipPosition="top" *ngIf="!role.isReadOnly" (click)="removeRole(role)" class="fa fa-trash cursor-pointer text-danger">
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </ng-template>
+        </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </div>
+  <div *ngIf="!selectedUnit">
+    <ng-container *ngTemplateOutlet="orgUnitNotSelected"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #orgUnitNotSelected>
+  <div class="mt-2">
+    <div class="pl-2 pr-2">
+      <div class="flex align-items-start p-4 bg-green-50 border-round border-1 border-green-300">
+        <i class="pi pi-exclamation-triangle text-green-900 text-2xl mr-3"></i>
+        <div class="mr-3">
+          <div class="text-green-900 font-medium text-xl mb-2 line-height-1">{{'Infrastructure::Information' |
+            abpLocalization}}</div>
+          <p class="m-0 p-0 text-green-700 mb-3 line-height-3">{{'Infrastructure::OrgUnitNotSelected' |
+            abpLocalization}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<app-permission-management #permissionManagement></app-permission-management>

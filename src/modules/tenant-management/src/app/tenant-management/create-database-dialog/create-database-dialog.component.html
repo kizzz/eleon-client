@@ -1,0 +1,74 @@
+<div #createDatabaseDialog class="loading-dialog">
+  <p-dialog [resizable]="false" [header]="title" [(visible)]="display" [modal]="true" disabled="loading" [draggable]="false">
+    <div *ngIf="display" class="dialogWidth">
+      <div *ngIf="loading" style="text-align: center;">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+      </div>
+      <div class="dialogHeader">
+        <div class="field grid mt-3">
+          <label class="col-12 mb-2 md:col-4 md:mb-0">
+            {{'Infrastructure::TenantManagement:DatabaseName' | abpLocalization}}
+          </label>
+          <div class="col-12 md:col-8">
+            <input [(ngModel)]="newDatabaseName" type="text" pInputText [style]="{'width':'100%'}"
+            [ngClass]="{'ng-invalid ng-dirty': newDatabaseNameEmpty}" maxlength="230"
+            (onInput)="resetUserNameValidator()" [disabled]="loading"/>
+          </div>
+        </div>
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-4 md:mb-0">
+            {{'Infrastructure::TenantManagement:UserName' | abpLocalization}}
+          </label>
+          <div class="col-12 md:col-8">
+            <input [(ngModel)]="newUserName" type="text" pInputText [style]="{'width':'100%'}"
+              [ngClass]="{'ng-invalid ng-dirty': newUserNameEmpty}" maxlength="230"
+              (onInput)="resetUserNameValidator()" [disabled]="loading"/>
+          </div>
+        </div>
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-4 md:mb-0">
+            {{'Infrastructure::TenantManagement:UserPassword' | abpLocalization}}
+          </label>
+          <div class="col-12 md:col-8">
+            <input [(ngModel)]="newUserPassword" type="text" pInputText [style]="{'width':'100%'}"
+              [ngClass]="{'ng-invalid ng-dirty': newUserPasswordEmpty}" [disabled]="loading" maxlength="230"
+              (onInput)="resetUserPasswordValidator()"/>
+          </div>
+        </div>
+        <div *ngIf="errorMessage?.length > 0">
+          <div class="col-4">
+            <b>
+              {{'Infrastructure::Error' | abpLocalization}}
+            </b>
+          </div>
+          <div class="col-8">
+            <span>
+              {{errorMessage}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-content-end gap-3">
+      <p-button [text]="true" [raised]="true" [disabled]="loading" (click)="closeDialog()"
+        icon="pi pi-times"
+        label="{{'Infrastructure::Cancel' | abpLocalization}}" styleClass="p-button-secondary">
+      </p-button>
+      <p-button [text]="true" [raised]="true" [disabled]="loading" (click)="createDatabase()" icon="fa fa-check"
+         label="{{'Infrastructure::Create' | abpLocalization}}" styleClass="p-button-primary">
+        </p-button>
+    </div>
+  </p-dialog>
+  <ng-container *ngIf="beforeButton; else defaultButton">
+    <div class="input-group w-full flex">
+      <p *ngTemplateOutlet="beforeButton"></p>
+      <button pButton (click)="showDialog()" style="width:3rem" icon="fa fa-list" [disabled]="disabled"></button>
+    </div>
+  </ng-container>
+  <ng-template #defaultButton>
+    <div (click)="showDialog()">
+      <div *ngTemplateOutlet="button">
+      </div>
+    </div>
+  </ng-template>
+</div>

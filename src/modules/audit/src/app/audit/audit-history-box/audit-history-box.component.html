@@ -1,0 +1,62 @@
+<div #recordSelectionContainer class="text-center w-full">
+    <p-table #selectionBox [value]="records" class="cell-center"
+        *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+        [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" [rows]="rows"
+        [lazy]="true" (onLazyLoad)="loadRecords($event)" [paginator]="true" [totalRecords]="totalRecords"
+        [loading]="loading" sortMode="single" class="w-full">
+        <ng-template pTemplate="header">
+            <tr>
+                <th appResponsiveColumn="60">
+                    {{"Auditor::DocumentVersion:Version" | abpLocalization}}
+                </th>
+                <th appResponsiveColumn="100">
+                    {{"Auditor::DocumentVersion:CreatedByUserName" | abpLocalization}}
+                </th>
+                <th appResponsiveColumn="100" pSortableColumn="creationtime">
+                    {{"Auditor::DocumentVersion:CreatedAt" | abpLocalization}}
+                </th>
+                <th appResponsiveColumn="50">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record>
+            <tr>
+                <td>
+                    <span class="non-editing-only p-column-title">
+                        {{"Auditor::DocumentVersion:Version" | abpLocalization}}
+                    </span>
+                    {{record.version}}
+                </td>
+                <td>
+                    <span class="non-editing-only p-column-title">
+                        {{"Auditor::DocumentVersion:CreatedByUserName" | abpLocalization}}
+                    </span>
+                    {{record.createdByUserName || ("Auditor::DocumentVersion:CreatedByNobody" | abpLocalization)}}
+                </td>
+                <td>
+                    <span class="non-editing-only p-column-title">
+                        {{"Auditor::DocumentVersion:CreatedAt" | abpLocalization}}
+                    </span>
+                    {{record.createdAt | date:'medium'}}
+                </td>
+                <td class="row-buttons">
+                    <p-button [text]="true" [raised]="true" size="50" (onClick)="selectRecord(record)"
+                        [label]="'Infrastructure::View' | abpLocalization"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+					<tr class="table-emptymessage">
+						<td class="w-100" colspan="999">
+							<div class="card w-100">
+								<div class="card-body w-100 text-center">
+									<div class="card-header">
+										{{ "Auditor::EmptyMessage" | abpLocalization}}
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+        </ng-template>
+    </p-table>
+</div>

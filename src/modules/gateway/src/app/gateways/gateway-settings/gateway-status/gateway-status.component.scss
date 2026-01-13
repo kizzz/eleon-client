@@ -1,0 +1,9 @@
+:host ::ng-deep input.key-input {
+    border-left: none;
+    border-right: none;
+    border-color: #f59e0b;
+    width: 310px;
+    :hover {
+        border-color: #f59e0b;
+    }
+}

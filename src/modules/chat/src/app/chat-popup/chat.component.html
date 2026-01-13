@@ -1,0 +1,14 @@
+<app-chat-widget-dropdown #chatDropdown></app-chat-widget-dropdown>
+<button [class]="'p-link layout-topbar-button '  + (opened ? 'menu-button-active': 'menu-button-inactive')"
+    [pTooltip]="'Infrastructure::Chat' | abpLocalization" tooltipPosition="bottom"
+    (click)="chatDropdown.toggle($event)"
+    >
+    <i class="fa-regular fa-comment-dots"></i>
+    <span>{{ 'Infrastructure::Chat' | abpLocalization }}</span>
+    <div *ngIf="unreadCount" class="unread-badge">
+        <div class="bullet"></div>
+        {{unreadCount}}
+    </div>
+</button> 
+
+<app-chat-message-toast></app-chat-message-toast>

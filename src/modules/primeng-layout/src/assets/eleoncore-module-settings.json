@@ -1,0 +1,16 @@
+{
+    "remoteDependencies": [
+        {
+          "url": "/modules/logo",
+          "expose": "./Module"
+        }
+    ],
+    "moduleSettings": [
+      {
+        "key": "LayoutInitConfig",
+        "type": "object",
+        "value": "{ \"hideLogo\": false, \"hideLanguage\": false, \"hideTopbar\": false, \"hideSidebar\": false }"
+      }
+    ],
+    "defaultLoadLevel": "1"
+}

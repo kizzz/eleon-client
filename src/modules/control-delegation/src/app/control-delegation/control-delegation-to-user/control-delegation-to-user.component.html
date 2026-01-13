@@ -1,0 +1,14 @@
+<app-control-delegation-list [loading]="loading" [controlDelegations]="activeDelegations"  (reloadEvent)="reload($event)"
+  [controls]="activeDelegationActions" [userTemplate]="activeDelegationUser" showReloadButton="true">
+</app-control-delegation-list>
+<ng-template #activeDelegationActions let-row>
+  <div class="flex align-items-center">
+    <button pButton class="p-button-text p-button-info"
+      [label]="'TenantManagement::ControlDelegation:SignInAsUser' | abpLocalization" tooltipPosition="bottom"
+      [pTooltip]="'TenantManagement::ControlDelegation:SignInAsUser:Tooltip' | abpLocalization" icon="fa fa-sign-in"
+      (click)="impersonate(row)"></button>
+  </div>
+</ng-template>
+<ng-template #activeDelegationUser let-row>
+  <span>{{row.data.userName}}</span>
+</ng-template>

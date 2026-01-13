@@ -1,0 +1,44 @@
+// :host ::ng-deep .p-datatable-table {
+//     border-top-width: 1px;
+//     border-top-style: solid;
+//     border-top-color: #dee2e6;
+//   }
+
+  *[dir='rtl'] :host ::ng-deep .textAlign {
+    text-align: right !important;
+  }
+  
+  :host ::ng-deep .textAlign {
+    text-align: left;
+  }
+
+  .icon-button {
+    cursor: pointer;
+    color: #eb3d3d;
+    transition: box-shadow 0.3s ease;
+    display: inline-flex;
+    border-radius: 50%;
+  }
+  
+  .icon-button:hover {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0.05);
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+
+  :host ::ng-deep{
+    @media (min-width: 768px) {
+      .data-table .p-datatable .p-datatable-tbody>tr{
+        height: 49.44px !important;
+      }
+    }
+    @media (min-width: 992px) {
+      .data-table .p-datatable .p-datatable-tbody>tr{
+        height: 49.44px !important;
+      }
+    }    
+  }
+
+  .card {
+    border: 0px;
+    border-radius: 0%;
+  }

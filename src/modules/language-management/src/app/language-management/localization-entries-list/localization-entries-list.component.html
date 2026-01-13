@@ -1,0 +1,165 @@
+
+  
+    <app-page-title [title]="'LanguageManagement::LocalizationEntriesList:Title' | abpLocalization"
+      icon="fas fa-language">
+    </app-page-title>
+  
+  <div class="content md:mt-0 mt-2">
+    <p-table [value]="strings" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+        [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint"
+        scrollDirection="both" class="cell-center data-table" [loading]="loading" [lazy]="true" (onLazyLoad)="loadStrings($event)"
+        [(rows)]="rowsCount" (rowsChange)="loadStrings()" [totalRecords]="totalRecords" [paginator]="true"
+        sortMode="single" [rowsPerPageOptions]="[15,25,50,100]" rowsEditor [(editableRows)]="strings"
+        [rowEdited]="onStringEdited" dataKey="fullKey">
+        <ng-template pTemplate="caption">
+          <div class="grid">
+            <div class="col-6 md:col-3">
+              <h5>{{'LanguageManagement::Sources' | abpLocalization}}</h5>
+              <p-multiSelect [options]="resources" [style]="{'width':'100%', 'height':'43px', 'display':'flex', 'align-items':'center'}"
+                appendTo="body" [filter]="true" [(ngModel)]="selectedResources" (ngModelChange)="onResourcesChanged()">
+              </p-multiSelect>
+            </div>
+            <div class="col-6 md:col-3">
+              <h5>{{'LanguageManagement::TargetLanguage' | abpLocalization}}</h5>
+              <p-select [options]="languages" [(ngModel)]="targetLanguage" appendTo="body"
+                (ngModelChange)="onTargetLanguageChange()" optionValue="cultureName" [filter]="false"
+                [style]="{'width':'100%', 'height':'43px', 'display':'flex', 'align-items':'center'}">
+                <ng-template pTemplate="item" let-lang>
+                  <div class="flex gap-1 align-items-center">
+                    <span class="symbol symbol-20px mr-1">
+                      <img class="rounded-1" [src]="'/resources/media/flags/svg/' + (lang.cultureName) + '.svg'"
+                        alt="primeng" />
+                    </span>
+                    <span>
+                      {{lang.displayName}}
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="selectedItem" let-lang>
+                  <div class="flex gap-1 align-items-center" *ngIf="lang">
+                    <span class="symbol symbol-20px mr-1">
+                      <img class="rounded-1" [src]="'/resources/media/flags/svg/' + (lang?.cultureName) + '.svg'"
+                        alt="primeng" />
+                    </span>
+                    <span>
+                      {{lang?.displayName}}
+                    </span>
+                  </div>
+                </ng-template>
+              </p-select>
+            </div>
+            <div class="col-6 md:col-3">
+              <h5>{{'LanguageManagement::TargetValue' | abpLocalization}}</h5>
+              <p-select [options]="targetValueFilters" [(ngModel)]="targetValueFilter" appendTo="body"
+                (ngModelChange)="onTargetValueFilterChange()" optionValue="value" optionLabel="label" [filter]="false"
+                [style]="{'width':'100%', 'height':'43px', 'display':'flex', 'align-items':'center'}">
+              </p-select>
+            </div>
+            <div class="col-6 md:col-3">
+              <h5>{{'LanguageManagement::BaseLanguage' | abpLocalization}}</h5>
+              <p-select [options]="languages" [(ngModel)]="baseLanguage" appendTo="body"
+                (ngModelChange)="onBaseLanguageChange()" optionValue="cultureName" optionLabel="displayName"
+                [filter]="false" [style]="{'width':'100%', 'height':'43px', 'display':'flex', 'align-items':'center'}">
+                <ng-template pTemplate="item" let-lang>
+                  <div class="flex gap-1  align-items-center">
+                    <span class="symbol symbol-20px mr-1">
+                      <img class="rounded-1" [src]="'/resources/media/flags/svg/' + (lang.cultureName) + '.svg'"
+                        alt="primeng" />
+                    </span>
+                    <span>
+                      {{lang.displayName}}
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="selectedItem" let-lang>
+                  <div class="flex gap-1 align-items-center" *ngIf="lang">
+                    <span class="symbol symbol-20px mr-1">
+                      <img class="rounded-1" [src]="'/resources/media/flags/svg/' + (lang.cultureName) + '.svg'" />
+                    </span>
+                    <span>
+                      {{lang.displayName}}
+                    </span>
+                  </div>
+                </ng-template>
+              </p-select>
+            </div>
+            <div class="col-12">
+              <div class="p-inputgroup">
+                <input pInputText [placeholder]="'Infrastructure::Search' | abpLocalization"
+                  [(ngModel)]="searchQuery" (keydown.enter)="loadStrings()" class="w-100">
+                <button pButton class="p-button-outlined p-button-info" (click)="loadStrings()"
+                  icon="pi pi-search"></button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th appResponsiveColumn="300"
+              style="width: 1%; min-width: 350px; max-width: 350px; text-align: left !important;">
+              {{"LanguageManagement::LocalizationString:Key" | abpLocalization}}
+            </th>
+            <th appResponsiveColumn="250"
+              style="width: 1%; min-width: 250px; max-width: 350px; text-align: left !important;">
+              {{"LanguageManagement::LocalizationString:Base" | abpLocalization}}
+            </th>
+            <th appResponsiveColumn="250" style="width: 1%; min-width: 300px; text-align: left !important;">
+              {{"LanguageManagement::LocalizationString:Target" | abpLocalization}}
+            </th>
+            <app-table-header-controls></app-table-header-controls>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr [pEditableRow]="row">
+            <td style="text-align: left !important;">
+              <div class="p-column-title">
+                {{"LanguageManagement::LocalizationString:Key" | abpLocalization}}
+              </div>
+              <div class="column-content">
+                <app-ellipsis [text]="row.fullKey">
+                </app-ellipsis>
+              </div>
+            </td>
+            <td style="text-align: left !important;">
+              <div class="p-column-title">
+                {{"LanguageManagement::LocalizationString:Base" | abpLocalization}}
+              </div>
+              <div class="column-content">
+                <app-ellipsis [text]="row.base">
+                </app-ellipsis>
+              </div>
+            </td>
+            <td style="text-align: left !important;">
+              <div class="p-column-title">
+                {{"LanguageManagement::LocalizationString:Target" | abpLocalization}}
+              </div>
+              <div class="column-content">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText [(ngModel)]="row.target" class="w-full">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <app-ellipsis [text]="row.target">
+                    </app-ellipsis>
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+            </td>
+            <app-table-row-controls></app-table-row-controls>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-100" colspan="8">
+              <div class="card w-100">
+                <div class="card-body w-100">
+                  <div class="card-header">
+                    {{'LanguageManagement::NoLocalizationEntries' | abpLocalization}}
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+  </div>

@@ -1,0 +1,54 @@
+<p-popover #op (onHide)="onHide()" (onShow)="onShow()" styleClass="menu-overlay">
+    <div class="flex flex-column rounded-top border-round-top bgi-no-repeat px-2 py-3" [style.background-color]="'#3f51b5'" style="min-width: 350px">
+        <div class="flex align-items-center justify-content-between w-full px-4 gap-2">
+            <h3 class="text-xl md:text-3xl text-white font-bold m-0 py-0">
+                {{'NotificatorModule::Notifications' | abpLocalization}}
+                <!-- <span *ngIf="notificationsCount$ | async as notificationsCount" class="fs-8 opacity-75 ps-3">
+                    <ng-container *ngIf="notificationsCount">{{notificationsCount}}</ng-container>
+                </span> -->
+            </h3>
+            <!-- <ng-container *ngIf="notifications$ | async as notifications">
+                <button
+                    type="button"
+                    class="p-link text-white flex align-items-center font-semibold"
+                    style="gap: 0.35rem;"
+                    *ngIf="notifications.length > 1"
+                    pTooltip="'NotificatorModule::ReadAll' | abpLocalization"
+                    tooltipPosition="bottom"
+                    (click)="markAllAsRead(notifications); $event.stopPropagation();">
+                    <i class="fa fa-check-double"></i>
+                    <span class="text-sm">{{'NotificatorModule::ReadAll' | abpLocalization}}</span>
+                </button>
+            </ng-container> -->
+        </div>
+    </div>
+
+    <div class="tab-content w-full" style="max-width: min(350px, 90vw);">
+        <div class="tab-pane fade">
+            <div class="d-flex flex-column" style="min-height:300px">
+                <app-push-notifications-viewer [opened]="opened" (markAsReadEvent)="markAsRead($event)" [preventUpdates]="preventUpdates"></app-push-notifications-viewer>
+            </div>
+            <div class="text-center border-top font-bold text-lg view-all" style="cursor: pointer;height: 3rem;">
+                <hr class="mt-0">
+                <a class="text-gray-500" (click)="op.toggle($event);$event.stopPropagation(); viewAllClicked();" #link>
+                  {{'Collaboration::ViewAll' | abpLocalization}}
+                  <i class="fa fa-angle-right ms-1"></i>
+                </a>
+              </div>
+        </div>
+    </div>
+</p-popover>
+
+<button [class]="'p-link layout-topbar-button ' + (opened ? 'menu-button-active': 'menu-button-inactive')"
+    [pTooltip]="'NotificatorModule::Notifications' | abpLocalization" pBadge tooltipPosition="bottom"
+    [value]="notificationsCountText$ | async " (click)="op.toggle($event)">
+    <i class="fa-regular fa-bell"></i>
+    <span>{{ 'NotificatorModule::Notifications' | abpLocalization }}</span>
+
+    <div *ngIf="notificationsCount$ | async as notificationsCount" class="unread-badge">
+        <div class="bullet"></div>
+        {{notificationsCount}}
+    </div>
+</button>
+
+<app-notification-message-toast></app-notification-message-toast>

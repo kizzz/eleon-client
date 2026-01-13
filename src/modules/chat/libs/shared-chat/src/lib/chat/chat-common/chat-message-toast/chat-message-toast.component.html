@@ -1,0 +1,21 @@
+<p-toast 
+	position="bottom-right" 
+	key="chat-message" 
+	[baseZIndex]="5000">
+	<ng-template let-message pTemplate="message">
+			<div class="flex flex-column align-items-start" style="flex: 1">
+					<div class="flex align-items-center gap-2">
+							<!-- <app-chat-icon [chat]="getChatInfo(message.data)"></app-chat-icon> -->
+							<span class="font-bold text-900">
+									{{ message.data?.message?.senderInfo?.name }}
+							</span>
+					</div>
+					<div class="font-medium text-lg my-3 text-900">
+							{{ message.summary }}
+					</div>
+					<p-button [text]="true" size="small" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+							(onClick)="onReply(message.data)"[label]="'Collaboration::Reply' | abpLocalization" >
+					</p-button>
+			</div>
+	</ng-template>
+	</p-toast>

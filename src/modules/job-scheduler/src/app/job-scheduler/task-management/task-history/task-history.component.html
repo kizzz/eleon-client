@@ -1,0 +1,213 @@
+<div>
+  <p-table
+    [value]="taskExecutions"
+    dataKey="data.id"
+    rowExpandMode="single"
+    responsiveLayout="scroll"
+    class="cell-center"
+    [rows]="10"
+    [paginator]="true"
+    [loading]="loading"
+    [lazy]="true"
+    (onLazyLoad)="loadTaskExecutions($event)"
+    [rows]="rowsCount"
+    [totalRecords]="totalRecords"
+    [rowHover]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 2rem"></th>
+        <th appResponsiveColumn="20">
+          {{ 'JobScheduler::TaskExecution:Id' | abpLocalization }}
+        </th>
+        <th>{{ 'JobScheduler::TaskExecution:Initiator' | abpLocalization }}</th>
+        <th>
+          {{ 'JobScheduler::TaskExecution:LastRunTime' | abpLocalization }}
+        </th>
+        <th>{{ 'JobScheduler::TaskExecution:Status' | abpLocalization }}</th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-row
+      let-rowIndex="rowIndex"
+      let-expanded="expanded"
+    >
+      <tr class="cursor-pointer" [pRowToggler]="row">
+        <td>
+          <i
+            [class]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></i>
+        </td>
+        <td appResponsiveColumn="20" [pRowTogglerDisabled]="true">
+          <i
+            class="pi pi-copy text-primary cursor-pointer"
+            pTooltip="{{ row.data.id }}"
+            tooltipPosition="top"
+            tooltipClass="tooltip-one-line"
+            (click)="copyId(row.data.id, $event); $event.stopPropagation()"
+          >
+          </i>
+        </td>
+        <td>
+          <ng-container *ngIf="row.data.runnedByUserId">
+            <span class="fa-solid fa-user-alt mr-2"></span
+            ><span>{{ row.data.runnedByUserName }}</span>
+          </ng-container>
+          <ng-container *ngIf="row.data.runnedByTriggerId">
+            <i class="fa-solid fa-bell mr-2"></i
+            ><span>{{ row.data.runnedByTriggerName }}</span>
+          </ng-container>
+          <ng-container
+            *ngIf="!row.data.runnedByTriggerId && !row.data.runnedByUserId"
+          >
+            <i class="fa-solid fa-bell mr-2"></i
+            ><span>{{ 'JobScheduler::Triggers:Retry' | abpLocalization }}</span>
+          </ng-container>
+        </td>
+        <td>{{ row.data.startedAtUtc | date : 'MMM d, y, H:mm:ss' : 'UTC' }}</td>
+        <td>
+          <p-tag
+            [styleClass]="'task-exec-status ' + row.statusKey"
+            [value]="row.localizedStatus"
+            [icon]="row.statusIcon"
+          ></p-tag>
+        </td>
+      </tr>
+
+      <tr></tr
+    ></ng-template>
+
+    <ng-template #expandedrow let-row>
+      <tr>
+        <td colspan="5">
+          <div class="card p-0">
+            <div class="card-body p-0">
+              <p-table
+                [value]="row.actionExecutions"
+                responsiveLayout="scroll"
+                class="cell-center"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>
+                      {{ 'JobScheduler::ActionExecution:Id' | abpLocalization }}
+                    </th>
+                    <th>
+                      {{
+                        'JobScheduler::ActionExecution:ActionName'
+                          | abpLocalization
+                      }}
+                    </th>
+                    <th>
+                      {{
+                        'JobScheduler::ActionExecution:ActionTypeCode'
+                          | abpLocalization
+                      }}
+                    </th>
+                    <th>
+                      {{
+                        'JobScheduler::ActionExecution:ChangedBy'
+                          | abpLocalization
+                      }}
+                    </th>
+                    <th>
+                      {{
+                        'JobScheduler::ActionExecution:StartedAt'
+                          | abpLocalization
+                      }}
+                    </th>
+                    <th>
+                      {{
+                        'JobScheduler::ActionExecution:CompletedAt'
+                          | abpLocalization
+                      }}
+                    </th>
+                    <th>
+                      {{
+                        'JobScheduler::ActionExecution:Status' | abpLocalization
+                      }}
+                    </th>
+                    <th></th>
+                  </tr>
+                </ng-template>
+                <ng-template
+                  pTemplate="body"
+                  let-row
+                  let-rowIndex="rowIndex"
+                  let-expanded="expanded"
+                >
+                  <tr>
+                    <td appResponsiveColumn="20" [pRowTogglerDisabled]="true">
+                      <i
+                        class="pi pi-copy text-primary cursor-pointer"
+                        pTooltip="{{ row.data.id }}"
+                        tooltipPosition="top"
+                        tooltipClass="tooltip-one-line"
+                        (click)="
+                          copyId(row.data.id, $event); $event.stopPropagation()
+                        "
+                      >
+                      </i>
+                    </td>
+                    <td>{{ row.data.actionName }}</td>
+                    <td>{{ row.data.eventName }}</td>
+                    <td>{{ row.data.statusChangedBy || '-' }}</td>
+                    <td>{{ row.data.startedAtUtc | date : 'MMM d, y, H:mm:ss' : 'UTC' }}</td>
+                    <td>{{ row.data.completedAtUtc | date : 'MMM d, y, H:mm:ss' : 'UTC' }}</td>
+                    <td>
+                      <p-tag
+                        [styleClass]="'action-exec-status ' + row.statusKey"
+                        [value]="row.localizedStatus"
+                        [icon]="row.statusIcon"
+                      ></p-tag>
+                    </td>
+                    <td>
+                      <div class="flex justify-content-end align-items-center">
+                        <span
+                          class="fa fa-magnifying-glass text-primary cursor-pointer"
+                          (click)="openJob(row.data.jobId)"
+                        ></span>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr></tr
+                ></ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr class="table-emptymessage">
+                    <td class="w-100" colspan="9">
+                      <div class="card w-100">
+                        <div class="card-body w-100">
+                          {{
+                            'JobScheduler::TaskExecutions:NoTaskExecutions'
+                              | abpLocalization
+                          }}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr class="table-emptymessage">
+        <td class="w-100" colspan="9">
+          <div class="card w-100">
+            <div class="card-body w-100">
+              {{
+                'JobScheduler::TaskExecutions:NoTaskExecutions'
+                  | abpLocalization
+              }}
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

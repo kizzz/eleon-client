@@ -1,0 +1,5 @@
+:host ::ng-deep .custom-topbar .p-menubar{
+    background-color: var(--topbar-bg);
+    color: var(--topbar-item-text-color);
+    padding: 0px !important;
+}

@@ -1,0 +1,461 @@
+<div
+  class="dialog-overlay"
+  [style.display]="showDialog ? 'block' : 'none'"
+></div>
+<p-dialog
+  [resizable]="false"
+  [(visible)]="showDialog"
+  [draggable]="false"
+  [closable]="false"
+>
+  <ng-template pTemplate="header">
+    <div
+      style="
+        display: flex;
+        width: 100% !important;
+        justify-content: space-between;
+      "
+    >
+      <div>
+        <span style="font-size: 1.25rem; font-weight: 700">
+          {{ title }}
+        </span>
+      </div>
+      <div>
+        <span class="icon-close-button">
+          <i class="pi pi-times" (click)="cancel()"></i>
+        </span>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="showDialog" class="wrapper">
+    <div
+      class="grid m-0"
+      *ngIf="(user && editedUser?.id?.length > 0) || isAddNewUser"
+    >
+      <div *ngIf="!isAddNewUser" class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span appRequired>
+              {{ 'TenantManagement::User:Id' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <i
+              class="pi pi-copy text-primary cursor-pointer"
+              pTooltip="{{ editedUser.id }}"
+              tooltipPosition="top"
+              tooltipClass="tooltip-one-line"
+              (click)="copyId(editedUser.id, $event); $event.stopPropagation()"
+            >
+            </i>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span appRequired>
+              {{ 'TenantManagement::User:Username' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <input
+              style="width: 100%"
+              pInputText
+              type="text"
+              *ngIf="isAddNewUser"
+              [(ngModel)]="newUser.userName"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': usernameInvalid }"
+              (input)="setDirty()"
+            />
+            <input
+              style="width: 100%"
+              pInputText
+              type="text"
+              *ngIf="!isAddNewUser"
+              [(ngModel)]="user.userName"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': usernameInvalid }"
+              (input)="setDirty()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span appRequired>
+              {{ 'TenantManagement::User:Name' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <input
+              style="width: 100%"
+              *ngIf="isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="newUser.name"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': nameInvalid }"
+              (input)="setDirty()"
+            />
+            <input
+              style="width: 100%"
+              *ngIf="!isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="user.name"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': nameInvalid }"
+              (input)="setDirty()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span appRequired>
+              {{ 'TenantManagement::User:Surname' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <input
+              style="width: 100%"
+              *ngIf="isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="newUser.surname"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': surnameInvalid }"
+              (input)="setDirty()"
+            />
+            <input
+              style="width: 100%"
+              *ngIf="!isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="user.surname"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': surnameInvalid }"
+              (input)="setDirty()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span appRequired>
+              {{ 'TenantManagement::User:ContactEmail' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <input
+              style="width: 100%"
+              *ngIf="isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="newUser.email"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': emailInvalid }"
+              (input)="setDirty()"
+            />
+            <input
+              style="width: 100%"
+              *ngIf="!isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="user.email"
+              (input)="resetValidators()"
+              [disabled]="loading || !hasManagePermission"
+              [ngClass]="{ 'ng-invalid ng-dirty': emailInvalid }"
+              (input)="setDirty()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="isAddNewUser">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span appRequired>
+              {{ 'TenantManagement::User:Password' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <p-password
+              [(ngModel)]="newUser.password"
+              [toggleMask]="true"
+              autocomplete="new-password"
+              name="random-new-user-password-field"
+              (change)="resetValidators()"
+              [ngClass]="{ 'ng-invalid ng-dirty': passwordInvalid }"
+              [disabled]="loading"
+            >
+              <ng-template pTemplate="header">
+                <h6>
+                  {{ 'TenantManagement::User:PickPassword' | abpLocalization }}
+                </h6>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <p-divider></p-divider>
+                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                  <li>
+                    {{
+                      'TenantManagement::User:PasswordValidation:Digit'
+                        | abpLocalization
+                    }}
+                  </li>
+                  <li>
+                    {{
+                      'TenantManagement::User:PasswordValidation:Uppercase'
+                        | abpLocalization
+                    }}
+                  </li>
+                  <li>
+                    {{
+                      'TenantManagement::User:PasswordValidation:AlphanumericCharacter'
+                        | abpLocalization
+                    }}
+                  </li>
+                  <li>{{ reqPasswordLabel }}</li>
+                </ul>
+              </ng-template>
+            </p-password>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="showPasswordField">
+        <div class="grid flex align-items-center">
+          <div class="col-3" *ngIf="!isAddNewUser">
+            <span>
+              {{ 'TenantManagement::User:NewPassword' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <p-password
+              autocomplete="new-password"
+              [toggleMask]="true"
+              name="random-existing-user-password-field"
+              (change)="setDirty()"
+              [(ngModel)]="newUserPassword"
+              *ngIf="!isAddNewUser"
+              [ngClass]="{ 'ng-invalid ng-dirty': passwordInvalid }"
+              [disabled]="loading || !hasManagePermission"
+            >
+              <ng-template pTemplate="header">
+                <h6>
+                  {{ 'TenantManagement::User:PickPassword' | abpLocalization }}
+                </h6>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <p-divider></p-divider>
+                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                  <li>
+                    {{
+                      'TenantManagement::User:PasswordValidation:Digit'
+                        | abpLocalization
+                    }}
+                  </li>
+                  <li>
+                    {{
+                      'TenantManagement::User:PasswordValidation:Uppercase'
+                        | abpLocalization
+                    }}
+                  </li>
+                  <li>
+                    {{
+                      'TenantManagement::User:PasswordValidation:AlphanumericCharacter'
+                        | abpLocalization
+                    }}
+                  </li>
+                  <li>{{ reqPasswordLabel }}</li>
+                </ul>
+              </ng-template>
+            </p-password>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span>
+              {{ 'TenantManagement::User:Phonenumber' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9">
+            <input
+              style="width: 100%"
+              *ngIf="isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="newUser.phoneNumber"
+              [disabled]="loading || !hasManagePermission"
+              (input)="setDirty()"
+            />
+            <input
+              style="width: 100%"
+              *ngIf="!isAddNewUser"
+              pInputText
+              type="text"
+              [(ngModel)]="user.phoneNumber"
+              [disabled]="loading || !hasManagePermission"
+              (input)="setDirty()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <div class="grid flex align-items-center">
+          <div class="col-3">
+            <span>
+              {{ 'TenantManagement::Active' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-9 flex align-items-center gap-1">
+            <p-select
+              class="w-full"
+              *ngIf="isAddNewUser"
+              [options]="yesNoOptions"
+              [(ngModel)]="newUser.isActive"
+              optionLabel="label"
+              optionValue="value"
+              [disabled]="loading || !hasManagePermission"
+              (onChange)="setDirty()"
+              autoWidth="false"
+              [style]="{ width: '100%' }"
+              [placeholder]="'Infrastructure::SelectOption' | abpLocalization"
+              appendTo="body"
+            >
+            </p-select>
+            <p-select
+              class="w-full"
+              *ngIf="!isAddNewUser"
+              [options]="yesNoOptions"
+              [(ngModel)]="user.isActive"
+              optionLabel="label"
+              optionValue="value"
+              [disabled]="loading || !hasManagePermission"
+              (onChange)="setDirty()"
+              autoWidth="false"
+              [style]="{ width: '100%' }"
+              [placeholder]="'Infrastructure::SelectOption' | abpLocalization"
+              appendTo="body"
+            >
+            </p-select>
+          </div>
+          <!-- <div class="col-9 flex align-items-center gap-1">
+            <div>
+              <p-checkbox
+                [binary]="true"
+                *ngIf="isAddNewUser"
+                [(ngModel)]="newUser.lockoutEnabled"
+                [disabled]="loading || !hasManagePermission"
+                (onChange)="setDirty()"
+              >
+              </p-checkbox>
+              <p-checkbox
+                [binary]="true"
+                *ngIf="!isAddNewUser"
+                [(ngModel)]="user.lockoutEnabled"
+                [disabled]="loading || !hasManagePermission"
+                (onChange)="setDirty()"
+              >
+              </p-checkbox>
+            </div>
+            <div>
+              <span>
+                {{ 'TenantManagement::User:LockAccount' | abpLocalization }}
+              </span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="grid m-0" *ngIf="!isAddNewUser">
+      <app-user-otp-settings
+        [user]="editedUser"
+        [disabled]="!hasManagePermission"
+        class="w-full"
+      ></app-user-otp-settings>
+      <div class="w-full">
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-3 md:mb-0">{{
+            'TenantManagement::SignInSettings:Title' | abpLocalization
+          }}</label>
+          <div class="col-12 md:col-9">
+            <p-select
+              [options]="signInOptions"
+              optionLabel="name"
+              optionValue="value"
+              autoWidth="false"
+              [style]="{ width: '100%' }"
+              [(ngModel)]="selectedOption"
+              appendTo="body"
+              (onChange)="onOptionChange($event.value)"
+              [disabled]="loading || !hasManagePermission"
+            >
+            </p-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full" *ngIf="customSettings">
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-3 md:mb-0">{{
+            'TenantManagement::CustomSignInSettingsOption' | abpLocalization
+          }}</label>
+          <p-select
+            class="col-12 md:col-9"
+            [options]="customOptions"
+            [(ngModel)]="customOption"
+            appendTo="body"
+            optionValue="value"
+            optionLabel="name"
+            (onChange)="setDirty(); userSettingsIsDirty = true"
+            [disabled]="!hasManagePermission"
+            [filter]="false"
+            autoWidth="false"
+            [style]="{ width: '100%' }"
+          >
+          </p-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end gap-3 mt-4">
+      <p-button
+        (click)="cancel()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+        [text]="true"
+        [raised]="true"
+        [disabled]="loading"
+        severity="secondary"
+        icon="fa fa-times"
+      >
+      </p-button>
+      <p-button
+        (click)="save()"
+        [label]="'Infrastructure::Save' | abpLocalization"
+        [text]="true"
+        *ngIf="hasManagePermission"
+        [raised]="true"
+        [disabled]="loading"
+        icon="fa fa-check"
+        [icon]="loading ? 'fa fa-spin fa-spinner' : 'fa fa-check'"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

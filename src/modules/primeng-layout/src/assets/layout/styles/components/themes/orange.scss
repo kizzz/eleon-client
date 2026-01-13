@@ -1,0 +1,4 @@
+
+body:has(> app-root > app-layout > .layout-orange){
+    --active-button: #FF9800;
+}

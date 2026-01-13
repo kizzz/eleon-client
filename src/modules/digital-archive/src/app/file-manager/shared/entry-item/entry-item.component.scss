@@ -1,0 +1,50 @@
+.explorer-item:hover {
+    background-color: var(--blue-50);
+}
+
+.explorer-item-selected {
+    background-color: var(--blue-100);
+}
+
+*[dir='rtl'] :host ::ng-deep .checkbox-padding {
+  padding-right: 0.75rem !important;
+}
+
+:host ::ng-deep .checkbox-padding {
+  padding-left: 0.75rem !important;
+}
+
+.file-hover:hover{
+  color: blue;
+}
+
+.folder-hover:hover{
+  color: blue;
+}
+
+td {
+  vertical-align: middle;
+}
+
+.explorer-item {
+    &.p-checkbox-checked {
+        background-color: var(--blue-100);
+    }
+}
+
+::ng-deep .archivePermissionDialog {
+  .p-dialog-header{
+    app-file-dynamic-dialog-header{
+      width: 100%;
+    }
+  }
+}
+
+::ng-deep .dialog-pb-custom {
+  .p-dialog-content{
+    padding-bottom: 0px !important;
+  }
+}
+
+
+

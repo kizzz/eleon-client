@@ -1,0 +1,696 @@
+<app-page-title
+  [title]="'BackgroundJob::Details:Title' | abpLocalization"
+  icon="fas fa-cog"
+>
+  <ng-template #buttons>
+    <p-button
+      [text]="true"
+      [raised]="true"
+      *ngIf="allowRetry()"
+      [disabled]="loading"
+      styleClass="p-button-primary p-button-sm mr-3"
+      autoWidth="false"
+      [style]="{ width: '10rem' }"
+      [label]="'BackgroundJob::Retry' | abpLocalization"
+      icon="fa fa-trash"
+      (click)="retryJob()"
+    >
+    </p-button>
+  </ng-template>
+</app-page-title>
+
+<app-loading [loading]="loading">
+<div class="content" *ngIf="details?.data">
+  <div class="card p-fluid grid m-1">
+    <div class="field sm:col-12 lg:col-6 md:col-6">
+      <div class="card p-fluid">
+        <p-tabs value="general-info">
+          <p-tablist>
+            <p-tab value="general-info">
+              <div class="flex align-items-center gap-2">
+                <i class="fas fa-info-circle"></i>
+                <span>{{
+                  'Infrastructure::GeneralInformation' | abpLocalization
+                }}</span>
+              </div>
+            </p-tab>
+            <p-tab value="extra-properties">
+              <div class="flex align-items-center gap-2">
+                <i class="fas fa-list"></i>
+                <span>{{
+                  'BackgroundJob::Details:ExtraProperties' | abpLocalization
+                }}</span>
+              </div>
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="general-info">
+              <div class="tab-container">
+                <ul class="list-none p-0 m-0">
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:Type' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ getBackgroundJobTypeName(details?.data?.type) }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:Id' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.id || '-' }}
+                    </div>
+                    <i
+                      *ngIf="details?.data.id"
+                      class="pi pi-copy text-primary cursor-pointer"
+                      (click)="copyId(details?.data.id, $event)"
+                    ></i>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:Source' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.sourceType || '-' }} ({{
+                        details?.data.sourceId || '-'
+                      }})
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:Initiator' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.initiator || '-' }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:Status' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      <app-background-job-status-tag
+                        [(value)]="details.data.status"
+                      ></app-background-job-status-tag>
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:MaxDelay' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.timeoutInMinutes | duration : 'm' }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{
+                        'BackgroundJob::Details:MaxRetryAttempts'
+                          | abpLocalization
+                      }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.maxRetryAttempts }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{
+                        'BackgroundJob::Details:RetryInterval' | abpLocalization
+                      }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.maxRetryAttempts ? (details?.data.retryIntervalInMinutes | duration : 'm') : '-' }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{
+                        'BackgroundJob::Details:CreationTime' | abpLocalization
+                      }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.creationTime | date : 'MMM d, y, H:mm:ss': 'UTC' }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:JobFinished' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.jobFinishedUtc | date : 'MMM d, y, H:mm:ss': 'UTC' }}
+                    </div>
+                  </li>
+
+                  <li
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ 'BackgroundJob::Details:Description' | abpLocalization }}
+                    </div>
+                    <div class="text-900 w-full md:w-8">
+                      {{ details?.data.description || '-' }}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </p-tabpanel>
+
+            <p-tabpanel value="extra-properties">
+              <div class="tab-container">
+                <ul class="list-none p-0 m-0">
+                  <li
+                    *ngFor="let prop of details?.data?.extraProperties | keyvalue"
+                    class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap"
+                    style="height: 49.44px"
+                  >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                      {{ prop.key }}
+                    </div>
+
+                    <div class="text-900 w-full md:w-8">
+                      {{ prop.value || '-' }}
+                    </div>
+                  </li>
+
+                  <li
+                    *ngIf="
+                      !details?.data?.extraProperties ||
+                      (details?.data?.extraProperties | keyvalue).length === 0
+                    "
+                    class="text-center p-3"
+                  >
+                    {{
+                      'BackgroundJob::Details:NoExtraProperties'
+                        | abpLocalization
+                    }}
+                  </li>
+                </ul>
+              </div>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+    <div class="field col-12 sm:col-12 lg:col-6 md:col-6">
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0">
+            <div class="flex align-items-center gap-2">
+              <i class="fas fa-info-circle"></i>
+              <span class="hidden md:inline">{{
+                'BackgroundJob::Details:JobParams' | abpLocalization
+              }}</span>
+            </div>
+          </p-tab>
+          <p-tab value="1">
+            <div class="flex align-items-center gap-2">
+              <i class="fa-solid fa-file"></i>
+              <span class="hidden md:inline">{{
+                'BackgroundJob::Details:Result' | abpLocalization
+              }}</span>
+            </div>
+          </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <app-document-template-editor-result
+              height="545px"
+              [templateType]="templateType"
+              [loading]="loading"
+              [fileName]="'initial-params.txt'"
+              [result]="
+                details?.data?.startExecutionParams ||
+                ('BackgroundJob::InitialParams:Empty' | abpLocalization)
+              "
+            >
+            </app-document-template-editor-result>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <app-document-template-editor-result
+              height="545px"
+              [templateType]="templateType"
+              [loading]="loading"
+              [fileName]="'result.txt'"
+              [result]="details?.data?.result"
+            >
+            </app-document-template-editor-result>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </div>
+  <div class="card p-fluid m-1">
+    <h5>
+      {{ 'BackgroundJob::Details:Executions' | abpLocalization }}
+    </h5>
+    <div class="grid">
+      <div class="field col-12 md:col-6">
+        <div #executionsContainer>
+          <p-table
+            *appResponsiveTable="
+              'md';
+              let scrollable;
+              let breakpoint = breakpoint
+            "
+            [scrollable]="scrollable"
+                        responsiveLayout="stack"
+            [breakpoint]="breakpoint"
+            scrollDirection="both"
+            class="data-table"
+            [value]="details?.executions"
+            [paginator]="true"
+            [rows]="5"
+            [loading]="changeExetutionsLoading"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="text-center" appResponsiveColumn="20">
+                  {{ 'BackgroundJob::Header:Id' | abpLocalization }}
+                </th>
+                <th class="text-center" appResponsiveColumn="140">
+                  {{ 'BackgroundJob::Header:Status' | abpLocalization }}
+                </th>
+                <th class="text-center" appResponsiveColumn="140">
+                  {{ 'BackgroundJob::Header:ChangedBy' | abpLocalization }}
+                </th>
+                <th class="text-center" appResponsiveColumn="140">
+                  {{
+                    'BackgroundJob::Execution:ExecutionStartTime'
+                      | abpLocalization
+                  }}
+                </th>
+                <th class="text-center" appResponsiveColumn="140">
+                  {{ 'BackgroundJob::Execution:Duration' | abpLocalization }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+              <tr
+                [pSelectableRow]="row"
+                (click)="select(row)"
+                [ngClass]="{ 'blue-grey-linear-gradient': colorOfRow(row) }"
+              >
+                <td appResponsiveColumn="20">
+                  <i
+                    class="pi pi-copy text-primary cursor-pointer"
+                    pTooltip="{{ row.id }}"
+                    tooltipPosition="top"
+                    tooltipClass="tooltip-one-line"
+                    (click)="
+                      copyId(row.id, $event); $event.stopPropagation()
+                    "
+                  >
+                  </i>
+                </td>
+                <td style="width: 200px" class="text-center">
+                  <span class="non-editing-only p-column-title">
+                    {{ 'BackgroundJob::Header:Status' | abpLocalization }}
+                  </span>
+                  <span class="column-content">
+                    <app-background-job-status-tag
+                      [value]="row?.status"
+                      [mode]="'execution'"
+                    ></app-background-job-status-tag>
+                  </span>
+                </td>
+                <td style="width: 200px" class="text-center">
+                  <span class="non-editing-only p-column-title">
+                    {{ 'BackgroundJob::Header:ChangedBy' | abpLocalization }}
+                  </span>
+                  <span class="column-content">
+                    {{ row?.statusChangedBy }}
+                  </span>
+                </td>
+                <td style="width: 200px" class="text-center">
+                  <span class="non-editing-only p-column-title">
+                    {{
+                      'BackgroundJob::Execution:ExecutionStartTime'
+                        | abpLocalization
+                    }}
+                  </span>
+                  <span class="column-content">
+                    {{ row?.executionStartTimeUtc | date : 'M/d/yy, H:mm' : 'UTC' }}
+                  </span>
+                </td>
+                <td style="width: 200px" class="text-center">
+                  <span class="non-editing-only p-column-title">
+                    {{ 'BackgroundJob::Execution:Duration' | abpLocalization }}
+                  </span>
+                  <span class="column-content">
+                    <app-duration
+                      *ngIf="row?.executionStartTimeUtc"
+                      [value]="row?.executionStartTimeUtc"
+                      [unitOrEnd]="
+                        getEndTime(
+                          row?.executionStartTimeUtc,
+                          row?.executionEndTimeUtc
+                        )
+                      "
+                      [conditions]="[
+                        {
+                          condition: '<0m',
+                          class: 'text-purple-500',
+                          style: 'font-weight:700;'
+                        },
+                        {
+                          condition: '<30m',
+                          class: 'text-green-500',
+                          style: 'font-weight:400;'
+                        },
+                        {
+                          condition: '30m-60m',
+                          class: 'text-orange-500',
+                          style: 'font-weight:600;'
+                        },
+                        {
+                          condition: '>60m',
+                          class: 'text-red-500',
+                          style: 'font-weight:700;'
+                        }
+                      ]"
+                    ></app-duration>
+                    <span *ngIf="!row?.executionStartTimeUtc">-</span>
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr class="table-emptymessage">
+                <td class="w-100" colspan="4">
+                  <div class="card w-100">
+                    <div class="card-body w-100 text-center">
+                      <div class="card-header">
+                        {{
+                          'BackgroundJob::NoBackgroundJobExecutions'
+                            | abpLocalization
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="field col-12 md:col-6">
+        <div [ngClass]="{ loading: changeExetutionsLoading }">
+          <p-tabs [(value)]="activeTabIndex">
+            <div
+              *ngIf="changeExetutionsLoading"
+              style="position: absolute; left: 50%; top: 50%"
+            >
+              <i class="pi pi-spin pi-spinner" style="font-size: 1rem"></i>
+            </div>
+            <p-tablist>
+              <p-tab [value]="0" [disabled]="changeExetutionsLoading">
+                <div class="flex align-items-center gap-2">
+                  <i class="fas fa-info-circle"></i>
+                  <span class="hidden md:inline">{{
+                    'BackgroundJob::Execution:Details' | abpLocalization
+                  }}</span>
+                </div>
+              </p-tab>
+              <p-tab [value]="1" [disabled]="changeExetutionsLoading">
+                <div class="flex align-items-center gap-2">
+                  <i class="fas fa-file-code"></i>
+                  <span class="hidden md:inline">{{
+                    'BackgroundJob::Execution:Params' | abpLocalization
+                  }}</span>
+                </div>
+              </p-tab>
+              <p-tab [value]="2" [disabled]="changeExetutionsLoading">
+                <div class="flex align-items-center gap-2">
+                  <i class="fas fa-comment-alt"></i>
+                  <span class="hidden md:inline">{{
+                    'BackgroundJob::Execution:Messages' | abpLocalization
+                  }}</span>
+                </div>
+              </p-tab>
+            </p-tablist>
+            <p-tabpanels>
+              <p-tabpanel [value]="0">
+                <div class="w-full" *ngIf="!!selectedExecution?.id">
+                  <div class="field grid">
+                    <label class="mb-2 col-5 md:mb-0" style="font-weight: 700">{{
+                      'BackgroundJob::Header:ChangedBy' | abpLocalization
+                    }}</label>
+                    <div class="col-7">
+                      {{ selectedExecution?.statusChangedBy || '-' }}
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label class="mb-2 col-5 md:mb-0" style="font-weight: 700">{{
+                      'BackgroundJob::Execution:CreationTime' | abpLocalization
+                    }}</label>
+                    <div class="col-7" style="font-weight: 700">
+                      {{
+                        selectedExecution?.creationTime | date : 'M/d/yy, H:mm' : 'UTC'
+                      }}
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label class="mb-2 col-5 md:mb-0" style="font-weight: 700">{{
+                      'BackgroundJob::Execution:ExecutionStartTime'
+                        | abpLocalization
+                    }}</label>
+                    <div class="col-7">
+                      {{
+                        selectedExecution?.executionStartTimeUtc
+                          | date : 'M/d/yy, H:mm' : 'UTC'
+                      }}
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label class="mb-2 col-5 md:mb-0" style="font-weight: 700">{{
+                      'BackgroundJob::Execution:ExecutionEndTime'
+                        | abpLocalization
+                    }}</label>
+                    <div class="col-7">
+                      {{
+                        selectedExecution?.executionEndTimeUtc
+                          | date : 'M/d/yy, H:mm' : 'UTC'
+                      }}
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label class="mb-2 col-5 md:mb-0" style="font-weight: 700">{{
+                      'BackgroundJob::Execution:Duration' | abpLocalization
+                    }}</label>
+                    <div class="col-7">
+                      <app-duration
+                        *ngIf="selectedExecution?.executionStartTimeUtc"
+                        [value]="selectedExecution?.executionStartTimeUtc"
+                        [unitOrEnd]="
+                          getEndTime(
+                            selectedExecution?.executionStartTimeUtc,
+                            selectedExecution?.executionEndTimeUtc
+                          )
+                        "
+                        [conditions]="[
+                          {
+                            condition: '<0m',
+                            class: 'text-purple-500',
+                            style: 'font-weight:700;'
+                          },
+                          {
+                            condition: '<30m',
+                            class: 'text-green-500',
+                            style: 'font-weight:400;'
+                          },
+                          {
+                            condition: '30m-60m',
+                            class: 'text-orange-500',
+                            style: 'font-weight:600;'
+                          },
+                          {
+                            condition: '>60m',
+                            class: 'text-red-500',
+                            style: 'font-weight:700;'
+                          }
+                        ]"
+                      ></app-duration>
+                      <span *ngIf="!selectedExecution?.executionStartTimeUtc"
+                        >-</span
+                      >
+                    </div>
+                  </div>
+                  <div class="field grid">
+                    <label class="mb-2 col-5 md:mb-0" style="font-weight: 700">{{
+                      'BackgroundJob::Execution:Status' | abpLocalization
+                    }}</label>
+                    <div class="col-7" *ngIf="!changeExetutionsLoading">
+                      <app-background-job-status-tag
+                        [value]="selectedExecution?.status"
+                        [mode]="'execution'"
+                      ></app-background-job-status-tag>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full" *ngIf="!selectedExecution?.id">
+                  <span class="text-center">
+                    {{ 'BackgroundJob::Execution:NoDetails' | abpLocalization }}
+                  </span>
+                </div>
+              </p-tabpanel>
+              <p-tabpanel [value]="1">
+                <div *ngIf="selectedExecution?.startExecutionParams">
+                  <app-document-template-editor-result
+                    height="24rem"
+                    [templateType]="templateType"
+                    [loading]="loading"
+                    [result]="
+                      selectedExecution?.startExecutionParams ||
+                      ('BackgroundJob::InitialParams:Empty' | abpLocalization)
+                    "
+                  >
+                  </app-document-template-editor-result>
+                </div>
+                <div *ngIf="!selectedExecution?.startExecutionParams">
+                  {{ 'BackgroundJob::InitialParams:Empty' | abpLocalization }}
+                </div>
+              </p-tabpanel>
+              <p-tabpanel [value]="2">
+                <div *ngIf="selectedExecution?.messages">
+                  <ng-container *ngFor="let message of selectedExecution?.messages">
+                    <p-message
+                      [severity]="
+                        message.messageType === BackgroundJobMessageType.Error
+                          ? 'error'
+                          : message.messageType === BackgroundJobMessageType.Info
+                          ? 'info'
+                          : 'warn'
+                      "
+                    >
+                      <div class="grid w-full m-1">
+                        <div class="col-9 p-0">
+                          <app-ellipsis
+                            [text]="message.textMessage || ' '"
+                            class="w-full"
+                          ></app-ellipsis>
+                        </div>
+                        <div class="col-2 p-0 flex justify-content-end gap-2">
+                          <span>{{
+                            message.creationTime | date : 'M/d/yy, H:mm' : 'UTC'
+                          }}</span>
+                        </div>
+                        <div class="col-1 p-0 flex justify-content-end gap-2">
+                          <span
+                            class="fa fa-magnifying-glass text-primary cursor-pointer"
+                            (click)="openMessageDetails(message)"
+                          ></span>
+                        </div>
+                      </div>
+                    </p-message>
+                  </ng-container>
+                </div>
+                <div
+                  *ngIf="
+                    !selectedExecution?.messages ||
+                    selectedExecution?.messages.length === 0
+                  "
+                >
+                  {{ 'BackgroundJob::Execution:NoMessages' | abpLocalization }}
+                </div>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</app-loading>
+
+<p-dialog
+  [header]=""
+  [(visible)]="showMessageDetailsDialog"
+  (onHide)="selectedMessage = null"
+  appendTo="body"
+  [modal]="true"
+>
+  <ng-template pTemplate="header">
+    <div
+      class="inline-flex align-items-center justify-content-center gap-2"
+      style="font-size: 1.6rem"
+    >
+      <span
+        class="{{
+          selectedMessage?.messageType === BackgroundJobMessageType.Error
+            ? 'fa-solid fa-triangle-exclamation text-danger'
+            : selectedMessage?.messageType === BackgroundJobMessageType.Info
+            ? 'fa fa-info-circle text-info'
+            : 'fa fa-exclamation-triangle text-warning'
+        }}"
+      ></span>
+      <span class="font-bold white-space-nowrap">
+        {{
+          (selectedMessage?.messageType === BackgroundJobMessageType.Error
+            ? 'BackgroundJob::Execution:Message:Details:Error'
+            : selectedMessage?.messageType === BackgroundJobMessageType.Info
+            ? 'BackgroundJob::Execution:Message:Details:Info'
+            : 'BackgroundJob::Execution:Message:Details:Warning'
+          ) | abpLocalization
+        }}
+      </span>
+    </div>
+  </ng-template>
+  <div style="width: min(500px, 90vw)">
+    <div style="height: 24rem">
+      <textarea
+        style="height: 100%; width: 100%; resize: none"
+        *ngIf="selectedMessage"
+        pTextarea
+        [(ngModel)]="selectedMessage.textMessage"
+        [readonly]="true"
+      >
+      </textarea>
+    </div>
+    <div class="flex justify-content-end mt-2">
+      <span>{{ selectedMessage?.creationTime | date : 'MMM d, y, H:mm:ss' : 'UTC' }}</span>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,354 @@
+<app-page-title
+  [title]="title"
+  icon="fas fa-list-check"
+>
+</app-page-title>
+<div class="content">
+  <div class="card p-fluid">
+
+      <div class="card-body p-3">
+        <div class="grid">
+          <div class="p-3 col-12 lg:col-6">
+            <div class="card">
+              <h5 class="mb-3">
+                {{ 'Infrastructure::GeneralInformation' | abpLocalization }}
+              </h5>
+              <ul class="list-none p-0 m-0">
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{ 'JobScheduler::Task:Id' | abpLocalization }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{ header?.data.id || '-' }}
+                  </div>
+                  <i
+				  *ngIf="header?.data.id"
+                    class="pi pi-copy text-primary cursor-pointer"
+                    pTooltip="{{ header?.data.id }}"
+                    tooltipPosition="top"
+                    tooltipClass="tooltip-one-line"
+                    (click)="copyId(header?.data.id, $event)"
+                  ></i>
+                </li>
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    [appRequired]="editing"
+                    >{{ 'JobScheduler::Task:Name' | abpLocalization }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    <input
+                      [(ngModel)]="header.name"
+                      type="text"
+                      pInputText
+                      [style]="{ width: '100%' }"
+                      (ngModelChange)="
+                        resetNameValidators(); pageStateService.setDirty()
+                      "
+                      [ngClass]="{
+                        'ng-invalid ng-dirty': header.validators.nameEmpty
+                      }"
+                      *ngIf="editing"
+                    />
+                    <span class="text-900" *ngIf="!editing">{{
+                      header.name
+                    }}</span>
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'JobScheduler::Task:Description' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center"
+                  >
+                    <p-textarea
+                      [(ngModel)]="header.description"
+                      [rows]="1"
+                      [autoResize]="true"
+                      [style]="{ width: '100%' }"
+                      *ngIf="editing"
+                      (ngModelChange)="pageStateService.setDirty()"
+                    ></p-textarea>
+                    <span class="text-900" *ngIf="!editing">{{
+                      header.description || '-'
+                    }}</span>
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{ 'JobScheduler::Task:Status' | abpLocalization }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    <p-tag
+                      [styleClass]="'status-' + header?.status.key"
+                      [value]="header?.status.localized"
+                      [icon]="header?.status.icon"
+                    >
+                    </p-tag>
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'JobScheduler::Task:LastRunTime' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{
+                      !!header?.data.lastRunTimeUtc
+                        ? (header?.data.lastRunTimeUtc
+                          | date : 'MMM d, y, H:mm:ss' : 'UTC')
+                        : ('JobScheduler::Task:NoLastRunTime' | abpLocalization)
+                    }}
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'JobScheduler::Task:NextRunTime' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{
+                      !!header?.data.nextRunTimeUtc
+                        ? (header?.data.nextRunTimeUtc
+                          | date : 'MMM d, y, H:mm:ss' : 'UTC')
+                        : ('JobScheduler::Task:NoNextRunTime' | abpLocalization)
+                    }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="p-3 col-12 lg:col-6">
+            <div class="card">
+              <div class="card-body">
+                <h3>{{ 'JobScheduler::Tasks:Settings' | abpLocalization }}</h3>
+                <div class="row gx-4 gy-4">
+                  <div class="col-12">
+                    <div class="field-checkbox">
+                      <p-checkbox
+                        [inputId]="'isActive'"
+                        [binary]="true"
+                        [(ngModel)]="header.data.isActive"
+                        [disabled]="!editing"
+                        (ngModelChange)="
+                          onActiveChange($event); pageStateService.setDirty()
+                        "
+                      >
+                      </p-checkbox>
+                      <label [for]="'isActive'">{{
+                        'JobScheduler::Task:IsActive' | abpLocalization
+                      }}</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="field-checkbox">
+                      <p-checkbox
+                        [inputId]="'allowToBeRunOnDemand'"
+                        [binary]="true"
+                        [disabled]="!editing"
+                        [(ngModel)]="header.data.canRunManually"
+                        (ngModelChange)="pageStateService.setDirty()"
+                      >
+                      </p-checkbox>
+                      <label [for]="'allowToBeRunOnDemand'">{{
+                        'JobScheduler::Task:AllowToBeRunOnDemand'
+                          | abpLocalization
+                      }}</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="field-checkbox">
+                      <p-checkbox
+                        [inputId]="'allowForceStop'"
+                        [binary]="true"
+                        [(ngModel)]="header.data.allowForceStop"
+                        [disabled]="!editing"
+                        (ngModelChange)="pageStateService.setDirty()"
+                      >
+                      </p-checkbox>
+                      <label [for]="'allowForceStop'">{{
+                        'JobScheduler::Task:AllowForceStop' | abpLocalization
+                      }}</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="flex flex-wrap gap-2 align-items-center">
+                      <p-checkbox
+                        [binary]="true"
+                        [(ngModel)]="header.restartAfterFailSet"
+                        [disabled]="!editing"
+                        (ngModelChange)="pageStateService.setDirty()"
+                      >
+                      </p-checkbox>
+                      <span
+                        >{{
+                          'JobScheduler::Tasks:AfterFailRepeatEvery'
+                            | abpLocalization
+                        }}:</span
+                      >
+                      <p-select
+                        [filter]="false"
+                        [disabled]="!header.restartAfterFailSet || !editing"
+                        [options]="intervals"
+                        [style]="{ width: '170px' }"
+                        [(ngModel)]="header.selectedRestartInterval"
+                        optionLabel="name"
+                        (ngModelChange)="pageStateService.setDirty()"
+                      >
+                      </p-select>
+                      <span>{{
+                        'JobScheduler::UpTo' | abpLocalization | lowercase
+                      }}</span>
+                      <p-inputNumber
+                        [inputStyle]="{ width: '50px' }"
+                        [disabled]="!header.restartAfterFailSet || !editing"
+                        [step]="1"
+                        [min]="2"
+                        [max]="10"
+                        [showButtons]="true"
+                        [(ngModel)]="header.data.restartAfterFailMaxAttempts"
+                        [maxFractionDigits]="0"
+                        (ngModelChange)="
+                          resetRestartMaxAttemptsValidators();
+                          pageStateService.setDirty()
+                        "
+                        [ngClass]="{
+                          'ng-invalid ng-dirty':
+                            header.validators.restartMaxAttemptsEmpty
+                        }"
+                      ></p-inputNumber>
+                      <span>{{
+                        'JobScheduler::Times' | abpLocalization | lowercase
+                      }}</span>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="flex align-items-center">
+                      <div class="col-3">
+                        <label class="text-500 font-medium">{{
+                          'JobScheduler::Task:OnFailureRecipients'
+                            | abpLocalization
+                        }}</label>
+                      </div>
+                  <div class="col-9">
+                        <div class="p-inputgroup w-full">
+                          <input
+                            pInputText
+                            [placeholder]="'user@example.com'"
+                            [(ngModel)]="newRecipient"
+                            [disabled]="!editing"
+                            (keydown.enter)="addRecipient(); $event.preventDefault()"
+                            (blur)="addRecipient()"
+                          />
+                          <button
+                            pButton
+                            type="button"
+                            icon="pi pi-plus"
+                            class="p-button-outlined"
+                            [disabled]="!editing || !canAddRecipient()"
+                            (click)="addRecipient()"
+                          ></button>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2 w-full">
+                          <p-chip
+                            *ngFor="let recipient of header.onFailureRecipients"
+                            [label]="recipient"
+                            [removable]="editing"
+                            (onRemove)="removeRecipient(recipient)"
+                          ></p-chip>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="card p-fluid">
+      <div class="card-body">
+        <p-tabs value="triggers">
+          <p-tablist>
+            <p-tab value="triggers">
+              <div class="flex gap-2">
+                <i class="fa-solid fa-bell"></i>
+                <span class="pr-2">
+                  {{ 'JobScheduler::Triggers' | abpLocalization }}
+                </span>
+              </div>
+            </p-tab>
+            <p-tab value="actions">
+              <div class="flex gap-2">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span class="pr-2">
+                  {{ 'JobScheduler::Actions' | abpLocalization }}
+                </span>
+              </div>
+            </p-tab>
+            <p-tab value="history">
+              <div class="flex gap-2">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <span class="pr-2">
+                  {{ 'JobScheduler::Tasks:History' | abpLocalization }}
+                </span>
+              </div>
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="triggers">
+              <app-trigger-settings
+                [taskId]="header?.data.id"
+                [editing]="editing"
+              >
+              </app-trigger-settings>
+            </p-tabpanel>
+            <p-tabpanel value="actions">
+              <app-action-settings [taskId]="header?.data.id" [editing]="editing">
+              </app-action-settings>
+            </p-tabpanel>
+            <p-tabpanel value="history">
+              <app-task-history [taskId]="header?.data.id"> </app-task-history>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+</div>

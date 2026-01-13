@@ -1,0 +1,46 @@
+
+<!--begin::Menu-->
+<div class="menu menu-rounded menu-column menu-gray-600 menu-state-bg fw-semibold">
+  <!--begin::Menu item-->
+  <div class="menu-item">
+    <!--begin::Menu link-->
+    <i class="fa fa-upload icon-button text-primary"
+      role="button" (click)="op.toggle($event)" data-kt-menu-offset="30px, 30px" *ngIf="isMobileVersion()">
+    </i>
+
+    <p-button *ngIf="!isMobileVersion()" [text]="true" [raised]="true" type="button" (click)="op.toggle($event)"  styleClass="p-button-sm"
+      data-kt-menu-offset="30px, 30px" icon="fa fa-upload"
+      [label]="'FileManager::Upload' | abpLocalization">
+    </p-button>
+    <!--end::Menu link-->
+
+    <!--begin::Menu sub-->
+    <p-popover #op>
+        <!--begin::Menu item-->
+        <div class="menu-item mt-2">
+          <a class="menu-link px-1 py-3">
+            <p-button [text]="true" [raised]="true" type="button" (click)="fileInput.click()" styleClass=" p-button-sm"
+              [label]="'FileManager::File' | abpLocalization" icon="fas fa-file" class="dropdown-item">
+            </p-button>
+            <input (change)="fileEvent($event)" hidden #fileInput multiple name="file" type="file" name="Upload File"
+              fxFlex="30">
+          </a>
+        </div>
+        <!--end::Menu item-->
+  
+        <!--begin::Menu item-->
+        <div class="menu-item mt-2">
+          <a class="menu-link px-1 py-3">
+            <p-button [text]="true" [raised]="true" type="button" (click)="folderInput.click()" styleClass=" p-button-sm"
+              [label]="'FileManager::Folder' | abpLocalization" icon="fas fa-folder" class="dropdown-item">
+            </p-button>
+            <input (change)="folderEvent($event)" hidden #folderInput webkitdirectory directory name="file" type="file"
+              name="Upload Folder" fxFlex="30">
+            </a>
+        </div>
+    </p-popover>
+    <!--end::Menu sub-->
+  </div>
+  <!--end::Menu item-->
+</div>
+<!--end::Menu-->

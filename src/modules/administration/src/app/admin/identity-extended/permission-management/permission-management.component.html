@@ -1,0 +1,130 @@
+<div class="dialog-overlay" [style.display]="visible ? 'block' : 'none'"></div>
+<p-dialog [resizable]="false" [(visible)]="visible" [draggable]="false" (onHide)="closeDialog()" [closable]="false">
+  <ng-template pTemplate="header">
+    <div style="display: flex; width: 100% !important; justify-content: space-between;">
+        <div>
+            <span style="font-size: 1.25rem; font-weight: 700;">
+              {{ 'TenantManagement::Permissions' | abpLocalization }} -
+              {{ entityDisplayName || data.entityDisplayName }}
+            </span>
+        </div>
+        <div>
+            <span class="icon-close-button">
+                <i class="pi pi-times" (click)="closeDialog()"></i>
+            </span>
+        </div>
+    </div>
+  </ng-template>
+  <div class="wrapper" *ngIf="data?.entityDisplayName || entityDisplayName">
+    <div class="grid dialog-wrapper">
+      <div class="col-12 md:col-5 scroll-in-modal mt-custom">
+        <div class="form-check mb-2">
+          <!-- <input #selectAllInAllTabsRef type="checkbox" id="select-all-in-all-tabs" name="select-all-in-all-tabs"
+            class="form-check-input" [(ngModel)]="selectAllTab"
+            (click)="onClickSelectAll();pageStateService.setDirty()" [disabled]="disabledSelectAllInAllTabs" />
+          <label class="form-check-label" for="select-all-in-all-tabs">{{
+            'TenantManagement::SelectAllInAllTabs' | abpLocalization
+            }}</label> -->
+          
+          <div class="flex items-center">
+            <p-checkbox [binary]="true" [(ngModel)]="selectAllTab"
+              (ngModelChange)="onClickSelectAll();pageStateService.setDirty()" inputId="select-all-in-all-tabs"
+              [disabled]="disabledSelectAllInAllTabs || !showSaveButton()">
+            </p-checkbox>
+            <label for="select-all-in-all-tabs" class="ml-2">{{ 'TenantManagement::SelectAllInAllTabs' | abpLocalization }}</label>
+          </div>
+        </div>
+
+        <hr class="my-1" />
+        <div>
+          <p-tree class="w-full" [value]="categories" selectionMode="single" (onNodeSelect)="nodeSelect($event)">
+            <ng-template pTemplate="category" let-category>
+              <b>{{category.label}}</b>
+            </ng-template>
+            <ng-template pTemplate="group" let-group>
+              <a *ngIf="{ assignedCount: getAssignedCount(group.data.name) } as count"
+                [class.active]="selectedGroup?.name === group.data?.name" (click)="onChangeGroup(group.data)"
+                (select)="setDisabled(group.data.permissions)">
+                <div [class.fw-bold]="count.assignedCount">
+                  {{ group.data?.displayName }}
+                  <span *ngIf="count.assignedCount > 0" style="font-weight: 600; color: var(--active-button);">({{ count.assignedCount }})</span>
+                </div>
+              </a>
+            </ng-template>
+          </p-tree>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-7 no-scroll">
+        <div class="form-check mb-2">
+          <!-- <input #selectAllInThisTabsRef type="checkbox" id="select-all-in-this-tabs" name="select-all-in-this-tabs"
+            class="form-check-input" [(ngModel)]="selectThisTab" [disabled]="disableSelectAllTab"
+            (click)="onClickSelectThisTab();pageStateService.setDirty()" />
+          <label class="form-check-label" for="select-all-in-this-tabs">{{
+            'TenantManagement::SelectAllInThisTab' | abpLocalization
+            }}</label> -->
+          
+
+          <div class="flex items-center">
+              <p-checkbox [binary]="true" [(ngModel)]="selectThisTab"
+                (ngModelChange)="onClickSelectThisTab();pageStateService.setDirty()" [disabled]="disableSelectAllTab || showSaveButton() === false"
+                inputId="select-all-in-this-tabs">
+              </p-checkbox>
+              <label for="select-all-in-this-tabs" class="ml-2">{{ 'TenantManagement::SelectAllInThisTab' | abpLocalization }}</label>
+          </div>
+        </div>
+        <hr class="my-1" />
+        <div>
+          <p-treeTable [value]="permissionsTree" [loading]="loading" #treeTable [scrollable]="true" scrollHeight="65vh">
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr [ttRow]="rowNode">
+                <td class="py-2 px-0 flex align-items-center">
+                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>                
+                  <ng-container *ngIf="isGrantedByOtherProviderName(rowData.grantedProviders); else notGranted">
+                    <div class="flex items-center align-items-center">
+                        <p-checkbox [binary]="true" [ngModel]="getChecked(rowData.name)" [inputId]="rowData.name" [disabled]="true"
+                          (onChange)="onClickCheckbox(rowData);pageStateService.setDirty()">
+                        </p-checkbox>
+                        <label class="ml-2">{{ getDisplayNameIfGrantedByAnotherProvider(rowData) }}</label>
+                    </div>
+                  </ng-container>
+                  <ng-template #notGranted>
+                    
+                    <div class="flex items-center align-items-center">
+                        <p-checkbox [binary]="true" [ngModel]="getChecked(rowData.name)" [inputId]="rowData.name" [disabled]="!showSaveButton()"
+                          (onChange)="onClickCheckbox(rowData);pageStateService.setDirty()">
+                        </p-checkbox>
+                        <label class="ml-2">{{ rowData.displayName }}</label>
+                    </div>
+                  </ng-template>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr class="table-emptymessage">
+                  <td class="w-full">
+                    <div class="card w-full">
+                      <div class="card-body w-full text-center">
+                        {{ "TenantManagement::Permissions:List:Empty" | abpLocalization}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+            </ng-template>
+          </p-treeTable>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end gap-3">
+      <p-button (click)="closeDialog()" [label]="'Infrastructure::Cancel' | abpLocalization" [text]="true"
+        [raised]="true" [disabled]="loading" severity="secondary" icon="fa fa-times">
+      </p-button>
+      <p-button (click)="submit()" *ngIf="showSaveButton()"
+        [label]="'Infrastructure::Save' | abpLocalization" [text]="true" [raised]="true" [disabled]="loading"
+        icon="fa fa-check">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

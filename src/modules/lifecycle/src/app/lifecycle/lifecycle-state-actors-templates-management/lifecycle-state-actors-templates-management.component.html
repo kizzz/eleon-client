@@ -1,0 +1,166 @@
+<app-state-actor-template-selection-dialog #approverAddDialog
+  *ngIf="showApproverDialog"(saveEvent)="add($event)" [stateId]="state.id"
+  [reviewer]="false" [documentObjectType]="documentObjectType" [(display)]="showApproverDialog"
+  [title]="'Lifecycle::States:Actors:Add' | abpLocalization">
+</app-state-actor-template-selection-dialog>
+<app-state-actor-template-selection-dialog #reviewerAddDialog (saveEvent)="add($event)" [stateId]="state.id"
+  [reviewer]="true" [documentObjectType]="documentObjectType" [(display)]="showReviewerDialog"
+  [title]="'Lifecycle::States:Actors:Add' | abpLocalization"
+  *ngIf="showReviewerDialog">
+</app-state-actor-template-selection-dialog>
+
+<p-tabs [(value)]="activeTabIndex">
+  <p-tablist>
+    <p-tab [value]="0">
+      <i class="fas fa-user-check"></i>
+      <span class="p-overlay-badge">
+        <span class="pl-2 pr-3">{{ 'Lifecycle::States:Actors:Approvers' | abpLocalization }}</span>
+      </span>
+    </p-tab>
+    <p-tab [value]="1">
+      <i class="fas fa-user"></i>
+      <span class="p-overlay-badge">
+        <span class="pl-2 pr-3">{{ 'Lifecycle::States:Actors:Reviewers' | abpLocalization }}</span>
+      </span>
+    </p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel [value]="0">
+    <p-table [lazy]="true" [loading]="approversLoading" (onLazyLoad)="loadStateActors()" [value]="approvers"
+      [reorderableColumns]="!state?.approvalType" (onRowReorder)="reorder()">
+      <!-- <ng-template pTemplate="header">
+        <tr>
+          <th style="width:3rem" *ngIf="!state?.approvalType"></th>
+          <th>{{ "Lifecycle::States:Actors:Name" | abpLocalization }}</th>
+          <th>{{ "Lifecycle::States:Actors:Type" | abpLocalization }}</th>
+          <th>{{ "Lifecycle::States:Actors:DisplayName" | abpLocalization }}</th>
+          <th style="width:3rem">{{ "Lifecycle::States:Actors:Enabled" | abpLocalization }}</th>
+          <th style="width:10rem">
+            <button pButton class="p-button-success p-button-text" icon="fa fa-plus"
+              (click)="approverAddDialog.showDialog()"></button>
+          </th>
+        </tr>
+      </ng-template> -->
+      <ng-template pTemplate="body" let-stateactor let-rowIndex="rowIndex">
+        <app-state-actor-template-selection-dialog #approverEditDialog
+          title="{{ 'Lifecycle::State:Actor:Edit' | abpLocalization }}" (saveEvent)="edit($event)" [reviewer]="false"
+          [stateActor]="stateactor" [stateId]="stateactor.stateId" [documentObjectType]="documentObjectType">
+        </app-state-actor-template-selection-dialog>
+        <tr [pSelectableRow]="stateactor" [pReorderableRow]="rowIndex">
+          <td>
+            <div class="flex align-items-center justify-content-start">
+              <span *ngIf="!state?.approvalType" class="pi pi-bars mx-3" pReorderableRowHandle></span>
+              <span *ngIf="state?.approvalType" class="mx-custom"></span>
+              {{stateactor.displayName}}
+              {{ stateactor.displayName === 'Initiator' || stateactor.displayName === 'Beneficiary' ? '' : 
+                (!!stateactor.actorName.length ? "(" + stateactor.actorName + ")": '' )}}
+            </div>
+          </td>
+          <td appResponsiveColumn="310">
+            <div class="text-center">
+              <p-tag [value]="recognizeActorType(stateactor.actorType)?.name"
+                [severity]="recognizeActorType(stateactor.actorType)?.severity">
+              </p-tag> 
+              <!-- {{ stateactor.displayName === 'Initiator' || stateactor.displayName === 'Beneficiary' ? '-' : stateactor.displayName}} -->
+            </div>
+          </td>
+          <!-- <td>
+                <p-toggleswitch [(ngModel)]="stateactor.isFormAdmin"
+                [disabled]="true"></p-toggleswitch>
+              </td>
+              <td>
+                <p-toggleswitch [(ngModel)]="stateactor.isApprovalAdmin"
+                [disabled]="true"></p-toggleswitch>
+              </td>
+              <td>
+                <p-toggleswitch [(ngModel)]="stateactor.isApprovalManager"
+                [disabled]="true"></p-toggleswitch>
+              </td> -->
+          <td style="width:1%; max-width: 80px; min-width: 80px;">
+            <p-toggleswitch [(ngModel)]="stateactor.isActive" (onChange)="enable(stateactor)" *ngIf="isLifecycleManager() && false"></p-toggleswitch>
+						<span class="fa fa-check" *ngIf="stateactor.isActive"></span>
+          </td>
+          <td style="width:1%; max-width: 100px; min-width: 100px;" *ngIf="isLifecycleManager()">
+            <button (click)="approverEditDialog.showDialog()" pButton type="button" icon="fa fa-edit"
+              [pTooltip]="'Infrastructure::Edit' | abpLocalization"
+              class="p-button-text p-button-rounded p-button-primary"></button>
+            <button (click)="remove(stateactor)" pButton type="button" icon="fa fa-trash"
+              [pTooltip]="'Infrastructure::Delete' | abpLocalization"
+              class="p-button-text p-button-rounded p-button-danger"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="5">
+            <div class="card w-full">
+              {{ 'Lifecycle::Actors:NoApproversAddedYet' | abpLocalization }}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-tabpanel>
+
+  <p-tabpanel [value]="1">
+    <p-table [lazy]="true" (onLazyLoad)="loadStateActors()" [value]="reviewers" [loading]="reviewersLoading"
+      [reorderableColumns]="true" (onRowReorder)="reorderReviewers()">
+      <!-- <ng-template pTemplate="header">
+        <tr>
+          <th>{{ "Lifecycle::States:Actors:Name" | abpLocalization }}</th>
+          <th>{{ "Lifecycle::States:Actors:Type" | abpLocalization }}</th>
+          <th>{{ "Lifecycle::States:Actors:DisplayName" | abpLocalization }}</th>
+          <th style="width:3rem">{{ "Lifecycle::States:Actors:Enabled" | abpLocalization }}</th>
+          <th style="width:10rem">
+            <button pButton class="p-button-success p-button-text" icon="fa fa-plus"
+              (click)="reviewerAddDialog.showDialog()"></button>
+          </th>
+        </tr>
+      </ng-template> -->
+      <ng-template pTemplate="body" let-stateactor let-rowIndex="rowIndex">
+        <app-state-actor-template-selection-dialog #reviewerEditDialog (saveEvent)="edit($event)" [reviewer]="true"
+          [stateActor]="stateactor" [stateId]="stateactor.stateId" [documentObjectType]="documentObjectType">
+        </app-state-actor-template-selection-dialog>
+        <tr [pSelectableRow]="stateactor" [pReorderableRow]="rowIndex">
+          <td>
+            <div class="flex align-items-center justify-content-start">
+              <span class="pi pi-bars mx-3" pReorderableRowHandle></span>
+              {{stateactor.displayName}}
+              {{ stateactor.displayName === 'Initiator' || stateactor.displayName === 'Beneficiary' ? '' : 
+                (!!stateactor.actorName.length ? "(" + stateactor.actorName + ")": '' )}}
+            </div>
+          </td>
+          <td appResponsiveColumn="310">
+            <div class="text-center">
+              <p-tag [value]="recognizeActorType(stateactor.actorType)?.name"
+                [severity]="recognizeActorType(stateactor.actorType)?.severity">
+              </p-tag> 
+            </div>
+          </td>
+          <td style="width:1%; max-width: 80px; min-width: 80px;">
+            <p-toggleswitch [(ngModel)]="stateactor.isActive" (onChange)="enable(stateactor)" *ngIf="isLifecycleManager() && false"></p-toggleswitch>
+						<span class="fa fa-check" *ngIf="stateactor.isActive"></span>
+          </td>
+          <td style="width:1%; max-width: 100px; min-width: 100px;" *ngIf="isLifecycleManager()">
+            <button (click)="reviewerEditDialog.showDialog()" pButton type="button" icon="fa fa-edit"
+              [pTooltip]="'Infrastructure::Edit' | abpLocalization"
+              class="p-button-text p-button-rounded p-button-primary"></button>
+            <button (click)="remove(stateactor)" pButton type="button" icon="fa fa-trash"
+              [pTooltip]="'Infrastructure::Delete' | abpLocalization"
+              class="p-button-text p-button-rounded p-button-danger"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="5">
+            <div class="card w-full">
+              {{ 'Lifecycle::Actors:NoReviewersAddedYet' | abpLocalization }}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

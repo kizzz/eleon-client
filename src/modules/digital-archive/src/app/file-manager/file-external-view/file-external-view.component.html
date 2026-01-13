@@ -1,0 +1,13 @@
+<div class="external-view" >
+    
+    <!-- <div class="flex justify-content-end p-3">
+        <p-button [text]="true" [raised]="true" [label]="'FileManager::Save' | abpLocalization"></p-button>
+    </div> -->
+    
+    
+    <ng-container *ngIf="url">
+        <iframe [src]="url" frameborder="no" style="width:100%;height:100vh;"></iframe>
+    </ng-container>
+    
+    
+</div>

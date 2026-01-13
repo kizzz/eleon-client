@@ -1,0 +1,7 @@
+<h5 *ngIf="title">{{title}}</h5>
+<p-select [options]="rows" optionLabel="name" [class]="isInvalid ? 'ng-invalid ng-dirty':''" [disabled]="disabled"
+  autoWidth="false" [style]="{'width':'100%'}"
+  placeholder="{{ 'FileManager::Selection:FileArchiveHierarchyType' | abpLocalization }}"
+  (onChange)="onSelect()" [(ngModel)]="selected" (click)="click($event)"
+  appendTo="body">
+</p-select>

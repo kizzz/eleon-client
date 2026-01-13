@@ -1,0 +1,45 @@
+<div id="app-layout-menu-profile" class="layout-menu-profile" *ngIf="auth.isAuthenticated()">
+    <button class="p-link" (click)="toggleMenu()" pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
+        <app-profile-picture class="layout-topbar-button" *ngIf="profileService.userProfile?.id"
+            [userId]="profileService.userProfile.id" style="cursor:pointer"
+            (click)="op.toggle($event)"></app-profile-picture>
+        <span>
+            <strong>{{ profileService.userProfile.name}} {{ profileService.userProfile?.surname?.length > 0 ? profileService.userProfile.surname : ''}}</strong>
+            <small></small>
+        </span>
+        <i class="layout-menu-profile-toggler pi pi-fw"
+            [ngClass]="{'pi-angle-down': menuProfilePosition === 'start' || isHorizontal, 'pi-angle-up': menuProfilePosition === 'end' && !isHorizontal}"></i>
+    </button>
+
+    <ul *ngIf="menuProfileActive && profileItems" [@menu]="isHorizontal ? 'overlay' : 'inline'">
+        <ng-container *ngFor="let item of profileItems; let i = index;">
+          <li *ngIf="item.visible !== false" [pTooltip]="item.label" [tooltipDisabled]="isTooltipDisabled"
+              [routerLink]="item.routerLink" [class]="isCurrentRoute(item.routerLink) ? 'profile-menu-active' : ''">
+            
+            <button class="p-link" [routerLink]="item.routerLink" (click)="item?.items?.length > 0 ? null : item?.command()">
+              <i [class]="item.icon"></i>
+              <span>{{ item.label }}</span>
+              <!-- Toggler for child items -->
+              <i class="pi pi-fw" *ngIf="item.items?.length > 0" 
+                 (click)="item.expand = !item?.expand; $event.stopPropagation()" 
+                 [ngClass]="{'pi-angle-down': item.expand, 'pi-angle-up': !item.expand}">
+              </i>
+            </button>
+      
+            <div *ngIf="item.expand && item.items?.length > 0" class="child-menu layout-menu-profile">
+                <ul *ngIf="item.expand && item.items?.length > 0" [@menu]="isHorizontal ? 'overlay' : 'inline'">
+                    <ng-container *ngFor="let child of item?.items">
+                      <li [pTooltip]="child.label" [tooltipDisabled]="isTooltipDisabled"
+                          [routerLink]="child.routerLink" [class]="isCurrentRoute(child.routerLink) ? 'profile-menu-active' : ''">
+                        <button class="p-link" [routerLink]="child.routerLink" (click)="child?.command()">
+                          <i [class]="child.icon"></i>
+                          <span>{{ child.label }}</span>
+                        </button>
+                      </li>
+                    </ng-container>
+                  </ul>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+</div>

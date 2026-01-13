@@ -1,0 +1,94 @@
+<p-dialog [resizable]="false" [header]="dialogTitle" [(visible)]="showDialog" [modal]="true" [draggable]="false" *ngIf="showDialog">
+  <div class="dialog-standard" style="min-width: 30vw;">
+		<p-table responsiveLayout="stack"  scrollDirection="both" class="data-table" [rowHover]="true"
+		styleClass="pr-table" [loading]="loading" [value]="rows" [lazy]="true" (onLazyLoad)="loadMessages($event)"
+		[paginator]="true" [rows]="rowsCount" [totalRecords]="totalRecords" sortMode="single" sortField="creationTime" sortOrder="-1">
+			<!-- *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable" [breakpoint]="breakpoint"     -->
+			<ng-template pTemplate="caption">
+				<div class="flex align-items-center justify-content-between">
+					<div>{{'EventManagementModule::Queue:Usage' | abpLocalization}} 
+					<span>{{data.count}}<span *ngIf="data.messagesLimit > 0"> / {{data.messagesLimit}}</span></span> ( <span [ngStyle]="{
+						color: getColor(data.count, data.messagesLimit)
+					}"> {{data.count / data.messagesLimit * 100 | number:'1.1-1'}}% </span> )</div>
+
+					<div class="gap-3">
+						<p-button [text]="true" [raised]="true" styleClass="p-button-warning" (onClick)="refresh()" icon="fa fa-refresh"
+							[label]="'EventManagementModule::Queue:Event:Refresh' | abpLocalization" iconPos="left" [disabled]="loading" class="mx-3">
+						</p-button>
+						<p-button [text]="true" [raised]="true" styleClass="p-button-danger" icon="fa fa-trash"
+								(onClick)="clearMessages()" [label]="'EventManagementModule::Queue:Event:ClearAll' | abpLocalization" [disabled]="loading" class="mx-3">
+						</p-button>
+					</div>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th>
+						{{ "EventManagementModule::Queue:Event:Type" | abpLocalization }}
+					</th>
+					<th appResponsiveColumn="160">
+						{{ "EventManagementModule::Queue:Event:CreationTime" | abpLocalization }}
+					</th>
+					<th  appResponsiveColumn="140">
+						{{ "EventManagementModule::Queue:Event:Length" | abpLocalization }}
+					</th>
+					<th appResponsiveColumn="40">
+						<!-- for actions -->
+					</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-row>
+				<tr>
+					<td>
+						<span class="non-editing-only p-column-title">
+							{{"EventManagementModule::Queue:Event:Type" | abpLocalization}}
+						</span>
+						<span class="column-content flex align-items-center gap-3">
+							<i class="fa-solid fa-envelope"></i>
+							<app-ellipsis [text]="row.name"></app-ellipsis>
+						</span>
+					</td>
+					<td class="column-content">
+						<span class="non-editing-only p-column-title">
+							{{"EventManagementModule::Queue:Event:Name" | abpLocalization}}
+						</span>
+						<span class="column-content flex align-items-center gap-3 text-center">
+							{{row.creationTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+						</span>
+					</td>
+					<td>
+						<span class="non-editing-only p-column-title">
+							{{"EventManagementModule::Queue:Event:Length" | abpLocalization}}
+						</span>
+						<span class="column-content flex align-items-center gap-3">
+							{{ row.length | memory }}
+						</span>
+					</td>
+					<td>
+						<span class="column-content flex justify-content-end gap-2 align-items-center">
+							<span 
+								class="cursor-pointer fas fa-file-arrow-down text-primary" 
+								[pTooltip]="'EventManagementModule::Queue:Event:Download' | abpLocalization" 
+								tooltipPosition="top"
+								(click)="downloadMessage(row)">
+							</span>
+						</span>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr class="table-emptymessage">
+					<td class="w-full" colspan="9999">
+						<div class="card w-full">
+							<div class="card-body w-full">
+								<div class="card-header text-center">
+									{{'EventManagementModule::Queue:Event:List:Empty'| abpLocalization}}
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</ng-template>
+		</p-table>
+  </div>
+</p-dialog>

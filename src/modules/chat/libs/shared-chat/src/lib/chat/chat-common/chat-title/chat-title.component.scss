@@ -1,0 +1,23 @@
+
+:host ::ng-deep .p-tag.support-ticket {
+    background: var(--yellow-500);
+    transform: scale(0.9);
+    margin-bottom: 1px;
+    text-wrap: nowrap;
+  }
+
+.truncate-text {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+
+:host ::ng-deep .custom-tag .p-tag {
+  background: #E5E7EC;
+  color: #4b5563;
+  border-radius: 9999px;
+  max-width: 80px;
+}

@@ -1,0 +1,66 @@
+<div class="text-center user-table-box wrapper">
+  <p-table #selectionBox [value]="users" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+  [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"  rows="5" [lazy]="true"
+    (onLazyLoad)="onLoadUsers($event)" [paginator]="true" [totalRecords]="totalRecords" [loading]="loading"
+    [selectionMode]="currentSelectionMode" [metaKeySelection]="!isMultiple" [(selection)]="selectedUsers"
+    class="data-table">
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-search pr-1 pl-1"></i>
+          {{"Infrastructure::Search" | abpLocalization}}
+        </span>
+        <input type="text" pInputText #searchField
+          placeholder="{{'Infrastructure::Search' | abpLocalization}}" (ngModel)="filter"
+          (input)="selectionBox.filterGlobal($event.target.value, 'contains')" style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 100px" class="text-center">{{"Infrastructure::Name"| abpLocalization}}</th>
+            <th style="width: 200px;" class="text-center">{{"Infrastructure::OrganizationUnits"| abpLocalization}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr [pSelectableRow]="user">
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"Infrastructure::Name"| abpLocalization}}
+
+          </span>
+            <div class="column-content flex align-items-center gap-3">
+              <app-profile-picture [userId]="user.id"></app-profile-picture>
+              <app-ellipsis [text]="getFullName(user)" style="width: 120px; max-width: 120px;"></app-ellipsis>
+            </div>
+        </td>
+        <!-- <td class="text-center" [pTooltip]="user?.roles?.join(', ')" tooltipPosition="top" placeholder="Top"
+            [tooltipDisabled]="user?.roles?.join(', ')?.length <= 15">
+              <div>
+                {{user?.roles?.join(', ')?.length > 15
+                  ? (user?.roles?.join(', ') | slice:0:12) + '...'
+                  : user?.roles?.join(', ')}}
+              </div>
+            </td> -->
+        <td >
+          <span class="non-editing-only p-column-title">
+            {{"Infrastructure::OrganizationUnits"| abpLocalization}}
+          </span>
+          <div class="column-content">
+            <app-ellipsis [text]="getOrganizationUnitsDisplayNames(user?.organizationUnits)"
+              style="width: 200px; max-width: 200px;"></app-ellipsis>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <p>
+        {{ "Infrastructure::User:EmptyMessage" | abpLocalization}}
+      </p>
+    </ng-template>
+  </p-table>
+  <div class="mt-2 flex justify-content-end">
+    <p-button [text]="true" [raised]="true" (onClick)="selectUsers($event)" icon="fa fa-check"
+      [label]="'Infrastructure::Select' | abpLocalization">
+    </p-button>
+  </div>
+</div>

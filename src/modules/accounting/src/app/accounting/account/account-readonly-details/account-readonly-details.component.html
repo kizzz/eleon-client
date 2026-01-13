@@ -1,0 +1,516 @@
+<app-page-title [title]="title" icon="fas fa-user-alt">
+  <!-- <ng-template #rightContent *ngIf="isAccountModule() && details?.data?.id?.length > 0">
+        <app-lifecycle-trace-dialog class="lg:mr-3" [documentObjectType]="documentObjectType"
+          [docId]="details?.data?.id" [docEntry]="details?.data?.docEntry">
+        </app-lifecycle-trace-dialog>
+        <app-lifecycle-state-bar class="lg:mr-3" [docId]="details?.data?.id" [documentObjectType]="documentObjectType"
+          [isRedirectToApprovalDash]="true">
+        </app-lifecycle-state-bar>
+      </ng-template> -->
+</app-page-title>
+
+<div class="content" *ngIf="details?.data?.id">
+  <div class="grid">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ 'AccountingModule::HeaderTitle' | abpLocalization }}
+          </h5>
+          <div class="grid m-0">
+            <div class="col-12 lg:col-6 grid m-0 py-0">
+              <div class="col-6 lg:col-5">
+                <b>{{
+                  'AccountingModule::Header:AccountName' | abpLocalization
+                }}</b>
+              </div>
+              <div class="col-6 lg:col-7">
+                {{ details?.data.accountName || '-' }}
+              </div>
+            </div>
+          </div>
+          <div class="grid m-0">
+            <div class="col-12 lg:col-6 grid m-0 py-0">
+              <div class="col-6 lg:col-5">
+                <b>{{ 'AccountingModule::Header:Owner' | abpLocalization }}</b>
+              </div>
+              <div class="col-6 lg:col-7">
+                {{ details?.owner?.name || '-' }}
+              </div>
+            </div>
+          </div>
+          <div class="grid m-0">
+            <!-- <app-user-fields [forceReadonly]="true" fieldStyleClass="col-12 lg:col-6 row py-0"
+                  readonlyHeaderFieldClass="col-6 lg:col-5" readonlyValueFieldClass="col-6 lg:col-7"
+                  [documentObjectType]="documentObjectType" [wrapInPanel]="false" [documentId]="details?.data.id"
+                  [archiveVersion]="archiveVersion">
+                </app-user-fields> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div #rowsCard class="card table-card">
+    <div class="card-body">
+      <p-tabs>
+        <p-tablist>
+          <p-tab>
+            <span
+              pBadge
+              severity="warning"
+              class="pr-2"
+              [value]="details?.data?.accountPackages?.length"
+            >
+              {{ 'AccountingModule::Subscriptions' | abpLocalization }}
+            </span>
+          </p-tab>
+          <p-tab>
+            <span pBadge severity="info" class="pr-2">
+              {{ 'AccountingModule::BillingInformation' | abpLocalization }}
+            </span>
+          </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel>
+            <div>
+              <ng-template
+                appResponsiveTable="md"
+                let-scrollable
+                let-breakpoint="breakpoint"
+                let-direction="direction"
+              >
+                <p-table
+                  #accountPackagesTable
+                  [scrollable]="scrollable"
+                  [responsive]="true"
+                  responsiveLayout="stack"
+                  [breakpoint]="breakpoint"
+                  scrollDirection="both"
+                  class="cell-center"
+                  [value]="details.data.accountPackages"
+                  dataKey="rowUniqueId"
+                  [loading]="loading"
+                  [paginator]="false"
+                >
+                  <ng-template pTemplate="header">
+                    <tr class="table-header w-full">
+                      <th
+                        style="width: 1%; max-width: 50px; min-width: 50px"
+                      ></th>
+                      <th>
+                        {{
+                          'AccountingModule::Row:PackageTemplate'
+                            | abpLocalization
+                        }}
+                      </th>
+                      <th appResponsiveColumn="200">
+                        {{
+                          'AccountingModule::Row:BillingPeriodType'
+                            | abpLocalization
+                        }}
+                      </th>
+                      <th appResponsiveColumn="200">
+                        {{
+                          'AccountingModule::Row:OneTimeDiscount'
+                            | abpLocalization
+                        }}
+                      </th>
+                      <th appResponsiveColumn="200">
+                        {{
+                          'AccountingModule::Row:PermanentDiscount'
+                            | abpLocalization
+                        }}
+                      </th>
+                      <th appResponsiveColumn="150">
+                        {{
+                          'AccountingModule::Row:AutoRenewal' | abpLocalization
+                        }}
+                      </th>
+                      <!-- <app-user-fields-table-header [documentObjectType]="accountPackageDocType"
+                        [documentId]="details?.data.id" [(version)]="details?.data.documentVersionEntity"
+                        [auditDocumentObjectType]="documentObjectType" [rows]="details?.data.accountPackages"
+                        [fillWithDefaults]="details?.data?.id" rowIdKey="id">
+                      </app-user-fields-table-header> -->
+                      <th appResponsiveColumn="200">
+                        {{ 'AccountingModule::Row:Price' | abpLocalization }}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-row let-expanded="expanded">
+                    <tr #accountPackageRow>
+                      <td style="width: 1%; max-width: 50px; min-width: 50px">
+                        <button
+                          type="button"
+                          pButton
+                          pRipple
+                          [pRowToggler]="row"
+                          class="p-button-text p-button-rounded p-button-plain"
+                          [icon]="
+                            expanded
+                              ? 'pi pi-chevron-down'
+                              : 'pi pi-chevron-right'
+                          "
+                        ></button>
+                      </td>
+                      <td>
+                        <span class="non-editing-only p-column-title"
+                          >{{
+                            'AccountingModule::Row:PackageTemplate'
+                              | abpLocalization
+                          }}
+                        </span>
+                        <span class="column-content"> - </span>
+                      </td>
+                      <td appResponsiveColumn="200">
+                        <span class="non-editing-only p-column-title">{{
+                          'AccountingModule::Row:BillingPeriodType'
+                            | abpLocalization
+                        }}</span>
+                        <span class="column-content">
+                          {{ getBillingPeriodTypeName(row.billingPeriodType) }}
+                        </span>
+                      </td>
+                      <td appResponsiveColumn="200">
+                        <span class="non-editing-only p-column-title">{{
+                          'AccountingModule::Row:OneTimeDiscount'
+                            | abpLocalization
+                        }}</span>
+                        <span class="column-content">
+                          {{ row.oneTimeDiscount }}
+                        </span>
+                      </td>
+                      <td appResponsiveColumn="200">
+                        <span class="non-editing-only p-column-title">{{
+                          'AccountingModule::Row:PermanentDiscount'
+                            | abpLocalization
+                        }}</span>
+                        <span class="column-content">
+                          {{ row.permanentDiscount }}
+                        </span>
+                      </td>
+                      <td appResponsiveColumn="150">
+                        <span class="non-editing-only p-column-title">{{
+                          'AccountingModule::Row:AutoRenewal' | abpLocalization
+                        }}</span>
+                        <span class="column-content">
+                          <p-checkbox
+                            [binary]="true"
+                            [(ngModel)]="row.autoRenewal"
+                            [disabled]="true"
+                            id="autoRenewal-input"
+                          >
+                          </p-checkbox>
+                        </span>
+                      </td>
+                      <td appResponsiveColumn="200">
+                        <span class="non-editing-only p-column-title">
+                          {{ 'AccountingModule::Row:Price' | abpLocalization }}
+                        </span>
+                        <span class="column-content">
+                          - {{ tmpCurrency }}
+                        </span>
+                      </td>
+                      <!-- <app-user-fields-table-row [documentObjectType]="accountPackageDocType" [readonly]="true"
+                        [(version)]="details?.data.documentVersionEntity" [auditDocumentObjectType]="documentObjectType"
+                        [fieldSetsDocumentId]="details?.data.id" [fillWithDefaults]="false" [valuesDocumentId]="row.id">
+                      </app-user-fields-table-row> -->
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr class="table-emptymessage">
+                      <td class="w-full" colspan="8">
+                        <div class="card w-full">
+                          <div class="card-body w-full">
+                            <div class="card-header">
+                              {{
+                                'AccountingModule::NoAccountPackageModules'
+                                  | abpLocalization
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template #expandedrow let-mainRow>
+                    <tr>
+                      <td colspan="8">
+                        <span class="flex" style="font-weight: 600">
+                          {{
+                            'AccountingModule::Header:PackageTemplateDetails'
+                              | abpLocalization
+                          }}
+                        </span>
+                        <div>
+                          <ng-template
+                            appResponsiveTable="md"
+                            let-scrollable
+                            let-breakpoint="breakpoint"
+                            let-direction="direction"
+                          >
+                          </ng-template>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </ng-template>
+            </div>
+          </p-tabpanel>
+          <p-tabpanel>
+            <div class="card-body">
+              <div class="grid">
+                <div class="col-6">
+                  <div class="grid">
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:CompanyName'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>{{
+                            details.data.billingInformation.companyName || '-'
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:CompanyCID'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation.companyCID || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:PaymentMethod'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              getPaymentMethod(
+                                details.data.billingInformation.paymentMethod
+                              ) || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:ContactPersonName'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation
+                                .contactPersonName || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:ContactPersonEmail'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation
+                                .contactPersonEmail || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:ContactPersonTelephone'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation
+                                .contactPersonTelephone || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="grid">
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:BillingAddressLine1'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation
+                                .billingAddressLine1 || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:BillingAddressLine2'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation
+                                .billingAddressLine2 || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:Country'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{ details.data.billingInformation.country || '-' }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:City' | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{ details.data.billingInformation.city || '-' }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:StateOrProvince'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation.stateOrProvince ||
+                                '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex align-items-center col-12 mt-2">
+                      <div class="grid w-full align-items-center">
+                        <div class="col-4">
+                          <span>
+                            {{
+                              'AccountingModule::Header:PostalCode'
+                                | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                        <div class="col-8">
+                          <span>
+                            {{
+                              details.data.billingInformation.postalCode || '-'
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </div>
+</div>

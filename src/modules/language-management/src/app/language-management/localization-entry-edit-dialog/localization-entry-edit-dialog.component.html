@@ -1,0 +1,57 @@
+<p-dialog [resizable]="false" [header]="title" [(visible)]="showDialog" [modal]="true" [draggable]="false">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="col-12">
+        <h5>
+          {{'LanguageManagement::LocalizationString:Base' | abpLocalization}}
+          (
+          <span class="symbol symbol-20px mr-1">
+            <img class="rounded-1" [src]="'/resources/media/flags/svg/' + (baseLanguageIcon) + '.svg'" alt="sakai" />
+          </span>
+          {{baseLanguageName}}
+          )
+        </h5>
+        <textarea pInputTextarea [ngModel]="overrides.base"
+          [ngClass]="{'ng-invalid ng-dirty': overrides.validators.base}" [readonly]="true" [disabled]="saving"
+          [rows]="5" [autoResize]="true" (change)="overrides.validators.base = false; state.setDirty();" type="text"
+          [style]="{'width':'100%'}">
+        </textarea>
+      </div>
+      <div class="col-12">
+        <h5>
+          {{'LanguageManagement::LocalizationString:Target' | abpLocalization}}
+          (
+          <span class="symbol symbol-20px mr-1">
+            <img class="rounded-1" [src]="'/resources/media/flags/svg/' + (targetLanguageIcon) + '.svg'" alt="sakai" />
+          </span>
+          {{targetLanguageName}}
+          )
+        </h5>
+        <textarea pInputTextarea [(ngModel)]="overrides.target"
+          [ngClass]="{'ng-invalid ng-dirty': overrides.validators.target}" [disabled]="saving" [rows]="5"
+          [autoResize]="true" (change)="overrides.validators.base = false; state.setDirty();" type="text"
+          [style]="{'width':'100%'}">
+        </textarea>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="w-100 flex align-items-center justify-content-between">
+      <div
+        [pTooltip]="'LanguageManagement::LocalizationEntryOverride:ResetToDefault:IsNotOverrideTooltip' | abpLocalization"
+        [tooltipDisabled]="entry.isOverride">
+        <p-button [text]="true" [raised]="true" [label]="'LanguageManagement::LocalizationEntryOverride:ResetToDefault' | abpLocalization"
+          [pTooltip]="'LanguageManagement::LocalizationEntryOverride:ResetToDefault:Tooltip' | abpLocalization"
+          [tooltipDisabled]="!entry.isOverride" (click)="resetTarget()" styleClass="p-button-outlined p-button-info"
+          [disabled]="!entry.isOverride"></p-button>
+      </div>
+      <div class="flex align-items-center">
+        <p-button [text]="true" [raised]="true" [label]="'Infrastructure::Cancel' | abpLocalization" (click)="cancel()"
+          styleClass="p-button-text p-button-info"></p-button>
+        <p-button [text]="true" [raised]="true" icon="fas fa-save" [label]="'Infrastructure::Save' | abpLocalization" (click)="save()"
+          [loading]="saving" [disabled]="reseting" styleClass="p-button p-button-info"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

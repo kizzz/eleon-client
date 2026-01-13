@@ -1,0 +1,89 @@
+{
+  "name": "notification",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "src/modules/notification/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "preserveSymlinks": true,
+        "outputPath": "bin/debug/modules/{projectName}",
+        "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
+        "index": "{workspaceRoot}/src/shared/index.html",
+        "main": "{projectRoot}/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "{projectRoot}/tsconfig.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "{projectRoot}/src/assets"
+        ],
+        "styles": [
+          "{workspaceRoot}/src/shared/index.css"
+        ],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "{projectRoot}/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "release": {
+          "outputPath": "bin/release/modules/{projectName}"
+        },
+        "immurelease": {
+          "outputPath": "bin/immurelease/modules/{projectName}"
+        }
+      },
+      "defaultConfiguration": "debug"
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "port": 4207,
+        "disableHostCheck": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "notification:build:production"
+        },
+        "development": {
+          "buildTarget": "notification:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "notification:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "notification:build",
+        "port": 4207,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "notification:build:development"
+        },
+        "production": {
+          "buildTarget": "notification:build:production"
+        }
+      }
+    }
+  }
+}

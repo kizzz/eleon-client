@@ -1,0 +1,22 @@
+<!-- <div class="px-3">
+  <app-page-title [title]="'TenantManagement::Telemetry' | abpLocalization" icon="fa-solid fa-key">
+</app-page-title>
+</div> -->
+
+<div class="flex flex-col w-full h-screen p-0 m-0">
+  <div class="flex-1 overflow-hidden">
+    <iframe
+      class="w-full h-full border-0"
+      [src]="grafanaUrl"
+      *ngIf="grafanaUrl && !iframeLoadError"
+      (error)="onIframeError()"
+      style="border: 0">
+    </iframe>
+    <div *ngIf="iframeLoadError" class="flex items-center justify-center h-full">
+      <h3 class="text-warning px-3">
+        <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+        {{ 'TenantManagement::GrafanaDashboardLoadError' | abpLocalization }}
+      </h3>
+    </div>
+  </div>
+</div>

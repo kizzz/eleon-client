@@ -1,0 +1,70 @@
+{
+  "name": "host",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "src/hosts/host/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "bin/debug/hosts/{projectName}",
+        "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
+        "index": "{projectRoot}/src/index.html",
+        "main": "{projectRoot}/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "{projectRoot}/tsconfig.json",
+        "assets": [
+          "{projectRoot}/src/favicon.ico"
+        ],
+        "styles": [],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "{projectRoot}/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "release": {
+          "outputPath": "bin/release/hosts/{projectName}"
+        },
+        "immurelease": {
+          "outputPath": "bin/immurelease/hosts/{projectName}"
+        }
+      },
+      "defaultConfiguration": "debug"
+    },
+    "serve": {
+      "executor": "@nx/angular:module-federation-dev-server",
+      "options": {
+        "port": 80,
+        "host": "127.0.0.1",
+        "servePath": "/apps/admin",
+        "disableHostCheck": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "host:build:production"
+        },
+        "development": {
+          "buildTarget": "host:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "host:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

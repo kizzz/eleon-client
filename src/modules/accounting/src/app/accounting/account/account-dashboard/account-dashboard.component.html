@@ -1,0 +1,215 @@
+
+    <app-page-title [title]="title" icon="fas fa-user-alt">
+    </app-page-title>
+  <div class="content">
+
+    <div class="card-body">
+      <div *ngTemplateOutlet="table"></div>
+    </div>
+
+  </div>
+
+  <ng-template #table>
+    <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+      [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"
+      class="cell-center" [lazy]="true" (onLazyLoad)="loadAccounts($event)" [rows]="rowsCount" styleClass="pr-table"
+      [totalRecords]="totalRecords" [loading]="loading" [value]="rows" [paginator]="true"
+      (onRowSelect)="select($event)" selectionMode="single" sortOrder="-1" sortMode="single"
+      sortField="CreationTime">
+      <ng-template pTemplate="caption">
+        <div class="grid mt-0">
+          <div class="col-8 md:col-6 lg:col-6 md:pl-4 p-0 flex align-items-center">
+            <div class="p-inputgroup">
+              <input type="text" pInputText #searchField
+                placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+                [(ngModel)]="searchQueryText">
+              <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+                styleClass="p-button-info" class="p-button-text"></button>
+              <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+                (click)="clear($event)"></button>
+            </div>
+          </div>
+          <div class="col-12 md:col-6 py-3 md:py-0 flex align-items-center justify-content-end">
+            
+          </div>
+        </div>
+        <div class="grid small-width-only">
+          <div class="col-12 p-0">
+            <p-accordion>
+              <p-accordionTab [header]="'Infrastructure::Filters' | abpLocalization">
+                <div class="small-width-only row">
+                  <div class="col-4 flex text-center justify-content-center align-items-center">
+                    {{"PurchaseRequest::Header:OrganizationUnit" | abpLocalization}}</div>
+                  <div class="col-6 flex justify-content-center align-items-center">
+                    <p-columnFilter class="w-full" matchMode="in" field="organizationUnit" [showMenu]="false"
+                      [showClearButton]="false">
+                      <ng-template pTemplate="header">
+                        <div class="px-3 pt-3 pb-0">
+                          <span class="font-bold">
+                            {{ "PurchaseRequest::Header:OrganizationUnit" | abpLocalization }}
+                          </span>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-multiSelect [options]="organizationUnits" optionLabel="displayName" [filter]="true"
+                          appendTo="body" filterBy="displayName" autoWidth="false" [style]="{'width':'100%'}"
+                          [showClear]="true" (onClear)="filter()"
+                          placeholder="{{ 'PurchaseRequest::Header:OrganizationUnit' | abpLocalization }}"
+                          (onChange)="filter($event.value)">
+                        </p-multiSelect>
+                      </ng-template>
+                    </p-columnFilter>
+                  </div>
+                  <div class="col-2 flex justify-content-center align-items-center"
+                    pSortableColumn="organizationUnit">
+                    <p-sortIcon field="organizationUnit"></p-sortIcon>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="when-big-width-cell-center" style="width:1%; max-width: 100px; min-width: 100px;"
+            pSortableColumn="id">
+            {{ "AccountingModule::Header:Id" | abpLocalization }}
+            <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="accountName">
+            {{ "AccountingModule::Header:AccountName" | abpLocalization }}
+            <p-sortIcon field="accountName"></p-sortIcon>
+          </th>
+          <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="creationTime">
+            {{ "AccountingModule::Header:CreationDate" | abpLocalization }}
+            <p-sortIcon field="creationTime"></p-sortIcon>
+          </th>
+          <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="accountStatus">
+            {{ "AccountingModule::Header:AccountStatus" | abpLocalization }}
+            <p-sortIcon field="accountStatus"></p-sortIcon>
+          </th>
+          <th class="when-big-width-cell-center" appResponsiveColumn="200">
+            {{"AccountingModule::Header:OrganizationUnit" | abpLocalization }}
+          </th>
+        </tr>
+        <tr>
+          <th style="width:100px">
+          </th>
+          <th style="width:200px">
+            <p-columnFilter type="text" field="accountName" matchMode="in" [showMenu]="false"></p-columnFilter>
+          </th>
+          <th style="width:200px">
+            <p-columnFilter matchMode="in" [showClearButton]="false" field="creationTime" [showMenu]="false"
+              [style]="{'overflow':'visible'}">
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{ "AccountingModule::Header:CreationDate" | abpLocalization }}</span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <p-calendar (onSelect)="filter(lastLoadEvent)" [showIcon]="false" inputId="icon" [showClear]="true"
+                  (onClear)="filter()" [readonlyInput]="true" [(ngModel)]="creationDateRangeFilter"
+                  selectionMode="range" appendTo="body"
+                  placeholder="{{ 'AccountingModule::Header:CreationDate' | abpLocalization }}">
+                </p-calendar>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <th style="width:200px">
+            <p-columnFilter matchMode="in" field="accountStatus" [showMenu]="false" [showClearButton]="false">
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{ "AccountingModule::Header:AccountStatus" | abpLocalization }}</span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <p-multiSelect [options]="localizedAccountStatuses" optionLabel="name" autoWidth="false"
+                  [style]="{'width':'100%'}" placeholder="{{ 'AccountingModule::AccountStatus' | abpLocalization }}"
+                  appendTo="body" [showClear]="true" (onClear)="filter()" [showHeader]="false"
+                  (onChange)="filter($event.value)">
+                </p-multiSelect>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <th style="width:200px">
+            <p-columnFilter matchMode="in" field="organizationUnit" [showMenu]="false" [showClearButton]="false">
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{ "AccountingModule::Header:OrganizationUnit" | abpLocalization }}</span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <p-multiSelect [options]="organizationUnits" optionLabel="displayName" [filter]="true"
+                  appendTo="body" filterBy="displayName" autoWidth="false" [style]="{'width':'100%'}"
+                  [showClear]="true" (onClear)="filter()"
+                  placeholder="{{ 'AccountingModule::OrganizationUnit' | abpLocalization }}"
+                  (onChange)="filter($event.value)">
+                </p-multiSelect>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr [pSelectableRow]="row">
+          <td style="width:1%; max-width: 100px; min-width: 100px;">
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Id' |
+              abpLocalization}}</span>
+            <span class="column-content">
+              <i
+              class="pi pi-copy text-primary cursor-pointer"
+              pTooltip="{{ row.data?.id }}"
+              tooltipPosition="top"
+              tooltipClass="tooltip-one-line"
+              (click)="copyId(row.data?.id, $event); $event.stopPropagation()"
+            >
+            </i>
+            </span>
+          </td>
+          <td style="width:200px" class="when-big-width-cell-center">
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountName' |
+              abpLocalization}}</span>
+            <span class="column-content">
+              {{row.data.accountName }}
+            </span>
+          </td>
+          <td style="width:200px" class="when-big-width-cell-center">
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:CreationDate' |
+              abpLocalization}}</span>
+            <span class="column-content">
+              {{row.data.creationTime | date:'shortDate'}}
+            </span>
+          </td>
+          <td style="width:200px" class="when-big-width-cell-center">
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountStatus' |
+              abpLocalization}}</span>
+            <span class="column-content">
+              <app-account-status-tag class="mr-3" [value]="row.data.accountStatus"></app-account-status-tag>
+            </span>
+          </td>
+          <td style="width:200px" class="when-big-width-cell-center">
+            <span class="non-editing-only p-column-title">
+              {{ 'AccountingModule::Header:OrganizationUnit' | abpLocalization }}
+            </span>
+            <span class="column-content">
+              {{row.data.organizationUnitName}}
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="9">
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header">
+                  {{'AccountingModule::NoAccounts' | abpLocalization}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>

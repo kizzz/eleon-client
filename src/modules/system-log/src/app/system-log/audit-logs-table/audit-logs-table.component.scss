@@ -1,0 +1,44 @@
+*[dir="rtl"] :host ::ng-deep .textAlign {
+  text-align: right !important;
+}
+
+:host ::ng-deep .textAlign {
+  text-align: left;
+}
+
+:host ::ng-deep {
+  .w-100 .p-inputnumber {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  :host ::ng-deep .security-tabs .p-datatable .p-datatable-tbody > tr > td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.114rem;
+    padding-bottom: 1.113rem;
+  }
+}
+
+@media (min-width: 992px) {
+  :host ::ng-deep .security-tabs .p-datatable .p-datatable-tbody > tr > td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.114rem;
+    padding-bottom: 1.113rem;
+  }
+}
+
+.logs{
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0rem !important;
+}
+
+:host ::ng-deep {
+  .p-tag {
+    white-space: nowrap;
+  }
+}

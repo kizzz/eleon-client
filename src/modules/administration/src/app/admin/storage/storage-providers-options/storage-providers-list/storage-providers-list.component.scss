@@ -1,0 +1,60 @@
+.icon-button {
+    cursor: pointer;
+    color: red;
+    transition: box-shadow 0.3s ease;
+    display: inline-flex;
+    border-radius: 50%;
+  }
+  
+  .icon-button:hover {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0.05);
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+
+  .hover-button:hover {
+    box-shadow: 0 0 0 10px rgba(60, 60, 60, 0.05);
+    background-color: rgba(60, 60, 60, 0.1);
+    border-radius: 50%;
+    transition: box-shadow 0.3s ease;
+  }
+
+  :host ::ng-deep .p-datatable-table {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: var(--container-border-color);
+  }
+  :host ::ng-deep{
+    @media (min-width: 768px) {
+      // :host ::ng-deep .data-table .p-datatable .p-datatable-tbody>tr>td{
+      //   padding-left: 1rem;
+      //   padding-right: 1rem;
+      //   padding-top: 1.114rem;
+      //   padding-bottom: 1.113rem 
+      // }
+  
+      .data-table .p-datatable .p-datatable-tbody>tr{
+        height: 49.44px !important;
+      }
+    }
+    
+    @media (min-width: 992px) { 
+      // :host ::ng-deep .data-table .p-datatable .p-datatable-tbody>tr>td{
+      //   padding-left: 1rem;
+      //   padding-right: 1rem;
+      //   padding-top: 1.114rem;
+      //   padding-bottom: 1.113rem 
+      // }
+      .data-table .p-datatable .p-datatable-tbody>tr{
+        height: 49.44px !important;
+      }
+    }
+  }
+
+
+  *[dir='rtl'] :host ::ng-deep .textAlign {
+    text-align: right !important;
+  }
+  
+  :host ::ng-deep .textAlign {
+    text-align: left;
+  }

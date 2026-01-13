@@ -1,0 +1,36 @@
+:host ::ng-deep .icon-button{
+    // background-color: transparent !important;
+    // border-color: transparent !important;
+    font-weight: 700 !important;
+    // box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
+    // border: 7px solid;
+    // border-radius: 8px;
+    cursor: pointer;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    font-size: medium;
+}
+
+
+:host ::ng-deep .breadcrumb-wrapper {
+    .breadcrumb-controls {
+        padding: 0.7rem;
+    }
+    .p-breadcrumb {
+        background: none;
+        border: none;
+    }
+    background-color: var(--container-addon-background-color);
+    border: 1px solid var(--container-addon-border-color);
+    border-radius: 5px;
+    color: var(--topbar-item-text-color);
+    chevronrighticon {
+        color: var(--topbar-item-text-color);
+    }
+    a {
+        color: var(--topbar-item-text-color);
+        span {
+            color: var(--topbar-item-text-color);
+        }
+    }
+} 

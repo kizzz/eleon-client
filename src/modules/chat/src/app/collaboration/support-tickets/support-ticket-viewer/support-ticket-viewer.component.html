@@ -1,0 +1,32 @@
+<div class="flex flex-column gap-1 align-items-center w-full h-full">
+  <ng-container *ngIf="chat">
+    <div class="flex align-items-center justify-content-between w-full px-4">
+      <div class="flex align-items-center font-bold text-gray-600 text-lg">
+        <app-chat-title [chat]="chat" maxWidth="200px" [showRename]="true" [showSupport]="true"></app-chat-title>
+      </div>
+      <div *ngIf="!isMobileVersion()" class="flex justify-content-center">
+        <app-profile-picture-group [userIds]="getChatImages()" [totalUsers]="membersAmount()"
+          [excludeUser]="currentUserId" size="small">
+        </app-profile-picture-group>
+      </div>
+      <div class="flex align-items-center">
+        <app-chat-controls [chat]="chat" [chatId]="chat.chat.id" (onChatLeft)="onLeaveChat()"></app-chat-controls>
+        <button *ngIf="showClose" pButton class="p-button-text" icon="fa fa-times" (click)="close()"></button>
+      </div>
+    </div>
+    <app-chat-box *recreateOnChange="chat" class="w-full h-full m-3" [chat]="chat" height="95%">
+    </app-chat-box>
+  </ng-container>
+
+  <div *ngIf="!chat && !noChats" class="w-full h-full flex align-items-center justify-content-center">
+    <div class="select-chat-msg">
+      {{ 'Collaboration::SupportTicketList:SelectChatToStart' | abpLocalization }}
+    </div>
+  </div>
+
+  <div *ngIf="noChats" class="w-full h-full flex align-items-center justify-content-center">
+    <div class="select-chat-msg">
+      {{ 'Collaboration::SupportTicketList:NoChats' | abpLocalization }}
+    </div>
+  </div>
+</div>

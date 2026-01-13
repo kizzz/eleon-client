@@ -1,0 +1,91 @@
+<p-dialog
+  [resizable]="true"
+  [header]="localizationService.instant('AccountingModule::PackageTemplateModule:Edit')"
+  [(visible)]="display"
+  [modal]="true"
+  [draggable]="false"
+  [style]="{ width: '600px' }"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+  <div class="dialog-standard w-full">
+    <div class="grid m-0">
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'AccountingModule::Row:ModuleName' | abpLocalization }}</label>
+        <input
+          [(ngModel)]="editedModule.name"
+          (ngModelChange)="resetNameValidator()"
+          [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+          type="text"
+          pInputText
+          [style]="{'width':'100%'}"
+          maxlength="230" />
+      </div>
+      <div class="field col-12 p-0">
+        <label>{{ 'AccountingModule::Header:ModuleType' | abpLocalization }}</label>
+        <p-select
+          [options]="moduleTypeOptions"
+          [(ngModel)]="editedModule.moduleType"
+          appendTo="body"
+          optionValue="value"
+          optionLabel="name"
+          [style]="{'width':'100%'}"
+          [placeholder]="'AccountingModule::Header:ModuleType' | abpLocalization">
+        </p-select>
+      </div>
+      <div class="field col-12 p-0">
+        <label>{{ 'AccountingModule::Header:Description' | abpLocalization }}</label>
+        <textarea
+          [(ngModel)]="editedModule.description"
+          pInputTextarea
+          [style]="{'width':'100%'}"
+          [rows]="3"
+          [autoResize]="true"
+          maxlength="1000">
+        </textarea>
+      </div>
+      <!-- <div class="field col-12 p-0">
+        <label>{{ 'AccountingModule::Header:RefId' | abpLocalization }}</label>
+        <input
+          [(ngModel)]="editedModule.refId"
+          type="text"
+          pInputText
+          [style]="{'width':'100%'}" />
+      </div> -->
+      <div class="field col-12 p-0" *ngIf="showModuleData()">
+        <label>{{ 'AccountingModule::Header:ModuleData' | abpLocalization }}</label>
+        <textarea
+          [(ngModel)]="editedModule.moduleData"
+          pInputTextarea
+          [style]="{'width':'100%'}"
+          [rows]="5"
+          [autoResize]="true"
+          maxlength="5000">
+        </textarea>
+      </div>
+    </div>
+
+    <div class="mt-2 flex justify-content-end gap-3">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="cancel()"
+        [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="pi pi-check"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="save()"
+        [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+

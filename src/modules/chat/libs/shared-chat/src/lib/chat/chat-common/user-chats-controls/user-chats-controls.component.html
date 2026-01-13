@@ -1,0 +1,8 @@
+<app-group-chat-create-modal [(showDialog)]="showCreateGroupChatModal">
+</app-group-chat-create-modal>
+
+<div class="flex align-items-center justify-content-between">
+  <button pButton class="p-button p-button-success p-button-text"
+    [pTooltip]="'Infrastructure::Create' | abpLocalization" icon="fas fa-comment-medical"
+    (click)="createGroupChat()"></button>
+</div>

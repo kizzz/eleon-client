@@ -1,0 +1,9 @@
+<p-dialog [resizable]="false" [header]="title" [(visible)]="display"
+  (visibleChange)="displayChange.emit($event)"[modal]="true" [style]="{width: '30rem'}" [draggable]="false"
+  [resizable]="true" *ngIf="display">
+  <div>
+    <app-state-actor-template-table-box (saveEvent)="save($event)" [stateId]="stateId" [reviewer]="reviewer"
+      [stateActor]="stateActor" [documentObjectType]="documentObjectType">
+    </app-state-actor-template-table-box>
+  </div>
+</p-dialog>

@@ -1,0 +1,44 @@
+<div>
+    <p-dialog [header]="title" [(visible)]="display" [modal]="true" [draggable]="false" (onHide)="closeDialog()">
+        <div class="grid gateway-new" *ngIf="display">
+            <div class="col-12">
+                <div class="flex align-items-center justify-content-between">
+                    <div class="textAlign"
+                        [ngClass]="{'name-protocol-text-lg': !changeSize, 'name-protocol-text-md': changeSize}">
+                        <span appRequired>
+                            {{'GatewayManagement::Gateway:Name' | abpLocalization}}
+                        </span>
+                    </div>
+                    <div [ngClass]="{'name-protocol-input-lg': !changeSize, 'name-protocol-input-md': changeSize}">
+                        <input [(ngModel)]="header.data.name"
+                            [ngClass]="{'ng-invalid ng-dirty': header.validators.nameEmpty}" type="text" pInputText
+                            [style]="{'width':'100%'}" (ngModelChange)="resetValidators(); state.setDirty();"
+                            [disabled]="loading" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <div class="flex gap-3 justify-content-end">
+                <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" [disabled]="loading"
+                    (onClick)="closeDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
+                </p-button>
+                <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+                    (onClick)="saveGateway()" [label]="'Infrastructure::Create' | abpLocalization" [disabled]="loading">
+                </p-button>
+            </div>
+        </ng-template>
+    </p-dialog>
+    <ng-container *ngIf="beforeButton; else defaultButton">
+        <div class="input-group w-full d-flex">
+            <p *ngTemplateOutlet="beforeButton"></p>
+            <button pButton (click)="showDialog()" style="width:3rem" icon="fa fa-list"></button>
+        </div>
+    </ng-container>
+    <ng-template #defaultButton>
+        <div (click)="showDialog()">
+            <div *ngTemplateOutlet="button">
+            </div>
+        </div>
+    </ng-template>
+</div>

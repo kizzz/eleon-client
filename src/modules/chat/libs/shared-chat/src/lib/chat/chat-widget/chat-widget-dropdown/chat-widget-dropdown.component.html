@@ -1,0 +1,34 @@
+<app-group-chat-create-modal [(showDialog)]="chatCreationDialogOpened"></app-group-chat-create-modal>
+<p-popover #op styleClass="chatOverlay menu-overlay">
+  <div class="flex flex-column rounded-top border-round-top bgi-no-repeat px-2 py-3" style="min-width: 350px" [style.background-color]="'#3f51b5'">
+    <div class="flex align-items-center justify-content-between gap-2 px-2">
+      <h3 class="text-xl md:text-3xl text-white font-bold px-4 m-0 py-0">
+        {{'Collaboration::ChatList:Title' | abpLocalization}}
+      </h3>
+      <button pButton class="p-button-success p-button-text m-0 p-0" style="width:2rem; height: 2rem;"
+        icon="fas fa-plus-circle" (click)="onCreate()"
+        [pTooltip]="'Collaboration::CreateChat' | abpLocalization"></button>
+    </div>
+  </div>
+
+  <div class="tab-content w-full" style="max-width: min(350px, 90vw);">
+    <div class="tab-pane fade">
+      <div class="d-flex flex-column" style="min-height:300px">
+        <div class="flex flex-column flex-grow-1 overflow-y-auto">
+          <!-- <app-chat-list-latest style="height: 100%" class="w-full" (selectedChatChange)="onSelectedChatChange($event)"
+            [menuView]="true" [chatsLimit]="chatsLimit">
+          </app-chat-list-latest> -->
+          <app-chat-list-box [chats]="chats" (selectedChatChange)="onSelectedChatChange($event)" [menuView]="true">
+          </app-chat-list-box>
+        </div>
+      </div>
+      <div class="text-center border-top font-bold text-lg view-all" style="cursor: pointer;height: 3rem;" (click)="triggerLinkClick($event)">
+        <hr class="mt-0">
+        <a routerLink="/collaboration/chats" class="text-gray-500" (click)="op.toggle($event); $event.stopPropagation(); viewAllChatClicked();" #link>
+          {{'Collaboration::ViewAll' | abpLocalization}}
+          <i class="fa fa-angle-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</p-popover>

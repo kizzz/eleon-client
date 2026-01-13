@@ -1,0 +1,511 @@
+<p-dialog
+  [resizable]="false"
+  [(visible)]="display"
+  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
+  [modal]="true"
+  [draggable]="false"
+  [contentStyle]="{
+    padding: '0',
+    overflow: 'hidden',
+    display: 'flex',
+    'flex-direction': 'column'
+  }"
+>
+  <ng-template pTemplate="header" class="p-dialog-header">
+    <div class="d-flex align-items-center justify-content-start">
+      <span class="fa fa-globe"></span>
+      <span class="p-dialog-title">
+        {{ title }}
+      </span>
+    </div>
+  </ng-template>
+
+  <div
+    style="
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 0 1rem;
+    "
+  >
+    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+      <div class="textAlign">
+        <p-tabs value="general">
+          <p-tablist>
+            <p-tab value="general">
+              {{ 'Infrastructure::AuditLog:General' | abpLocalization }}
+            </p-tab>
+            <p-tab value="actions">
+              <span
+                pBadge
+                severity="success"
+                class="pr-3 pl-3"
+                [value]="details?.actions?.length"
+                [badgeDisabled]="!details?.actions?.length"
+              >
+                {{ 'Infrastructure::AuditLog:Actions' | abpLocalization }}
+              </span>
+            </p-tab>
+            <p-tab
+              *ngIf="
+                details?.extraProperties &&
+                (details?.extraProperties | keyvalue)?.length > 0
+              "
+              value="extra"
+            >
+              {{ 'Infrastructure::AuditLog:ExtraProperties' | abpLocalization }}
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+          <p-tabpanel value="general">
+            <ul class="list-none p-0 m-0">
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::AuditLog:HTTPStatusCode' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <p-tag
+                    [severity]="getSeverity(details?.httpStatusCode)"
+                    [value]="details?.httpStatusCode"
+                  ></p-tag>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:HTTPMethod' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <p-tag
+                    [severity]="getSeverityForMethod(details?.httpMethod)"
+                    [value]="details?.httpMethod"
+                  ></p-tag>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:URL' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900" style="overflow-wrap: anywhere">
+                    {{ details?.url || '-' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::AuditLog:ClientIpAddress' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{
+                    details?.clientIpAddress || '-'
+                  }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:ClientName' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ details?.clientName || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:Exceptions' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900" style="overflow-wrap: anywhere">
+                    {{ details?.exceptions || '-' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:UserName' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ details?.userName || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:Time' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{ details?.executionTime | date : 'dd/MM/y HH:mm:ss' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:Duration' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{ details?.executionDuration || '-' }}
+                    {{ 'Infrastructure::AuditLog:Ms' | abpLocalization }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:BrowserInfo' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900" style="overflow-wrap: anywhere">
+                    {{ details?.browserInfo || '-' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::AuditLog:ApplicationName' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{
+                    details?.applicationName || '-'
+                  }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Infrastructure::AuditLog:CorrelationId' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{
+                    details?.correlationId || '-'
+                  }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Infrastructure::AuditLog:Comments' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ details?.comments || '-' }}</span>
+                </div>
+              </li>
+            </ul>
+          </p-tabpanel>
+          <p-tabpanel value="actions">
+            <p-table
+              *appResponsiveTable="
+                'md';
+                let scrollable;
+                let breakpoint = breakpoint
+              "
+              [scrollable]="scrollable"
+              [responsive]="true"
+              responsiveLayout="stack"
+              [breakpoint]="breakpoint"
+              scrollDirection="both"
+              class="cell-center"
+              styleClass="pr-table"
+              dataKey="id"
+              [totalRecords]="details?.actions?.length"
+              [loading]="loading"
+              [value]="details?.actions"
+              selectionMode="single"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 1%; max-width: 40px; min-width: 40px"></th>
+                  <th>
+                    <div class="textAlign">
+                      {{ 'Infrastructure::AuditLog:Name' | abpLocalization }}
+                    </div>
+                  </th>
+                  <th appResponsiveColumn="150">
+                    <div class="textAlign">
+                      {{ 'Infrastructure::AuditLog:Time' | abpLocalization }}
+                    </div>
+                  </th>
+                  <th appResponsiveColumn="40">
+                    <div class="textAlign">
+                      {{
+                        'Infrastructure::AuditLog:Duration' | abpLocalization
+                      }}
+                    </div>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-row let-expanded="expanded">
+                <tr class="textAlign">
+                  <td style="width: 1%; max-width: 40px; min-width: 40px">
+                    <button
+                      type="button"
+                      pButton
+                      pRipple
+                      [pRowToggler]="row"
+                      class="p-button-text p-button-rounded p-button-plain"
+                      [icon]="
+                        expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                      "
+                    ></button>
+                  </td>
+                  <td>
+                    <span class="p-column-title">{{
+                      'Infrastructure::AuditLog:Name' | abpLocalization
+                    }}</span>
+                    <div class="textAlign">
+                      <span class="column-content">
+                        {{ row.methodName }}
+                      </span>
+                    </div>
+                  </td>
+                  <td appResponsiveColumn="150">
+                    <span class="p-column-title">{{
+                      'Infrastructure::AuditLog:Time' | abpLocalization
+                    }}</span>
+                    <div class="textAlign">
+                      <span class="column-content">
+                        {{ row.executionTime | date : 'short' }}
+                      </span>
+                    </div>
+                  </td>
+                  <td appResponsiveColumn="40">
+                    <span class="p-column-title">{{
+                      'Infrastructure::AuditLog:Duration' | abpLocalization
+                    }}</span>
+                    <div class="textAlign">
+                      <span class="column-content">
+                        {{ row.executionDuration }}
+                        {{ 'Infrastructure::AuditLog:Ms' | abpLocalization }}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr class="table-emptymessage">
+                  <td class="w-full" colspan="4">
+                    <div class="card w-full">
+                      <div class="card-body w-full">
+                        <div class="card-header text-center">
+                          {{
+                            'Infrastructure::AuditLog:NoActions'
+                              | abpLocalization
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template #expandedrow let-row>
+                <tr>
+                  <td colspan="4">
+                    <div
+                      style="display: inline-block"
+                      [ngClass]="{
+                        'mobile-width': isMobileVersion(),
+                        'desktop-width': !isMobileVersion()
+                      }"
+                    >
+                      <div class="field grid textAlign">
+                        <label class="md:col-2 col-3">
+                          {{
+                            'Infrastructure::AuditLog:Name' | abpLocalization
+                          }}
+                        </label>
+                        <div class="col-9 md:col-10">
+                          <div style="overflow-wrap: anywhere">
+                            <span>
+                              {{
+                                row.serviceName &&
+                                row.serviceName.startsWith('Volo.Abp.')
+                                  ? row.serviceName.replace('Volo.Abp.', '')
+                                  : row.serviceName
+                              }}
+                              - {{ row.methodName }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="field grid textAlign">
+                        <label class="md:col-2 col-3">
+                          {{
+                            'Infrastructure::AuditLog:Duration'
+                              | abpLocalization
+                          }}
+                        </label>
+                        <div class="col-9 md:col-10">
+                          <span>
+                            {{ row.executionDuration }}
+                            {{
+                              'Infrastructure::AuditLog:Ms' | abpLocalization
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="field grid textAlign">
+                        <label class="md:col-2 col-3">
+                          {{
+                            'Infrastructure::AuditLog:Parameters'
+                              | abpLocalization
+                          }}
+                        </label>
+                        <div class="col-9 md:col-10">
+                          <div>
+                            <app-document-template-editor-result
+                              minimal="true"
+                              [templateType]="templateType"
+                              [loading]="loading"
+                              [result]="row?.parameters"
+                              [width]="isMobileVersion() ? '60%' : '100%'"
+                            >
+                            </app-document-template-editor-result>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabpanel>
+          <p-tabpanel
+            *ngIf="
+              details?.extraProperties &&
+              (details?.extraProperties | keyvalue)?.length > 0
+            "
+            value="extra"
+          >
+            <p-table
+              [value]="details?.extraProperties | keyvalue"
+              [responsiveLayout]="'scroll'"
+              class="p-datatable-sm mt-3 expand-vertical"
+            >
+              <ng-template pTemplate="body" let-prop>
+                <tr>
+                  <td class="text-500 font-medium">
+                    {{ prop.key | abpLocalization }}
+                  </td>
+                  <td class="text-900 field-col">
+                    <span style="overflow-wrap: anywhere">{{
+                      prop.value
+                    }}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+
+    <div style="padding: 1rem; text-align: right">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary p-button-sm"
+        style="width: 10rem"
+        (click)="display = false"
+        icon="fa fa-times"
+        label="{{ 'Infrastructure::Close' | abpLocalization }}"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,343 @@
+<app-page-title
+  [title]="'BackgroundJob::Dashboard:Title' | abpLocalization"
+  icon="fas fa-cogs"
+>
+  <ng-template #rightContent>
+    <div>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-warning p-button-sm"
+        autoWidth="false"
+        [label]="'BackgroundJob::Reload' | abpLocalization"
+        icon="pi pi-sync"
+        (click)="reloadBackgroundJobs()"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</app-page-title>
+
+<div class="content mt-2">
+  <div #tableCard>
+    <p-table
+      *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+      [scrollable]="scrollable"
+      
+      responsiveLayout="stack"
+      [breakpoint]="breakpoint"
+      scrollDirection="both"
+      [lazy]="true"
+      (onLazyLoad)="loadBackgroundJobs($event)"
+      [rows]="rowsCount"
+      styleClass="pr-table"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [value]="rows"
+      [paginator]="true"
+      (onRowSelect)="select($event)"
+      selectionMode="single"
+      sortMode="single"
+      sortOrder="-1"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th appResponsiveColumn="20">
+            {{ 'BackgroundJob::Header:Id' | abpLocalization }}
+          </th>
+          <th class="" pSortableColumn="type">
+            {{ 'BackgroundJob::Header:Name' | abpLocalization }}
+            <p-sortIcon field="type"></p-sortIcon>
+          </th>
+          <!-- <th class="" appResponsiveColumn="110" pSortableColumn="initiatorDocEntry">
+          {{ "BackgroundJob::Header:InitiatorDocNumber" | abpLocalization }}
+          <p-sortIcon field="initiatorDocEntry"></p-sortIcon>
+        </th> -->
+          <th class="" appResponsiveColumn="150" pSortableColumn="creationTime">
+            {{ 'BackgroundJob::Header:CreationTime' | abpLocalization }}
+            <p-sortIcon field="creationTime"></p-sortIcon>
+          </th>
+          <th
+            class=""
+            appResponsiveColumn="150"
+            pSortableColumn="lastExecutionDate"
+          >
+            {{ 'BackgroundJob::Header:LastExecutionDate' | abpLocalization }}
+            <p-sortIcon field="lastExecutionDateUtc"></p-sortIcon>
+          </th>
+          <th class="" appResponsiveColumn="100">
+            {{ 'BackgroundJob::Header:Duration' | abpLocalization }}
+          </th>
+          <th class="" appResponsiveColumn="50" pSortableColumn="status">
+            {{ 'BackgroundJob::Header:Status' | abpLocalization }}
+            <p-sortIcon field="status"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="10"></th>
+        </tr>
+        <tr>
+          <th appResponsiveColumn="20"></th>
+          <th>
+            <p-columnFilter
+              matchMode="in"
+              field="type"
+              type="text"
+              [showMenu]="false"
+              [showClearButton]="false"
+              [placeholder]="'BackgroundJob::Header:Name' | abpLocalization"
+            >
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{
+                    'BackgroundJob::Header:Name' | abpLocalization
+                  }}</span>
+                </div>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <!-- <th>
+        </th> -->
+          <th appResponsiveColumn="100">
+            <p-columnFilter
+              matchMode="in"
+              [showClearButton]="false"
+              field="creationTime"
+              [showMenu]="false"
+              [style]="{ overflow: 'visible' }"
+            >
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{
+                    'BackgroundJob::Header:CreationTime' | abpLocalization
+                  }}</span>
+                </div>
+              </ng-template>
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
+              >
+                <p-datepicker
+                  appCalendarButtonClass
+                  [showIcon]="true"
+                  (onSelect)="filter(lastLoadEvent)"
+                  inputId="icon"
+                  [showClear]="true"
+                  (onClear)="filter()"
+                  [readonlyInput]="true"
+                  [(ngModel)]="dateRangeFilter"
+                  selectionMode="range"
+                  appendTo="body"
+                  placeholder="{{
+                    'BackgroundJob::Header:CreationTime' | abpLocalization
+                  }}"
+                >
+                </p-datepicker>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <th appResponsiveColumn="100">
+            <p-columnFilter
+              matchMode="in"
+              [showClearButton]="false"
+              field="lastExecutionDate"
+              [showMenu]="false"
+              [style]="{ overflow: 'visible' }"
+            >
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{
+                    'BackgroundJob::Header:LastExecutionDate' | abpLocalization
+                  }}</span>
+                </div>
+              </ng-template>
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
+              >
+                <p-datepicker
+                  appCalendarButtonClass
+                  [showIcon]="true"
+                  (onSelect)="filter(lastLoadEvent)"
+                  inputId="icon"
+                  [showClear]="true"
+                  (onClear)="filter()"
+                  [readonlyInput]="true"
+                  [(ngModel)]="lastExecutionDateRangeFilter"
+                  selectionMode="range"
+                  appendTo="body"
+                  placeholder="{{
+                    'BackgroundJob::Header:LastExecutionDate' | abpLocalization
+                  }}"
+                >
+                </p-datepicker>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <!-- Duration column -->
+          <th appResponsiveColumn="100"></th>
+          <th appResponsiveColumn="100">
+            <p-columnFilter
+              matchMode="in"
+              field="status"
+              [showMenu]="false"
+              [showClearButton]="false"
+            >
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 pb-0">
+                  <span class="font-bold">{{
+                    'BackgroundJob::Header:BackgroundJobStatus'
+                      | abpLocalization
+                  }}</span>
+                </div>
+              </ng-template>
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
+              >
+                <p-multiSelect
+                  [options]="localizedBackgroundJobStatuses"
+                  optionLabel="name"
+                  autoWidth="false"
+                  [style]="{ width: '100%' }"
+                  placeholder="{{
+                    'BackgroundJob::BackgroundJobStatus' | abpLocalization
+                  }}"
+                  appendTo="body"
+                  [showClear]="true"
+                  (onClear)="filter()"
+                  [showHeader]="false"
+                  (onChange)="filter($event.value)"
+                >
+                </p-multiSelect>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <!-- Icon column -->
+          <th appResponsiveColumn="10"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr [pSelectableRow]="row">
+          <td appResponsiveColumn="20">
+            <i
+              class="pi pi-copy text-primary cursor-pointer"
+              pTooltip="{{ row.data?.id }}"
+              tooltipPosition="top"
+              tooltipClass="tooltip-one-line"
+              (click)="copyId(row.data?.id, $event); $event.stopPropagation()"
+            >
+            </i>
+          </td>
+          <td>
+            <span class="non-editing-only p-column-title">{{
+              'BackgroundJob::Header:Name' | abpLocalization
+            }}</span>
+            <span
+              class="column-content"
+              [ngClass]="'type-' + row.data.type | lowercase"
+            >
+              {{ row.data.type }}
+            </span>
+          </td>
+          <!-- <td style="width:110px">
+          <span class="non-editing-only p-column-title">
+            {{'BackgroundJob::Header:InitiatorDocNumber' | abpLocalization}}
+          </span>
+          <span class="column-content">
+            {{row.data.initiatorDocEntry | slice:0:8}}
+          </span>
+        </td> -->
+          <td appResponsiveColumn="100">
+            <span class="non-editing-only p-column-title">{{
+              'BackgroundJob::Header:CreationTime' | abpLocalization
+            }}</span>
+            <span class="column-content">
+              {{ row.data.creationTime | date : 'M/d/yy, H:mm' : 'UTC' }}
+            </span>
+          </td>
+          <td appResponsiveColumn="100">
+            <span class="non-editing-only p-column-title">{{
+              'BackgroundJob::Header:LastExecutionDate' | abpLocalization
+            }}</span>
+            <span class="column-content">
+              {{ row.data.lastExecutionDateUtc | date : 'M/d/yy, H:mm' : 'UTC' }}
+            </span>
+          </td>
+          <td appResponsiveColumn="100">
+            <span class="non-editing-only p-column-title">{{
+              'BackgroundJob::Header:Duration' | abpLocalization
+            }}</span>
+            <span class="column-content">
+              <app-duration
+                *ngIf="row.data?.lastExecutionDateUtc"
+                [value]="row.data?.lastExecutionDateUtc"
+                [unitOrEnd]="
+                  getEndTime(
+                    row.data?.lastExecutionDateUtc,
+                    row.data?.jobFinishedUtc
+                  )
+                "
+                [conditions]="[
+                  {
+                    condition: '<0m',
+                    class: 'text-purple-500',
+                    style: 'font-weight:700;'
+                  },
+                  {
+                    condition: '<30m',
+                    class: 'text-green-500',
+                    style: 'font-weight:400;'
+                  },
+                  {
+                    condition: '30m-60m',
+                    class: 'text-orange-500',
+                    style: 'font-weight:600;'
+                  },
+                  {
+                    condition: '>60m',
+                    class: 'text-red-500',
+                    style: 'font-weight:700;'
+                  }
+                ]"
+              ></app-duration>
+              <span *ngIf="!row.data?.lastExecutionDateUtc">-</span>
+            </span>
+          </td>
+          <td appResponsiveColumn="100">
+            <span class="non-editing-only p-column-title">{{
+              'BackgroundJob::Header:Status' | abpLocalization
+            }}</span>
+            <span class="column-content">
+              <app-background-job-status-tag
+                class="mr-3"
+                [value]="row.data.status"
+              >
+              </app-background-job-status-tag>
+            </span>
+          </td>
+          <!-- Icons column -->
+          <td appResponsiveColumn="10">
+            <div class="flex align-items-center justify-content-end">
+              <span class="fa fa-magnifying-glass text-primary"></span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-100" colspan="6">
+            <div class="card w-100">
+              <div class="card-body w-100">
+                <div class="card-header text-center">
+                  {{ getEmptyMessage() | abpLocalization }}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

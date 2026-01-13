@@ -1,0 +1,43 @@
+<div class="text-center wrapper dialog-standard">
+  <p-table #selectionBox *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+    [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint"
+    scrollDirection="both" [value]="roles" rows="5" [lazy]="true" (onLazyLoad)="onLoadRoles($event)" [paginator]="true"
+    [totalRecords]="totalRecords" [loading]="loading" >
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <input type="text" pInputText placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+            [(ngModel)]="filter" (input)="selectionBox.filterGlobal($event.target.value, 'contains')">
+        <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-info" class="p-button-text" (click)="selectionBox.filterGlobal(filter, 'contains')"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-role>
+      <tr (click)="selectRole(role)" class="row" [style.cursor]="role.isSelected ? 'default' : 'pointer'">
+        <td class="p-3">
+          <span class="non-editing-only p-column-title">
+            {{"Infrastructure::Name" | abpLocalization}}
+          </span>
+          <div class="column-content">
+            <i class="fa-solid fa-user-tag"></i>
+            <span>
+              {{ role.name }} 
+            </span>
+          </div>
+        </td>
+        <td class="text-center" style="max-width: 20px">
+          <i class="fa fa-hand-pointer text-primary" *ngIf="!role.isSelected && !isMultiple"></i>
+          <i class="fa fa-trash" style="color: red" *ngIf="role.isSelected && !isMultiple"></i>
+          <p-checkbox *ngIf="isMultiple" [binary]="true" [(ngModel)]="role.isSelected">
+          </p-checkbox>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <p>
+        {{ "Infrastructure::Role:EmptyMessage" | abpLocalization}}
+      </p>
+    </ng-template>
+  </p-table>
+  <div class="mt-2 flex justify-content-end">
+    <p-button [text]="true" [raised]="true" (click)="selectRoles()" [label]="'Infrastructure::Select' | abpLocalization" icon="fa fa-check"></p-button>
+  </div>
+</div>

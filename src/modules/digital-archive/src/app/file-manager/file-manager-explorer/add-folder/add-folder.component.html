@@ -1,0 +1,16 @@
+<div class="form-group field grid">
+  <label class="col-4 mb-0">Folder Name</label>
+  <div class="col-8">
+    <input [(ngModel)]="folderName" class="form-control w-full" pInputText type="text"
+      [ngClass]="{'ng-invalid ng-dirty': folderNameEmpty}" (input)="folderNameEmpty = false">
+  </div>
+</div>
+<div mat-dialog-actions class="flex justify-content-end gap-3 mt-3">
+  <p-button [text]="true" [raised]="true" (click)="closeDialog()" icon="pi pi-times-circle"
+    [label]="'Infrastructure::Cancel' | abpLocalization">
+  </p-button>
+  <p-button [text]="true" [raised]="true" (click)="addFolder()" type="button" styleClass="p-button-success"
+    [label]="'FileManager::Create' | abpLocalization" icon="pi pi-save">
+  </p-button>
+</div>
+    

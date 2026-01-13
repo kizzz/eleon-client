@@ -1,0 +1,97 @@
+{
+  "name": "primeng-layout",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "src/modules/primeng-layout/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "bin/debug/modules/{projectName}",
+        "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
+        "index": "{workspaceRoot}/src/shared/index.html",
+        "main": "{projectRoot}/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "{projectRoot}/tsconfig.json",
+        "assets": [
+          "{projectRoot}/src/assets"
+        ],
+        "styles": [
+          "{projectRoot}/src/styles.scss",
+          "{workspaceRoot}/src/shared/index.css"
+        ],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "{projectRoot}/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "release": {
+          "outputPath": "bin/release/modules/{projectName}"
+        },
+        "immurelease": {
+          "outputPath": "bin/immurelease/modules/{projectName}"
+        }
+      },
+      "defaultConfiguration": "debug"
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "disableHostCheck": true,
+        "port": 4205
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "primeng-layout:build:production"
+        },
+        "development": {
+          "buildTarget": "primeng-layout:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "primeng-layout:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "primeng-layout:build",
+        "port": 4205,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "primeng-layout:build:development"
+        },
+        "production": {
+          "buildTarget": "primeng-layout:build:production"
+        }
+      }
+    }
+  }
+}

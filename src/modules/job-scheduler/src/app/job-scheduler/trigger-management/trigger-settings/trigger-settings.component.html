@@ -1,0 +1,513 @@
+<ng-template #dailySettings>
+  <div class="col-12">
+    <span class="mr-2"
+      >{{ 'JobScheduler::RepeatEvery' | abpLocalization }}:</span
+    >
+    <p-inputNumber
+      [inputStyle]="{ width: '50px' }"
+      [step]="1"
+      [min]="1"
+      [showButtons]="true"
+      [(ngModel)]="header.data.period"
+      [maxFractionDigits]="0"
+      (ngModelChange)="resetPeriodValidators()"
+      [ngClass]="{ 'ng-invalid ng-dirty': header.validators.periodEmpty }"
+    ></p-inputNumber>
+    <span class="ml-2">{{
+      'JobScheduler::Days' | abpLocalization | lowercase
+    }}</span>
+  </div>
+</ng-template>
+
+<ng-template #weeklySettings>
+  <div class="col-12">
+    <span class="mr-2"
+      >{{ 'JobScheduler::RepeatEvery' | abpLocalization }}:</span
+    >
+    <p-inputNumber
+      [inputStyle]="{ width: '50px' }"
+      [step]="1"
+      [min]="1"
+      [showButtons]="true"
+      [(ngModel)]="header.data.period"
+      [maxFractionDigits]="0"
+      (ngModelChange)="resetPeriodValidators()"
+      [ngClass]="{ 'ng-invalid ng-dirty': header.validators.periodEmpty }"
+    ></p-inputNumber>
+    <span class="ml-2"
+      >{{ 'JobScheduler::Weeks' | abpLocalization | lowercase }}
+      {{ 'JobScheduler::On' | abpLocalization | lowercase }}:</span
+    >
+  </div>
+  <div class="col-12" class="mt-4">
+    <div class="row">
+      <div class="flex flex-wrap">
+        <div
+          *ngFor="let day of daysOfWeek"
+          style="width: 150px"
+          class="field-checkbox"
+        >
+          <p-checkbox
+            [inputId]="'day' + day.value"
+            name="day"
+            [value]="day"
+            [(ngModel)]="header.selectedDaysOfWeek"
+            (ngModelChange)="resetDaysOfWeekValidators()"
+            [ngClass]="{
+              'ng-invalid ng-dirty': header.validators.daysOfWeekEmpty
+            }"
+          >
+          </p-checkbox>
+          <label [for]="'day' + day.value">{{ day.name }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #monthlySettings>
+  <div class="col-12">
+    <div class="flex align-items-center">
+      <div class="text-right" style="width: 85px; padding-right: 20px">
+        {{ 'JobScheduler::Months' | abpLocalization }}:
+      </div>
+      <p-multiSelect
+        [inputStyle]="{ 'max-width': '300px' }"
+        [filter]="false"
+        [showClear]="false"
+        [maxSelectedLabels]="4"
+        [options]="months"
+        [(ngModel)]="header.selectedMonths"
+        optionLabel="name"
+        (ngModelChange)="resetMonthsValidators()"
+        [ngClass]="{ 'ng-invalid ng-dirty': header.validators.monthsEmpty }"
+        appendTo="body"
+      >
+      </p-multiSelect>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="flex align-items-center">
+      <div
+        class="text-right"
+        style="width: 85px; padding-right: 20px"
+        class="field-checkbox flex align-items-center justify-content-between m-0"
+      >
+        <p-radioButton
+          inputId="monthlyDays"
+          name="daysOrDaysOfWeek"
+          value="days"
+          [(ngModel)]="header.daysOrDaysOfWeek"
+        >
+        </p-radioButton>
+        <label for="monthlyDays"
+          >{{ 'JobScheduler::Days' | abpLocalization }}:</label
+        >
+      </div>
+      <p-multiSelect
+        id="days-multiselect"
+        [disabled]="header.daysOrDaysOfWeek !== 'days'"
+        [filter]="false"
+        [showClear]="false"
+        [maxSelectedLabels]="4"
+        [options]="daysOfMonth"
+        [(ngModel)]="header.selectedDaysOfMonth"
+        optionLabel="name"
+        (ngModelChange)="resetDaysOfMonthValidators()"
+        [ngClass]="{
+          'ng-invalid ng-dirty': header.validators.daysOfMonthEmpty
+        }"
+        appendTo="body"
+      >
+      </p-multiSelect>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="flex align-items-center">
+      <div
+        class="text-right"
+        style="width: 85px; padding-right: 20px"
+        class="field-checkbox flex align-items-center justify-content-between m-0"
+      >
+        <p-radioButton
+          inputId="monthlyDaysOfWeek"
+          name="daysOrDaysOfWeek"
+          value="daysOfWeek"
+          [(ngModel)]="header.daysOrDaysOfWeek"
+        >
+        </p-radioButton>
+        <label for="monthlyDaysOfWeek"
+          >{{ 'JobScheduler::On' | abpLocalization }}:</label
+        >
+      </div>
+      <p-multiSelect
+        id="days-of-week-multiselect"
+        class="mr-2"
+        [disabled]="header.daysOrDaysOfWeek !== 'daysOfWeek'"
+        [filter]="false"
+        [showClear]="false"
+        [maxSelectedLabels]="4"
+        [options]="daysOfWeekOccurences"
+        [(ngModel)]="header.selectedDaysOfWeekOccurence"
+        optionLabel="name"
+        (ngModelChange)="resetDaysOfWeekOccurenceValidators()"
+        [ngClass]="{
+          'ng-invalid ng-dirty': header.validators.daysOfWeekOccurencesEmpty
+        }"
+        appendTo="body"
+      >
+      </p-multiSelect>
+      <p-multiSelect
+        id="days-of-week-multiselect"
+        [disabled]="header.daysOrDaysOfWeek !== 'daysOfWeek'"
+        [filter]="false"
+        [showClear]="false"
+        [maxSelectedLabels]="4"
+        [options]="daysOfWeek"
+        [(ngModel)]="header.selectedDaysOfWeek"
+        optionLabel="name"
+        (ngModelChange)="resetDaysOfWeekValidators()"
+        [ngClass]="{ 'ng-invalid ng-dirty': header.validators.daysOfWeekEmpty }"
+        appendTo="body"
+      >
+      </p-multiSelect>
+    </div>
+  </div>
+</ng-template>
+
+<p-table
+  [value]="triggers"
+  dataKey="data.id"
+  responsiveLayout="scroll"
+  class="cell-center"
+  [rows]="10"
+  [paginator]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{ 'JobScheduler::Trigger:Id' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Trigger:Name' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Trigger:Start' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Trigger:Expire' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Trigger:PeriodType' | abpLocalization }}</th>
+      <th appResponsiveColumn="100" class="center-cell">
+        {{ 'JobScheduler::Trigger:IsEnabled' | abpLocalization }}
+      </th>
+      <th appResponsiveColumn="80" style="width: 80px">
+        <div class="flex w-full justify-content-end align-items-center">
+          <p-button
+            [text]="true"
+            [raised]="true"
+            styleClass="p-button-primary"
+            (click)="openTriggerSettingDialog('new')"
+            type="button"
+            icon="fa fa-plus"
+            [label]="'Infrastructure::Add' | abpLocalization"
+          ></p-button>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+    <tr>
+      <td appResponsiveColumn="20">
+        <i
+          class="pi pi-copy text-primary cursor-pointer"
+          pTooltip="{{ row.data.id }}"
+          tooltipPosition="top"
+          tooltipClass="tooltip-one-line"
+          (click)="copyId(row.data.id, $event); $event.stopPropagation()"
+        >
+        </i>
+      </td>
+      <td>
+        <i class="fa-solid fa-bell mr-2"></i>
+        <span>{{ row.data.name }}</span>
+      </td>
+      <td>{{ row.data.startUtc | date : 'M/d/yy, H:mm' : 'UTC' }}</td>
+      <td>{{ (row.data.expireUtc | date : 'M/d/yy, H:mm' : 'UTC') || '-' }}</td>
+      <td>{{ row.localizedPeriodType }}</td>
+      <td class="center-cell">
+        <p-checkbox
+          [(ngModel)]="row.data.isEnabled"
+          [binary]="true"
+          (onChange)="toggleTriggerEnabled(row.data.id, $event.checked)"
+        ></p-checkbox>
+      </td>
+      <td>
+        <div class="flex justify-content-end align-items-center gap-3">
+          <span
+            class="fa fa-edit cursor-pointer text-primary"
+            (click)="openTriggerSettingDialog(row.data.id)"
+          ></span>
+          <span
+            class="fa fa-trash cursor-pointer"
+            style="color: red"
+            (click)="deleteTrigger(row.data.id)"
+          ></span>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-100" colspan="9">
+        <div class="card w-100">
+          <div class="card-body w-100">
+            {{ 'JobScheduler::Tasks:NoTriggersSelected' | abpLocalization }}
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-dialog
+  [header]="(isNewTrigger() ? 'JobScheduler::Triggers:Add:Title' : 'JobScheduler::Triggers:Edit:Title') | abpLocalization"
+  [(visible)]="isEditingTriggers"
+  appendTo="body"
+  [modal]="true"
+  (onHide)="onEditDialogClosed()"
+  [style]="{ width: 'min(90vw, 600px)' }"
+>
+  <!-- SCROLLABLE CONTENT -->
+  <div style="max-height: 70vh; padding-right: 0.5rem">
+    <div class="row gx-4 gy-4">
+      <!-- Trigger ID -->
+      <div class="field grid" *ngIf="!isNewTrigger()">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">
+          {{ 'JobScheduler::Trigger:Id' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9">
+          <input
+            type="text"
+            pInputText
+            disabled
+            [(ngModel)]="header.data.id"
+            class="w-full"
+          />
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0" appRequired>
+          {{ 'JobScheduler::Trigger:Name' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9">
+          <input
+            [(ngModel)]="header.name"
+            type="text"
+            pInputText
+            class="w-full"
+            (ngModelChange)="resetNameValidators()"
+            [ngClass]="{ 'ng-invalid ng-dirty': header.validators.nameEmpty }"
+          />
+        </div>
+      </div>
+
+      <!-- Start Date -->
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0" for="startDate" appRequired>
+          {{ 'JobScheduler::Trigger:Start' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9">
+          <p-datePicker
+            appCalendarButtonClass
+            [showIcon]="true"
+            inputId="startDate"
+            [readonlyInput]="true"
+            styleClass="w-full"
+            [style]="{ width: '100%' }"
+            [(ngModel)]="header.startDate"
+            showTime="true"
+            (ngModelChange)="resetStartValidators()"
+            [ngClass]="{ 'ng-invalid ng-dirty': header.validators.startEmpty }"
+            [hourFormat]="24"
+            appendTo="body"
+          >
+          </p-datePicker>
+        </div>
+      </div>
+
+      <!-- Expire Date -->
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0" for="expireDate">
+          {{ 'JobScheduler::Trigger:Expire' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9 flex align-items-center gap-2">
+          <p-checkbox
+            [binary]="true"
+            [(ngModel)]="header.expireSet"
+            (onChange)="resetExpireDate()"
+          ></p-checkbox>
+
+          <p-datePicker
+            appCalendarButtonClass
+            [showIcon]="true"
+            inputId="expireDate"
+            [readonlyInput]="true"
+            [disabled]="!header.expireSet"
+            [style]="{ width: '100%' }"
+            class="w-full"
+            styleClass="w-full"
+            [(ngModel)]="header.expireDate"
+            showTime="true"
+            [hourFormat]="24"
+            (ngModelChange)="resetExpireValidators()"
+            [ngClass]="{ 'ng-invalid ng-dirty': header.validators.expireEmpty }"
+            appendTo="body"
+          >
+          </p-datePicker>
+        </div>
+      </div>
+
+      <!-- Repeat Checkbox -->
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-3 md:mb-0">
+          {{ 'JobScheduler::Repeat' | abpLocalization }}
+        </label>
+        <div class="col-12 md:col-9 flex align-items-center gap-2">
+          <p-checkbox binary="true" [(ngModel)]="header.repeatSet"></p-checkbox>
+        </div>
+      </div>
+
+      <!-- Repeat Settings -->
+      <ng-container *ngIf="header.repeatSet">
+        <!-- Repeat Interval -->
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-3 md:mb-0">
+            {{ 'JobScheduler::RepeatInterval' | abpLocalization }}
+          </label>
+          <div class="col-12 md:col-9 flex align-items-center gap-2">
+            <p-inputNumber
+              [(ngModel)]="header.repeatIntervalUnits"
+              [min]="1"
+              [step]="1"
+              [showButtons]="true"
+              [inputStyle]="{ width: '140px' }"
+              placeholder="{{
+                'JobScheduler::IntervalPlaceholder' | abpLocalization
+              }}"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  header.validators.repeatIntervalEmpty ||
+                  header.validators.repeatIntervalOutOfRange
+              }"
+            ></p-inputNumber>
+
+            <p-select
+              [options]="timeUnitTypeOptions"
+              optionLabel="name"
+              optionValue="value"
+              [(ngModel)]="header.repeatIntervalUnitType"
+              appendTo="body"
+              [style]="{ width: '160px' }"
+              (onChange)="onIntervalUnitTypeChange()"
+            ></p-select>
+          </div>
+        </div>
+
+        <!-- Repeat Duration -->
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-3 md:mb-0">
+            {{ 'JobScheduler::RepeatDuration' | abpLocalization }}
+          </label>
+          <div class="col-12 md:col-9 flex align-items-center gap-2">
+            <p-inputNumber
+              [(ngModel)]="header.repeatDurationUnits"
+              [min]="1"
+              [step]="1"
+              [showButtons]="true"
+              [inputStyle]="{ width: '140px' }"
+              placeholder="{{
+                'JobScheduler::DurationPlaceholder' | abpLocalization
+              }}"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  header.validators.repeatDurationOutOfRange
+              }"
+            ></p-inputNumber>
+
+            <p-select
+              [options]="durationTimeUnitOptions"
+              optionLabel="name"
+              optionValue="value"
+              [(ngModel)]="header.repeatDurationUnitType"
+              appendTo="body"
+              [style]="{ width: '160px' }"
+            ></p-select>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Period Types -->
+    <div class="row gx-4 gy-4">
+      <div class="col-12 flex justify-content-between align-items-center gap-3">
+        <div *ngFor="let periodType of periodTypes" class="field-checkbox">
+          <p-radioButton
+            [inputId]="'period' + periodType.value"
+            name="periodType"
+            [value]="periodType"
+            [(ngModel)]="header.selectedPeriodType"
+            (onChange)="onPeriodTypeChanged($event)"
+          ></p-radioButton>
+          <label [for]="'period' + periodType.value">
+            {{ periodType.name }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Period Type Settings Area -->
+      <div class="col-12 md:col-10">
+        <div class="flex w-full h-full">
+          <p-divider class="hidden md:block" layout="vertical"></p-divider>
+
+          <div class="flex-1">
+            <div class="row p-0">
+              <ng-container [ngSwitch]="header.selectedPeriodType?.value">
+                <ng-container
+                  *ngSwitchCase="TimePeriodType.OneTime"
+                ></ng-container>
+
+                <ng-container *ngSwitchCase="TimePeriodType.Daily">
+                  <ng-container
+                    *ngTemplateOutlet="dailySettings"
+                  ></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="TimePeriodType.Weekly">
+                  <ng-container
+                    *ngTemplateOutlet="weeklySettings"
+                  ></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="TimePeriodType.Monthly">
+                  <ng-container
+                    *ngTemplateOutlet="monthlySettings"
+                  ></ng-container>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIXED FOOTER -->
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="triggerAdded()"
+      type="button"
+      icon="fa fa-check"
+      [text]="true"
+      [raised]="true"
+      [label]="
+        (isNewTrigger() ? 'Infrastructure::Add' : 'Infrastructure::Save')
+          | abpLocalization
+      "
+      styleClass="p-button-primary"
+    ></p-button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,82 @@
+<div class="content">
+    <!-- Page Title -->
+        <app-page-title [title]="'Infrastructure::Home' | abpLocalization" icon="fas fa-home">
+        </app-page-title>
+        <app-widget-selection-dialog #widgetSelectionDialog (selectEvent)=addItem($event) [notDisplayWidgets]="existingWidgets">
+        </app-widget-selection-dialog>
+    <!-- <div class="grid mb-1">
+        <div [ngClass]="editMode ? 'col-12 md:col-4' : 'col-4'">
+            <div class="flex align-items-center font-medium text-xl lg:text-3xl text-900 page-title-text">
+                <i class="fas fa-home" style="font-size: large;"></i>&nbsp;
+                <span>
+                    {{'Infrastructure::Home' | abpLocalization}}
+                </span>
+            </div>
+        </div>
+        <div [ngClass]="editMode ? 'col-12 md:col-8' : 'col-8'">
+            <div class="flex align-items-center justify-content-end">
+                <div *ngIf="!editMode && hasLoggedIn">
+                    <p-button [text]="true" [raised]="true" [disabled]="loading"
+                        styleClass="p-button-primary p-button-sm mr-1 ml-1 dash-btn" autoWidth="false"
+                        [label]="'Infrastructure::Edit' | abpLocalization" icon="fa fa-edit" (click)="enableEditMode()">
+                    </p-button>
+                </div>
+                <div *ngIf="editMode" class="flex">
+                    <p-button [text]="true" [raised]="true" [disabled]="loading"
+                        styleClass="p-button-danger p-button-sm mr-1 ml-1 dash-btn" autoWidth="false"
+                        [label]="'Infrastructure::Cancel' | abpLocalization" icon="fa fa-trash"
+                        (click)="cancelEditing()">
+                    </p-button>
+                    <p-button [text]="true" [raised]="true" [disabled]="loading"
+                        styleClass="p-button-warning p-button-sm mr-1 ml-1 dash-btn" autoWidth="false"
+                        [label]="'Infrastructure::Reset' | abpLocalization" icon="fa fa-refresh"
+                        (click)="resetToDefaultLayout()">
+                    </p-button>
+                    <div>
+                        <app-widget-selection-dialog (selectEvent)=addItem($event)
+                            [notDisplayWidgets]="existingWidgets">
+                            <ng-template template="button">
+                                <p-button [text]="true" [raised]="true" [disabled]="loading"
+                                    styleClass="p-button-primary p-button-sm mr-1 ml-1 dash-btn" autoWidth="false"
+                                    [label]="'Infrastructure::Add' | abpLocalization" icon="fa fa-plus">
+                                </p-button>
+                            </ng-template>
+                        </app-widget-selection-dialog>
+                    </div>
+                    <p-button [text]="true" [raised]="true" *ngIf="isAdmin" [disabled]="loading" styleClass="p-button-warning p-button-sm mr-1 ml-1"
+                        autoWidth="false" [label]="'Infrastructure::SetAsDefault' | abpLocalization" icon="fa fa-check"
+                        (click)="save(true)">
+                    </p-button>
+                    <p-button [text]="true" [raised]="true" [disabled]="loading"
+                        styleClass="p-button-success p-button-sm mr-1 ml-1 dash-btn" autoWidth="false"
+                        [label]="'Infrastructure::Save' | abpLocalization" icon="fa fa-check" (click)="save(false)">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div *ngIf="hasLoggedIn">
+        <gridster [options]="options">
+            <gridster-item #gridsterItem [item]="item" *ngFor="let item of dashboard"
+                [ngClass]="{'custom-hover': isMouseOver}" (mouseenter)="onMouseEnter(item)"
+                (mouseleave)="onMouseLeave(item)">
+                <div class="gridster-item-content">
+                    <div class="item-buttons flex justify-content-end" *ngIf="editMode">
+                        <button style="color: black; position: absolute;left: 45%;top: 45%;z-index: 10;"
+                            (click)="toggleDragging()" class="drag-handler" mat-icon-button>
+                            <mat-icon class="icon-display">open_with</mat-icon>
+                        </button>
+                        <button (click)="removeItem($event, item)" pButton type="button" icon="fa fa-trash"
+                            [pTooltip]="'Infrastructure::Tooltip:RemoveWidget' | abpLocalization"
+                            class="p-button-text p-button-rounded p-button-danger" style="font-size: 1.5rem;">
+                        </button>
+                    </div>
+                    <div>
+                        <ndc-dynamic [ndcDynamicComponent]="item?.template"></ndc-dynamic>
+                    </div>
+                </div>
+            </gridster-item>
+        </gridster>
+    </div>
+</div>

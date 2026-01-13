@@ -1,0 +1,250 @@
+<div class="box box-primary">
+  <div class="box-body">
+    <div class="table-responsive">
+      <p-table
+        #archivesTable
+        *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+        [loading]="loading()"
+        [scrollable]="scrollable"
+        [breakpoint]="breakpoint"
+        [responsive]="true"
+        responsiveLayout="stack"
+        scrollDirection="both"
+        styleClass="pr-table"
+        [ngClass]="{ 'hide-header': listView === 'grid' }"
+        [lazy]="true"
+        (onLazyLoad)="onLazyLoad($event)"
+        [rows]="maxResultCount()"
+        [totalRecords]="totalCount()"
+        [paginator]="true"
+        (onSort)="sortData($event)"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between align-items-center grid m-0">
+            <div
+              class="flex gap-2 align-items-center md:col-4 lg:col-4 col-12 md:p-0"
+            >
+              <app-folder-path></app-folder-path>
+              <app-upload-file-folder *ngIf="isWriteAllowed && isMobileDevice">
+              </app-upload-file-folder>
+              <p-button
+                [text]="true"
+                class="add-folder-button-icon"
+                *ngIf="isWriteAllowed && isMobileDevice"
+                icon="fa-solid fa-folder-plus"
+                (click)="addFolder()"
+                styleClass="p-button-sm"
+              >
+              </p-button>
+            </div>
+            <div
+              class="flex gap-3 align-items-center md:col-8 lg:col-8 col-12 pt-3 md:p-0 md:justify-content-end"
+            >
+              <div *ngIf="!folderSelectionMode">
+                <app-file-manager-explorer-toolbar>
+                </app-file-manager-explorer-toolbar>
+                <!-- for download copy move -->
+              </div>
+              <div *ngIf="!isMobileDevice && !folderSelectionMode" class="flex gap-3">
+                <app-upload-file-folder *ngIf="isWriteAllowed">
+                </app-upload-file-folder>
+                <p-button
+                  [text]="true"
+                  [raised]="true"
+                  *ngIf="isWriteAllowed"
+                  style="white-space: nowrap"
+                  icon="fa-solid fa-folder-plus"
+                  (click)="addFolder()"
+                  styleClass="p-button-sm"
+                  [label]="'FileManager::CreateFolder' | abpLocalization"
+                >
+                </p-button>
+              </div>
+              <div>
+                <div class="row">
+                  <div
+                    class="col-md-auto text-primary"
+                    *ngIf="listView() === 'list' && !isMobileDevice"
+                    (click)="setListView('grid')"
+                  >
+                    <span class="material-icons cursor-pointer d-flex">
+                      apps
+                    </span>
+                  </div>
+                  <div
+                    class="col-md-auto text-primary"
+                    *ngIf="listView() === 'grid'"
+                    (click)="setListView('list')"
+                  >
+                    <span class="material-icons cursor-pointer d-flex">
+                      view_list
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 1%; max-width: 40px; min-width: 40px">
+              <p-checkbox
+                color="primary"
+                [(ngModel)]="fileManagerViewSettingsService.checkAll"
+                (onChange)="mainCheckOrUncheck($event)"
+                [binary]="true"
+                inputId="binary"
+              >
+              </p-checkbox>
+            </th>
+            <th appResponsiveColumn="300" pSortableColumn="name">
+              {{ 'FileManager::Name' | abpLocalization }}
+              <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th appResponsiveColumn="120" pSortableColumn="type">
+              {{ 'FileManager::Type' | abpLocalization }}
+              <p-sortIcon field="type"></p-sortIcon>
+            </th>
+            <th appResponsiveColumn="120" pSortableColumn="size">
+              {{ 'FileManager::Size' | abpLocalization }}
+              <p-sortIcon field="size"></p-sortIcon>
+            </th>
+            <th
+              appResponsiveColumn="160"
+              pSortableColumn="createdDate"
+              class="when-big-width-cell-center"
+            >
+              {{ 'FileManager::Modified' | abpLocalization }}
+              <p-sortIcon field="createdDate"></p-sortIcon>
+            </th>
+            <th appResponsiveColumn="80"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr
+            *ngIf="sortedEntries()?.length == 0"
+            class="table-emptymessage"
+          >
+            <td class="w-full" colspan="9999" style="border: 0">
+              <div class="card w-full">
+                <div class="card-body w-full text-center">
+                  {{ getEmptyTableMessage() | abpLocalization }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-full p-0" colspan="6">
+              <div cdkDropListGroup class="w-full">
+                <ng-container *ngIf="listView() === 'grid'">
+                  <div class="box-view">
+                    <div class="row flex flex-wrap">
+                      <div
+                        *ngFor="
+                          let entry of sortedEntries();
+                          let i = index;
+                          trackBy: trackById
+                        "
+                        [class.selected]="entry.isRightClicked"
+                        [autoScrollDisabled]="autoScrollDisabled"
+                        [cdkDropListAutoScrollStep]="isFolder(entry) ? 1 : 0"
+                        [cdkDropListDisabled]="disabled || isFile(entry)"
+                        cdkDropList
+                        [id]="(isFolder(entry) ? 'folder' : 'document') + i"
+                        [cdkDropListData]="entry"
+                        (cdkDropListDropped)="drop($event)"
+                        [class.drag-drop]="isFolder(entry)"
+                        class="col-3 group"
+                        appDragDrop
+                      >
+                        <app-entry-item [entry]="entry"></app-entry-item>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="listView() === 'list'">
+                  <p-table
+                    *appResponsiveTable="
+                      'md';
+                      let scrollable;
+                      let breakpoint = breakpoint
+                    "
+                    [scrollable]="scrollable"
+                    [breakpoint]="breakpoint"
+                    [responsive]="true"
+                    responsiveLayout="stack"
+                    scrollDirection="both"
+                    styleClass="pr-table"
+                    [value]="sortedEntries()"
+                    class="data-table"
+                    [selectionMode]="folderSelectionMode ? 'single' : 'multiple'"
+                    [metaKeySelection]="!folderSelectionMode"
+                    dataKey="id"
+                  >
+                    <ng-template pTemplate="body" let-entry>
+                      <app-entry-item [entry]="entry"></app-entry-item>
+                    </ng-template>
+                  </p-table>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    currentFolderDetails &&
+                    isWriteAllowed &&
+                    !isMobileDevice &&
+                    !isFavouriteTable() &&
+                    !folderSelectionMode
+                  "
+                >
+                  <hr />
+                  <div
+                    class="card border-primary text-center upload-file-folder mt-1"
+                    appDragDrop
+                  >
+                    <div class="card-body">
+                      <div>
+                        <p>
+                          <span>
+                            <i
+                              class="fa fa-upload text-primary fa-5x"
+                              aria-hidden="true"
+                            ></i>
+                          </span>
+                        </p>
+                        <p class="text-dark">
+                          Drag and Drop Files or Folders Here
+                        </p>
+                        <p class="text-center">
+                          <p-button
+                            [text]="true"
+                            [raised]="true"
+                            styleClass="p-button-primary p-button-sm"
+                            [label]="
+                              'FileManager::BrowseFiles' | abpLocalization
+                            "
+                            icon="fas fa-file"
+                            (click)="fileInput.click()"
+                          >
+                          </p-button>
+                          <input
+                            (change)="fileEvent($event)"
+                            hidden
+                            #fileInput
+                            multiple
+                            name="file"
+                            type="file"
+                            name="Upload File"
+                            fxFlex="30"
+                          />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

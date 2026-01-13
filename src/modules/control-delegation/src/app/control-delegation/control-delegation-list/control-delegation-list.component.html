@@ -1,0 +1,140 @@
+<div class="w-full">
+  <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+    [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" class="cell-center"
+    dataKey="data.id" [rows]="5" [lazy]="lazy" (onLazyLoad)="onLazyLoad($event)" [totalRecords]="totalRows"
+    [loading]="loading" #editor="rowsEditor" rowsEditor [(editableRows)]="controlDelegations" [rowEdited]="rowEdited"
+    [rowAdded]="rowAdded" [rowFactory]="delegationFactory" [rowRemoved]="rowRemoved" [value]="controlDelegations"
+    [paginator]="true" sortOrder="-1" sortMode="single" (editingInProcessChange)="tableEditing($event)" >
+    <ng-template pTemplate="caption">
+      <div class="grid mt-0">
+        <div class="col-12 md:col-6 md:pl-4 p-0 flex align-items-center justify-content-end">
+          <div class="p-inputgroup">
+            <input type="text" pInputText #searchField
+              placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+              [(ngModel)]="searchQueryText">
+            <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+              styleClass="p-button-info" class="p-button-text"></button>
+            <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+              (click)="clear($event)"></button>
+          </div>
+        </div>
+        <div class="col-12 md:col-6 py-3 md:py-0 flex align-items-center md:justify-content-end justify-content-center gap-2">
+          <p-button *ngIf="showReloadButton" [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm" autoWidth="false"
+            [label]="'Infrastructure::Reload' | abpLocalization" icon="pi pi-sync" (click)="search($event)">
+          </p-button>
+          <div>
+            <app-table-header-controls></app-table-header-controls>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 50px !important; max-width: 50px; min-width: 50px;">
+        </th>
+        <th appResponsiveColumn="250">
+          {{ "TenantManagement::ControlDelegation:User" | abpLocalization }}
+        </th>
+        <th appResponsiveColumn="250">
+          {{ "TenantManagement::ControlDelegation:Period" | abpLocalization }}
+        </th>
+        <th appResponsiveColumn="250">
+          {{ "TenantManagement::ControlDelegation:Reason" | abpLocalization }}
+        </th>
+        <th *ngIf="showLastLogin">
+          {{ "TenantManagement::ControlDelegation:LastLoginDate" | abpLocalization }}
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr [pEditableRow]="row">
+        <td style="width: 50px !important; max-width: 50px; min-width: 50px;">
+          <app-profile-picture class="hidden md:block" [userId]="userAvatarDisplay(row)"
+            *ngIf="row?.data?.delegatedToUserId?.length > 0" size="medium"></app-profile-picture>
+        </td>
+        <td *ngIf="userTemplate" appResponsiveColumn="250">
+          <span class="non-editing-only p-column-title">
+            {{"TenantManagement::ControlDelegation:User" | abpLocalization}}
+          </span>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div class="p-inputgroup">
+                <input pInputText [ngModel]="row.user?.name || row.user?.userName || row.data.delegatedToUserName"
+                  [readonly]="true" [ngClass]="{'ng-invalid ng-dirty': row.validators.user}" />
+                <button type="button" (click)="showUserSelectionDialog()" pButton pRipple icon="fa fa-list"
+                  class="p-button-text"></button>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <div class="textAlign flex align-items-center">
+                <app-profile-picture class="md:hidden" [userId]="userAvatarDisplay(row)"
+                  *ngIf="row?.data?.delegatedToUserId?.length > 0" size="medium"></app-profile-picture>
+
+                <ng-container
+                  *ngTemplateOutlet="userTemplate; context: {$implicit: row}; injector: editor.injector"></ng-container>
+              </div>
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"TenantManagement::ControlDelegation:Period" | abpLocalization}}
+          </span>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <app-date-picker mode="range" [(from)]="row.data.delegationStartDate" [(to)]="row.data.delegationEndDate"
+                class="w-full" [invalid]="row.validators.delegationStartDate"></app-date-picker>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{getDelegationTerm(row)}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"TenantManagement::ControlDelegation:Period" | abpLocalization}}
+          </span>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input class="w-full"
+                        [(ngModel)]="row.data.reason" type="text" pInputText/>
+              <!-- <app-text-input-cell [(value)]="row.data.reason"
+                [title]='"TenantManagement::ControlDelegation:Reason" | abpLocalization'></app-text-input-cell> -->
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{row?.data?.reason || '-'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        
+
+        <td *ngIf="showLastLogin">
+          <span class="non-editing-only p-column-title">
+            {{ "TenantManagement::ControlDelegation:LastLoginDate" | abpLocalization }}
+          </span>
+          {{row.data.lastLoginDate | utcDate}}
+        </td>
+        <app-table-row-controls [startControls]="tableControls" width="130px"></app-table-row-controls>
+        <ng-template #tableControls>
+          <ng-container
+            *ngTemplateOutlet="controls; context: {$implicit: row}; injector: editor.injector"></ng-container>
+        </ng-template>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr class="table-emptymessage">
+        <td class="w-full" colspan="7">
+          <div class="card w-full">
+            <div class="card-body w-full">
+              <div class="card-header text-center">
+                {{'TenantManagement::ControlDelegation:NoDelegations' | abpLocalization}}
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

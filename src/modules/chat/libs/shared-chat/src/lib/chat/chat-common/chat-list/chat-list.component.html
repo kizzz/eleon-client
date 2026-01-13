@@ -1,0 +1,81 @@
+<div class="flex flex-column align-items-center gap-0 py-2 h-full">
+  <p-tabs
+    [value]="currentTab"
+    (valueChange)="onTabChange($event)"
+    class="w-full px-2 py-0 no-padding"
+    style="flex-basis: 3rem"
+    styleClass="p-1"
+  >
+    <p-tablist>
+      <p-tab *ngFor="let tab of chatTabs; let i = index" [value]="i">
+        {{ tab.headerKey | abpLocalization }}
+      </p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel *ngFor="let tab of chatTabs; let i = index" [value]="i">
+      <div
+        class="flex align-items-center gap-2 w-full px-2"
+        style="flex-basis: 3rem"
+      >
+        <div class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            placeholder="{{ 'Infrastructure::Search' | abpLocalization }}"
+            [(ngModel)]="searchText"
+            (keydown.enter)="search()"
+            (ngModelChange)="onSearchInput()"
+          />
+          <button
+            type="button"
+            (click)="search()"
+            pButton
+            pRipple
+            icon="pi pi-search"
+            styleClass="p-button-info"
+            class="p-button-text"
+          ></button>
+        </div>
+        <p-button
+          styleClass="p-button-sm"
+          icon="fas fa-plus-circle"
+          style="white-space: nowrap; width: 10rem"
+          (click)="onCreate()"
+          autoWidth="false"
+          [label]="'Collaboration::CreateChat' | abpLocalization"
+          [raised]="true"
+          [text]="true"
+        >
+        </p-button>
+      </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+    <div
+      lazyScroll
+      [scrollTreshold]="0"
+      (scrollTresholdReached)="loadMore()"
+      class="overflow-y-scroll w-full"
+      style="flex-grow: 1"
+    >
+    <app-loading [loading]="loadingChats">
+      <app-chat-list-latest
+        #chatListLatest
+        style="flex: 1"
+        class="w-full m-3"
+        [sideBarView]="sideBarView"
+        [(selectedChat)]="selectedChat"
+        (selectedChatChange)="selectChat($event)"
+        [searchQuery]="searchQuery"
+        [(noChats)]="noChats"
+        (noChatsChange)="noChatsChange.emit($event)"
+      >
+      </app-chat-list-latest>
+      </app-loading>
+    </div>
+</div>
+
+<app-group-chat-create-modal
+  [showDialog]="chatCreationDialogOpened"
+  (showDialogChange)="onShowDialogChange($event)"
+></app-group-chat-create-modal>

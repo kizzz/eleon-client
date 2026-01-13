@@ -1,0 +1,156 @@
+<app-page-title [title]="title" icon="fa-solid fa-key">
+</app-page-title>
+<div class="content md:mt-0 mt-2">
+	<p-table [value]="apiKeys" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'" [loading]="loading" [rowsPerPageOptions]="[5, 10, 15, 20]">
+		<ng-template pTemplate="header">
+			<tr>
+				<th appResponsiveColumn="100">{{ 'TenantManagement::ApiKey:Name' | abpLocalization }}</th>
+				<th appResponsiveColumn="100">{{ 'TenantManagement::ApiKey:Subject' | abpLocalization }}</th>
+				<th appResponsiveColumn="100">{{ 'TenantManagement::ApiKey:Type' | abpLocalization }}</th>
+				<th appResponsiveColumn="100">{{ 'TenantManagement::ApiKey:Expires' | abpLocalization }}</th>
+				<th appResponsiveColumn="100">{{ 'TenantManagement::ApiKey:Created' | abpLocalization }}</th>
+				<th appResponsiveColumn="200">{{ 'TenantManagement::ApiKey:Data' | abpLocalization }}</th>
+				<th appResponsiveColumn="80"></th>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-apiKey>
+			<tr>
+				<td>
+		<i class="fa-solid fa-key mr-2"></i>
+		<span>{{ apiKey.name || '-' }}</span>
+		</td>
+				<td>
+					<div>
+						<app-ellipsis text="{{ apiKey.refId || '-' }}" class="w-full"></app-ellipsis>
+					</div>
+				</td>
+				<td>{{ showType(apiKey.type) }}</td>
+				<td>{{ apiKey.expiresAt ? (apiKey.expiresAt | date : 'short') : '-' }}</td>
+				<td>{{ apiKey.creationTime | date : 'short' }}</td>
+				<td>
+					<div>
+						<app-ellipsis text="{{ apiKey.data || '-' }}" class="w-full"></app-ellipsis>
+					</div>
+				</td>
+				<td>
+					<div class="flex justify-content-end gap-2">
+						<span class="fa fa-cog cursor-pointer text-primary" (click)="managePermissions(apiKey)"></span>
+						<span class="fa fa-edit text-primary cursor-pointer" (click)="update(apiKey)"></span>
+            <span class="fa fa-list text-primary cursor-pointer" (click)="openLogs(apiKey)"></span>
+						<span class="fa fa-trash cursor-pointer" style="color: red;" (click)="deleteKey(apiKey.id)"></span>
+					</div>
+				</td>
+			</tr>
+		</ng-template>
+    <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-100" colspan="7">
+              <div class="card w-100">
+                <div class="card-body w-full text-center">
+                  <div class="card-header">
+                    {{'TenantManagement::NoApiKeys' | abpLocalization}}
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+	</p-table>
+</div>
+
+<app-permission-management>
+
+</app-permission-management>
+
+<p-dialog [header]="(isCreating ? 'TenantManagement::ApiKeys:Create' : 'TenantManagement::ApiKeys:Edit') | abpLocalization" [(visible)]="selectedApiKey" [modal]="true" appendTo="body" *ngIf="selectedApiKey">
+<div class="dialog-standard">
+    <div class="field grid" *ngIf="isCreating">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::ApiKey:Type'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <p-select [options]="apiKeyTypes" [(ngModel)]="selectedApiKey.type" [showClear]="false"
+          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
+          optionValue="value" optionLabel="name" >
+        </p-select>
+      </div>
+    </div>
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:Name'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="selectedApiKey.name" class="w-full" />
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:Subject'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="selectedApiKey.refId" class="w-full" />
+      </div>
+    </div>
+
+		<div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:Data'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="selectedApiKey.data" class="w-full" />
+      </div>
+    </div>
+
+		<div class="field grid" *ngIf="isCreating">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:Expires'| abpLocalization}}</label>
+      <div class="col-12 md:col-8 flex gap-2 justify-content-start align-items-center">
+				<p-checkbox [(ngModel)]="isExpiredKey" [binary]="true" [disabled]="loading">
+				</p-checkbox>
+				<p-datepicker
+					appCalendarButtonClass
+					[showIcon]="true" 
+					[(ngModel)]="expiresDate"
+					[minDate]="minDate"
+					[maxDate]="maxDate"
+					dateFormat="yy-mm-dd"
+					(onSelect)="onDateChange()"
+					[readonlyInput]="true"
+					inputId="rateDate"
+					[disabled]="loading || !isExpiredKey"
+					appendTo="body"
+					class="w-full">
+				</p-datepicker>
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:AllowAuthorize'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <p-checkbox [(ngModel)]="selectedApiKey.allowAuthorize" [binary]="true" [disabled]="loading" inputId="isEnabled" class="w-full">
+        </p-checkbox>
+      </div>
+    </div>
+
+		<div class="field grid" *ngIf="!isCreating">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:Key'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+				<p-inputGroup (click)="copyKey(selectedApiKey.key)" class="cursor-pointer">
+    			<input type="text" pInputText [ngModel]="hiddenKey(selectedApiKey.key)" class="w-full" [readonly]="true" />
+					<p-inputGroupAddon><i class="fa-solid fa-copy"></i></p-inputGroupAddon>
+				</p-inputGroup>
+      </div>
+    </div>
+
+		<div class="field grid" *ngIf="!isCreating">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApiKey:Secret'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+				<p-inputGroup (click)="copyKey(selectedApiKey.keySecret)" class="cursor-pointer">
+    			<input type="text" pInputText [ngModel]="hiddenKey(selectedApiKey.keySecret)" class="w-full" [readonly]="true" />
+					<p-inputGroupAddon><i class="fa-solid fa-copy"></i></p-inputGroupAddon>
+				</p-inputGroup>
+      </div>
+    </div>
+
+    <div class="mt-2 flex gap-3" style="justify-content: end;">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" 
+      (onClick)="close()" [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button> 
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+          (onClick)="save()" [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

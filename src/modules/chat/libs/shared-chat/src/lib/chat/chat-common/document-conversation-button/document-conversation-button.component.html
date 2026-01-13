@@ -1,0 +1,5 @@
+  <button *ngIf="conversation && !showOnlyIcon" pButton class="p-button-text p-button-info" icon="fas fa-comments"
+  [label]="'Collaboration::Discussion' | abpLocalization" (click)="openConversation()"></button>
+
+  <button *ngIf="conversation && showOnlyIcon" pButton class="p-button-text p-button-info p-0" icon="fas fa-comments"
+  (click)="openConversation()"></button>

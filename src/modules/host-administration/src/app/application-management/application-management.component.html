@@ -1,0 +1,318 @@
+<app-page-title [title]="'TenantManagement::Sites' | abpLocalization" icon="fa-solid fa-globe">
+</app-page-title>
+
+<div class="content">
+  <p-tabs [(value)]="activeIndex" (valueChange)="onChange($event)">
+    <p-tablist>
+      <p-tab [value]="0">
+        <span class="flex">
+          <i class="fa-regular fa-newspaper hidden md:inline-flex"></i>
+          <i class="fa-regular fa-newspaper hidden inline-flex md:hidden px-3"></i>
+          <span class="hidden md:inline-flex px-3">
+            {{'TenantManagement::Applications' | abpLocalization}}
+          </span>
+        </span>
+      </p-tab>
+      <p-tab [value]="1">
+        <span class="flex">
+          <i class="fa-solid fa-puzzle-piece hidden md:inline-flex"></i>
+          <i class="fa-solid fa-puzzle-piece hidden inline-flex md:hidden px-3"></i>
+          <span class="hidden md:inline-flex px-3">
+            {{'TenantManagement::UiModules' | abpLocalization}}
+          </span>
+        </span>
+      </p-tab>
+      <p-tab [value]="2">
+        <span class="flex">
+          <i class="fa-solid fa-database hidden md:inline-flex"></i>
+          <i class="fa-solid fa-database hidden inline-flex md:hidden px-3"></i>
+          <span class="hidden md:inline-flex px-3">
+            {{'TenantManagement::Resources' | abpLocalization}}
+          </span>
+        </span>
+      </p-tab>
+    </p-tablist>
+    <p-tabpanels>
+    <p-tabpanel [value]="0">
+      <div>
+        <p-treeTable [value]="clients" [(selection)]="selectedNode" [rowHover]="true" [loading]="loadingInDialog">
+          <ng-template pTemplate="header">
+            <tr>
+              <th appResponsiveColumn="500">{{'TenantManagement::Name' | abpLocalization}}</th>
+              <th appResponsiveColumn="100">{{'TenantManagement::Type' | abpLocalization}}</th>
+              <th appResponsiveColumn="240"> {{'TenantManagement::Path' | abpLocalization}}</th>
+              <th style="width:24rem" class="text-center">
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+            <tr [ngClass]="{ 'application-row': rowData?.nodeType === 'client-app'}">
+              <td appResponsiveColumn="500">
+                <div class="flex gap-1 justify-content-start align-items-center">
+                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                  <i class="px-1" [ngClass]="getIcon(rowData)"></i>
+                  <span>
+                    {{ rowData?.nodeType === 'client-app' ? rowData.name : rowData.name }}
+                  </span>
+                  <span *ngIf="rowData.nodeType === 'client-app'">
+                    ({{getLabelByValue(applicationTypes, rowData.clientApplicationType)}}, {{getLabelByValue(frameworkTypes, rowData.frameworkType) }}, {{ getLabelByValue(styleTypes, rowData.styleType) }})
+                  </span>
+                  <p-button type="button" icon="fa fa-directions" *ngIf="rowData.nodeType === 'client-app'" [text]="true" (click)="navigateToApp(rowNode.node)"
+                      [pTooltip]="'TenantManagement::Application:OpenInWindow' | abpLocalization" tooltipPosition="top">
+                    </p-button>
+                </div>
+              </td>
+              <td appResponsiveColumn="100">
+                {{ getType(rowData) }}
+              </td>
+              <td appResponsiveColumn="240">
+                <app-ellipsis [text]="rowData.path ?? rowData.url"></app-ellipsis>
+              </td>
+              <td>
+                <div class="flex gap-1 justify-content-end align-items-center">
+                  <p-button type="button"
+                  *ngIf="rowData.nodeType === 'client-app' && !rowData.isSystem"
+                    icon="fa fa-plus" (click)="addUimodule(rowData)" [text]="true"
+                    [pTooltip]="'Infrastructure::Add' | abpLocalization" tooltipPosition="top">
+                  </p-button>
+                  <p-button type="button"
+                  *ngIf="rowData.nodeType === 'client-app'"
+                    icon="fa fa-gear" (click)="editClient(rowNode.node)" [text]="true"
+                    [pTooltip]="'Infrastructure::Edit' | abpLocalization" tooltipPosition="top">
+                  </p-button>
+                  <p-button type="button" *ngIf="!(rowData.isSystem && rowData.nodeType === 'client-app')"
+                    icon="fa fa-trash" (click)="deleteClient(rowNode.node)" [text]="true" severity="danger"
+                    [pTooltip]="'Infrastructure::Delete' | abpLocalization" tooltipPosition="top">
+                  </p-button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr class="table-emptymessage">
+              <td class="w-full" colspan="4">
+                <div class="card w-full">
+                  <div class="card-body w-full text-center">
+                    {{ 'TenantManagement::Applications:List:Empty' | abpLocalization }}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-treeTable>
+      </div>
+    </p-tabpanel>
+
+
+    <p-tabpanel [value]="1">
+      <div>
+        <app-modules-management #modulesManagement></app-modules-management>
+      </div>
+    </p-tabpanel>
+
+    <p-tabpanel [value]="2">
+      <div>
+        <app-resource-management #resourceManagement></app-resource-management>
+      </div>
+    </p-tabpanel>
+
+    </p-tabpanels>
+  </p-tabs>
+</div>
+
+
+<p-dialog [resizable]="false" [header]="'TenantManagement::CreateApplication'| abpLocalization" [(visible)]="displayCreateDialog" [modal]="true" (visibleChange)="createApplicationDialogClear()">
+  <div class="dialog-standard">
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span appRequired>{{ 'TenantManagement::Name' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <input  [ngClass]="{'ng-invalid ng-dirty': nameEmpty}" (input)="resetValidators()" class="w-full" id="name" type="text" pInputText [(ngModel)]="newApplication.name" />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span appRequired>{{ 'TenantManagement::Path' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <div class="p-inputgroup" [ngClass]="{'ng-invalid ng-dirty invalid': pathEmpty }">
+          <span class="p-inputgroup-addon small" [pTooltip]="tooltip" tooltipPosition="top">/apps/</span>
+          <input class="w-full" (input)="resetValidators()" id="url" type="text" pInputText [(ngModel)]="newApplication.path" />
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span appRequired>{{ 'TenantManagement::Framework' | abpLocalization }}</span>
+      </div>
+      <div class="col-8">
+        <p-select id="frameworkType" [options]="frameworkTypes" [(ngModel)]="newApplication.frameworkType"
+        autoWidth="false" [style]="{'width':'100%'}"
+          ></p-select>
+      </div>
+    </div>
+    <div class="grid" *ngIf="newApplication.frameworkType === 0 || newApplication.frameworkType === 3">
+      <div class="col-4 flex align-items-center gap-3">
+        <span appRequired>{{ 'TenantManagement::Source' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <input [class]="'w-full ' + ( newApplication.source?.length === 0 ? 'ng-invalid ng-dirty' : '' )"  id="source" type="text" pInputText [(ngModel)]="newApplication.source" />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span appRequired>{{ 'TenantManagement::Style' | abpLocalization }}</span>
+
+      </div>
+      <div class="col-8">
+        <p-select id="styleType" [options]="styleTypes" [(ngModel)]="newApplication.styleType" optionValue="value"
+        autoWidth="false" [style]="{'width':'100%'}"></p-select>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span appRequired>{{ 'TenantManagement::Type' | abpLocalization }}</span>
+      </div>
+      <div class="col-8">
+        <p-select id="clientApplicationType" [options]="applicationTypes"
+        autoWidth="false" [style]="{'width':'100%'}"
+          [(ngModel)]="newApplication.clientApplicationType"></p-select>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{ 'TenantManagement::Icon' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <input class="w-full" id="name" type="text" pInputText [(ngModel)]="newApplication.icon" />
+      </div>
+    </div>
+  </div>
+    <p-footer class="flex gap-3 justify-content-end">
+      <p-button icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="cancelCreateApplication()" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
+      <p-button icon="fa fa-plus" [label]="'Infrastructure::Create' | abpLocalization" (click)="createApplication()" [text]="true" [raised]="true"></p-button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [resizable]="false" [header]="'TenantManagement::ApplicationSettings' | abpLocalization" [(visible)]="displayDialog" [modal]="true"
+  *ngIf="displayDialog && selectedNode.data" (visibleChange)="clear()" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <div class="h-dialog-fixed-height settings-dialog">
+    <div class="w-full">
+      <p-tabs class="w-full" value="general">
+        <p-tablist>
+          <p-tab value="general">
+            <div class="flex align-items-center gap-2">
+              <i class="fas fa-user"></i>
+              <span class="hidden md:inline">{{'TenantManagement::General' | abpLocalization}}</span>
+            </div>
+          </p-tab>
+          <p-tab value="menus">
+              <div class="flex align-items-center gap-2">
+                  <i class="fa-solid fa-bars"></i>
+                  <span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:Menus' | abpLocalization}}</span>
+              </div>
+          </p-tab>
+          <p-tab value="multitenancy">
+              <div class="flex align-items-center gap-2">
+                  <i class="fa-solid fa-bars"></i>
+                  <span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:MultiTenancy' | abpLocalization}}</span>
+              </div>
+          </p-tab>
+          <p-tab value="pwa">
+            <div class="flex align-items-center gap-2">
+                <i class="fa-solid fa-bars"></i>
+                <span class="hidden md:inline">{{'TenantManagement::PWA' | abpLocalization}}</span>
+            </div>
+          </p-tab>
+          <p-tab value="sw">
+            <div class="flex align-items-center gap-2">
+                <i class="fa-solid fa-bars"></i>
+                <span class="hidden md:inline">{{'TenantManagement::ServiceWorker' | abpLocalization}}</span>
+            </div>
+          </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+        <p-tabpanel value="general">
+          <app-general-settings 
+            [node]="selectedNode"
+            [nameEmpty]="nameEmpty"
+            [pathEmpty]="pathEmpty"
+            [tooltip]="tooltip"
+            [loadLevels]="loadLevels"
+            (resetValidators)="resetValidators()">
+          </app-general-settings>
+        </p-tabpanel>
+
+        <p-tabpanel value="menus">
+          <p-tabs class="w-full" value="menu-general">
+            <p-tablist>
+              <p-tab value="menu-general">
+                  <div class="flex align-items-center gap-2">
+                    <i class="fa-solid fa-bars"></i>
+                      <span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:General' | abpLocalization}}</span>
+                  </div>
+              </p-tab>
+              <p-tab value="menu-top">
+                  <div class="flex align-items-center gap-2">
+                    <i class="fa-solid fa-bars"></i>
+                      <span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:TopMenu' | abpLocalization}}</span>
+                  </div>
+              </p-tab>
+              <p-tab value="menu-user">
+                  <div class="flex align-items-center gap-2">
+                      <i class="fas fa-user"></i>
+                      <span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:UserMenu' | abpLocalization}}</span>
+                  </div>
+              </p-tab>
+            </p-tablist>
+            <p-tabpanels>
+            <p-tabpanel value="menu-general">
+              <div class="dialog-max">
+                <app-application-menu-item-management [applicationId]="selectedNode?.data?.id" #generalMenuItem [applicationName]="selectedNode?.data?.name" [menuType]="MenuType.General">
+                </app-application-menu-item-management>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="menu-top">
+              <div class="dialog-max">
+                <app-application-menu-item-management [applicationId]="selectedNode?.data?.id" #topMenuItem [applicationName]="selectedNode?.data?.name" [menuType]="MenuType.Top">
+                </app-application-menu-item-management>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="menu-user">
+              <div class="dialog-max">
+                <app-application-menu-item-management [applicationId]="selectedNode?.data?.id" #userMenuItem [applicationName]="selectedNode?.data?.name" [menuType]="MenuType.User">
+                </app-application-menu-item-management>
+              </div>
+            </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+        </p-tabpanel>
+
+        <p-tabpanel value="multitenancy">
+          <div>
+            <app-multi-tenancy-management [applicationName]="selectedNode?.data.name" [applicationId]="selectedNode?.data.id" #multiTenancyItem>
+            </app-multi-tenancy-management>
+          </div>
+        </p-tabpanel>
+
+        <p-tabpanel value="pwa">
+          <div>
+            <app-pwa-settings #pwaSettings [node]="selectedNode"></app-pwa-settings>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="sw">
+          <div>
+            <app-service-worker-settings #swSettings [node]="selectedNode"></app-service-worker-settings>
+          </div>
+        </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </div>
+  <p-footer class="flex gap-3 justify-content-end">
+    <p-button *ngIf="selectedNode.data.nodeType === 'client-app'" icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="cancelEditAppSettings()" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
+    <p-button *ngIf="selectedNode.data.nodeType !== 'client-app'" icon="pi pi-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="saveSettings()" [text]="true" [raised]="true"></p-button>
+    <p-button *ngIf="selectedNode.data.nodeType === 'client-app'" icon="pi pi-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="saveAppSettings()" [text]="true" [raised]="true" styleClass="p-button-primary" [disabled]="selectedNode.data.isSystem"></p-button>
+  </p-footer>
+</p-dialog>

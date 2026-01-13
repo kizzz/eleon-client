@@ -1,0 +1,19 @@
+:host ::ng-deep .p-password .p-inputtext{
+    border-radius: 6px;
+}
+
+.single-column-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.half-width-field {
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .half-width-field {
+        max-width: 50%;
+    }
+}

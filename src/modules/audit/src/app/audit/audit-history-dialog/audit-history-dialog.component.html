@@ -1,0 +1,31 @@
+<div>
+    <div class="dialog-overlay" [style.display]="showDialog ? 'block' : 'none'"></div>
+    <div *ngIf="showDialog">
+      <p-dialog [resizable]="false" [(visible)]="showDialog" (visibleChange)="showDialogChange.emit($event)" [draggable]="false">
+        <ng-template pTemplate="header">
+          <div class="flex">
+            <h3 class="mb-0 px-2">
+              <i class="fa fa-book"></i>
+              {{ 'Auditor::History:Title' | abpLocalization }}
+            </h3>
+          </div>
+        </ng-template>
+        <div class="dialog-wrapper">
+          <app-audit-history-box (onRecordSelected)="onSelectedRecordChange($event)" class="w-full"
+            [documentObjectType]="documentObjectType" [documentId]="documentId" [disableLoading]="!showDialog">
+          </app-audit-history-box>
+        </div>
+      </p-dialog>
+    </div>
+    <span class="icon-button" [pTooltip]="'Auditor::History:Tooltip' | abpLocalization" (click)="changeShowDialog(true)">
+        <i class="fa fa-book book-icon"></i>
+        <span *ngIf="!showArchiveVersionWarning">
+            {{'Infrastructure::LastModifiedBy'
+            | abpLocalization
+            : (version.createdByUserName || ("Auditor::DocumentVersion:CreatedByNobody" | abpLocalization))
+            : (version.createdAt | date:'MMM d, y, h:mm a')}}
+          </span>
+    </span>
+    <!-- <button pButton [pTooltip]="'Auditor::History:Tooltip' | abpLocalization" icon="fa fa-book"
+        class="p-button-text p-button-rounded p-button-info" (click)="changeShowDialog(true)"></button> -->
+</div>

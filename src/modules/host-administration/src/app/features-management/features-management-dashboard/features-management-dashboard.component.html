@@ -1,0 +1,206 @@
+
+  <app-page-title
+    [title]="'TenantManagement::Feature:Title' | abpLocalization"
+    icon="fas fa-cog"
+  >
+  </app-page-title>
+  <div class="content">
+    <div class="grid m-0">
+      <div class="col-12 md:col-3 lg:col-3">
+        <p-tree class="w-full" [value]="categories" selectionMode="single" [loading]="loading" (onNodeSelect)="nodeSelect($event)"
+        scrollHeight="75vh" [virtualScroll]="true" [virtualScrollItemSize]="40">
+          <ng-template pTemplate="category" let-category>
+            <b>{{category.label }}</b>
+          </ng-template>
+          <ng-template pTemplate="group" let-group>
+            <div class="flex align-items-center justify-content-between">
+              <span>
+                {{ group.label }}
+              </span>
+              <span class="flex gap-3" *ngIf="group.data.isDynamic">
+                <span class="buttons" (click)="editGroup(group)">
+                  <i class="fa fa-edit text-primary"></i>
+                </span>
+                <span class="buttons" (click)="deleteGroup(group)">
+                  <i class="fa fa-trash" style="color: var(--danger-color);"></i>
+                </span>
+              </span>
+              <span class="flex gap-3" *ngIf="!group.data.isDynamic">
+                <span class="buttons">
+                  <i class="fa fa-shield" style="color: var(--secondary-color);"></i>
+                  <span class="fa-1x"> {{ "TenantManagement::Feature:SystemFeature" | abpLocalization }}</span>
+                </span>
+              </span>
+            </div>
+          </ng-template>
+        </p-tree>
+      </div>
+      <div class="col-12 md:col-9 lg:col-9">
+        <div class="treeTableContainer">
+          <p-treeTable [value]="featureTree" [loading]="loading" #treeTable>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ 'TenantManagement::Feature:FeatureTable:Column:Name' | abpLocalization }}</th>
+                <th>{{ 'TenantManagement::Feature:FeatureTable:Column:Description' | abpLocalization }}</th> 
+                <th>{{ 'TenantManagement::Feature:FeatureTable:Column:DefaultValue' | abpLocalization }}</th> 
+                <th>{{ 'TenantManagement::Feature:FeatureTable:Column:ValueType' | abpLocalization }}</th> 
+                <th style="width: 40px"></th>
+                <th style="width: 40px"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr [ttRow]="rowNode">
+                <td>
+                  <div class="flex align-items-center justify-content-start">
+                    <p-treeTableToggler
+                      [rowNode]="rowNode"
+                    ></p-treeTableToggler>
+                    {{ rowData?.displayName | abpLocalization }}
+                  </div>
+                </td>
+                <td>
+                  <div class="flex align-items-center justify-content-start">
+                    {{ rowData?.description | abpLocalization  }}
+                  </div>
+                </td>
+                <td>
+                  <div class="flex align-items-center justify-content-start">
+                    {{ rowData?.defaultValue }}
+                  </div>
+                </td>
+                <td>
+                  <div class="flex align-items-center justify-content-start">
+                    {{ getValueTypeName(rowData?.valueType) }}
+                  </div>
+                </td>
+                <td style="width: 40px">
+                  <div class="column-content text-center" *ngIf="rowData.isDynamic">
+                    <span class="buttons" (click)="editFeature(rowNode.node)">
+                      <i class="fa fa-edit text-primary"></i>
+                    </span>
+                  </div>
+                </td>
+                <td style="width: 40px">
+                  <div class="column-content text-center" *ngIf="rowData.isDynamic">
+                    <span class="buttons" (click)="deleteFeature(rowNode.node)">
+                      <i
+                        class="fa fa-trash"
+                        style="color: var(--danger-color)"
+                      ></i>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr class="table-emptymessage">
+                <td class="w-full" colspan="6">
+                  <div class="card w-full">
+                    <div class="card-body w-full text-center">
+                      {{ 'TenantManagement::Feature:List:Empty' | abpLocalization }}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-treeTable>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<p-dialog [(visible)]="showFeatureDialog" [header]="featureDialogTitle" [modal]="true" [draggable]="false" *ngIf="feature?.data">
+  <div class="dialog-standard">
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::Feature:EditForm:Parent'| abpLocalization }}</label>
+      <div class="col-12 md:col-8">
+        <p-select [options]="parentList" [(ngModel)]="feature.data.parentName" [showClear]="false"
+          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
+          optionValue="value" optionLabel="name" (onChange)="resetFeatureValidators()">
+        </p-select>
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Feature:EditForm:DisplayName' | abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="feature.data.displayName" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': feature.validators.featureDisplayNameInvalid}" (input)="resetFeatureValidators()" />
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Feature:EditForm:Name'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="feature.data.name" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': feature.validators.featureNameInvalid}" (input)="resetFeatureValidators()" />
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::Feature:EditForm:DefaultValue'| abpLocalization }}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="feature.data.defaultValue" class="w-full" (input)="resetFeatureValidators()" />
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Feature:EditForm:ValueType'| abpLocalization }}</label>
+      <div class="col-12 md:col-8">
+        <p-select [options]="featureValueTypeList" [(ngModel)]="feature.data.valueType" [showClear]="false"
+          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
+          optionValue="value" optionLabel="name" [ngClass]="{'ng-invalid ng-dirty': feature.validators.featureValueTypeNotSelected}" (onChange)="resetFeatureValidators()">
+        </p-select>
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::Feature:EditForm:Description'| abpLocalization }}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="feature.data.description" class="w-full" (input)="resetFeatureValidators()" />
+      </div>
+    </div>
+
+    <div class="mt-2 flex gap-3" style="justify-content: end;">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" 
+      (onClick)="closeFeatureDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button> 
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+          (onClick)="saveFeature()" [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog [resizable]="false" [header]="groupDialogTitle" [(visible)]="showGroupDialog" [modal]="true" [draggable]="false" *ngIf="group?.data">
+  <div class="dialog-standard">
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Feature:EditGroupForm:Category' | abpLocalization}}</label>
+      <div class="col-12 md:col-8 flex align-items-center gap-2">
+        <input type="text" pInputText [(ngModel)]="group.data.categoryName" class="w-full" *ngIf="group.createCustomCategory"
+          [ngClass]="{'ng-invalid ng-dirty': group.validators.categoryEmpty}" (input)="resetGroupValidators()"/>
+        <p-select [options]="categoryList" [(ngModel)]="group.data.categoryName" [showClear]="false" *ngIf="!group.createCustomCategory"
+          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
+          optionValue="value" optionLabel="name" [ngClass]="{'ng-invalid ng-dirty': group.validators.categoryEmpty}" (onChange)="resetFeatureValidators()">
+        </p-select>
+        <p-checkbox [binary]="true" [(ngModel)]="group.createCustomCategory" [disabled]="loading" [label]="'TenantManagement::Feature:EditGroupForm:NewCategory' | abpLocalization" (onChange)="onNewCategory()">
+        </p-checkbox>
+      </div>
+    </div>
+    <div class="field grid">
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::Feature:EditGroupForm:Name'| abpLocalization}}</label>
+      <div class="col-12 md:col-8">
+        <input type="text" pInputText [(ngModel)]="group.data.name" class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': group.validators.nameEmpty}" (input)="resetGroupValidators()" />
+      </div>
+    </div>
+    <div class="mt-2 flex gap-3 justify-content-end">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" 
+      (onClick)="closeGroupDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button> 
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
+          (onClick)="saveGroup()" [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

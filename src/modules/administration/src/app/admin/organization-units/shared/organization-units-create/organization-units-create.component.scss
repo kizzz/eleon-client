@@ -1,0 +1,19 @@
+@import "primeflex/core/variables.scss";
+
+// .data {
+//     max-width: 22vw;
+//     min-width: 22vw;
+//     width: 22vw;
+//   }
+  .wrapper {
+    max-width: 85vw;
+    min-width: 85vw;
+    width: 85vw;
+  
+    @media screen and (min-width: $lg) {
+      max-width: 500px;
+      min-width: 500px;
+      width: 500px;
+      max-height: 500px;
+    }
+  }

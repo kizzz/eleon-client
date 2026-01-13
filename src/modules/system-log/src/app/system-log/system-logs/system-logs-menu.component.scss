@@ -1,0 +1,81 @@
+:host ::ng-deep .button-inline-sized {
+  height: min-content !important;
+  width: min-content !important;
+}
+::ng-deep .notificationsOverlay {
+  margin-left: 10px;
+
+  .p-popover-content {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+}
+
+::ng-deep .p-popover:after {
+  border-bottom-color: #354bb1;
+}
+
+:host ::ng-deep .system-logs-table .p-datatable-wrapper {
+  padding: 0;
+}
+
+:host ::ng-deep .system-logs-table .p-datatable-tbody > tr > td {
+  border: none;
+  padding: 0;
+}
+
+.logs-scroll-container {
+  min-height: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+
+.unread-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  color: var(--green-500);
+  font-weight: bold;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+
+  .bullet {
+    border-radius: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: var(--green-500);
+  }
+
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+
+.view-all:hover {
+  background-color: var(--menuitem-hover-bg)
+}
+
+.red-warning {
+  color: #F91A16;
+}
+.orange-warning {
+  color: #f97316;
+}

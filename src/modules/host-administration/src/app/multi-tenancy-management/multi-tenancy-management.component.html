@@ -1,0 +1,98 @@
+
+  <div class="content">
+      <p-table #table responsiveLayout="scroll" [value]="rows"
+        class="cell-center data-table" [rows]="rowsCount" [loading]="loading" [showCurrentPageReport]="true" [paginator]="true" [totalRecords]="totalRecords" sortMode="single" dataKey="data.connectionString">
+        <ng-template pTemplate="caption">
+          <div class="p-0 flex align-items-center justify-content-between">
+            <div class="flex align-items-center">
+              <label for="default-input" class="m-2">
+                {{ 'TenantManagement::ConnectionString:UseDedicatedDatabase' | abpLocalization }}
+              </label>
+              <p-checkbox [binary]="true" [(ngModel)]="useDedicatedDatabase" id="default-input" [disabled]="loading" 
+                          (onChange)="useDedicated($event.checked)" class="m-2">
+              </p-checkbox>
+            </div>
+            
+            <p-button [text]="true" [raised]="true" styleClass="p-button-warning" (onClick)="refresh()" 
+                      icon="fa fa-refresh"
+                      [label]="'TenantManagement::ConnectionString:Refresh' | abpLocalization" iconPos="left" 
+                      [disabled]="loading">
+            </p-button>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+             <th class="p-col-4">
+              <div>
+                {{'TenantManagement::ConnectionString:Header:Tenant' | abpLocalization}}
+              </div>
+            </th>
+            <th class="p-col-5">
+              <div class="text-center">
+                {{'TenantManagement::ConnectionString:Header:Value' | abpLocalization}}
+              </div>
+            </th>
+            <th *ngIf="!readonly" width="80px" style="width: 80px"></th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row>
+          <tr>
+            <td>
+              <span class="p-column-title" appRequired>
+                {{'TenantManagement::ConnectionString:Header:Tenant' | abpLocalization}}
+              </span>
+              <div class="flex align-items-center">
+                <app-ellipsis [text]="getTenantName(row.data.tenantId) || '-'"></app-ellipsis>
+              </div>
+            </td>
+
+            <td>
+              <span class="p-column-title">
+                {{'TenantManagement::ConnectionString:Header:Value' | abpLocalization}}
+              </span>
+
+              <ng-container *ngIf="row.isEditing; else notEditing">
+                <input id="service-input" class="w-full" [ngClass]="{'ng-invalid ng-dirty': row.validators.connectionStringInvalid}"
+                      (change)="resetRowValidators(row)" pInputText type="text" [(ngModel)]="row.data.connectionString">
+              </ng-container>
+              <ng-template #notEditing>
+                <div class="flex align-items-center justify-content-center text-center" >
+                  {{row.data.connectionString || '-'}}
+                </div>
+              </ng-template>
+            </td>
+
+            <td style="width: 80px">
+              <div class="column-content text-center">
+                <ng-container *ngIf="!row.isEditing; else editingIcon">
+                  <span class="buttons" style="cursor: pointer;" (click)="editRow(row)">
+                    <i class="fa fa-edit text-primary" style="color: blue"></i>
+                  </span>
+                </ng-container>
+                <ng-template #editingIcon>
+                  <span class="buttons m-2" style="cursor: pointer;" (click)="editRow(row)" [disabled]="loading">
+                    <i class="fa fa-check text-success" style="color: green;"></i>
+                  </span>
+                  <span class="buttons m-2" style="cursor: pointer;" (click)="cancelEditRow(row)" [disabled]="loading">
+                    <i class="fa fa-ban text-danger" style="color: red;"></i>
+                  </span>
+                </ng-template>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+
+        <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-full" colspan="5">
+              <div class="card w-full text-center">
+                {{'TenantManagement::ConnectionStrings:List:Empty' | abpLocalization}}
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+	</div>

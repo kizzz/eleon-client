@@ -1,0 +1,55 @@
+
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" [header]="'Infrastructure::OrganizationUnit:DialogTitle:Clone' | abpLocalization" [modal]=true (visibleChange)="closeEvent.emit()" >
+  <div class="data" [style.minWidth]="isMobileVersion() ? '100%' : '540px'">
+    <div class="field grid" [ngClass]="{'mt-3': isMobileVersion()}">
+      <label appRequired class="col-3 mb-0">
+        {{'Infrastructure::OrganizationUnit:Clone:Header:Name' | abpLocalization}}
+      </label>
+      <div class="col-9">
+        <input pInputText [(ngModel)]="cloneName" class="w-full"
+        [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+        (input)="resetNameValidator()">
+      </div>
+    </div>
+    <div class="grid field mb-0">
+			<label appRequired class="col-3 mb-0">
+        {{ 'Infrastructure::OrganizationUnit:Clone:Options' | abpLocalization }}
+			</label>
+			<div class="col-9">
+				<div class="grid field justify-content-between align-items-center mb-0 px-3">
+					<div class="col-4 py-2 px-1">
+						<div class="flex gap-3 align-items-center">
+							<label [ngClass]="{'sm-align': isMobileVersion()}">
+								{{ 'Infrastructure::With:Roles' | abpLocalization }}
+							</label>
+							<p-checkbox [(ngModel)]="cloneRoles" [binary]="true" inputId="binary"></p-checkbox>
+						</div>
+					</div>
+					<div class="col-4 py-2 px-0">
+						<div class="flex gap-3 align-items-center">
+							<label [ngClass]="{'sm-align': isMobileVersion()}">
+								{{ 'Infrastructure::With:Members' | abpLocalization }}
+							</label>
+							<p-checkbox [(ngModel)]="cloneMembers" [binary]="true" inputId="binary"></p-checkbox>
+						</div>
+					</div>
+					<div class="col-4 py-2 px-1">
+						<div class="flex gap-3 align-items-center">
+							<label [ngClass]="{'sm-align': isMobileVersion()}">
+								{{ 'Infrastructure::With:Children' | abpLocalization }}
+							</label>
+							<p-checkbox [(ngModel)]="cloneChildren" [binary]="true" inputId="binary"></p-checkbox>
+						</div>
+					</div>
+				</div>
+			</div>
+      
+    </div>
+  </div>
+
+
+  <ng-template pTemplate="footer">
+    <p-button [text]="true" [raised]="true" [label]="'Infrastructure::Clone' | abpLocalization"
+        (click)="clone()" icon="fa fa-check"></p-button>
+  </ng-template>
+  </p-dialog>

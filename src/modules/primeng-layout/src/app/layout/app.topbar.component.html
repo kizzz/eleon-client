@@ -1,0 +1,46 @@
+<div *ngIf="!isHidden" class="layout-topbar">
+
+  <div class="layout-topbar-start">
+    <a class="layout-topbar-logo hidden md:flex" routerLink="/home">
+      <ec-container [key]="'layout-primeng-logo'"></ec-container>
+    </a>
+    <div class=" hidden md:block">
+      <button #menubutton1 class="p-link layout-menu-button layout-topbar-button text-center"
+        (click)="layoutService.onMenuToggle()" pRipple>
+        <i class="fa-solid fa-angles-right"></i>
+      </button>
+    </div>
+    <!-- Mobile -->
+    <button #menubutton2 class="p-link layout-topbar-button md:hidden block text-center"
+      (click)="layoutService.onMenuToggle()" pRipple>
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <div class="md:hidden block layout-topbar-logo">
+      <ng-container *ngIf="isThemeDark">
+        <img alt="Logo" [src]="appearance.darkIcon$ | async" class="app-sidebar-logo-minimize layout-topbar-logo-full"
+          style="max-width: 200px; max-height: 55px" style="margin-left: -5px !important" />
+      </ng-container>
+      <ng-container *ngIf="isThemeLight">
+        <img alt="Logo" [src]="appearance.lightIcon$ | async" class="app-sidebar-logo-minimize layout-topbar-logo-full"
+          style="max-width: 200px; max-height: 55px" style="margin-left: -5px !important" />
+      </ng-container>
+    </div>
+  </div>
+  <!-- <div class="layout-topbar-end">
+
+  </div> -->
+  <!-- <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+    
+    </button> -->
+
+  <app-breadcrumb class="mx-4" *ngIf="!isHideBreadCrumbs()"></app-breadcrumb>
+
+  <div style="margin:auto" class="flex gap-2">
+    <app-topbar-custom></app-topbar-custom>
+  </div>
+
+  <ec-container [key]="'layout-primeng-topbar-right-main'">    
+  </ec-container>
+
+</div>

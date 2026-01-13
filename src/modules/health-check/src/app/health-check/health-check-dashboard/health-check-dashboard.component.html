@@ -1,0 +1,91 @@
+
+  
+    <app-page-title [title]="'HealthCheckModule::Dashboard:Title' | abpLocalization" icon="fas fa-heart-pulse">
+      <ng-template #rightContent>
+        <div>
+          <p-button [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm" autoWidth="false"
+            [label]="'HealthCheckModule::Reload' | abpLocalization" icon="pi pi-sync" (click)="reloadBackgroundJobs()">
+          </p-button>
+        </div>
+      </ng-template>
+    </app-page-title>
+  <div class="content mt-2">
+    <div #tableCard>
+      <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+      [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" [lazy]="true" (onLazyLoad)="loadBackgroundJobs($event)" [rows]="10"
+      styleClass="pr-table" [totalRecords]="totalRecords" [loading]="loading" [value]="rows" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15, 20]"
+      (onRowSelect)="select($event)" selectionMode="single" sortMode="single"
+      sortOrder="-1">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="type">
+            {{ "HealthCheckModule::Header:Type" | abpLocalization }}
+            <p-sortIcon field="type"></p-sortIcon>
+          </th>
+          <th pSortableColumn="initiatorName">
+            {{ "HealthCheckModule::Header:Initiator" | abpLocalization }}
+            <p-sortIcon field="initiatorName"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="160" pSortableColumn="creationTime">
+            {{ "HealthCheckModule::Header:CreationTime" | abpLocalization }}
+            <p-sortIcon field="creationTime"></p-sortIcon>
+          </th>
+          <th appResponsiveColumn="90" pSortableColumn="status">
+            {{ "HealthCheckModule::Header:Status" | abpLocalization }}
+            <p-sortIcon field="status"></p-sortIcon>
+          </th>
+					<th appResponsiveColumn="10">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr [pSelectableRow]="row">
+          <td>
+            <span class="non-editing-only p-column-title">{{'HealthCheckModule::Header:Type' | abpLocalization}}</span>
+						<i [class]="getTypeIcon(row.type)"></i>
+            <span class="column-content ml-2" [ngClass]="'type-' + row.type | lowercase">
+              {{ row.type }}
+            </span>
+          </td>
+          <td>
+            <span class="non-editing-only p-column-title">{{'HealthCheckModule::Header:Initiator' | abpLocalization}}</span>
+            <span class="column-content">
+              {{ row.initiatorName || '-' }}
+            </span>
+          </td>
+          <td style="width:160px">
+            <span class="non-editing-only p-column-title">{{'HealthCheckModule::Header:CreationTime' | abpLocalization}}</span>
+            <span class="column-content">
+              {{row.creationTime | date:'short'}}
+            </span>
+          </td>
+          <td style="width:90px">
+            <span class="non-editing-only p-column-title">{{'BackgroundJob::Header:Status' | abpLocalization}}</span>
+            <span class="column-content">
+               <p-tag [value]="getStatusName(row.status)" [severity]="getStatusClass(row.status)"></p-tag>
+            </span>
+          </td>
+          <!-- Icons column -->
+          <td style="width:10px">
+            <div class="flex align-items-center justify-content-end">
+              <span class="fa fa-magnifying-glass text-primary"></span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-100" colspan="9999">
+            <div class="card w-100">
+              <div class="card-body w-100">
+                <div class="card-header text-center">
+                  {{getEmptyMessage() | abpLocalization}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    </div>
+  </div>

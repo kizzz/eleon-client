@@ -1,0 +1,87 @@
+{
+  "name": "sakai-ng-layout",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "src/modules/sakai-ng-layout/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "bin/debug/modules/{projectName}",
+        "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
+        "index": "{workspaceRoot}/src/shared/index.html",
+        "main": "src/modules/sakai-ng-layout/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "src/modules/sakai-ng-layout/tsconfig.json",
+        "assets": [
+          "src/modules/sakai-ng-layout/src/assets"
+        ],
+        "styles": [
+          "src/modules/sakai-ng-layout/src/styles.scss"
+        ],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "src/modules/sakai-ng-layout/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "release": {
+          "outputPath": "bin/release/modules/{projectName}"
+        },
+        "immurelease": {
+          "outputPath": "bin/immurelease/modules/{projectName}"
+        }
+      },
+      "defaultConfiguration": "debug"
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "disableHostCheck": true,
+        "port": 4205
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "sakai-ng-layout:build:production"
+        },
+        "development": {
+          "buildTarget": "sakai-ng-layout:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "sakai-ng-layout:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "sakai-ng-layout:build",
+        "port": 4205,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "sakai-ng-layout:build:development"
+        },
+        "production": {
+          "buildTarget": "sakai-ng-layout:build:production"
+        }
+      }
+    }
+  }
+}

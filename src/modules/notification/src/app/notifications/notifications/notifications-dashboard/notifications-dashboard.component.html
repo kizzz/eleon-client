@@ -1,0 +1,93 @@
+
+  
+    <app-page-title [title]="'NotificatorModule::NotificationsDashboard:Title' | abpLocalization" *ngIf="showTitle"
+      icon="fas fa-envelope-open" [businessSelection]="false" [displayVersion]="false">
+    </app-page-title>
+  
+  <div class="content">
+    <p-table [value]="notifications" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+      [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint"
+    selectionMode="single"
+      [(first)]="firstRowIx" scrollDirection="both" class="cell-center" [loading]="loading" [lazy]="true" (onPage)="paginate($event)" 
+      (onLazyLoad)="loadNotifications($event)" [(rows)]="rowsCount" [totalRecords]="totalRecords" [paginator]="true" [pageLinks]="pageLinks"
+      sortMode="single" [rowsPerPageOptions]="[15,25,50]" [filterDelay]="0" [showCurrentPageReport]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th appResponsiveColumn="10">
+          </th>
+          <th appResponsiveColumn="70" style="width:1%; min-width: 200px">
+            {{"NotificatorModule::Notification:Date" | abpLocalization}}
+          </th>
+          <th appResponsiveColumn="400">
+            {{"NotificatorModule::Notification:Content" | abpLocalization}}
+          </th>
+          <th appResponsiveColumn="100">
+            <div class="flex align-items-center justify-content-end">
+              <ng-container *ngIf="false">
+                <p-datepicker
+                  [isRequired]="false" [showButtonBar]="true"
+                  class="ng-dirty" [disabled]="loading" [showTime]="false"
+                  styleClass="w-full" [(ngModel)]="datesRange" selectionMode="range"
+                  [showIcon]="true" inputId="icon" appendTo="body"
+                  placeholder="{{ 'NotificatorModule::Date' | abpLocalization }}">
+                </p-datepicker>
+              </ng-container>
+              <p-button [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm" autoWidth="false"
+                [label]="'NotificatorModule::Reload' | abpLocalization" icon="pi pi-sync" [loading]="loading" [disabled]="loading"
+                (click)="reloadNotifications()">
+              </p-button>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr class="cursor-pointer" (click)="openNotificationDetails(row)">
+          <td appResponsiveColumn="10">
+            <span class="column-content">
+              <i class="fa fa-envelope fa-lg text-gray-500 mr-2"></i>
+            </span>
+          </td>
+          <td style="width:1%; min-width: 200px">
+            <span class="non-editing-only p-column-title">
+              {{"NotificatorModule::Notification:Date" | abpLocalization}}
+            </span>
+            <span class="column-content">
+              <div class="flex align-items-center gap-2">
+                <span>{{row.creationTime | date:"medium"}}</span>
+              </div>
+            </span>
+          </td>
+          <td colspan="2">
+            <span class="non-editing-only p-column-title">
+              {{"NotificatorModule::Notification:Content" | abpLocalization}}
+            </span>
+            <span class="column-content">
+              <div class="textAlign">
+                {{ getContentLocalization(row) | abpLocalization}}
+              </div>
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="4">
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header text-center">
+                  {{'NotificatorModule::NoNotifications' | abpLocalization}}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+<app-notification-details-dialog
+  [(visible)]="showNotificationDetailsDialog"
+  [notification]="selectedNotification"
+  (closed)="onNotificationDetailsDialogClosed()"
+>
+</app-notification-details-dialog>

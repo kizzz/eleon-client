@@ -1,0 +1,44 @@
+<div>
+  <p-dialog [resizable]="false" [header]="title" [(visible)]="display" [modal]="true" [draggable]="false">
+    <div class="grid data m-0">
+      <div class="col-12">
+          <div class="grid flex align-items-center">
+              <div class="md:col-3 col-12 pb-0">
+                  <span>
+                      {{'Infrastructure::Widget' | abpLocalization}}
+                  </span>
+              </div>
+              <div class="md:col-9 col-12">
+                <p-select [options]="localizedWidgets" class="w-full"
+                  [(ngModel)]="selectedWidget" appendTo="body"
+                  optionValue="value" optionLabel="name" [filter]="false"
+                  autoWidth="false" [style]="{'width':'100%'}">
+                </p-select>
+              </div>
+          </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary p-button-sm" autoWidth="false"
+          [label]="'Infrastructure::Cancel' | abpLocalization" icon="pi pi-times"
+          (click)="closeDialog()">
+      </p-button>
+      <p-button [text]="true" [raised]="true" styleClass="p-button-primary p-button-sm" autoWidth="false"
+          [label]="'Infrastructure::Select' | abpLocalization" icon="fa fa-check"
+          (click)="select()">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+  <ng-container *ngIf="beforeButton; else defaultButton">
+    <div class="input-group w-full flex">
+      <p *ngTemplateOutlet="beforeButton"></p>
+      <button pButton (click)="showDialog()" style="width:3rem" icon="fas fa-pen"></button>
+    </div>
+  </ng-container>
+  <ng-template #defaultButton>
+    <div (click)="showDialog()">
+      <div *ngTemplateOutlet="button">
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,159 @@
+<div class="card p-fluid single-column-wrapper">
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:TelemetryStorageProvider' | abpLocalization }}</label>
+    <app-storage-provider-selection
+      [showWithCard]="false"
+      [readOnly]="telemetryFieldsDisabled"
+      [defaultSelectedId]="telemetrySettings.storageProviderId"
+      (storageProviderSelectionEvent)="onStorageProviderSelected($event)"
+    ></app-storage-provider-selection>
+  </div>
+
+  <div class="field half-width-field">
+    <div class="flex align-items-center gap-2">
+      <label>{{ 'TenantManagement::Telemetry:Enabled' | abpLocalization }}</label>
+      <p-checkbox
+        [(ngModel)]="telemetrySettings.enabled"
+        (onChange)="onTelemetrySettingsChange()"
+        binary="true"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <div class="field half-width-field">
+    <div class="flex align-items-center gap-2">
+      <label>{{ 'TenantManagement::Telemetry:EnabledOnClient' | abpLocalization }}</label>
+      <p-checkbox
+        [(ngModel)]="telemetrySettings.enabledOnClient"
+        (onChange)="onTelemetrySettingsChange()"
+        binary="true"
+        [disabled]="telemetryFieldsDisabled"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <div class="full-width-block">
+    <h5>{{ 'TenantManagement::Telemetry:BatchSettings' | abpLocalization }}</h5>
+  </div>
+
+  <div class="field half-width-field">
+    <div class="flex align-items-center gap-2">
+      <label>{{ 'TenantManagement::Telemetry:TracesUseBatch' | abpLocalization }}</label>
+      <p-checkbox
+        [(ngModel)]="telemetrySettings.tracesUseBatch"
+        (onChange)="onTelemetrySettingsChange()"
+        binary="true"
+        [disabled]="telemetryFieldsDisabled"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <div class="field half-width-field">
+    <div class="flex align-items-center gap-2">
+      <label>{{ 'TenantManagement::Telemetry:MetricsUseBatch' | abpLocalization }}</label>
+      <p-checkbox
+        [(ngModel)]="telemetrySettings.metricsUseBatch"
+        (onChange)="onTelemetrySettingsChange()"
+        binary="true"
+        [disabled]="telemetryFieldsDisabled"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <div class="field half-width-field">
+    <div class="flex align-items-center gap-2">
+      <label>{{ 'TenantManagement::Telemetry:LogsUseBatch' | abpLocalization }}</label>
+      <p-checkbox
+        [(ngModel)]="telemetrySettings.logsUseBatch"
+        (onChange)="onTelemetrySettingsChange()"
+        binary="true"
+        [disabled]="telemetryFieldsDisabled"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <div class="full-width-block">
+    <h5>{{ 'TenantManagement::Telemetry:Endpoints' | abpLocalization }}</h5>
+  </div>
+
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:TracesEndpoint' | abpLocalization }}</label>
+    <input
+      type="text"
+      pInputText
+      class="w-full"
+      [(ngModel)]="telemetrySettings.tracesEndpoint"
+      (ngModelChange)="onTelemetrySettingsChange()"
+      [readonly]="telemetryFieldsDisabled"
+    />
+  </div>
+
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:TracesProtocol' | abpLocalization }}</label>
+    <p-select
+      [(ngModel)]="telemetrySettings.tracesProtocol"
+      [options]="protocolOptions"
+      optionValue="value"
+      optionLabel="name"
+      (onChange)="onTelemetrySettingsChange()"
+      appendTo="body"
+      [style]="{'width':'100%'}"
+      [disabled]="telemetryFieldsDisabled"
+    >
+    </p-select>
+  </div>
+
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:MetricsEndpoint' | abpLocalization }}</label>
+    <input
+      type="text"
+      pInputText
+      class="w-full"
+      [(ngModel)]="telemetrySettings.metricsEndpoint"
+      (ngModelChange)="onTelemetrySettingsChange()"
+      [readonly]="telemetryFieldsDisabled"
+    />
+  </div>
+
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:MetricsProtocol' | abpLocalization }}</label>
+    <p-select
+      [(ngModel)]="telemetrySettings.metricsProtocol"
+      [options]="protocolOptions"
+      optionValue="value"
+      optionLabel="name"
+      (onChange)="onTelemetrySettingsChange()"
+      appendTo="body"
+      [style]="{'width':'100%'}"
+      [disabled]="telemetryFieldsDisabled"
+    >
+    </p-select>
+  </div>
+
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:LogsEndpoint' | abpLocalization }}</label>
+    <input
+      type="text"
+      pInputText
+      class="w-full"
+      [(ngModel)]="telemetrySettings.logsEndpoint"
+      (ngModelChange)="onTelemetrySettingsChange()"
+      [readonly]="telemetryFieldsDisabled"
+    />
+  </div>
+
+  <div class="field half-width-field">
+    <label>{{ 'TenantManagement::Telemetry:LogsProtocol' | abpLocalization }}</label>
+    <p-select
+      [(ngModel)]="telemetrySettings.logsProtocol"
+      [options]="protocolOptions"
+      optionValue="value"
+      optionLabel="name"
+      (onChange)="onTelemetrySettingsChange()"
+      appendTo="body"
+      [style]="{'width':'100%'}"
+      [disabled]="telemetryFieldsDisabled"
+    >
+    </p-select>
+  </div>
+</div>

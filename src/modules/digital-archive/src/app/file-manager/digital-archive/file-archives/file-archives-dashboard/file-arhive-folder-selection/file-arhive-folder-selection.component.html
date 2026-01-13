@@ -1,0 +1,56 @@
+<p-dialog
+  [visible]="display"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [blockScroll]="true"
+  [style]="{ width: '80vw', 'max-width': '1100px' }"
+  (onHide)="onHide()"
+>
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <i class="fa-solid fa-folder-open mr-2"></i>
+      {{ 'FileManager::SelectFolder:Title' | abpLocalization }}
+    </div>
+  </ng-template>
+
+  <div class="dialog-body">
+    <div class="error" *ngIf="!storageProviderId">
+      {{ 'FileManager::Error:StorageRequared' | abpLocalization }}
+    </div>
+    <app-file-manager-explorer
+      *ngIf="storageProviderId && display"
+      [archiveId]="storageProviderId"
+      [viewMode]="fileExplorerView.OnlyExplorer"
+      [defaultTab]="fileManagerTab.FolderExplorer"
+      [selectedFolderId]="selectedFolderId"
+      [folderSelectionMode]="true"
+    >
+    </app-file-manager-explorer>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        (click)="onHide()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+      >
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="pi pi-check"
+        (click)="confirm()"
+        [disabled]="!canSelect() || !storageProviderId"
+        [label]="'Infrastructure::Save' | abpLocalization"
+      >
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

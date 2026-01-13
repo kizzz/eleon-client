@@ -1,0 +1,29 @@
+:host ::ng-deep .p-multiselect  {
+    height: 43px !important;
+  }
+  
+:host ::ng-deep p-dropdown .p-inputtext {
+  font-size: 13px;
+}
+
+:host ::ng-deep{
+  @media (min-width: 768px) {
+    .data-table .p-datatable .p-datatable-tbody>tr >td{
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
+    .data-table .p-datatable .p-datatable-tbody>tr{
+      height: 49.44px !important;
+    }
+    
+  }
+  @media (min-width: 992px) {
+    .data-table .p-datatable .p-datatable-tbody>tr >td{
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
+    .data-table .p-datatable .p-datatable-tbody>tr{
+      height: 49.44px !important;
+    }
+  }    
+}

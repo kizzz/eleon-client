@@ -1,0 +1,57 @@
+<app-page-title 
+  *ngIf="readonlyViewMode() === fileExplorerView.Full"
+  [title]="getTitle()" 
+  icon="fa-solid fa-folder-tree">
+</app-page-title>
+
+
+<div class="card md:mt-0 mt-2">
+  <app-file-manager-explorer-table 
+    *ngIf="readonlyViewMode() === fileExplorerView.OnlyExplorer"
+    [folderSelectionMode]="folderSelectionMode">
+  </app-file-manager-explorer-table>
+
+  <p-tabs *ngIf="readonlyViewMode() === fileExplorerView.Full"
+    [(value)]="activeIndex" (valueChange)="onTabChanged($event)">
+    <p-tablist>
+      <p-tab [value]="0">
+        <div class="flex gap-3 align-items-center">
+          <i class="fa-regular fa-folder-open"></i>
+          <span class="hidden md:block">{{ 'FileManager::FileExplorer' | abpLocalization }}</span>
+        </div>
+      </p-tab>
+      <p-tab [value]="1">
+        <div class="flex gap-3 align-items-center">
+          <i class="pi pi-star"></i>
+          <span class="hidden md:block">{{ 'FileManager::Favourites' | abpLocalization }}</span>
+        </div>
+      </p-tab>
+      <p-tab [value]="2">
+        <div class="flex gap-3 align-items-center">
+          <i class="pi pi-trash"></i>
+          <span class="hidden md:block">{{ 'FileManager::Trash' | abpLocalization }}</span>
+        </div>
+      </p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel [value]="0">
+        <app-file-manager-explorer-table 
+          *ngIf="activeIndex === 0"
+          [folderSelectionMode]="folderSelectionMode">
+        </app-file-manager-explorer-table>
+      </p-tabpanel>
+      <p-tabpanel [value]="1">
+        <app-file-manager-explorer-table 
+          *ngIf="activeIndex === 1"
+          [folderSelectionMode]="folderSelectionMode">
+        </app-file-manager-explorer-table>
+      </p-tabpanel>
+      <p-tabpanel [value]="2">
+        <app-file-manager-explorer-table 
+          *ngIf="activeIndex === 2"
+          [folderSelectionMode]="folderSelectionMode">
+        </app-file-manager-explorer-table>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>

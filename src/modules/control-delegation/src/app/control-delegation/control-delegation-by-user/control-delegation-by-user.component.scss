@@ -1,0 +1,9 @@
+:host ::ng-deep .textAlign {
+    text-align: left;
+  }
+  
+  :host ::ng-deep {
+    .w-100 .p-inputnumber {
+      width: 100%;
+    }
+  }

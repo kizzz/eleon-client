@@ -1,0 +1,16 @@
+.creation-time-absolute {
+  position: absolute;
+  right: 0;
+  transform: translateX(calc(100% + 0.5rem));
+}
+
+.time-bullet {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--gray-400);
+}
+
+.p-custom{
+  padding: 0.7rem !important;
+}

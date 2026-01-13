@@ -1,0 +1,23 @@
+:host ::ng-deep .p-tag.new {
+    background: var(--yellow-500);
+  }
+  
+  :host ::ng-deep .p-tag.waitingforconfirmation {
+    background: var(--primary-500);
+  }
+  
+  :host ::ng-deep .p-tag.active {
+    background: var(--green-500);
+  }
+  
+  :host ::ng-deep .p-tag.waitingforregistration {
+    background: var(--gray-800);
+  }
+  
+  :host ::ng-deep .p-tag.waitingforaccept {
+    background: var(--orange-500);
+  }
+  
+  :host ::ng-deep .p-tag.rejected {
+    background: var(--red-800);
+  }

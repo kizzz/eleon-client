@@ -1,0 +1,23 @@
+@import "primeflex/core/variables.scss";
+
+.wrapper {
+  max-width: 95vw;
+  min-width: 95vw;
+  width: 95vw;
+  max-height: 400px;
+
+  @media screen and (min-width: $lg) {
+    max-width: 400px;
+    min-width: 400px;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.row{
+  cursor: pointer;
+}
+
+.row:hover{
+  background-color: var(--primary-50);
+}

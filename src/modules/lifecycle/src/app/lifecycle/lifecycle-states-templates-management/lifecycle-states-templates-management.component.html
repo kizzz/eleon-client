@@ -1,0 +1,91 @@
+<p-table #statesTable *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+  [scrollable]="scrollable" responsiveLayout="scroll" [breakpoint]="breakpoint" rowHover="true"
+  scrollDirection="both" class="cell-center p-datatable" [lazy]="true" [loading]="loading" (onLazyLoad)="loadStates()"
+  (onRowReorder)="reorder()" editMode="row" [value]="rows" dataKey="id" rowExpandMode="single"
+  [reorderableColumns]="true" [expandedRowKeys]="expandedRowKeys" [attr.id]="statesGroup.id">
+  <ng-template pTemplate="body" let-state let-rowIndex="rowIndex" let-expanded="expanded" let-editing="editing">
+    <tr #rowRef [pEditableRow]="state" [pSelectableRow]="state" [pReorderableRow]="rowIndex" class="group-row selectable-row" >
+      <td style="text-align: left !important; justify-content: start !important; min-width: 200px">
+        <div class="flex align-items-center">
+          <span class="pi pi-bars mx-3" pReorderableRowHandle></span>
+          <span class="p-3 pointer">
+            <i [pRowToggler]="state" *ngIf="!expanded" class="fas fa-chevron-right"
+              (click)="expandRow(state)">
+            </i>
+            <i *ngIf="expanded" [pRowToggler]="state" class="fas fa-chevron-down"
+              (click)="collapsRow(state)">
+            </i>
+          </span>
+          <p-cellEditor class="w-full">
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="state.stateName" class="w-full">
+            </ng-template>
+            <ng-template pTemplate="output">
+              <app-ellipsis [text]="state.stateName" style="min-width:100px"></app-ellipsis>
+            </ng-template>
+          </p-cellEditor>
+        </div>
+      </td>
+      <td style="width:1%; max-width: 110px; min-width: 110px;">
+        <p-cellEditor *ngIf="isLifecycleManager()">
+          <ng-template pTemplate="input">
+            <p-select [options]="approvalTypes" [(ngModel)]="state.approvalType" optionLabel="name"
+              optionValue="value">
+            </p-select>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{getTypeLocalization(state.approvalType)}}
+          </ng-template>
+        </p-cellEditor>
+				<span *ngIf="!isLifecycleManager()">
+					{{getTypeLocalization(state.approvalType)}}
+				</span>
+      </td>
+      <td style="width:1%; max-width: 100px; min-width: 100px;" pFrozenColumn *ngIf="isLifecycleManager()">
+        <span class="text-primary pointer" (click)="addActor(state)" *ngIf="!editing">
+          <i class="fa-solid fa-user-plus"></i>
+        </span>
+      </td>
+      <td style="width:1%; max-width: 80px; min-width: 80px;" *ngIf="isLifecycleManager()">
+        <p-toggleswitch [(ngModel)]="state.isActive" *ngIf="!editing && false"
+          (ngModelChange)="enable(state)"></p-toggleswitch>
+      </td>
+      <td style="width:1%; max-width: 100px; min-width: 100px;" class="row-buttons" pFrozenColumn *ngIf="isLifecycleManager()">
+        <ng-container *ngIf="editing">
+          <button (click)="saveEditedState(state, rowRef)" pButton type="button"
+            [pTooltip]="'Infrastructure::Save' | abpLocalization" icon="fa fa-check"
+            class="p-button-text p-button-rounded p-button-success"></button>
+          <button (click)="cancelStateEditing(state)" pButton type="button" icon="fa fa-ban"
+            [pTooltip]="'Infrastructure::Cancel' | abpLocalization"
+            class="p-button-text p-button-rounded p-button-danger"></button>
+        </ng-container>
+        <ng-container *ngIf="!editing">
+          <button (click)="editState(state)" pButton type="button" icon="fa fa-edit"
+            [pTooltip]="'Infrastructure::Edit' | abpLocalization"
+            class="p-button-text p-button-rounded p-button-primary"></button>
+          <button (click)="removeState(state)" pButton type="button" icon="fa fa-trash"
+            [pTooltip]="'Infrastructure::Remove' | abpLocalization"
+            class="p-button-text p-button-rounded p-button-danger"></button>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #expandedrow let-state let-index="rowIndex">
+    <tr>
+      <td colspan="5">
+        <app-lifecycle-state-actors-templates-management
+          [statesGroup]="statesGroup" [state]="state">
+        </app-lifecycle-state-actors-templates-management>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-full" colspan="5">
+        <div class="card w-full">
+          {{ 'Lifecycle::States:NoStepsAddedYet' | abpLocalization }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

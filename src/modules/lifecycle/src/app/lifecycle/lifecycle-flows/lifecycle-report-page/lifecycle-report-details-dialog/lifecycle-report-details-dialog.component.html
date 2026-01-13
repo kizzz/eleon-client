@@ -1,0 +1,270 @@
+<p-dialog
+  [visible]="visible"
+  (visibleChange)="onVisibleChange($event)"
+  (onHide)="onHide()"
+  [modal]="true"
+  [style]="{ width: '700px', height: '80vh' }"
+  [closable]="true"
+  [resizable]="false"
+ 
+  [draggable]="false"
+  [baseZIndex]="10000"
+  [focusOnShow]="false"
+  [contentStyle]="{
+    padding: '0',
+    overflow: 'hidden',
+    display: 'flex',
+    'flex-direction': 'column'
+  }"
+  *ngIf="report"
+>
+  <ng-template pTemplate="header" class="p-dialog-header">
+    <div class="d-flex align-items-center justify-content-start">
+      <span class="fa fa-file-lines"></span>
+      <span class="p-dialog-title">
+        {{ 'Lifecycle::Report:Details' | abpLocalization }}
+      </span>
+    </div>
+  </ng-template>
+
+  <div
+    style="
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 0 1rem;
+    "
+  >
+    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+      <div class="textAlign">
+        <p-tabs value="general-info">
+          <p-tablist>
+            <p-tab value="general-info">
+              <span>
+                {{ 'Infrastructure::GeneralInformation' | abpLocalization }}
+              </span>
+            </p-tab>
+            <p-tab value="extra-properties" *ngIf="hasExtraProperties">
+              <span>
+                {{ 'Lifecycle::Report:ExtraProperties' | abpLocalization }}
+              </span>
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="general-info">
+            <ul class="list-none p-0 m-0">
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:Id' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ report?.id || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:DocumentId' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ report?.documentId || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:DocumentObjectType' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{
+                      'Lifecycle::DocumentObjectType:' +
+                        report?.documentObjectType | abpLocalization
+                    }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:CreationTime' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{ report?.creationTime | date : 'M/d/yy, H:mm' }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{
+                    'Lifecycle::Report:LastModificationTime' | abpLocalization
+                  }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{
+                      report?.lastModificationTime
+                        ? (report.lastModificationTime | date : 'M/d/yy, H:mm')
+                        : '-'
+                    }}
+                  </span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:LastModifierId' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{
+                    report?.lastModifierId || '-'
+                  }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:GroupName' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ report?.groupName || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:Status' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <p-tag
+                    [value]="getStatusLabel(report?.status)"
+                    [severity]="getStatusColor(report?.status)"
+                  ></p-tag>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:Role' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">{{ report?.role || '-' }}</span>
+                </div>
+              </li>
+
+              <li
+                class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
+              >
+                <label
+                  class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                >
+                  {{ 'Lifecycle::Report:StatusDate' | abpLocalization }}
+                </label>
+                <div
+                  class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                >
+                  <span class="text-900">
+                    {{ report?.statusDate | date : 'M/d/yy, H:mm' }}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </p-tabpanel>
+
+          <p-tabpanel value="extra-properties" *ngIf="hasExtraProperties">
+            <p-table
+              [value]="report?.extraProperties | keyvalue"
+              [responsiveLayout]="'scroll'"
+              class="p-datatable-sm mt-3 expand-vertical"
+            >
+              <ng-template pTemplate="body" let-prop>
+                <tr>
+                  <td class="text-500 font-medium">
+                    {{ prop.key | abpLocalization }}
+                  </td>
+                  <td class="text-900 field-col">
+                    <span style="overflow-wrap: anywhere">{{
+                      prop.value
+                    }}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+
+    <!-- footer / close -->
+    <div style="padding: 1rem; text-align: right">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary p-button-sm"
+        style="width: 10rem"
+        (click)="onVisibleChange(false)"
+        icon="fa fa-times"
+        label="{{ 'Infrastructure::Close' | abpLocalization }}"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

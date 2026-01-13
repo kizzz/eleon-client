@@ -1,0 +1,36 @@
+@import "primeflex/core/variables.scss";
+
+.wrapper {
+  max-width: 85vw;
+  min-width: 85vw;
+  min-height: 50vw;
+  max-height: 50vw;
+  width: 85vw;
+
+  @media screen and (min-width: $lg) {
+    max-width: 520px;
+    min-width: 520px;
+    min-height: 350px;
+    max-height: 350px;
+    height: 350px;
+    width: 520px;
+  }
+}
+
+::ng-deep .p-dialog-content {
+  overflow-y: clip;
+}
+
+
+.icon-close-button {
+  cursor: pointer;
+  color: #6c757d;
+  transition: box-shadow 0.3s ease;
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+.icon-close-button:hover {
+  box-shadow: 0 0 0 5px rgba(108, 117, 125, 0.2);
+  background-color: rgba(108, 117, 125, 0.2);
+}

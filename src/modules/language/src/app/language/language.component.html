@@ -1,0 +1,25 @@
+
+<ng-container *ngIf="!isLanguageHidden">
+  <p-popover #langs styleClass="menu-overlay lang-layout-menu" appendTo="body" (onShow)="visible=true" (onHide)="visible=false">
+    <p-listbox [options]="languages" [(ngModel)]="currentLang" optionLabel="cultureName" dataKey="cultureName"
+       [listStyle]="{'max-height': '16.5rem'}" optionValue="cultureName" class="w-full md:w-56"  
+      (ngModelChange)="onLanguageChange()" *ngIf="visible" > <!--virtualScroll="true" [virtualScrollItemSize]="30"-->
+      <ng-template let-lang pTemplate="item">
+        <div class="flex align-items-center gap-1">
+
+          <span class="symbol symbol-20px"> <!--  mr-1 -->
+            <img class="rounded-1 " [src]="'/resources/media/flags/svg/' + (lang.cultureName) + '.svg'" alt="sakai" />
+
+          </span>
+          <span>
+            {{lang.displayName}}
+          </span>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </p-popover>
+
+
+  <img class="mx-1 my-auto cursor-pointer" [src]="'/resources/media/flags/svg/' + (currentLang) + '.svg'" width="32px" alt="sakai"
+    (click)="langs.toggle($event)" />
+</ng-container>

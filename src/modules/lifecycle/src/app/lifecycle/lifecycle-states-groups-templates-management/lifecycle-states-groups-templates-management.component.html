@@ -1,0 +1,18 @@
+<div class="grid m-0">
+  <div class="lg:col-8 md:col-8 col-12">
+    <div class="card-body">
+      <app-lifecycle-states-groups-templates-management-table
+        (groupSelection)="select($event)" (groupEditEvent)="edit($event)" (groupSavedEvent)="saved($event)">
+      </app-lifecycle-states-groups-templates-management-table>
+    </div>
+  </div>
+  <div class="lg:col-4 md:col-4 col-12">
+    <div class="card">
+      <div class="card-body">
+        <app-lifecycle-states-groups-templates-management-details
+          [selectedStateGroup]="selectedStatesGroup">
+        </app-lifecycle-states-groups-templates-management-details>
+      </div>
+    </div>
+  </div>
+</div>

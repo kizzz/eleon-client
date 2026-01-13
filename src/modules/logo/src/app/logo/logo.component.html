@@ -1,0 +1,14 @@
+<ng-container *ngIf="!isLogoHidden">
+    <ng-container *ngIf="isThemeDark">
+    <img alt="Logo" [src]="appearance.darkLogo$ | async" class="app-sidebar-logo-default layout-topbar-logo-full layout-sidebar-logo"
+      style="max-width: 200px; max-height: 55px" />
+    <img alt="Logo" [src]="appearance.darkIcon$ | async" class="app-sidebar-logo-minimize layout-topbar-logo-slim layout-sidebar-logo-slim"
+      style="max-width: 200px; max-height: 55px" style="margin-left: -5px !important" />
+    </ng-container>
+    <ng-container *ngIf="isThemeLight">
+    <img alt="Logo" [src]="appearance.lightLogo$ | async" class="app-sidebar-logo-default layout-topbar-logo-full layout-sidebar-logo"
+      style="max-width: 200px; max-height: 55px" />
+    <img alt="Logo" [src]="appearance.lightIcon$ | async" class="app-sidebar-logo-minimize layout-topbar-logo-slim layout-sidebar-logo-slim"
+      style="max-width: 200px; max-height: 55px" style="margin-left: -5px !important" />
+    </ng-container>
+</ng-container>

@@ -1,0 +1,39 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+<div class="loading" *ngIf="isLoading">
+   <p>{{'Infrastructure::Loading'}}...</p>
+</div>
+
+<div [ngStyle]="{ border: borderCss }">
+   <canvas #canvasElement id="canvas"></canvas>
+</div>
+<div class="toolbar w-100" *ngIf="!isLoading">
+   <div class="flex align-items-center p-4 w-100 justify-content-between">
+      <div class="flex align-items-center gap-4">
+         <div class="flex align-items-center gap-2">
+            <i class="material-icons btn" [class.selected]="currentTool == 'brush'"
+               (click)="selectTool('brush')">brush</i>
+            <div class="flex align-items-center gap-1">
+               <span *ngFor="let drawingSizeName of drawingSizesName" class="size"
+                  [style.width.px]="drawingSizes[drawingSizeName] * 0.8 + 8"
+                  [style.height.px]="drawingSizes[drawingSizeName] * 0.8 + 8"
+                  [style.borderRadius.px]="drawingSizes[drawingSizeName] * 0.4 + 4"
+                  [class.selected]="currentSize == drawingSizeName" (click)="selectDrawingSize(drawingSizeName)">
+               </span>
+            </div>
+         </div>
+
+         <div class="flex align-items-center gap-1">
+            <i class="material-icons btn" style="width: 3rem" [class.disabled]="!canUndo" (click)="undo()">undo</i>
+            <i class="material-icons btn" style="width: 3rem" [class.disabled]="!canRedo" (click)="redo()">redo</i>
+            <i class="material-icons btn" style="width: 3rem" (click)="clearCanvas()">delete</i>
+         </div>
+
+      </div>
+      <div class="flex align-items-center gap-2">
+         <div *ngFor="let colorName of colorsName" [class.selected]="currentColor == colorName" class="color"
+            [ngClass]="colorName" [style.background]="colors[colorName]" (click)="selectColor(colorName)">
+         </div>
+      </div>
+   </div>
+</div>

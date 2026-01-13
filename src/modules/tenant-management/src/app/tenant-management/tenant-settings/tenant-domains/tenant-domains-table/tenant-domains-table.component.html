@@ -1,0 +1,84 @@
+<p-table
+  [loading]="loading"
+  [value]="hostnames"
+  rowsEditor
+  #re="rowsEditor"
+  [(editableRows)]="hostnames"
+  [rowAdded]="addHostname"
+  [rowEdited]="editHostname"
+  [rowRemoved]="deleteHostname"
+  dataKey="data.id"
+  [paginator]="true"
+  [rows]="rowsCount"
+  [totalRecords]="totalRecords"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>
+        {{ 'TenantManagement::TenantSettings:HostnameSettings:Hostname' | abpLocalization }}
+      </th>
+      <!-- keep a narrow header cell for the actions column -->
+      <th class="text-right" style="width: 1%"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-hostname let-editing="editing">
+    <tr [pEditableRow]="hostname">
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <div class="field grid w-full mb-0">
+              <p-select
+                class="col-12 mb-2 md:col-2 md:mb-0"
+                [options]="availableProtocolsList"
+                [style]="{ width: '100%' }"
+                [(ngModel)]="hostname.isSsl"
+                [showClear]="false"
+                appendTo="body"
+                [filter]="false"
+                autoWidth="false"
+                [disabled]="loading"
+                optionValue="value"
+                optionLabel="name"
+              >
+              </p-select>
+
+              <input
+                class="col-12 md:col-10"
+                pInputText
+                [(ngModel)]="hostname.domain"
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    hostname.validators.domainRequired ||
+                    hostname.validators.domainInvalid
+                }"
+              />
+            </div>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ hostname.data.url }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <app-table-row-controls
+        [displayRemove]="!hostname.data.internal"
+        [displayAsIcons]="true"
+        [displayAdd]="false"
+        [displayEdit]="!hostname.data.internal"
+      ></app-table-row-controls>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-100" colspan="2">
+              <div class="card w-100">
+                <div class="card-body w-full text-center">
+                  <div class="card-header">
+                    {{'TenantManagement::NoTenantDomains' | abpLocalization}}
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+</p-table>

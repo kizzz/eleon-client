@@ -1,0 +1,498 @@
+<!-- Grid View -->
+<ng-container *ngIf="listView() === 'grid'">
+  <!-- File Grid View -->
+  <div
+    *ngIf="isFileEntry()"
+    cdkDrag
+    [cdkDragDisabled]="disabled"
+    [cdkDragData]="entry"
+    class="position-relative show-on-hover flex gap-3 align-items-center"
+  >
+    <div>
+      <p-checkbox
+        class="pl-2"
+        [(ngModel)]="checkboxValue"
+        (onChange)="addOrRemoveContentItem(entry.id)"
+        #checkboxes
+        color="primary"
+        [binary]="true"
+        inputId="binary"
+      >
+      </p-checkbox>
+    </div>
+    <div
+      *ngIf="disabled"
+      (click)="onDocumentView(entry)"
+      class="material-icons f-icon text-main"
+      role="button"
+    >
+      <span style="vertical-align: super">
+        <i
+          [ngClass]="getEntryIcon(entry)"
+          class="file-hover"
+          style="font-size: medium"
+        ></i>
+      </span>
+    </div>
+    <div
+      *ngIf="!disabled"
+      (dblclick)="onDocumentView(entry)"
+      class="material-icons f-icon text-main"
+      role="button"
+    >
+      <span style="vertical-align: super">
+        <i
+          [ngClass]="getEntryIcon(entry)"
+          class="file-hover"
+          style="font-size: medium"
+        ></i>
+      </span>
+    </div>
+    <div
+      *ngIf="disabled"
+      role="button"
+      class="text-dark fw-600 pt-2"
+      (click)="onDocumentView(entry)"
+    >
+      {{ entry.name | truncate : 15 }}
+    </div>
+    <div
+      *ngIf="!disabled"
+      role="button"
+      class="text-dark fw-600 pt-2"
+      (dblclick)="onDocumentView(entry)"
+    >
+      {{ entry.name | truncate : 15 }}
+    </div>
+
+    <div class="hover-data flex gap-1 pt-2">
+      <div class="comment-icon">
+        <!-- <i
+          class="pi pi-share-alt mr-2 text-primary"
+          role="button"
+          (click)="share(entry)"
+          [pTooltip]="'FileManager::Share' | abpLocalization"
+          tooltipPosition="bottom"
+          *ngIf="
+            !readOnly &&
+            !isTrashTab() &&
+            entry.sharedStatus === sharedStatus.None
+          "
+        >
+        </i> -->
+        <i
+          class="pi pi-download mr-2 text-primary"
+          role="button"
+          (click)="download(entry)"
+          [pTooltip]="'FileManager::Download' | abpLocalization"
+          tooltipPosition="bottom"
+        >
+        </i>
+        <i
+          class="fa fa-book book-icon mr-2 text-primary"
+          role="button"
+          *ngIf="isFileArchiveType()"
+          (click)="openHistory(entry)"
+          [pTooltip]="'FileManager::History' | abpLocalization"
+          tooltipPosition="bottom"
+        >
+        </i>
+        <i
+          class="fas fa-star text-warning"
+          matTooltip="Remove from Starred"
+          role="button"
+          (click)="removeFromFavourites(entry)"
+          *ngIf="
+            !readOnly &&
+            entry.isFavourite &&
+            !isTrashTab() &&
+            isFileArchiveType()
+          "
+          [pTooltip]="'FileManager::Unstar' | abpLocalization"
+          tooltipPosition="bottom"
+        >
+        </i>
+        <i
+          class="far fa-star text-primary"
+          role="button"
+          matTooltip="Add to Starred"
+          (click)="addFavourites(entry)"
+          *ngIf="
+            !readOnly &&
+            !entry.isFavourite &&
+            !isTrashTab() &&
+            isFileArchiveType()
+          "
+          [pTooltip]="'FileManager::Star:Tooltip' | abpLocalization"
+          tooltipPosition="bottom"
+        >
+        </i>
+        <i
+          class="fa fa-trash text-primary"
+          role="button"
+          (click)="deleteEntry(entry)"
+          *ngIf="!readOnly && !isTrashTab() && isFileArchiveType() && isVirtualProviderType()"
+          style="color: var(--danger-color)"
+        >
+        </i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folder Grid View -->
+  <div
+    *ngIf="isFolderEntry()"
+    class="position-relative show-on-hover flex gap-3 align-items-end"
+  >
+    <a
+      [cdkDragDisabled]="disabled"
+      cdkDrag
+      [cdkDragData]="entry"
+      class="flex gap-3 align-items-end"
+    >
+      <p-checkbox
+        class="pl-2"
+        [(ngModel)]="checkboxValue"
+        (onChange)="addOrRemoveContentItem(entry.id)"
+        #checkboxes
+        color="primary"
+        [binary]="true"
+        inputId="binary"
+      >
+      </p-checkbox>
+      <span
+        *ngIf="disabled"
+        role="button"
+        class="text-main"
+        (click)="onFolderClick(entry)"
+        style="cursor: pointer"
+      >
+        <i
+          class="fas fa-folder folder-hover"
+          style="font-size: medium; cursor: pointer"
+        ></i>
+      </span>
+      <span
+        *ngIf="!disabled"
+        role="button"
+        style="cursor: pointer"
+        (click)="onFolderClick(entry)"
+      >
+        <i class="fas fa-folder folder-hover" style="font-size: medium"></i>
+      </span>
+      <div
+        *ngIf="disabled"
+        role="button"
+        title="{{ entry.name }}"
+        class="text-dark fw-600"
+        style="padding-top: 0.2rem; cursor: pointer"
+        (click)="onFolderClick(entry)"
+      >
+        {{ entry.name | truncate }}
+      </div>
+      <div
+        *ngIf="!disabled"
+        role="button"
+        title="{{ entry.name }}"
+        (click)="onFolderClick(entry)"
+        style="padding-top: 0.2rem; cursor: pointer"
+      >
+        {{ entry.name | truncate }}
+      </div>
+    </a>
+    <div class="hover-data flex gap-1 align-items-end">
+      <i
+        class="pi pi-cog text-primary"
+        role="button"
+        (click)="openPermissions(entry)"
+        [pTooltip]="'FileManager::Permissions' | abpLocalization"
+        tooltipPosition="bottom"
+        *ngIf="isFileArchiveType()"
+      ></i>
+      <i
+        class="fas fa-star text-warning"
+        role="button"
+        matTooltip="Remove from Starred"
+        role="button"
+        (click)="removeFromFavourites(entry)"
+        [pTooltip]="'FileManager::Unstar' | abpLocalization"
+        tooltipPosition="bottom"
+        *ngIf="entry.isFavourite && isFileArchiveType()"
+      ></i>
+      <i
+        class="far fa-star text-primary"
+        role="button"
+        matTooltip="Add to Starred"
+        (click)="addFavourites(entry)"
+        [pTooltip]="'FileManager::Star:Tooltip' | abpLocalization"
+        tooltipPosition="bottom"
+        *ngIf="!entry.isFavourite && isFileArchiveType()"
+      ></i>
+      <i
+        class="far fa-star text-primary"
+        role="button"
+        matTooltip="Add to Starred"
+        (click)="addFavourites(entry)"
+        [pTooltip]="'FileManager::Star:Tooltip' | abpLocalization"
+        tooltipPosition="bottom"
+        *ngIf="!entry.isFavourite && isFileArchiveType()"
+      ></i>
+      <i
+        class="fa fa-trash text-primary"
+        style="color: var(--danger-color)"
+        role="button"
+        (click)="deleteEntry(entry)"
+        *ngIf="!isTrashTab() && isFileArchiveType() && isVirtualProviderType()"
+      >
+      </i>
+      <div class="m-icon"></div>
+      <div class="star-icon"></div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- List View -->
+<ng-container *ngIf="listView() === 'list'">
+  <div class="p-element p-datatable-tbody">
+    <!-- File List View -->
+    <tr *ngIf="isFileEntry()" [pSelectableRow]="entry">
+      <td style="width: 1%; max-width: 40px; min-width: 40px">
+        <div [ngClass]="{ 'checkbox-padding': isMobileVersion() }">
+          <p-checkbox
+            [(ngModel)]="checkboxValue"
+            (onChange)="addOrRemoveContentItem(entry.id)"
+            #checkboxes
+            color="primary"
+            [binary]="true"
+            inputId="binary"
+          >
+          </p-checkbox>
+        </div>
+      </td>
+      <td appResponsiveColumn="300">
+        <span class="non-editing-only p-column-title"> </span>
+        <div
+          style="display: flex; align-items: baseline"
+          class="column-content"
+        >
+          <div
+            *ngIf="disabled"
+            (click)="onDocumentView(entry)"
+            class="flex align-items-center gap-3 w-full"
+            role="button"
+          >
+            <span>
+              <i
+                [ngClass]="getEntryIcon(entry)"
+                class="file-hover"
+                style="font-size: medium"
+              ></i>
+            </span>
+            <app-ellipsis [text]="entry.name"> </app-ellipsis>
+          </div>
+          <div
+            *ngIf="!disabled"
+            (dblclick)="onDocumentView(entry); $event.stopPropagation()"
+            class="flex align-items-center gap-3 w-full"
+            role="button"
+            [pTooltip]=""
+          >
+            <span>
+              <i
+                [ngClass]="getEntryIcon(entry)"
+                class="file-hover"
+                style="font-size: medium"
+              ></i>
+            </span>
+            <app-ellipsis [text]="entry.name"> </app-ellipsis>
+          </div>
+        </div>
+      </td>
+      <td appResponsiveColumn="120">
+        <span class="non-editing-only p-column-title"> </span>
+        <span class="column-content">
+          {{ docViewer.resolveContentTypeName(entry.name) | truncate }}
+        </span>
+      </td>
+      <td appResponsiveColumn="120">
+        <span class="non-editing-only p-column-title"> </span>
+        <span class="column-content">
+          {{ entry.size | fileSize }}
+        </span>
+      </td>
+      <td appResponsiveColumn="160" class="when-big-width-cell-center">
+        <span class="non-editing-only p-column-title"> </span>
+        <span class="column-content">
+          {{ entry.lastModificationTime | date : 'dd/MM/yy hh:mm a' }}
+        </span>
+      </td>
+      <td appResponsiveColumn="80" class="row-buttons">
+        <div class="flex justify-content-end py-2 md:py-0">
+          <i
+            class="pi pi-download mr-2 text-primary pointer"
+            role="button"
+            (click)="download(entry); $event.stopPropagation()"
+            [pTooltip]="'FileManager::Download' | abpLocalization"
+            tooltipPosition="bottom"
+          >
+          </i>
+          <i
+            class="fa fa-book book-icon mr-2 text-primary pointer"
+            role="button"
+            *ngIf="isFileArchiveType()"
+            (click)="openHistory(entry); $event.stopPropagation()"
+            [pTooltip]="'FileManager::History' | abpLocalization"
+            tooltipPosition="bottom"
+          >
+          </i>
+          <i
+            class="fas fa-star text-warning pointer"
+            matTooltip="Remove from Starred"
+            role="button"
+            (click)="removeFromFavourites(entry); $event.stopPropagation()"
+            *ngIf="
+              !readOnly &&
+              entry.isFavourite &&
+              !isTrashTab() &&
+              isFileArchiveType()
+            "
+            [pTooltip]="'FileManager::Unstar' | abpLocalization"
+            tooltipPosition="bottom"
+          >
+          </i>
+          <i
+            class="far fa-star text-primary pointer"
+            role="button"
+            matTooltip="Add to Starred"
+            (click)="addFavourites(entry); $event.stopPropagation()"
+            *ngIf="
+              !readOnly &&
+              !entry.isFavourite &&
+              !isTrashTab() &&
+              isFileArchiveType()
+            "
+            [pTooltip]="'FileManager::Star:Tooltip' | abpLocalization"
+            tooltipPosition="bottom"
+          >
+          </i>
+          <i
+            class="fa fa-trash text-primary pointer"
+            style="color: var(--danger-color)"
+            role="button"
+            (click)="deleteEntry(entry); $event.stopPropagation()"
+            *ngIf="!readOnly && !isTrashTab() && isFileArchiveType() && isVirtualProviderType()"
+          >
+          </i>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Folder List View -->
+    <tr
+      *ngIf="isFolderEntry()"
+      [pSelectableRow]="entry"
+      (click)="onFolderClick(entry)"
+    >
+      <td style="width: 1%; max-width: 40px; min-width: 40px">
+        <div [ngClass]="{ 'checkbox-padding': isMobileVersion() }">
+          <p-checkbox
+            (click)="$event.stopPropagation()"
+            [(ngModel)]="checkboxValue"
+            (onChange)="addOrRemoveContentItem(entry.id)"
+            #checkboxes
+            color="primary"
+            [binary]="true"
+            inputId="binary"
+          >
+          </p-checkbox>
+        </div>
+      </td>
+      <td appResponsiveColumn="300">
+        <span class="non-editing-only p-column-title"> </span>
+        <div class="column-content">
+          <div *ngIf="disabled" class="gap-2 flex align-items-end">
+            <a role="button" class="flex align-items-center gap-2 pointer">
+              <i
+                *ngIf="!entry.isShared"
+                class="fas fa-folder folder-hover"
+                style="font-size: medium"
+              ></i>
+            </a>
+            <app-ellipsis [text]="entry.name" class="pointer"> </app-ellipsis>
+          </div>
+          <div *ngIf="!disabled" class="gap-3 flex align-items-end">
+            <a role="button" class="flex align-items-center gap-2 pointer">
+              <i
+                *ngIf="!entry.isShared"
+                class="fas fa-folder folder-hover"
+                style="font-size: medium"
+              ></i>
+              <span class="material-icons" *ngIf="entry.isShared">
+                <span class="folder_shared">
+                  <img
+                    src="./assets/images/folder-users.svg"
+                    class="shared-icon"
+                  />
+                </span>
+              </span>
+            </a>
+            <app-ellipsis [text]="entry.name" class="pointer"> </app-ellipsis>
+          </div>
+        </div>
+      </td>
+      <td appResponsiveColumn="120">
+        <span class="non-editing-only p-column-title"> </span>
+        <span class="column-content">
+          {{ 'FileManager::Folder' | abpLocalization }}
+        </span>
+      </td>
+      <td *ngIf="!isMobileVersion()" appResponsiveColumn="120"></td>
+      <td appResponsiveColumn="160" class="when-big-width-cell-center">
+        <span class="non-editing-only p-column-title"> </span>
+        <span class="column-content">
+          {{ entry.lastModificationTime | date : 'dd/MM/yy hh:mm a' }}
+        </span>
+      </td>
+      <td appResponsiveColumn="80" class="row-buttons">
+        <div class="gap-3 flex justify-content-end py-2 md:py-0">
+          <i
+            class="fa-solid fa-list-check text-primary pointer"
+            role="button"
+            (click)="openPermissions(entry); $event.stopPropagation()"
+            [pTooltip]="'FileManager::Permissions' | abpLocalization"
+            tooltipPosition="bottom"
+            *ngIf="isFileArchiveType()"
+          ></i>
+          <i
+            class="fas fa-star text-warning pointer"
+            role="button"
+            matTooltip="Remove from Starred"
+            role="button"
+            (click)="removeFromFavourites(entry); $event.stopPropagation()"
+            [pTooltip]="'FileManager::Unstar' | abpLocalization"
+            tooltipPosition="bottom"
+            *ngIf="entry.isFavourite && !isTrashTab() && isFileArchiveType()"
+          ></i>
+          <i
+            class="far fa-star text-primary pointer"
+            role="button"
+            matTooltip="Add to Starred"
+            (click)="addFavourites(entry); $event.stopPropagation()"
+            [pTooltip]="'FileManager::Star:Tooltip' | abpLocalization"
+            tooltipPosition="bottom"
+            *ngIf="!entry.isFavourite && !isTrashTab() && isFileArchiveType()"
+          ></i>
+          <i
+            class="fa fa-trash text-primary pointer"
+            role="button"
+            (click)="deleteEntry(entry); $event.stopPropagation()"
+            *ngIf="!isTrashTab() && isFileArchiveType() && isVirtualProviderType()"
+            style="color: var(--danger-color)"
+          >
+          </i>
+        </div>
+      </td>
+    </tr>
+  </div>
+</ng-container>
+

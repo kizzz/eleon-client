@@ -1,0 +1,20 @@
+<div class="form-group field grid">
+  <label class="col-4 mb-0">
+    {{ (isFileEntry ? 'FileManager::FileName' : 'FileManager::FolderName') | abpLocalization }}
+  </label>
+  <div class="col-8">
+    <input [(ngModel)]="entryName" class="form-control w-full" pInputText type="text"
+      [ngClass]="{'ng-invalid ng-dirty': entryNameEmpty}" (input)="entryNameEmpty = false">
+  </div>
+</div>
+<div mat-dialog-actions class="flex justify-content-end gap-3 mt-3">
+  <p-button [text]="true" [raised]="true" (click)="closeDialog()" icon="pi pi-times"
+    [label]="'Infrastructure::Cancel' | abpLocalization" styleClass="p-button-secondary">
+  </p-button>
+  <p-button [text]="true" [raised]="true" (click)="renameEntry()" type="button" styleClass="p-button-primary"
+    [label]="'FileManager::Save' | abpLocalization" icon="pi pi-check">
+  </p-button>
+</div>
+
+
+

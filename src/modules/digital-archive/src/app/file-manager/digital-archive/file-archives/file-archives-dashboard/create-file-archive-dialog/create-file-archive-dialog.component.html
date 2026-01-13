@@ -1,0 +1,147 @@
+<p-dialog
+  [resizable]="true"
+  [header]="
+    isEditMode
+      ? ('FileManager::ArchiveSettings' | abpLocalization)
+      : ('FileManager::AddFolder' | abpLocalization)
+  "
+  [(visible)]="display"
+  [modal]="true"
+  [draggable]="false"
+  [closable]="false"
+  [blockScroll]="true"
+  [style]="{ width: '600px' }"
+  (onHide)="onHide()"
+>
+  <div class="dialog-standard w-full">
+    <div class="grid m-0">
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'FileManager::FileArchive:Name' | abpLocalization }}</label>
+        <input
+          pInputText
+          class="w-full"
+          [(ngModel)]="model.name"
+          [ngModelOptions]="{ standalone: true }"
+          [ngClass]="{ 'ng-invalid ng-dirty': model.validators.nameEmpty }"
+        />
+      </div>
+
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'FileManager::HierarchyType' | abpLocalization }}</label>
+        <app-file-hierarchy-type-selection
+          [isInvalid]="model.validators.hierarchyTypeEmpty"
+          [isRequired]="true"
+          [defaultSelectedValue]="model.fileArchiveHierarchyType"
+          [disabled]="isEditMode"
+          (selectionEvent)="onHierarchySelected($event)"
+        >
+        </app-file-hierarchy-type-selection>
+      </div>
+
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'FileManager::FileArchive:StorageProvider' | abpLocalization }}</label>
+        <app-storage-provider-selection
+          class="w-full"
+          [showWithCard]="false"
+          [defaultSelectedId]="model.storageProviderId"
+          [readOnly]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
+          (storageProviderSelectionEvent)="onStorageProviderSelected($event)"
+        >
+        </app-storage-provider-selection>
+
+        <small class="error" *ngIf="model.validators.storageProviderEmpty">
+          {{ 'FileManager::Error:StorageRequired' | abpLocalization }}
+        </small>
+      </div>
+
+      <div
+        *ngIf="archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Physical"
+        class="field col-12 p-0"
+      >
+        <label appRequired>{{ 'FileManager::RootFolderId' | abpLocalization }}</label>
+
+        <div class="p-inputgroup">
+          <input
+            pInputText
+            class="w-full"
+            [(ngModel)]="model.rootFolderId"
+            [ngModelOptions]="{ standalone: true }"
+            [readonly]="true"
+            [ngClass]="{ 'ng-invalid ng-dirty': model.validators.rootFolderEmpty }"
+          />
+          <p-button
+            [text]="true"
+            icon="fa-solid fa-folder-open"
+            [pTooltip]="'FileManager::SelectFolder' | abpLocalization"
+            (click)="openFolderDialog()"
+          >
+          </p-button>
+        </div>
+
+        <small class="text-color-secondary" *ngIf="selectedFolderName">
+          {{ selectedFolderName }}
+        </small>
+      </div>
+
+      <div class="field col-12 p-0">
+        <label>{{ 'FileManager::Active' | abpLocalization }}</label>
+        <div class="flex align-items-center gap-2">
+          <p-checkbox
+            inputId="isActive"
+            [binary]="true"
+            [(ngModel)]="model.isActive"
+            [ngModelOptions]="{ standalone: true }"
+          ></p-checkbox>
+        </div>
+      </div>
+
+      <div class="field col-12 p-0">
+        <label>{{ 'FileManager::PersonalizedArchive' | abpLocalization }}</label>
+        <div class="flex align-items-center gap-2">
+          <p-checkbox
+            inputId="isPersonalizedArchive"
+            [binary]="true"
+            [disabled]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
+            [(ngModel)]="model.isPersonalizedArchive"
+            [ngModelOptions]="{ standalone: true }"
+          ></p-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2 flex justify-content-end gap-3">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="cancel()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+      >
+      </p-button>
+
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="pi pi-check"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="save()"
+        [label]="'Infrastructure::Save' | abpLocalization"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<app-file-arhive-folder-selection
+  [display]="folderDialogVisible"
+  [storageProviderId]="model.storageProviderId"
+  [selectedFolderId]="model.rootFolderId"
+  (folderSelected)="onFolderSelected($event)"
+  (closeEvent)="onFolderDialogClose()"
+>
+</app-file-arhive-folder-selection>

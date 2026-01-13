@@ -1,0 +1,4 @@
+[submodule "src/shared"]
+	path = src/shared
+	url = git@github.com:EleonSoft/eleonclientshared.git
+	branch = main

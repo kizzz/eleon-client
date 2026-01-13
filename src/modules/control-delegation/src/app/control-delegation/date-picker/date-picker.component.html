@@ -1,0 +1,12 @@
+<p-datepicker
+  appCalendarButtonClass
+  [showIcon]="true"
+  [showTime]="showTime"
+  [ngClass]="{ 'ng-invalid ng-dirty': invalid }"
+  [(ngModel)]="date"
+  (ngModelChange)="onDatePicked($event)"
+  class="w-100"
+  [selectionMode]="mode"
+  appendTo="body"
+>
+</p-datepicker>

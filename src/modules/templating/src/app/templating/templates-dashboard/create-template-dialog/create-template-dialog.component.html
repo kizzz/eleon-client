@@ -1,0 +1,106 @@
+<div class="dialog-standard w-full">
+  <div class="grid m-0">
+    <div class="field col-12 p-0">
+      <label appRequired>{{
+        'Templating::Template:Name' | abpLocalization
+      }}</label>
+      <input
+        pInputText
+        [disabled]="form.isSystem"
+        [(ngModel)]="form.name"
+        [style]="{ width: '100%' }"
+        [ngClass]="{ 'ng-invalid ng-dirty': validators.nameEmpty }"
+      />
+    </div>
+    <div *ngIf="form.type === TemplateType.Action" class="field col-12 p-0">
+      <label appRequired>{{
+        'Templating::Template:TemplateId' | abpLocalization
+      }}</label>
+      <input
+        pInputText
+        [disabled]="form.isSystem"
+        [(ngModel)]="form.templateId"
+        [style]="{ width: '100%' }"
+        [ngClass]="{ 'ng-invalid ng-dirty': validators.templateIdEmpty }"
+      />
+    </div>
+
+    <div class="field col-12 p-0">
+      <label>{{ 'Templating::Template:Format' | abpLocalization }}</label>
+      <p-select
+        [options]="templateFormatItems"
+        [(ngModel)]="form.format"
+        optionLabel="label"
+        optionValue="value"
+        [style]="{ width: '100%' }"
+        [placeholder]="'Templating::Template:Format' | abpLocalization"
+      ></p-select>
+    </div>
+
+    <div
+      *ngIf="form.isSystem && form.type === TemplateType.Notification"
+      class="field col-12 p-0"
+    >
+      <label>{{ 'Templating::RequiredPlaceholders' | abpLocalization }}</label>
+      <div class="chip-container">
+        <ng-container
+          *ngFor="let placeholder of requiredPlaceholders; let last = last"
+        >
+          <p-chip
+            (click)="copyId(placeholder)"
+            [label]="placeholder"
+            class="custom-chip"
+            [ngClass]="{
+              'missing-placeholder': isPlaceholderMissing(placeholder)
+            }"
+          ></p-chip>
+          <span *ngIf="!last" class="chip-comma">,</span>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="field col-12 p-0 editor-container">
+      <label appRequired>{{
+        'Templating::Template:Content' | abpLocalization
+      }}</label>
+      <app-raw-editor [(content)]="form.templateContent"></app-raw-editor>
+    </div>
+  </div>
+
+  <div class="mt-2 flex justify-content-end gap-3">
+    <p-button
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-secondary"
+      icon="pi pi-times"
+      [loading]="loading"
+      [disabled]="loading"
+      (onClick)="onCancel()"
+      [label]="'Infrastructure::Cancel' | abpLocalization"
+    >
+    </p-button>
+    <p-button
+      *ngIf="form.isSystem"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-warning"
+      icon="pi pi-refresh"
+      [loading]="loading"
+      [disabled]="loading"
+      (onClick)="onReset()"
+      [label]="'Infrastructure::Reset' | abpLocalization"
+    >
+    </p-button>
+    <p-button
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-primary"
+      icon="pi pi-check"
+      [loading]="loading"
+      [disabled]="loading"
+      (onClick)="onSave()"
+      [label]="'Infrastructure::Save' | abpLocalization"
+    >
+    </p-button>
+  </div>
+</div>

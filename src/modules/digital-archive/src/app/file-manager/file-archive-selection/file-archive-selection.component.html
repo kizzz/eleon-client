@@ -1,0 +1,33 @@
+<div *ngIf="showWithCard">
+  <div class="card">
+    <div class="card-body" [class]="!title ? 'p-0' : ''">
+      <ng-container *ngTemplateOutlet="fileArchiveDropdown"></ng-container>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!showWithCard">
+  <ng-container *ngTemplateOutlet="fileArchiveDropdown"></ng-container>
+</div>
+
+<ng-template #fileArchiveDropdown>
+  <div class="grid">
+    <div [class]="title ? 'col-8' : 'col-12'" class="w-full pb-0">
+      <div class="flex align-items-center gap-2 w-full">
+        <p-select
+          class="flex-1"
+          [options]="rows"
+          optionLabel="name"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+          placeholder="{{ 'FileManager::FileArchive:Name' | abpLocalization }}"
+          (onChange)="onSelect($event?.value)"
+          [ngModel]="selected"
+          appendTo="body"
+          [disabled]="readOnly"
+        >
+        </p-select>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,20 @@
+
+:host ::ng-deep {
+    .mat-elevation-z8 {
+        background-color: rgba(0,0,0,0.2);
+    }
+}
+
+::ng-deep .archivePermissionDialog {
+    .p-dialog-header{
+      app-file-dynamic-dialog-header{
+        width: 100%;
+      }
+    }
+  }
+
+  ::ng-deep .dialog-pb-custom {
+    .p-dialog-content{
+      padding-bottom: 0px !important;
+    }
+  }

@@ -1,0 +1,520 @@
+<ng-container *ngIf="settings">
+  <div class="card p-fluid">
+    <div class="w-full">
+      <div class="lg:col-6 md:col-10 sm:col-12">
+        <div class="p-1">
+          <label>{{ 'TenantManagement::ServerType' | abpLocalization }}</label>
+          <p-select
+            [options]="serverTypes"
+            [(ngModel)]="settings.generalSettings.serverType"
+            (onChange)="state.setDirty()"
+            optionLabel="name"
+            optionValue="value"
+            [style]="{ width: '100%' }"
+            [placeholder]="
+              'TenantManagement::SelectServerType' | abpLocalization
+            "
+          ></p-select>
+        </div>
+
+        <div *ngIf="settings?.generalSettings?.serverType === 'smtp'">
+          <div class="p-1">
+            <label>{{
+              'TenantManagement::FromDisplayName' | abpLocalization
+            }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.smtpSettings.defaultFromDisplayName"
+              (ngModelChange)="state.setDirty()"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{
+              'TenantManagement::FromAddress' | abpLocalization
+            }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.smtpSettings.defaultFromAddress"
+              (ngModelChange)="state.setDirty()"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{ 'TenantManagement::Host' | abpLocalization }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.smtpSettings.smtpHost"
+              (ngModelChange)="state.setDirty()"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{ 'TenantManagement::SmtpPort' | abpLocalization }}</label>
+            <p-inputNumber
+              [(ngModel)]="settings.smtpSettings.smtpPort"
+              (ngModelChange)="state.setDirty()"
+              [inputStyle]="{ width: '100%' }"
+              [style]="{ width: '100%' }"
+            ></p-inputNumber>
+          </div>
+          <div class="p-1">
+            <p-checkbox
+              [binary]="true"
+              [(ngModel)]="settings.smtpSettings.smtpEnableSsl"
+              inputId="smtpEnableSsl"
+              (ngModelChange)="state.setDirty()"
+            ></p-checkbox>
+            <label class="text-lg mx-2 mb-1" for="smtpEnableSsl">
+              <span>{{
+                'TenantManagement::SmtpEnableSsl' | abpLocalization
+              }}</span>
+            </label>
+          </div>
+          <div class="p-1">
+            <p-checkbox
+              [binary]="true"
+              [(ngModel)]="settings.smtpSettings.smtpUseDefaultCredentials"
+              inputId="smtpUseDefaultCredentials"
+              (ngModelChange)="state.setDirty()"
+            ></p-checkbox>
+            <label class="text-lg mx-2 mb-1" for="smtpUseDefaultCredentials">
+              <span>{{
+                'TenantManagement::SmtpUseDefaultCredentials' | abpLocalization
+              }}</span>
+            </label>
+          </div>
+
+          <div
+            *ngIf="!settings.smtpSettings.smtpUseDefaultCredentials"
+          >
+            <div class="p-1">
+              <label>{{
+                'TenantManagement::SmtpDomain' | abpLocalization
+              }}</label>
+              <input
+                pInputText
+                [(ngModel)]="settings.smtpSettings.smtpDomain"
+                (ngModelChange)="state.setDirty()"
+                [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%' }"
+                [placeholder]="
+                  'TenantManagement::NotRequired' | abpLocalization
+                "
+              />
+            </div>
+            <div class="p-1">
+              <label>{{
+                'TenantManagement::SmtpUserName' | abpLocalization
+              }}</label>
+              <input
+                pInputText
+                [(ngModel)]="settings.smtpSettings.smtpUserName"
+                (ngModelChange)="state.setDirty()"
+                [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%' }"
+              />
+            </div>
+            <div class="p-1">
+              <label>{{
+                'TenantManagement::SmtpPassword' | abpLocalization
+              }}</label>
+              <p-password
+                [(ngModel)]="settings.smtpSettings.smtpPassword"
+                [toggleMask]="true"
+                [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%' }"
+                (ngModelChange)="state.setDirty()"
+                [feedback]="false"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="settings?.generalSettings?.serverType === 'azureews'"
+        >
+          <div class="p-1">
+            <label>{{ 'NotificatorModule::TenantId' | abpLocalization }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.azureEws.tenantId"
+              (ngModelChange)="state.setDirty()"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{ 'NotificatorModule::ClientId' | abpLocalization }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.azureEws.clientId"
+              (ngModelChange)="state.setDirty()"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{
+              'NotificatorModule::ClientSecret' | abpLocalization
+            }}</label>
+            <p-password
+              [(ngModel)]="settings.azureEws.clientSecret"
+              [toggleMask]="true"
+              [inputStyle]="{ width: '100%' }"
+              [style]="{ width: '100%' }"
+              (ngModelChange)="state.setDirty()"
+              [feedback]="false"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{
+              'NotificatorModule::ExchangeUrl' | abpLocalization
+            }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.azureEws.exchangeUrl"
+              (ngModelChange)="state.setDirty()"
+              [placeholder]="
+                'NotificatorModule::ExchangeUrlPlaceholder' | abpLocalization
+              "
+            />
+          </div>
+          <div class="p-1">
+            <label>{{
+              'NotificatorModule::ImpersonatedSmtpAddress' | abpLocalization
+            }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.azureEws.impersonatedSmtpAddress"
+              (ngModelChange)="state.setDirty()"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{
+              'NotificatorModule::AnchorMailbox' | abpLocalization
+            }}</label>
+            <input
+              pInputText
+              [(ngModel)]="settings.azureEws.anchorMailbox"
+              (ngModelChange)="state.setDirty()"
+              [placeholder]="'TenantManagement::NotRequired' | abpLocalization"
+            />
+          </div>
+          <div class="p-1">
+            <label>{{
+              'NotificatorModule::EwsScopes' | abpLocalization
+            }}</label>
+            <p-autocomplete
+              [(ngModel)]="settings.azureEws.ewsScopes"
+              [multiple]="true"
+              [typeahead]="false"
+              [addOnBlur]="true"
+              [addOnTab]="true"
+              separator=","
+              [style]="{ width: '100%' }"
+              (ngModelChange)="state.setDirty()"
+              [placeholder]="
+                'NotificatorModule::EwsScopesPlaceholder' | abpLocalization
+              "
+            ></p-autocomplete>
+          </div>
+          <!-- <div class="col-12 p-1">
+          <p-checkbox [binary]="true" [(ngModel)]="settings.azureEws.traceEnabled" inputId="traceEnabled"
+            (ngModelChange)="state.setDirty()"></p-checkbox>
+          <label class="text-lg mx-2 mb-1" for="traceEnabled">
+            <span>{{'NotificatorModule::TraceEnabled' | abpLocalization}}</span>
+          </label>
+        </div>
+        <div class="col-12 p-1">
+          <p-checkbox [binary]="true" [(ngModel)]="settings.azureEws.ignoreServerCertificateErrors" 
+            inputId="ignoreServerCertificateErrors" (ngModelChange)="state.setDirty()"></p-checkbox>
+          <label class="text-lg mx-2 mb-1" for="ignoreServerCertificateErrors">
+            <span>{{'NotificatorModule::IgnoreServerCertificateErrors' | abpLocalization}}</span>
+          </label>
+        </div> -->
+        </div>
+
+        <hr class="my-4" />
+
+        <h5>
+          {{
+            'TenantManagement::NotificationSettingGroup:SystemNotifications'
+              | abpLocalization
+          }}
+        </h5>
+        <div class="p-1">
+          <label>{{
+            'TenantManagement::SystemEmails' | abpLocalization
+          }}</label>
+          <p-autocomplete
+            [(ngModel)]="settings.generalSettings.systemEmails"
+            [multiple]="true"
+            [typeahead]="false"
+            [addOnBlur]="true"
+            [addOnTab]="true"
+            separator=","
+            (ngModelChange)="state.setDirty()"
+            [style]="{ width: '100%' }"
+            [placeholder]="'NotificatorModule::SystemEmails' | abpLocalization"
+          ></p-autocomplete>
+          <small>{{
+            'NotificatorModule::SystemEmailsDescription' | abpLocalization
+          }}</small>
+        </div>
+        <div class="p-1">
+          <label>{{ 'TenantManagement::LogLevel' | abpLocalization }}</label>
+          <p-select
+            [options]="logLevels"
+            [(ngModel)]="settings.generalSettings.minLogLevel"
+            (onChange)="state.setDirty()"
+            optionLabel="name"
+            optionValue="value"
+            [style]="{ width: '100%' }"
+            [placeholder]="'TenantManagement::SelectLogLevel' | abpLocalization"
+          ></p-select>
+          <small>{{
+            'TenantManagement::SelectLogLevelDescription' | abpLocalization
+          }}</small>
+        </div>
+        <div class="p-1">
+          <p-checkbox
+              [binary]="true"
+              [(ngModel)]="settings.generalSettings.sendErrors"
+              inputId="sendErrors"
+              (ngModelChange)="state.setDirty()"
+            ></p-checkbox>
+          <label class="text-lg mx-2 mb-1" for="sendErrors">
+            <span>{{ 'TenantManagement::SendErrors' | abpLocalization }}</span>
+          </label>
+        </div>
+        <div class="p-1">
+          <label>{{ 'TenantManagement::EmailTemplate' | abpLocalization }}</label>
+          <div 
+            class="system-template-preview p-3 template-border cursor-pointer hover:surface-hover"
+            (click)="openEmailTemplateDialog()"
+            [title]="'TenantManagement::ClickToEdit' | abpLocalization"
+          >
+            <div class="text-overflow-ellipsis white-space-nowrap overflow-hidden" *ngIf="emailTemplateContent">
+              {{ emailTemplateContent }}
+            </div>
+            <div class="text-500 italic" *ngIf="!emailTemplateContent">
+              {{ 'TenantManagement::ClickToSetTemplate' | abpLocalization }}
+            </div>
+          </div>
+          <small>{{
+            'TenantManagement::TemplateDescription' | abpLocalization
+          }}</small>
+        </div>
+
+        <hr class="my-4" />
+        <!-- telegram settigns-->
+        <h5>{{ 'NotificatorModule::TelegramSettings' | abpLocalization }}</h5>
+        <div class="p-1">
+          <p-checkbox
+            [binary]="true"
+            [(ngModel)]="settings.telegram.enabled"
+            inputId="telegramEnabled"
+            (ngModelChange)="state.setDirty()"
+          ></p-checkbox>
+          <label class="text-lg mx-2 mb-1" for="telegramEnabled">
+            <span>{{
+              'NotificatorModule::TelegramEnabled' | abpLocalization
+            }}</span>
+          </label>
+        </div>
+        <div class="p-1" *ngIf="settings.telegram.enabled">
+          <label>{{
+            'NotificatorModule::TelegramBotToken' | abpLocalization
+          }}</label>
+          <p-password
+            [(ngModel)]="settings.telegram.botToken"
+            [toggleMask]="true"
+            [inputStyle]="{ width: '100%' }"
+            [style]="{ width: '100%' }"
+            (ngModelChange)="state.setDirty()"
+            [feedback]="false"
+            [placeholder]="
+              'NotificatorModule::TelegramBotTokenPlaceholder' | abpLocalization
+            "
+          />
+        </div>
+        <div class="p-1" *ngIf="settings.telegram.enabled">
+          <label>{{
+            'NotificatorModule::TelegramChatId' | abpLocalization
+          }}</label>
+          <input
+            pInputText
+            [(ngModel)]="settings.telegram.chatId"
+            (ngModelChange)="state.setDirty()"
+            [placeholder]="
+              'NotificatorModule::TelegramChatIdPlaceholder' | abpLocalization
+            "
+          />
+        </div>
+        <div class="p-1" *ngIf="settings.telegram.enabled">
+          <label>{{
+            'NotificatorModule::TelegramSystemBotToken' | abpLocalization
+          }}</label>
+          <p-password
+            [(ngModel)]="settings.telegram.systemBotToken"
+            [toggleMask]="true"
+            [inputStyle]="{ width: '100%' }"
+            [style]="{ width: '100%' }"
+            (ngModelChange)="state.setDirty()"
+            [feedback]="false"
+            [placeholder]="
+              'NotificatorModule::TelegramSystemBotTokenPlaceholder'
+                | abpLocalization
+            "
+          />
+        </div>
+        <div class="p-1" *ngIf="settings.telegram.enabled">
+          <label>{{
+            'NotificatorModule::TelegramSystemChatId' | abpLocalization
+          }}</label>
+          <input
+            pInputText
+            [(ngModel)]="settings.telegram.systemChatId"
+            (ngModelChange)="state.setDirty()"
+            [placeholder]="
+              'NotificatorModule::TelegramSystemChatIdPlaceholder'
+                | abpLocalization
+            "
+          />
+        </div>
+        <div class="p-1">
+          <label>{{ 'TenantManagement::LogLevel' | abpLocalization }}</label>
+          <p-select
+            [disabled]="!settings.telegram.enabled"
+            [options]="logLevels"
+            [(ngModel)]="settings.telegram.minLogLevel"
+            (onChange)="state.setDirty()"
+            optionLabel="name"
+            optionValue="value"
+            [style]="{ width: '100%' }"
+            [placeholder]="'TenantManagement::SelectLogLevel' | abpLocalization"
+          ></p-select>
+          <small>{{
+            'NotificatorModule::TelegramSelectLogLevelDescription' | abpLocalization
+          }}</small>
+        </div>
+        <div class="p-1" *ngIf="settings.telegram.enabled">
+          <label>{{ 'NotificatorModule::TelegramTemplate' | abpLocalization }}</label>
+          <div 
+            class="system-template-preview p-3 template-border cursor-pointer hover:surface-hover"
+            (click)="openTelegramTemplateDialog()"
+            [title]="'TenantManagement::ClickToEdit' | abpLocalization"
+          >
+            <div class="text-overflow-ellipsis white-space-nowrap overflow-hidden" *ngIf="telegramTemplateContent">
+              {{ telegramTemplateContent }}
+            </div>
+            <div class="text-500 italic" *ngIf="!telegramTemplateContent">
+              {{ 'TenantManagement::ClickToSetTemplate' | abpLocalization }}
+            </div>
+          </div>
+          <small>{{
+            'NotificatorModule::TelegramTemplateDescription' | abpLocalization
+          }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<p-dialog
+  [resizable]="false"
+  [header]="'TenantManagement::SendTestEmail' | abpLocalization"
+  [(visible)]="showTestEmailDialog"
+  [modal]="true"
+  [draggable]="false"
+  (visibleChange)="testEmailDialogVisibleChange($event)"
+  *ngIf="showTestEmailDialog"
+>
+  <div class="dialog-standard">
+    <div class="grid m-0">
+      <div class="field pr-only col-12">
+        <label appRequired>{{
+          'TenantManagement::SenderEmailAddress' | abpLocalization
+        }}</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="testEmailInput.senderEmailAddress"
+          class="w-full"
+          [disabled]="loading"
+          [ngClass]="{ 'ng-invalid ng-dirty': senderEmailAddressEmpty }"
+          (input)="resetValidators()"
+        />
+      </div>
+      <div class="field pr-only col-12">
+        <label appRequired>{{
+          'TenantManagement::TargetEmailAddress' | abpLocalization
+        }}</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="testEmailInput.targetEmailAddress"
+          class="w-full"
+          [disabled]="loading"
+          [ngClass]="{ 'ng-invalid ng-dirty': targetEmailAddressEmpty }"
+          (input)="resetValidators()"
+        />
+      </div>
+      <div class="field pr-only col-12">
+        <label appRequired>{{
+          'TenantManagement::Subject' | abpLocalization
+        }}</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="testEmailInput.subject"
+          class="w-full"
+          [disabled]="loading"
+          [ngClass]="{ 'ng-invalid ng-dirty': subjectEmpty }"
+          (input)="resetValidators()"
+        />
+      </div>
+      <div class="field pr-only col-12">
+        <label>{{ 'TenantManagement::Body' | abpLocalization }}</label>
+        <textarea
+          rows="5"
+          pTextarea
+          class="w-full"
+          [autoResize]="true"
+          [(ngModel)]="testEmailInput.body"
+          [disabled]="loading"
+        >
+        </textarea>
+      </div>
+    </div>
+    <div class="mt-2 flex justify-content-end gap-3">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="closeTestEmailDialog()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+      >
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="fa fa-paper-plane"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="sendTestEmail()"
+        [label]="'Infrastructure::Send' | abpLocalization"
+      >
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- <app-create-template-dialog
+  [visible]="templateDialogVisible"
+  [header]="templateDialogHeader"
+  [templateName]="templateDialogName"
+  [templateType]="templateDialogType"
+  [fixedType]="templateDialogType"
+  (visibleChange)="onTemplateDialogVisibleChange($event)"
+  (saved)="onTemplateSaved($event)"
+>
+</app-create-template-dialog> -->

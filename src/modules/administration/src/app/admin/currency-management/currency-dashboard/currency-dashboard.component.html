@@ -1,0 +1,95 @@
+<app-page-title *ngIf="showTitle" [title]="'Infrastructure::Currency:Rates:Title' | abpLocalization" icon="fas fa-money-bill"></app-page-title>
+
+<div class="card mb-2">
+  <div class="flex justify-content-start gap-3 p-2">
+    <div class="flex flex gap-2 align-items-center justify-content-start">
+      <label for="baseCurrency">{{ 'Infrastructure::BaseCurrency' | abpLocalization }}</label>
+      <p-select
+        [options]="currencies"
+        [(ngModel)]="baseCurrency"
+        optionLabel="code"
+        placeholder="{{ 'Infrastructure::SelectCurrency' | abpLocalization }}"
+        (onChange)="onBaseCurrencyChange()"
+        inputId="baseCurrency"
+        [disabled]="loading"
+        [showClear]="false">
+        <ng-template let-currency pTemplate="item">
+          <span>{{currency.code}}</span>
+        </ng-template>
+      </p-select>
+    </div>
+    <div class="flex flex gap-2 align-items-center justify-content-start">
+      <label for="rateDate">{{ 'Infrastructure::RateDate' | abpLocalization }}</label>
+      <p-datepicker
+				appCalendarButtonClass
+				[showIcon]="true" 
+        [(ngModel)]="date"
+        [minDate]="minDate"
+				[maxDate]="maxDate"
+        dateFormat="yy-mm-dd"
+        (onSelect)="onDateChange()"
+				[readonlyInput]="true"
+        inputId="rateDate"
+        [disabled]="loading">
+      </p-datepicker>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div style="overflow-x:auto">
+    <p-table #selectionBox 
+      [globalFilterFields]="['toCurrencyCode']"
+      [value]="rates" 
+      [loading]="loading"
+      [scrollable]="true" 
+      scrollHeight="65vh">
+      <ng-template pTemplate="caption">
+        <div class="p-inputgroup">
+          <input type="text" pInputText 
+            placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+            [(ngModel)]="filter">
+          <button type="button" pButton pRipple 
+            icon="pi pi-search" styleClass="p-button-info" class="p-button-text" 
+            (click)="selectionBox.filterGlobal(filter, 'contains')">
+          </button>
+          <button type="button" pButton pRipple 
+            icon="pi pi-times-circle" class="p-button-danger p-button-text"
+            (click)="filter = ''; selectionBox.filterGlobal(filter, 'contains')">
+          </button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="toCurrencyCode" (click)="sortBy('toCurrencyCode')">
+            {{ 'Infrastructure::Currency' | abpLocalization }}
+            <p-sortIcon field="toCurrencyCode"></p-sortIcon>
+          </th>
+          <th pSortableColumn="rate" (click)="sortBy('rate')">
+            {{ 'Infrastructure::Rate' | abpLocalization }}
+            <p-sortIcon field="rate"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rate>
+        <tr>
+          <td>{{rate.toCurrencyCode}}</td>
+          <td>{{rate.rate}}</td>
+        </tr>
+      </ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr class="table-emptymessage">
+          <td class="w-full" colspan="2">
+            <div class="card w-full">
+              <div class="card-body w-full text-center">
+                <div class="card-header">
+                 {{ 'Infrastructure::NoRatesFound' | abpLocalization }}
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+			</ng-template>
+    </p-table>
+  </div>
+</div>

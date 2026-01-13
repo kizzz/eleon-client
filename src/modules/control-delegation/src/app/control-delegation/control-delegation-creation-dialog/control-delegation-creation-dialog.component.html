@@ -1,0 +1,41 @@
+<p-dialog [resizable]="false" [header]="'TenantManagement::ControlDelegation:AddDelegation' | abpLocalization"
+  [visible]="showDialog"
+  (visibleChange)="showDialog = $event; showDialogChange.emit($event)" [modal]="true" [draggable]="false">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="col-12">
+        <h5>{{'TenantManagement::ControlDelegation:User' | abpLocalization}}</h5>
+        <div class="flex w-100 p-inputgroup">
+          <input pInputText [ngModel]="delegation.user?.name || delegation.user?.userName" class="w-100 no-select" />
+          <button pButton class="p-button-outlined p-button-success" icon="fa fa-list"
+            (click)="showUserSelection()"></button>
+        </div>
+      </div>
+      <div class="col-12">
+        <h5>{{'TenantManagement::ControlDelegation:DelegationStartDate' | abpLocalization}}</h5>
+        <p-datepicker appCalendarButtonClass styleClass="w-full" [(ngModel)]="delegation.delegationStartDate" [showIcon]="true" inputId="icon"
+          [minDate]="today" appendTo="body">
+        </p-datepicker>
+      </div>
+      <div class="col-12">
+        <h5>{{'TenantManagement::ControlDelegation:DelegationEndDate' | abpLocalization}}</h5>
+        <p-datepicker appCalendarButtonClass styleClass="w-full" [(ngModel)]="delegation.delegationEndDate" [showClear]="true" [showIcon]="true"
+          appendTo="body" inputId="icon">
+        </p-datepicker>
+      </div>
+      <div class="col-12">
+        <h5>{{'TenantManagement::ControlDelegation:Reason' | abpLocalization}}</h5>
+        <input pInputText [(ngModel)]="delegation.reason" class="w-100" />
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="w-100 flex align-items-center justify-content-between">
+      <button pButton class="p-button-outlined p-button-warning"
+        [label]="'Infrastructure::Cancel' | abpLocalization" (click)="cancel()"></button>
+      <button pButton class="p-button-outlined p-button-success" [label]="'Infrastructure::Save' | abpLocalization"
+        (click)="save()"></button>
+    </div>
+  </ng-template>
+</p-dialog>

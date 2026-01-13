@@ -1,0 +1,24 @@
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" [header]="'Infrastructure::CreateNewCompany' | abpLocalization" [modal]=true (visibleChange)="closeEvent.emit()">
+
+  <div class="grid data">
+    <div class="col-12">
+      <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+                {{'Infrastructure::Name' | abpLocalization}}
+            </span>
+          </div>
+          <div class="col-8">
+            <input pInputText [(ngModel)]="orgUnitName" class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': nameEmpty}"
+            (input)="resetNameValidator()">
+          </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button [text]="true" [raised]="true" [label]="'Infrastructure::Create' | abpLocalization"
+        (click)="create()" icon="fa fa-check">
+      </p-button>
+  </ng-template>
+</p-dialog>

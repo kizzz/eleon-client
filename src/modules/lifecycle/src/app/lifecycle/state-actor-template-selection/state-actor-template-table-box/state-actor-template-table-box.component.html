@@ -1,0 +1,146 @@
+<div class="grid min-w-full m-0">
+  <div class="field col-12 pr-only">
+    <label appRequired>{{
+      'Lifecycle::States:Actors:Type' | abpLocalization
+    }}</label>
+    <p-select
+      [options]="types"
+      [(ngModel)]="selectedType"
+      [ngClass]="{ 'ng-invalid ng-dirty': typeEmpty }"
+      (ngModelChange)="actorTypeChange($event)"
+      placeholder="{{
+        'Lifecycle::States:Actors:Type:Select' | abpLocalization
+      }}"
+      optionLabel="name"
+      [showClear]="true"
+      fluid
+      [style]="{ width: '100%', 'text-align': 'left' }"
+    >
+    </p-select>
+  </div>
+  <div
+    class="field col-12 pr-only"
+    *ngIf="!(selectedType?.value === 0 || selectedType?.value === 3)"
+  >
+    <label>{{
+      'Lifecycle::States:Actors:Description' | abpLocalization
+    }}</label>
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="inputName"
+      (ngModelChange)="pageStateService.setDirty()"
+      class="w-full"
+      (change)="pageStateService.setDirty()"
+    />
+  </div>
+  <div
+    *ngIf="
+      selectedType?.value &&
+      (selectedType?.value === 1 || selectedType?.value === 2)
+    "
+    class="field col-12 pr-only"
+  >
+    <label appRequired>{{ getActorSelectionTitle() }}</label>
+    <div [ngSwitch]="selectedType?.value">
+      <div class="flex align-items-center" *ngSwitchCase="1">
+        <div class="input-group w-full flex p-inputgroup">
+          <input
+            class="no-select flex-1"
+            [value]="selectedUser?.name"
+            type="text"
+            pInputText
+            [readOnly]="true"
+            [ngClass]="{ 'ng-invalid ng-dirty': userEmpty }"
+          />
+          <button
+            pButton
+            (click)="showUserSelection()"
+            class="p-button-text"
+            style="width: 3rem"
+            icon="fa fa-list"
+          ></button>
+        </div>
+      </div>
+
+      <div class="flex align-items-center" *ngSwitchCase="2">
+        <div class="input-group w-full flex p-inputgroup">
+          <input
+            class="no-select flex-1"
+            [value]="selectedRole?.name"
+            type="text"
+            pInputText
+            [readOnly]="true"
+            [ngClass]="{ 'ng-invalid ng-dirty': roleEmpty }"
+          />
+          <button
+            pButton
+            (click)="showRoleSelection()"
+            class="p-button-text"
+            style="width: 3rem"
+            icon="fa fa-list"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="field col-12 pr-only">
+    <label>{{ 'Lifecycle::States:Actors:IsActive' | abpLocalization }}</label>
+    <p-select
+      [style]="{ width: '100%' }"
+      [options]="enableOptions"
+      [(ngModel)]="selectedActiveState"
+      optionLabel="name"
+      optionValue="value"
+      placeholder="{{ 'Lifecycle::States:Actors:IsActive' | abpLocalization }}"
+      fluid
+    />
+  </div>
+</div>
+
+<!-- <div class="grid" *ngIf="!reviewer">
+  <div class="p-inputgroup col-12 flex">
+    <span class="p-inputgroup-addon flex-grow-1">
+      {{ "Lifecycle::States:Actors:ApprovalAdmin" | abpLocalization }}
+    </span>
+    <span class="p-inputgroup-addon">
+      <p-checkbox [(ngModel)]="approvalAdmin" [binary]="true"
+        [style]="{'width':'100%'}"
+        autoWidth="false"></p-checkbox>
+    </span>
+  </div>
+  <div class="p-inputgroup col-12 flex">
+    <span class="p-inputgroup-addon flex-grow-1">
+      {{ "Lifecycle::States:Actors:ApprovalManager" | abpLocalization }}
+    </span>
+    <span class="p-inputgroup-addon">
+      <p-checkbox [(ngModel)]="approvalManager" [binary]="true"
+        [style]="{'width':'100%'}"
+        autoWidth="false"></p-checkbox>
+    </span>
+  </div>
+</div> -->
+
+<!-- <div *ngIf="!reviewer">
+  <app-task-list-selection class="p-3" [title]="('UserFields::Header' | abpLocalization) + ' Task List' "
+    [defaultSelected]="taskLists[documentObjectType]"
+    (selectionEvent)="onTaskListChange($event, documentObjectType)"></app-task-list-selection>
+  <app-task-list-selection class="p-3" *ngFor="let type of docTypes" [title]="type?.name + ' Task List'"
+    (selectionEvent)="onTaskListChange($event, type?.value)"
+    [defaultSelected]="taskLists[type?.value]"></app-task-list-selection>
+</div> -->
+
+<hr />
+
+<div class="flex justify-content-end">
+  <p-button
+    [text]="true"
+    [raised]="true"
+    type="button"
+    (click)="save($event)"
+    styleClass="p-button-sm"
+    [label]="'Lifecycle::States:Actors:Save' | abpLocalization"
+    icon="fa fa-check"
+  >
+  </p-button>
+</div>

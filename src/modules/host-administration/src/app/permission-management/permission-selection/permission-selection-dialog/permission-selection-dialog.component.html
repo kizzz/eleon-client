@@ -1,0 +1,79 @@
+
+
+
+<p-dialog [resizable]="false" [(visible)]="showDialog" [draggable]="false" (visibleChange)="visibleChangeHandler($event)" [modal]="true"
+  [header]="'TenantManagement::Permission:PermissionSelection' | abpLocalization">
+  <div class="dialog-medium h-dialog-fixed-height">
+    <div class="grid m-0">
+      <div class="col-12 md:col-4 lg:col-4 scroll-in-modal">
+        <p-tree class="w-full" [value]="categories" selectionMode="single" (onNodeSelect)="nodeSelect($event)" [(selection)]="selected">
+          <ng-template pTemplate="category" let-category>
+            <b>{{category.label}}</b>
+          </ng-template>
+          <ng-template pTemplate="group" let-group>
+            <div class="flex align-items-center justify-content-between">
+              <span>
+                {{ group.label }}
+                <span *ngIf="getCount(group?.label) > 0" style="font-weight: 600; color: var(--active-button);">({{ getCount(group?.label) }})</span>
+              </span>
+            </div>
+          </ng-template>
+        </p-tree>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <div class="treeTableContainer">
+          <p-treeTable [value]="permissionsTree" [loading]="loading" #treeTable selectionMode="checkbox" [(selection)]="selectedPermissions">
+            <ng-template pTemplate="caption">
+              <div class="flex gap-2 align-items-center">
+                  <p-treeTableHeaderCheckbox></p-treeTableHeaderCheckbox>
+                  <span>{{'TenantManagement::Permission:SelectAll' | abpLocalization}}</span>
+              </div>
+          </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ 'TenantManagement::Permission:PermissionTable:Column:Name' | abpLocalization }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+                <td>
+                <div class="flex align-items-center justify-content-start">
+                    <div class="flex gap-2 align-items-center">
+                      <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                      <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
+                      <span>
+                        {{rowData?.name}}
+                      </span>
+                    </div>
+                </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr class="table-emptymessage">
+                  <td class="w-full">
+                    <div class="card w-full">
+                      <div class="card-body w-full text-center">
+                        {{ "TenantManagement::Permissions:List:Empty" | abpLocalization}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+            </ng-template>
+          </p-treeTable>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-end gap-3">
+      <p-button (click)="closeDialog()" [label]="'Infrastructure::Cancel' | abpLocalization" [text]="true"
+        [raised]="true" [disabled]="loading" severity="secondary" icon="fa fa-times">
+      </p-button>
+      <p-button (click)="submit()"
+        [label]="'Infrastructure::Save' | abpLocalization" [text]="true" [raised]="true" [disabled]="loading"
+        icon="fa fa-check">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

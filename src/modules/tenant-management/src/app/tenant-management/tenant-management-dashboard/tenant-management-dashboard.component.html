@@ -1,0 +1,143 @@
+<app-page-title [title]="'Infrastructure::TenantManagement:Header:Title' | abpLocalization" icon="fa-solid fa-briefcase">
+</app-page-title>
+
+<p-menu #menu [model]="hostActionItems" [popup]="true" appendTo="body">
+</p-menu>
+
+
+<ng-template appResponsiveTable="md" let-scrollable let-breakpoint="breakpoint" let-direction="direction">
+  <p-table [value]="filtered" [scrollable]="scrollable" [responsive]="true" responsiveLayout="stack"
+    [loading]="loading" [breakpoint]="breakpoint" scrollDirection="both" class="cell-left" [lazy]="true"
+    (onLazyLoad)="loadTenants()">
+     <ng-template pTemplate="caption">
+      <div class="grid mt-0">
+        <div class="col-12 md:col-6 md:pl-4 p-0 flex align-items-center justify-content-end">
+          <div class="p-inputgroup">
+            <input type="text" pInputText #searchField
+              placeholder="{{'Infrastructure::Search' | abpLocalization}}"
+              name="random-user-search-field" form="off" spellcheck="false" autocomplete="new-text"
+              [(ngModel)]="searchQueryText">
+            <button type="button" (click)="search($event)" pButton pRipple icon="pi pi-search"
+              styleClass="p-button-info" class="p-button-text">
+            </button>
+            <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
+              (click)="clear($event)">
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th appResponsiveColumn="100">
+        </th>
+        <th>
+          {{ 'Infrastructure::TenantManagement:Tenant:Name' | abpLocalization }}
+        </th>
+        <!-- <th appResponsiveColumn="80">
+          {{ 'Infrastructure::TenantManagement:IsRoot' | abpLocalization }}
+        </th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tenant>
+      <tr class="big-width-only">
+        <td appResponsiveColumn="100" style="width: 170px;">
+          <span class="non-editing-only p-column-title">
+            {{ 'Infrastructure::TenantManagement:Tenant:Actions' | abpLocalization }}
+          </span>
+          <div class="column-content">
+            <p-splitButton #splitButton icon="fa fa-cog" appendTo="body"
+              (onClick)="click(splitButton, $event); selectTenant(tenant)"
+              [label]="'Infrastructure::TenantManagement:Tenant:Actions' | abpLocalization"
+              [model]="items" raised text
+              (onDropdownClick)="selectTenant(tenant)">
+            </p-splitButton>
+          </div>
+        </td>
+        <td>
+          {{tenant.name}}
+        </td>
+        <!-- <td>
+          <div class="text-center">
+            <span *ngIf="!tenant.isRoot">
+              -
+            </span>
+            <span *ngIf="tenant.isRoot">
+              <i class="pi pi-check-circle"
+                style="font-size: medium; color: #22c55e;">
+              </i>
+            </span>
+          </div>
+        </td> -->
+      </tr>
+      <tr class="small-width-only">
+        <td appResponsiveColumn="100" colspan="2">
+          <div class="w-full flex align-items-center" style="justify-content: space-between;">
+            <div>
+              <span class="flex align-items-center gap-3">
+                {{tenant.name}}
+                <i class="pi pi-check-circle" *ngIf="tenant.isRoot" tooltipPosition="top"
+                  [pTooltip]="'Infrastructure::TenantManagement:IsRoot' | abpLocalization"
+                  style="font-size: medium; color: #22c55e;">
+                </i>
+              </span>
+            </div>
+            <div class="column-content">
+              <p-splitButton #splitButton icon="fa fa-cog" appendTo="body"
+                (onClick)="click(splitButton, $event); selectTenant(tenant)"
+                [label]="'Infrastructure::TenantManagement:Tenant:Actions' | abpLocalization"
+                [model]="items" raised text
+                (onDropdownClick)="selectTenant(tenant)">
+              </p-splitButton>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr class="table-emptymessage">
+        <td class="w-full" colspan="3">
+          <div class="card w-full">
+            <div class="card-body w-full text-center">
+              {{ 'TenantManagement::Tenants:List:Empty' | abpLocalization }}
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>
+
+<app-text-input #editConnStringDialog title="Infrastructure::TenantManagement:Tenant:EditConnString"
+  (textInputEvent)="saveConnString($event)" [newComment]="currConnStr">
+  <ng-template template="button"></ng-template>
+</app-text-input>
+
+<app-tenant-management-create-dialog #tenantCreateDialog [domainName]="domainName" (saveClicked)="onTenantSaved()">
+</app-tenant-management-create-dialog>
+
+<app-create-database-dialog #createDatabaseDialog (closeDialogEvent)="closeDialog()"> </app-create-database-dialog>
+
+<app-create-sub-domain-dialog #createSubdomainDialog (closeDialogEvent)="closeDialog()"></app-create-sub-domain-dialog>
+
+<app-tenant-external-login-settings-dialog
+  (showDialogChange)="$event ? null : closeDialog()"></app-tenant-external-login-settings-dialog>
+
+<app-tenant-hostname-settings-dialog
+  (showDialogChange)="$event ? null : closeDialog()"></app-tenant-hostname-settings-dialog>
+
+<app-tenant-client-isolation-dialog
+  (showDialogChange)="$event ? null : closeDialog()"></app-tenant-client-isolation-dialog>
+
+<app-tenant-ip-isolation-dialog (showDialogChange)="$event ? null : closeDialog()"></app-tenant-ip-isolation-dialog>
+
+<app-tenant-content-security-dialog
+  (showDialogChange)="$event ? null : closeDialog()"></app-tenant-content-security-dialog>
+
+<app-tenant-feature-settings-dialog (showDialogChange)="$event ? null : closeDialog()">
+</app-tenant-feature-settings-dialog>
+
+<app-tenant-general-settings-dialog #tenantGeneralSettingsDialog
+  [tenantId]="selectedTenant?.id"
+  (showDialogChange)="$event ? null : closeDialog()">
+</app-tenant-general-settings-dialog>

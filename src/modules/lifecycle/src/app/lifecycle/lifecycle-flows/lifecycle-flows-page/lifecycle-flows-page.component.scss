@@ -1,0 +1,38 @@
+:host {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+*[dir='rtl'] :host ::ng-deep .textAlign {
+  text-align: right !important;
+}
+
+:host ::ng-deep .textAlign {
+  text-align: left;
+}
+
+
+// :host ::ng-deep .p-inputgroup>.p-component, .p-inputgroup>.p-element, .p-inputgroup>.p-inputwrapper>.p-component>.p-inputtext, .p-inputgroup>.p-float-label>.p-component {
+//   border-radius: 0;
+//   margin: 0;
+//   border-top-width: 1px;
+//   border-right-width: 0px;
+//   border-bottom-width: 1px;
+//   border-left-width: 1px;
+//   border-top-style: solid;
+//   border-right-style: solid;
+//   border-bottom-style: solid;
+//   border-left-style: solid;
+//   border-top-color: rgb(206, 212, 218) !important;
+//   border-right-color: rgb(206, 212, 218) !important;
+//   border-bottom-color: rgb(206, 212, 218) !important;
+//   border-left-color: rgb(206, 212, 218) !important;
+// }
+
+// .p-button:focus{
+//   box-shadow: none !important;
+// }
+

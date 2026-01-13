@@ -1,0 +1,15 @@
+.data {
+  max-width: 85vw;
+  min-width: 85vw;
+  width: 85vw;
+
+  @media screen and (min-width: 768px) {
+    max-width: 18vw;
+    min-width: 18vw;
+    width: 18vw;
+  }
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content{
+  padding-bottom: 0px !important;
+}

@@ -1,0 +1,6 @@
+<button class="doc-uploader" (click)="fileInput.click()">
+  <i class="fas fa-paperclip"></i>
+</button>
+
+<input class="hidden" #fileInput type="file" id="file" (change)="handleFileInput($event.target.files)" multiple
+  name="files[]">
