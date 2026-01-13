@@ -12,7 +12,7 @@ import { ResponsiveTableModule } from '@eleon/primeng-ui.lib';
 import { ProfilePictureModule } from '@eleon/primeng-ui.lib';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogModule } from 'primeng/dialog'
-import { PROXY_SERVICES } from '../proxy';
+import { PROXY_SERVICES } from '@eleon/identity-querying.lib';
 
 @NgModule({
   declarations: [

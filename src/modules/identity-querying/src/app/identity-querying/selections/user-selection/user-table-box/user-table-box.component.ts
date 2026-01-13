@@ -7,7 +7,7 @@ import { DataService } from '@eleon/primeng-ui.lib';
 import { CheckPermission } from '@eleon/angular-sdk.lib';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog'
-import { CommonOrganizationUnitDto, CommonUserDto, UserQueryingService } from '../../proxy';
+import { CommonOrganizationUnitDto, CommonUserDto, UserQueryingService } from '@eleon/identity-querying.lib';
 
 @Component({
   standalone: false,

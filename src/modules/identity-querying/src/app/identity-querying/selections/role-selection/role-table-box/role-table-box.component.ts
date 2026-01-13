@@ -6,7 +6,7 @@ import { CheckPermission } from '@eleon/angular-sdk.lib';
 import { finalize, first, forkJoin, map } from 'rxjs';
 import { DataService } from '@eleon/primeng-ui.lib';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog'
-import { CommonRoleDto, RoleQueryingService } from '../../proxy';
+import { CommonRoleDto, RoleQueryingService } from '@eleon/identity-querying.lib';
 // import { PermissionsService } from '@eleon/tenant-management-proxy';
 
 

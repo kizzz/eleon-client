@@ -4,7 +4,7 @@ import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { DataService } from '@eleon/primeng-ui.lib';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { CommonTenantDto, TenantQueryingService } from '../../proxy';
+import { CommonTenantDto, TenantQueryingService } from '@eleon/identity-querying.lib';
 
 @Component({
   standalone: false,

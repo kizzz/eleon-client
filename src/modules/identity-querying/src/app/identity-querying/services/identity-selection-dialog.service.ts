@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core'
 import { IIdentitySelectionDialogService, ILocalizationService, OrganizationUnitSelectionDialogConfig, OrganizationUnitSelectionEvent, RoleSelectionDialogConfig, TenantSelectionDialogConfig, UserSelectionDialogConfig } from '@eleon/angular-sdk.lib'
 import { DialogService } from 'primeng/dynamicdialog';
-import { OrganizationUnitsSelectionTreeComponent, RoleSelectionBoxComponent, TenantSelectionBoxComponent, UserSelectionBoxComponent } from '@eleon/identity-querying.lib';
+import { UserSelectionBoxComponent } from '../selections/user-selection/user-table-box/user-table-box.component';
+import { TenantSelectionBoxComponent } from '../selections/tenant-selection/tenant-table-box/tenant-table-box.component';
+import { RoleSelectionBoxComponent } from '../selections/role-selection/role-table-box/role-table-box.component';
+import { OrganizationUnitsSelectionTreeComponent } from '../selections/organization-units-selection/organization-units-selection-tree/organization-units-selection-tree.component';
 
 @Injectable({
   providedIn: 'root'
