@@ -3,7 +3,7 @@
   (visibleChange)="onVisibleChange($event)"
   (onHide)="onHide()"
   [modal]="true"
-  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
+  [style]="{ width: isMobile ? '90vw' : '50vw', height: '600px' }"
   [closable]="true"
   [resizable]="false"
   appendTo="body"
@@ -11,10 +11,11 @@
   [baseZIndex]="10000"
   [focusOnShow]="false"
   [contentStyle]="{
-    padding: '0',
-    overflow: 'hidden',
-    display: 'flex',
-    'flex-direction': 'column'
+    'padding': '0',
+    'overflow': 'hidden',
+    'display': 'flex',
+    'flex-direction': 'column',
+    'height': '100%'
   }"
   *ngIf="log"
 >
@@ -33,10 +34,10 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 1rem 1rem 0 1rem;
+      padding: 0rem 1rem 0 1rem;
     "
   >
-    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+    <div style="flex: 1; overflow-y: auto; margin: 0">
       <div class="textAlign">
         <p-tabs value="details">
           <p-tablist>
@@ -218,7 +219,7 @@
             <p-table
               [value]="log?.extraProperties | keyvalue"
               [responsiveLayout]="'scroll'"
-              class="p-datatable-sm mt-3 expand-vertical"
+              class="mt-3 expand-vertical"
             >
               <ng-template pTemplate="body" let-prop>
                 <tr>
