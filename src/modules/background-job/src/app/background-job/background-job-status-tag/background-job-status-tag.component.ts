@@ -37,7 +37,7 @@ const execIcons: { [key: number]: string } = {
   styleUrls: ['./background-job-status-tag.component.scss']
 })
 
-export class BackgroundJobStatusTagComponent implements OnInit {
+export class BackgroundJobStatusTagComponent implements OnInit, OnChanges {
   localizedBackgroundJobStatuses: LocalizedBackgroundJobStatus[];
 	localizedBackgroundJobExecutionStatuses: LocalizedBackgroundJobExecutionStatus[];
   @Input()
@@ -55,6 +55,12 @@ export class BackgroundJobStatusTagComponent implements OnInit {
   constructor(
     public localizationService: ILocalizationService,
   ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value']) {
+      this.setValue();
+    }
+  }
 
   get display(): boolean {
     return !isNaN(this.value);
