@@ -21,7 +21,7 @@
       ],
 
       "@eleon/system-log-proxy": [
-        "src/shared/proxies/typescript-proxy/system-log-proxy/src/index.ts"
+        "src/modules/system-log/src/app/proxy/index.ts"
       ],
 
       "@eleoncore/ng.schematics": [

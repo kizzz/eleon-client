@@ -2,7 +2,7 @@ import { Injectable, Optional } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
 import { IAuthManager } from '@eleon/contracts.lib';
 import { WebPushService } from '@eleon/notificator-proxy';
-import { ErrorHandlingLevel } from '@eleon/application-configuration-proxy';
+import { ErrorHandlingLevel } from '@eleon/contracts.lib';
 import { IApplicationConfigurationManager, ICommunicationManager } from '@eleon/contracts.lib';
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 

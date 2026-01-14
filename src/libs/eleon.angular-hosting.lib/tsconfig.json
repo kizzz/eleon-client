@@ -39,6 +39,18 @@
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"
       ],
+      "@eleon/app-config.lib": [
+        "src/libs/eleon.app-config.lib/src/index.ts"
+      ],
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
+      ],
+      "@eleon/storage.lib": [
+        "src/libs/eleon.storage.lib/src/index.ts"
+      ],
+      "@eleon/logging.lib": [
+        "src/libs/eleon.logging.lib/src/index.ts"
+      ],
 
       "@eleon/ts-hosting.lib": [
         "src/libs/eleon.ts-hosting.lib/src/index.ts"
