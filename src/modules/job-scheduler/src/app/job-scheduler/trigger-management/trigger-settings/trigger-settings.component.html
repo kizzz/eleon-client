@@ -190,6 +190,7 @@
       <th>{{ 'JobScheduler::Trigger:Start' | abpLocalization }}</th>
       <th>{{ 'JobScheduler::Trigger:Expire' | abpLocalization }}</th>
       <th>{{ 'JobScheduler::Trigger:PeriodType' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Trigger:NextRunTime' | abpLocalization }}</th>
       <th appResponsiveColumn="100" class="center-cell">
         {{ 'JobScheduler::Trigger:IsEnabled' | abpLocalization }}
       </th>
@@ -227,6 +228,10 @@
       <td>{{ row.data.startUtc | date : 'M/d/yy, H:mm' : 'UTC' }}</td>
       <td>{{ (row.data.expireUtc | date : 'M/d/yy, H:mm' : 'UTC') || '-' }}</td>
       <td>{{ row.localizedPeriodType }}</td>
+      <td>
+        <span *ngIf="row.data.nextRunUtc">{{ row.data.nextRunUtc | date : 'M/d/yy, H:mm' : 'UTC' }}</span>
+        <span *ngIf="!row.data.nextRunUtc">-</span>
+      </td>
       <td class="center-cell">
         <p-checkbox
           [(ngModel)]="row.data.isEnabled"
@@ -236,6 +241,12 @@
       </td>
       <td>
         <div class="flex justify-content-end align-items-center gap-3">
+          <span
+            class="fa-solid fa-stopwatch cursor-pointer text-primary"
+            (click)="openNextRuntimesDialog(row.data.id)"
+            pTooltip="{{ 'JobScheduler::Trigger:ViewNextRuntimes' | abpLocalization }}"
+            tooltipPosition="top"
+          ></span>
           <span
             class="fa fa-edit cursor-pointer text-primary"
             (click)="openTriggerSettingDialog(row.data.id)"
@@ -509,5 +520,9 @@
       "
       styleClass="p-button-primary"
     ></p-button>
-  </ng-template>
-</p-dialog>
+      </ng-template>
+    </p-dialog>
+<app-trigger-nextruntimes
+  [(visible)]="showNextRuntimesDialog"
+  [triggerId]="selectedTriggerIdForNextRuntimes"
+></app-trigger-nextruntimes>

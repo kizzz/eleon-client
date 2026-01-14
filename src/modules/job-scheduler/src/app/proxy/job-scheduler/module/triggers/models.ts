@@ -6,6 +6,7 @@ export interface TriggerDto {
   name?: string;
   isEnabled: boolean;
   startUtc?: string;
+  nextRunUtc?: string;
   expireUtc?: string;
   periodType: TimePeriodType;
   period: number;

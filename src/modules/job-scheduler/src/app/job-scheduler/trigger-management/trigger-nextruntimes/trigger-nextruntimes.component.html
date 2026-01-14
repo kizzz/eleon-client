@@ -1,0 +1,94 @@
+<p-dialog
+  [header]="'JobScheduler::Trigger:NextRuntimes:Title' | abpLocalization"
+  [(visible)]="visible"
+  (visibleChange)="onVisibleChange($event)"
+  appendTo="body"
+  [modal]="true"
+  [resizable]="false"
+  [draggable]="false"
+  [style]="{ width: 'min(90vw, 700px)' }"
+>
+  <div style="max-height: 60vh; overflow-y: auto">
+    <p-table
+      [value]="filteredRuntimes"
+      [loading]="loading"
+      [rows]="10"
+      [paginator]="true"
+      responsiveLayout="scroll"
+      class="cell-center"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid align-items-center gap-2">
+          <div class="col-8">
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="onSearchChange()"
+              [placeholder]="'Infrastructure::Search' | abpLocalization"
+              style="width: 100%"
+            />
+          </div>
+
+          <div class="col flex align-items-center gap-2">
+            <span>
+              {{ 'JobScheduler::Trigger:NextRuntimes:Count' | abpLocalization }}
+            </span>
+            <p-inputNumber
+              [(ngModel)]="count"
+              [min]="1"
+              [step]="1"
+              [showButtons]="true"
+              [inputStyle]="{ width: '80px' }"
+            ></p-inputNumber>
+            <p-button
+              icon="fa fa-sync-alt"
+              (click)="onReload()"
+              [disabled]="loading"
+              text
+              raised
+              [pTooltip]="'Infrastructure::Reload' | abpLocalization"
+              tooltipPosition="top"
+            ></p-button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ 'JobScheduler::Trigger:NextRuntimes:RunTime' | abpLocalization }}</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-runtime>
+        <tr>
+          <td>{{ runtime.runTime | date : 'M/d/yy, H:mm' : 'UTC' }}</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-100" colspan="2">
+            <div class="card w-100">
+              <div class="card-body w-100">
+                {{ 'JobScheduler::Trigger:NextRuntimes:NoRuntimes' | abpLocalization }}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      type="button"
+      icon="fa fa-times"
+      [text]="true"
+      [raised]="true"
+      [label]="'Infrastructure::Close' | abpLocalization"
+      styleClass="p-button-secondary"
+      (click)="onVisibleChange(false)"
+    ></p-button>
+  </ng-template>
+</p-dialog>

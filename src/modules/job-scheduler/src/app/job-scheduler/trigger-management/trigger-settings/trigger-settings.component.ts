@@ -107,6 +107,8 @@ export class TriggerSettingsComponent implements OnInit, OnChanges {
   triggers: TriggerRow[];
   isEditingTriggers = false;
   loading = false;
+  showNextRuntimesDialog = false;
+  selectedTriggerIdForNextRuntimes: string;
 
   @Input()
   editing = false;
@@ -722,6 +724,11 @@ export class TriggerSettingsComponent implements OnInit, OnChanges {
   onEditDialogClosed(): void {
     this.editedId = null;
     this.initTrigger();
+  }
+
+  openNextRuntimesDialog(triggerId: string): void {
+    this.selectedTriggerIdForNextRuntimes = triggerId;
+    this.showNextRuntimesDialog = true;
   }
   private fromUtcIgnoringOffset(value?: string | null): Date | null {
   if (!value) return null;

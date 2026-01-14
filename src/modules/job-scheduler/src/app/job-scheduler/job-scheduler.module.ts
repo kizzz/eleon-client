@@ -22,6 +22,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { TagModule } from 'primeng/tag';
 import { MessageModule } from 'primeng/message';
 import { TriggerSettingsComponent } from './trigger-management/trigger-settings/trigger-settings.component';
+import { TriggerNextRuntimesComponent } from './trigger-management/trigger-nextruntimes/trigger-nextruntimes.component';
 import { TaskListComponent } from './task-management/task-list/task-list.component';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TaskDetailsComponent } from './task-management/task-details/task-details.component';
@@ -44,6 +45,7 @@ import { PROXY_SERVICES } from '@eleon/job-scheduler-proxy'
 @NgModule({
   declarations: [
     TriggerSettingsComponent,
+    TriggerNextRuntimesComponent,
 		ActionSettingsComponent,
     TaskDetailsComponent,
     TaskListComponent,
