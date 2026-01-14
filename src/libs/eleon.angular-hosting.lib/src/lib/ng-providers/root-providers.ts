@@ -1,11 +1,8 @@
 import {
   NoopAuthService,
-  useEleoncoreErrorHandling,
   ModuleLoadingObservableService,
   hasOidcUserInLocalStorage,
   ClientAuthManager,
-  EleoncoreErrorHandlingService,
-  ApplicationConfigurationManager,
   TelemetryService,
   initAccessToken,
   VPortalUserMenuService,
@@ -15,14 +12,11 @@ import {
   SoundsService,
 } from '@eleon/ts-hosting.lib';
 import { APP_INITIALIZER, Component, importProvidersFrom, Injector, isDevMode, PLATFORM_ID, Provider } from '@angular/core';
-import { EleoncoreApplicationConfigurationDto } from '@eleon/application-configuration-proxy';
-import { SystemLogService } from '@eleon/system-log-proxy';
 import { SessionsService, TenantAppearanceService } from '@eleon/tenant-management-proxy';
-import { PROXY_SERVICES as APPLICATION_CONFIGURATION_PROXY_SERVICES } from '@eleon/application-configuration-proxy';
+import { PROXY_SERVICES as APPLICATION_CONFIGURATION_PROXY_SERVICES, ApplicationConfigurationManager, EleoncoreApplicationConfigurationDto } from '@eleon/app-config.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
-import { PROXY_SERVICES as SYSTEM_LOG_PROXY_SERVICES } from '@eleon/system-log-proxy';
+import { PROXY_SERVICES as SYSTEM_LOG_PROXY_SERVICES, SystemLogService } from '@eleon/system-services.lib';
 import { PROXY_SERVICES as NOTIFICATOR_PROXY_SERVICES } from '@eleon/notificator-proxy';
-import { PROXY_SERVICES as STORAGE_PROXY_SERVICES } from '@eleon/storage-proxy';
 import { PROXY_SERVICES as IDENTITY_QUERYING_PROXY_SERVICES } from '@eleon/identity-querying.lib';
 import { PermissionService, QuickReloginService } from '@eleon/typescript-sdk.lib';
 import {
@@ -34,20 +28,20 @@ import {
   ModuleSettingService,
   registerLocale,
   EcContainerService,
-  sendSystemLogs,
 } from '@eleon/ts-hosting.lib';
 import { NoopConfigStateService, NoopSessionStateService } from '@eleon/ts-hosting.lib';
 import { HashLocationStrategy, isPlatformBrowser, LocationStrategy } from '@angular/common';
 import { ServiceWorkerModule } from "@angular/service-worker";
-import { NgModuleLoaderManager, IdentityHubService, SystemEventsService, ImpersonationService, CachedLightweightStorageService } from "../ng-services";
+import { NgModuleLoaderManager, IdentityHubService, SystemEventsService, ImpersonationService } from "../ng-services";
 import { IAssetLoaderService, IBreadcrumbsService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
-import { ClientLogService } from '@eleon/ts-hosting.lib';
+import { ClientLogService, sendSystemLogs, EleoncoreErrorHandlingService } from '@eleon/logging.lib';
 import { EleoncoreError, IAppearanceService, IVPortalMenuService, IVPortalTopbarService } from '@eleon/contracts.lib';
 
 import { IPermissionService, ILocalizationService, ISystemEventsService, ISessionStateService, IDynamicLocalizationService, IModuleSettingService, IQuickReloginService, IVPortalUserMenuService, IAuditDialogService, ITelemetryService, CHAT_MODULE_CONFIG, DEFAULT_CHAT_MODULE_CONFIG, ILogsDialogService, IFileExplorerDialogService, IFileArchiveSelectionDialogService, IApplicationConfigurationManager, IAuthManager, ITemplatingDialogService } from '@eleon/contracts.lib';
 import { Router } from '@angular/router'
 import { MessageService } from 'primeng/api'
-import { LightweightStorageItemService } from '@eleon/storage-proxy'
+import { PROXY_SERVICES as STORAGE_PROXY_SERVICES, LightweightStorageItemService } from '@eleon/storage.lib';
+import { CachedLightweightStorageService } from '@eleon/storage.lib';
 
 export function registerBasicProviders(appConfiguration?: IApplicationConfigurationManager, moduleLoader?: IModuleLoaderManager, appId?: string, defaultAppConfig?: EleoncoreApplicationConfigurationDto) {
     return [

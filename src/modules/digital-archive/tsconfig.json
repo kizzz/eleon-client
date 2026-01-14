@@ -41,67 +41,13 @@
       "@eleon/angular-sdk.lib": [
         "src/shared/libs/eleon.angular-sdk.lib/src/index.ts"
       ],
-      "@eleon/document-viewer.lib": [
-        "src/shared/libs/eleon.document-viewer.lib/src/index.ts"
-      ],
-      "@eleon/editor.lib": [
-        "src/shared/libs/eleon.editor.lib/src/index.ts"
-      ],
-      "@eleon/localization.lib": [
-        "src/shared/libs/eleon.localization.lib/src/index.ts"
-      ],
       "@eleon/primeng-ui.lib": [
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
-      ],
-      "@eleon/page-title.lib": [
-        "src/shared/libs/eleon.page-title.lib/src/index.ts"
-      ],
-      "@eleon/page-state.lib": [
-        "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
-      ],
-      "@eleon/tables.lib": [
-        "src/shared/libs/eleon.tables.lib/src/index.ts"
       ],
 
       "@eleon/storage-provider.lib": [
         "src/libs/eleon.storage-provider.lib/src/index.ts"
-      ],
-      "@eleon/identity-selection.lib": [
-        "src/libs/eleon.identity-selection.lib/src/index.ts"
-      ],
-      "@eleon/user-sessions.lib": [
-        "src/libs/eleon.user-sessions.lib/src/index.ts"
-      ],
-
-			"@vportal-ui/eleonsoft-primeng-layout": [
-        "src/modules/primeng-layout/src/app/eleonsoft.app.module.ts"
-      ],
-			"@vportal-ui/eleonsoft-primeng-layout/*": [
-				"src/modules/primeng-layout/src/app/layout/*"
-			],
-			"@vportal-ui/administration-module": [
-				"src/modules/administration/src/app/admin/administration.module.ts"
-			],
-			"@vportal-ui/eleonsoft-usermanagement": [
-				"src/modules/usermanagement/src/app/eleonsoft.app.module.ts"
-			],
-			"@vportal-ui/eleonsoft-logo": [
-				"src/modules/logo/src/app/eleonsoft.app.module.ts"
-			],
-
-
-
-
-
-      "@eleon/system-log-proxy": [
-        "src/shared/proxies/typescript-proxy/system-log-proxy/src/index.ts"
-      ],
-      "@eleon/notificator-proxy": [
-        "src/shared/proxies/typescript-proxy/notificator-proxy/src/index.ts"
-      ],
-      "@eleon/application-configuration-proxy": [
-        "src/shared/proxies/typescript-proxy/application-configuration-proxy/src/index.ts"
-      ],
+      ]
     }
   }
 }

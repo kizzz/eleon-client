@@ -54,9 +54,6 @@
       "@eleon/storage-proxy": [
         "src/shared/proxies/typescript-proxy/storage-proxy/src/index.ts"
       ],
-      "@eleon/system-log-proxy": [
-        "src/shared/proxies/typescript-proxy/system-log-proxy/src/index.ts"
-      ],
       "@eleon/tenant-management-proxy": [
         "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
       ],
@@ -87,6 +84,18 @@
       ],
       "@eleon/user-sessions.lib": [
         "src/libs/eleon.user-sessions.lib/src/index.ts"
+      ],
+      "@eleon/app-config.lib": [
+        "src/libs/eleon.app-config.lib/src/index.ts"
+      ],
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
+      ],
+      "@eleon/storage.lib": [
+        "src/libs/eleon.storage.lib/src/index.ts"
+      ],
+      "@eleon/logging.lib": [
+        "src/libs/eleon.logging.lib/src/index.ts"
       ],
 
 			"@vportal-ui/eleonsoft-primeng-layout": [

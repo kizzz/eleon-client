@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { extractProvidersFromLoadedModule, activateSubModules, addRoutes, isNgModule, getBaseProviders, getRemoteDefinitionsFromConfig, addBootstrapModuleToConfig, loadRootModules, loadNonRootModules } from '../ng-helpers/module-loading-helper';
 import { computeRemoteDefinitions, getModulesWithSettings } from '@eleon/ts-hosting.lib';
 import { loadRemoteModule, setRemoteDefinitions } from '@nx/angular/mf';
-import { ErrorHandlingLevel } from '@eleon/application-configuration-proxy';
+import { ErrorHandlingLevel } from '@eleon/contracts.lib';
 import { IApplicationConfigurationManager, IModuleLoadingObservableService } from '@eleon/contracts.lib';
 import { EC_APP_INITIALIZERS } from '@eleon/angular-sdk.lib';
 import { ecAppInitializer, registerBasicProviders } from '../ng-providers';

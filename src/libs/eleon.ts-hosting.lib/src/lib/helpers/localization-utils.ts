@@ -1,4 +1,4 @@
-import { ApplicationLocalizationConfigurationDto } from '@eleon/application-configuration-proxy';
+import { ApplicationLocalizationConfigurationDto } from '@eleon/contracts.lib';
 
 // This will not be necessary when only Angukar 9.1+ is supported
 export function getLocaleDirection(locale: string): 'ltr' | 'rtl' {

@@ -1,5 +1,5 @@
 import { EleoncoreError, IApplicationConfigurationManager } from '@eleon/contracts.lib';
-import { ApplicationModuleDto, ErrorHandlingLevel } from '@eleon/application-configuration-proxy';
+import { ApplicationModuleDto, ErrorHandlingLevel } from '@eleon/contracts.lib';
 import { IModuleLoaderManager } from '@eleon/contracts.lib';
 
 declare global {

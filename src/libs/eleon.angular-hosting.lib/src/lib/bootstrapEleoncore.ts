@@ -1,17 +1,17 @@
 import {
-  ApplicationConfigurationManager,
-  useEleoncoreErrorHandling,
   ConfigureTelemetryHelperService,
   getOidcUserProfile,
   initAccessToken,
 } from '@eleon/ts-hosting.lib';
+import { ApplicationConfigurationManager } from '@eleon/app-config.lib';
 import { EnvironmentProviders, ModuleWithProviders, NgModule, Provider, Type } from "@angular/core";
 import { NgModuleLoaderManager, ModuleLoadingConfigurationOptions } from './ng-services';
 import { bootstrapApplication } from "@angular/platform-browser";
 import { EcHostComponent } from "./ng-components";
 import { provideRouter } from "@angular/router";
-import { EleoncoreApplicationConfigurationDto, ErrorHandlingLevel,} from '@eleon/application-configuration-proxy';
-import { useApiBase } from '@eleon/angular-sdk.lib'
+import { EleoncoreApplicationConfigurationDto, ErrorHandlingLevel,} from '@eleon/contracts.lib';
+import { useApiBase } from '@eleon/angular-sdk.lib';
+import { useEleoncoreErrorHandling } from '@eleon/logging.lib';
 
 export type NgEleoncoreStartOptions = ModuleLoadingConfigurationOptions & {
   errorFn?: (error: any) => void;
@@ -51,7 +51,7 @@ export async function bootstrapEleoncore(options: NgEleoncoreStartOptions) {
       const base = document.querySelector('base');
       options.basePath = base.getAttribute("href");
     }
-    await applicationConfiguration.init(options.basePath, options.applicationConfiguration);
+    await applicationConfiguration.init(options.basePath, options.applicationConfiguration as any);
 
     const profile = getOidcUserProfile();
 
