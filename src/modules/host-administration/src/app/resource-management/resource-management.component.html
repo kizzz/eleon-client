@@ -93,10 +93,10 @@
       </div>
     </div>
   </div>
-  <p-footer class="flex gap-3 justify-content-end">
+  <ng-template #footer>
     <p-button icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="displayDiscoverDialog = false" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
     <p-button icon="fa fa-plus" [label]="'Infrastructure::Add' | abpLocalization" (click)="create()" [text]="true" [raised]="true" [disabled]="loading"></p-button>
-  </p-footer>
+  </ng-template>
 </p-dialog>
 
 
@@ -139,9 +139,9 @@
     </div>
   </div>
 
-  <p-footer class="flex gap-3 justify-content-end">
+  <ng-template #footer>
     <p-button icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="displaySettingsDialog = false" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
       <p-button icon="fa fa-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="edit()" [text]="true" [raised]="true" [disabled]="loading"></p-button>
-  </p-footer>
+  </ng-template>
 </p-dialog>
 

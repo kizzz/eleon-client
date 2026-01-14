@@ -310,9 +310,9 @@
       </p-tabs>
     </div>
   </div>
-  <p-footer class="flex gap-3 justify-content-end">
+  <ng-template #footer>
     <p-button *ngIf="selectedNode.data.nodeType === 'client-app'" icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="cancelEditAppSettings()" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
     <p-button *ngIf="selectedNode.data.nodeType !== 'client-app'" icon="pi pi-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="saveSettings()" [text]="true" [raised]="true"></p-button>
     <p-button *ngIf="selectedNode.data.nodeType === 'client-app'" icon="pi pi-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="saveAppSettings()" [text]="true" [raised]="true" styleClass="p-button-primary" [disabled]="selectedNode.data.isSystem"></p-button>
-  </p-footer>
+  </ng-template>
 </p-dialog>
