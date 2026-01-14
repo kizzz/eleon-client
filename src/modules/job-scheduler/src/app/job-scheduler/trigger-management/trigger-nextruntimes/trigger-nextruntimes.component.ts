@@ -26,7 +26,7 @@ export class TriggerNextRuntimesComponent implements OnInit, OnChanges {
   filteredRuntimes: NextRuntimeRow[] = [];
   loading = false;
   searchQuery = '';
-  count = 10;
+  count = 50;
 
   constructor(
     private triggerService: TriggerService,
@@ -42,9 +42,11 @@ export class TriggerNextRuntimesComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['visible'] && changes['visible'].currentValue && this.triggerId) {
+      this.count = 50;
       this.loadNextRuntimes();
     }
     if (changes['triggerId'] && this.visible && this.triggerId) {
+      this.count = 50;
       this.loadNextRuntimes();
     }
   }
