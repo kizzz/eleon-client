@@ -1,4 +1,4 @@
-import { withModuleFederation } from '../../shared/nx/utils';
+import { withModuleFederation } from '../../shared/nx-webpack-utils';
 import { composePlugins } from '@nx/webpack';
 import { SharedLibraryConfig } from '@nx/module-federation';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
