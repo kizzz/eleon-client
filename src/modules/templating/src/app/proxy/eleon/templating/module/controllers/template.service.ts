@@ -3,7 +3,7 @@ import type { PagedResultDto } from '@eleon/proxy-utils.lib';
 
 import { Observable } from 'rxjs/internal/Observable';
 
-import type { ApplyTemplateInput, CreateUpdateTemplateDto, GetTemplateListInput, MinimalTemplateDto, TemplateDto } from '../templates/models';
+import type { ApplyTemplateInput, GetTemplateListInput, MinimalTemplateDto, TemplateDto } from '../templates/models';
 
 import type { TemplateType } from '../templates/template-type.enum';
 
@@ -74,7 +74,7 @@ export class TemplateService {
   }
 
 
-  create(input: CreateUpdateTemplateDto, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
+  create(input: TemplateDto, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
     const baseUrl = apiBase + '/api/templating/templates/Create';
@@ -520,7 +520,7 @@ export class TemplateService {
   }
 
 
-  reset(id: string, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
+  reset(id: string, type: TemplateType, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
     const baseUrl = apiBase + '/api/templating/templates/Reset';
@@ -538,6 +538,18 @@ export class TemplateService {
 					!(Array.isArray(raw) && raw?.length == 0)
         ) {
           qp.append('id', String(raw));
+        }
+      }
+
+      {
+        const raw = type;
+        if (
+          raw !== undefined &&
+          raw !== null &&
+          (typeof raw !== 'string' || raw !== '') &&
+					!(Array.isArray(raw) && raw?.length == 0)
+        ) {
+          qp.append('type', String(raw));
         }
       }
 
@@ -592,7 +604,7 @@ export class TemplateService {
   }
 
 
-  update(id: string, input: CreateUpdateTemplateDto, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
+  update(input: TemplateDto, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
     const baseUrl = apiBase + '/api/templating/templates/Update';
@@ -600,18 +612,6 @@ export class TemplateService {
     // build ?a=1&b=2…
     const queryString = (() => {
       const qp = new URLSearchParams();
-
-      {
-        const raw = id;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-					!(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('id', String(raw));
-        }
-      }
 
       const s = qp.toString();
       return s ? `?${s}` : '';

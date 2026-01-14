@@ -1,21 +1,11 @@
 import type { TemplateType } from './template-type.enum';
-import type { TextFormat } from '../../../../common/module/constants/text-format.enum';
 import type { PagedAndSortedResultRequestDto } from '@eleon/proxy-utils.lib';
+import type { TextFormat } from '../../../../common/module/constants/text-format.enum';
 
 export interface ApplyTemplateInput {
   templateName: string;
   templateType: TemplateType;
   placeholders: Record<string, string>;
-}
-
-export interface CreateUpdateTemplateDto {
-  name: string;
-  type: TemplateType;
-  format: TextFormat;
-  templateContent: string;
-  requiredPlaceholders?: string;
-  templateId?: string;
-  isSystem: boolean;
 }
 
 export interface GetTemplateListInput extends PagedAndSortedResultRequestDto {

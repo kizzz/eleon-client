@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
 import { TextFormat, textFormatOptions } from '@eleon/templating-proxy';
-import { CreateUpdateTemplateDto, TemplateDto, TemplateService, TemplateType, templateTypeOptions } from '@eleon/templating-proxy';
+import { TemplateDto, TemplateService, TemplateType, templateTypeOptions } from '@eleon/templating-proxy';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog'
 
 interface TemplateValidators {
@@ -46,7 +46,7 @@ export class CreateTemplateDialogComponent implements OnChanges {
   }));
 
   private loadedTemplateId: string | null = null;
-  form: CreateUpdateTemplateDto = this.createEmptyForm(TemplateType.Notification);
+  form: TemplateDto = this.createEmptyForm(TemplateType.Notification);
 
   templateTypeItems = templateTypeOptions.map((opt) => ({
     label: opt.key,
@@ -122,7 +122,8 @@ export class CreateTemplateDialogComponent implements OnChanges {
 
     this.loading = true;
 
-    const payload: CreateUpdateTemplateDto = {
+    const payload: TemplateDto = {
+      id: this.loadedTemplateId && !this.isGuidEmpty(this.loadedTemplateId) ? this.loadedTemplateId : undefined,
       name: this.form.name?.trim() ?? '',
       type: this.fixedType === TemplateType.Action ? this.fixedType : this.form.type,
       templateId: this.form.templateId?.trim() ?? '',
@@ -133,7 +134,7 @@ export class CreateTemplateDialogComponent implements OnChanges {
     };
 
     const request$ = this.loadedTemplateId && !this.isGuidEmpty(this.loadedTemplateId)
-      ? this.templateService.update(this.loadedTemplateId, payload)
+      ? this.templateService.update(payload)
       : this.templateService.create(payload);
 
     request$.subscribe({
@@ -167,7 +168,7 @@ export class CreateTemplateDialogComponent implements OnChanges {
     }
 
     this.loading = true;
-    this.templateService.reset(this.loadedTemplateId!).subscribe({
+    this.templateService.reset(this.loadedTemplateId, this.form.type).subscribe({
       next: (template) => {
         const oldTemplateId = this.loadedTemplateId; 
         this.setFormFromTemplate(template);
@@ -266,7 +267,7 @@ export class CreateTemplateDialogComponent implements OnChanges {
     return items;
   }
 
-  private createEmptyForm(type: TemplateType): CreateUpdateTemplateDto {
+  private createEmptyForm(type: TemplateType): TemplateDto {
     return {
       name: '',
       type,
