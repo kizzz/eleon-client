@@ -21,7 +21,7 @@ import { TaskHistoryComponent } from '../task-history/task-history.component';
 import { TriggerSettingsComponent } from '../../trigger-management/trigger-settings/trigger-settings.component';
 
 interface Task {
-  data: TaskHeaderDto,
+  data: TaskHeaderDto;
   name: string;
   description: string;
   restartAfterFailSet: boolean;

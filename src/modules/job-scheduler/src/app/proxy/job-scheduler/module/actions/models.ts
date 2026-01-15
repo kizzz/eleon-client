@@ -16,6 +16,12 @@ export interface ActionDto {
   paramsFormat: TextFormat;
 }
 
+export interface DuplicateActionRequestDto {
+  id?: string;
+  count: number;
+  fieldToModify?: string;
+}
+
 export interface ActionExecutionDto {
   id?: string;
   status: JobSchedulerActionExecutionStatus;

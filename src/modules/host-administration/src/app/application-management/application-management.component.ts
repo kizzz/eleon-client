@@ -75,6 +75,7 @@ import { ServiceWorkerSettingsComponent } from '../application-settings/service-
     PipesModule,
     RadioButtonModule,
     AddModuleAutodetectComponent,
+    
     PageTitleModule,
     InputGroupModule,
     SelectModule,

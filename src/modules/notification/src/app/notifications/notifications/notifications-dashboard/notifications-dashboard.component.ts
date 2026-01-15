@@ -170,7 +170,7 @@ export class NotificationsDashboardComponent implements OnInit {
       return row?.content;
     }
 
-    let params = row.dataParams?.split(';') || [];
+    let params = row.languageKeyParams?.split(';') || [];
 
     const result = this.localizationService.instant(row.content, ...params);
 

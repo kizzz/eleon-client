@@ -36,7 +36,7 @@ export class NotificationDetailsDialogComponent {
       return notification?.content;
     }
 
-    const params = notification.dataParams?.split(';') || [];
+    const params = notification.languageKeyParams?.split(';') || [];
 
     const result = this.localizationService.instant(notification.content, ...params);
 

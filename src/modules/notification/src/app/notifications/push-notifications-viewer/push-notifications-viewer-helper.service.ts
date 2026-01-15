@@ -86,7 +86,7 @@ export class PushNotificationsViewerHelperService {
     if (!notification.isLocalizedData) {
       return notification.content;
     } else {
-      const localizationParams = notification.dataParams?.split(';');
+      const localizationParams = notification.languageKeyParams?.split(';');
       if (!localizationParams) {
         return notification.content;
       } else {

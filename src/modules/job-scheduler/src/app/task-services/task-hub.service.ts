@@ -5,8 +5,8 @@ import {
 } from '@eleon/angular-sdk.lib';
 import { Subject } from "rxjs";
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { TaskHeaderDto } from "@eleon/job-scheduler-proxy";
 import { extractApiBase } from '@eleon/angular-sdk.lib'
+import { TaskHeaderDto } from "@eleon/job-scheduler-proxy";
 
 const CONFIG = {
   ROUTE: "/hubs/JobScheduler/TaskHub",
