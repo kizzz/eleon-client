@@ -21298,7 +21298,7 @@
                 },
                 {
                   "nameOnMethod": "input",
-                  "name": "DataParams",
+                  "name": "LanguageKeyParams",
                   "jsonName": null,
                   "type": "System.Collections.Generic.List<System.String>",
                   "typeSimple": "[string]",
@@ -42071,7 +42071,7 @@
           "regex": null
         },
         {
-          "name": "DataParams",
+          "name": "LanguageKeyParams",
           "jsonName": null,
           "type": "[System.String]",
           "typeSimple": "[string]",
@@ -62965,7 +62965,7 @@
           "regex": null
         },
         {
-          "name": "DataParams",
+          "name": "LanguageKeyParams",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -63256,7 +63256,7 @@
           "regex": null
         },
         {
-          "name": "DataParams",
+          "name": "LanguageKeyParams",
           "jsonName": null,
           "type": "[System.String]",
           "typeSimple": "[string]",

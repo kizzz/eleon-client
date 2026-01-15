@@ -50,6 +50,6 @@ export class NotificationMessageToastComponent implements OnInit {
       return message.content;
     }
     
-    return this.localizationService.instant(message.content, ...message.dataParams);
+    return this.localizationService.instant(message.content, ...message.languageKeyParams);
   }
 }
