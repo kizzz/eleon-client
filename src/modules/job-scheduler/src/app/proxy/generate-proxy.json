@@ -15997,6 +15997,23 @@
                   }
                 },
                 {
+                  "name": "DuplicateAction",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto, Eleon.JobScheduler.Module.Full",
+                      "type": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                      "typeSimple": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
                   "name": "DeleteAsync",
                   "parametersOnMethod": [
                     {
@@ -16088,6 +16105,44 @@
               "returnValue": {
                 "type": "System.Boolean",
                 "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.JobScheduler.Module.Actions.IActionAppService",
+              "baseUrl": ""
+            },
+            "DuplicateActionByInput": {
+              "uniqueName": "DuplicateActionByInput",
+              "name": "DuplicateAction",
+              "httpMethod": "POST",
+              "url": "api/JobScheduler/Actions/DuplicateAction",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto, Eleon.JobScheduler.Module.Full",
+                  "type": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "typeSimple": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "typeSimple": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Actions.IActionAppService",
@@ -16258,8 +16313,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                    "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
                   }
                 },
                 {
@@ -16368,8 +16423,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                    "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
                   }
                 },
                 {
@@ -16424,8 +16479,8 @@
                 }
               ],
               "returnValue": {
-                "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Tasks.ITaskAppService",
@@ -16462,8 +16517,8 @@
                 }
               ],
               "returnValue": {
-                "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Tasks.ITaskAppService",
@@ -60090,18 +60145,42 @@
         }
       ]
     },
-    "VPortal.JobScheduler.Module.Tasks.TaskDto": {
-      "baseType": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+    "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto": {
+      "baseType": null,
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
         {
-          "name": "Executions",
+          "name": "Id",
           "jsonName": null,
-          "type": "[VPortal.JobScheduler.Module.Tasks.TaskExecutionDto]",
-          "typeSimple": "[VPortal.JobScheduler.Module.Tasks.TaskExecutionDto]",
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Count",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FieldToModify",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

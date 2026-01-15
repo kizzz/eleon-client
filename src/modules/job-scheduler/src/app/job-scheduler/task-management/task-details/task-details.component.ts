@@ -1,7 +1,7 @@
+import { TaskHeaderDto } from '@eleon/job-scheduler-proxy';
 import { ILocalizationService, ITemplatingDialogService } from '@eleon/angular-sdk.lib';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TaskDto, TaskExecutionDto } from '@eleon/job-scheduler-proxy';
 import { TaskService } from '@eleon/job-scheduler-proxy';
 import { Table } from 'primeng/table';
 import { TriggerService } from '@eleon/job-scheduler-proxy';
@@ -21,7 +21,7 @@ import { TaskHistoryComponent } from '../task-history/task-history.component';
 import { TriggerSettingsComponent } from '../../trigger-management/trigger-settings/trigger-settings.component';
 
 interface Task {
-  data: TaskDto,
+  data: TaskHeaderDto;
   name: string;
   description: string;
   restartAfterFailSet: boolean;
@@ -173,7 +173,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
       })
   }
 
-  initTask(task: TaskDto): void {
+  initTask(task: TaskHeaderDto): void {
     const restartAfterFailSet = !!task.restartAfterFailIntervalSeconds && !!task.restartAfterFailMaxAttempts;
     const timeoutSet = !!task.timeoutSeconds;
     let statusIcon = '';
@@ -374,7 +374,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
     if (!valid) return;
 
 
-    const dto: TaskDto = {
+    const dto: TaskHeaderDto = {
       ...this.header.data,
       name: this.header.name,
       description: this.header.description,

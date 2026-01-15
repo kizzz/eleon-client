@@ -10,7 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionDto, TextFormat, textFormatOptions } from '@eleon/job-scheduler-proxy';
+import { ActionDto, TextFormat, textFormatOptions, DuplicateActionRequestDto } from '@eleon/job-scheduler-proxy';
 import { ActionService } from '@eleon/job-scheduler-proxy';
 import { TimePeriodType } from '@eleon/job-scheduler-proxy';
 import { Observable, of, PartialObserver } from 'rxjs';
@@ -68,6 +68,11 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   actions: ActionDto[] = [];
   isEditingActions = false;
   loading: boolean = false;
+  
+  showDuplicateDialog = false;
+  duplicateActionId: string = null;
+  duplicateCount: number = 1;
+  duplicateFieldToModify: string = '';
 
   public readonly textFormatOptions = textFormatOptions.filter(opt => opt.value !== TextFormat.Scriban).map((opt) => ({
     label: this.localizationService.instant(opt.key),
@@ -477,6 +482,47 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
         this.header.actionParams = template.templateContent;
       }
     });
+  }
+
+  openDuplicateDialog(actionId: string): void {
+    this.duplicateActionId = actionId;
+    this.duplicateCount = 1;
+    this.duplicateFieldToModify = '';
+    this.showDuplicateDialog = true;
+  }
+
+  cancelDuplicate(): void {
+    this.showDuplicateDialog = false;
+    this.duplicateActionId = null;
+    this.duplicateCount = 1;
+    this.duplicateFieldToModify = '';
+  }
+
+  confirmDuplicate(): void {
+    if (!this.duplicateActionId || !this.duplicateCount || this.duplicateCount < 1) {
+      this.messageService.error('JobScheduler::Actions:Errors:InvalidDuplicateCount');
+      return;
+    }
+
+    const input: DuplicateActionRequestDto = {
+      id: this.duplicateActionId,
+      count: this.duplicateCount,
+      fieldToModify: this.duplicateFieldToModify || undefined,
+    };
+
+    this.loading = true;
+    this.actionsService
+      .duplicateActionByInput(input)
+      .pipe(
+        finalize(() => (this.loading = false)),
+        handleError((err) => this.messageService.error(err.message))
+      )
+      .subscribe(() => {
+        this.showDuplicateDialog = false;
+        this.loadActions();
+        this.messageService.success('JobScheduler::Actions:DuplicateSuccess');
+        this.cancelDuplicate();
+      });
   }
 
 }

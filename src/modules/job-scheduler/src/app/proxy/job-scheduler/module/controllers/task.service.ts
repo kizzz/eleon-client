@@ -5,7 +5,7 @@ import type { CreateTaskDto } from '../../../eleonsoft-module-collector/job-sche
 
 import { Observable } from 'rxjs/internal/Observable';
 
-import type { TaskDto, TaskExecutionDto, TaskExecutionListRequestDto, TaskHeaderDto, TaskListRequestDto } from '../tasks/models';
+import type { TaskExecutionDto, TaskExecutionListRequestDto, TaskHeaderDto, TaskListRequestDto } from '../tasks/models';
 
 
 export class TaskService {
@@ -20,7 +20,7 @@ export class TaskService {
   }
 
 
-  create(reqeust: CreateTaskDto, config?: Partial<any>): Observable<TaskDto> {
+  create(reqeust: CreateTaskDto, config?: Partial<any>): Observable<TaskHeaderDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
     const baseUrl = apiBase + '/api/JobScheduler/Tasks/Create';
@@ -50,7 +50,7 @@ export class TaskService {
 
     };
 
-    return new Observable<TaskDto>(subscriber => {
+    return new Observable<TaskHeaderDto>(subscriber => {
       this.authFetch(eleoncoreApiUrl, options)
         .then(res => {
           if (!res.ok) {
@@ -66,7 +66,7 @@ export class TaskService {
           const contentType = res.headers.get("Content-Type") || "";
 					if (contentType.includes("application/json")) {
 						return res.json().then(data => {
-							subscriber.next(data as TaskDto);
+							subscriber.next(data as TaskHeaderDto);
 							subscriber.complete();
 						});
 					} else {
@@ -154,7 +154,7 @@ export class TaskService {
   }
 
 
-  getById(id: string, config?: Partial<any>): Observable<TaskDto> {
+  getById(id: string, config?: Partial<any>): Observable<TaskHeaderDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
     const baseUrl = apiBase + '/api/JobScheduler/Tasks/GetById';
@@ -194,7 +194,7 @@ export class TaskService {
 
     };
 
-    return new Observable<TaskDto>(subscriber => {
+    return new Observable<TaskHeaderDto>(subscriber => {
       this.authFetch(eleoncoreApiUrl, options)
         .then(res => {
           if (!res.ok) {
@@ -210,7 +210,7 @@ export class TaskService {
           const contentType = res.headers.get("Content-Type") || "";
 					if (contentType.includes("application/json")) {
 						return res.json().then(data => {
-							subscriber.next(data as TaskDto);
+							subscriber.next(data as TaskHeaderDto);
 							subscriber.complete();
 						});
 					} else {

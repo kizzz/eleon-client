@@ -63,6 +63,12 @@
           class="flex justify-content-end align-items-center gap-3"
         >
           <span
+            class="fa fa-copy cursor-pointer text-primary"
+            (click)="openDuplicateDialog(row.id)"
+            pTooltip="{{ 'JobScheduler::Action:Duplicate' | abpLocalization }}"
+            tooltipPosition="top"
+          ></span>
+          <span
             class="fa fa-edit cursor-pointer text-primary"
             (click)="openActionSettingDialog(row.id)"
           ></span>
@@ -338,6 +344,66 @@
           (isNewAction() ? 'Infrastructure::Add' : 'Infrastructure::Save')
             | abpLocalization
         "
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [header]="'JobScheduler::Action:Duplicate' | abpLocalization"
+  [(visible)]="showDuplicateDialog"
+  appendTo="body"
+  [modal]="true"
+>
+  <div style="width: min(90vw, 500px)">
+    <div class="row gx-4 gy-4">
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+          'JobScheduler::Action:Duplicate:Count' | abpLocalization
+        }}</label>
+        <div class="col-12 md:col-8">
+          <p-inputNumber
+            [(ngModel)]="duplicateCount"
+            [min]="1"
+            [max]="100"
+            [showButtons]="true"
+            [style]="{ width: '100%' }"
+            [maxFractionDigits]="0"
+          ></p-inputNumber>
+        </div>
+      </div>
+      <div class="field grid">
+        <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+          'JobScheduler::Action:Duplicate:FieldToModify' | abpLocalization
+        }}</label>
+        <div class="col-12 md:col-8">
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="duplicateFieldToModify"
+            [style]="{ width: '100%' }"
+            [placeholder]="'JobScheduler::Action:Duplicate:FieldToModify:Placeholder' | abpLocalization"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="flex align-items-center justify-content-end gap-2 mt-4">
+      <p-button
+        styleClass="p-button-secondary"
+        (click)="cancelDuplicate()"
+        [text]="true"
+        [raised]="true"
+        icon="pi pi-times"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+      ></p-button>
+      <p-button
+        styleClass="p-button-primary"
+        (click)="confirmDuplicate()"
+        [text]="true"
+        [raised]="true"
+        icon="fa fa-copy"
+        [label]="'JobScheduler::Action:Duplicate' | abpLocalization"
+        [loading]="loading"
       ></p-button>
     </div>
   </div>

@@ -4,7 +4,6 @@ import {
 } from '@eleon/job-scheduler-proxy';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TaskDto } from '@eleon/job-scheduler-proxy';
 import { TaskService } from '@eleon/job-scheduler-proxy';
 import {
   ConfirmationService,
