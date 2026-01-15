@@ -9,6 +9,7 @@ export interface TriggerDto {
   nextRunUtc?: string;
   expireUtc?: string;
   periodType: TimePeriodType;
+  lastRun?: string;
   period: number;
   repeatTask: boolean;
   repeatIntervalUnits: number;

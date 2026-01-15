@@ -5070,6 +5070,57 @@
                   }
                 },
                 {
+                  "name": "ClaimManyAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto, Eleon.EventManagement.Module.Full",
+                      "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                      "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto",
+                    "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto"
+                  }
+                },
+                {
+                  "name": "AckAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto, Eleon.EventManagement.Module.Full",
+                      "type": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                      "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "NackAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto, Eleon.EventManagement.Module.Full",
+                      "type": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                      "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
                   "name": "GetListAsync",
                   "parametersOnMethod": [
                     {
@@ -5197,6 +5248,117 @@
               "returnValue": {
                 "type": "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto",
                 "typeSimple": "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
+            },
+            "ClaimManyAsyncByInput": {
+              "uniqueName": "ClaimManyAsyncByInput",
+              "name": "ClaimManyAsync",
+              "httpMethod": "POST",
+              "url": "api/EventManagement/Events/ClaimMany",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto, Eleon.EventManagement.Module.Full",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto",
+                "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
+            },
+            "AckAsyncByInput": {
+              "uniqueName": "AckAsyncByInput",
+              "name": "AckAsync",
+              "httpMethod": "POST",
+              "url": "api/EventManagement/Events/Ack",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto, Eleon.EventManagement.Module.Full",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
+            },
+            "NackAsyncByInput": {
+              "uniqueName": "NackAsyncByInput",
+              "name": "NackAsync",
+              "httpMethod": "POST",
+              "url": "api/EventManagement/Events/Nack",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto, Eleon.EventManagement.Module.Full",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
               },
               "allowAnonymous": null,
               "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
@@ -27851,6 +28013,156 @@
         }
       }
     },
+    "SystemServices": {
+      "rootPath": "SystemServices",
+      "remoteServiceName": "SystemServices",
+      "controllers": {
+        "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.SystemLogController": {
+          "controllerName": "SystemLog",
+          "controllerGroupName": "SystemLog",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.SystemLogController",
+          "interfaces": [
+            {
+              "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.ISystemLogAppService",
+              "name": "ISystemLogAppService",
+              "methods": [
+                {
+                  "name": "WriteManyAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "logs",
+                      "typeAsString": "System.Collections.Generic.List`1[[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto, Eleon.SystemServices.Module.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
+                      "type": "System.Collections.Generic.List<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto>",
+                      "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto]",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "WriteManyAsyncByLogs": {
+              "uniqueName": "WriteManyAsyncByLogs",
+              "name": "WriteManyAsync",
+              "httpMethod": "POST",
+              "url": "api/system-services/system-log/WriteMany",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "logs",
+                  "typeAsString": "System.Collections.Generic.List`1[[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto, Eleon.SystemServices.Module.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
+                  "type": "System.Collections.Generic.List<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto>",
+                  "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto]",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "logs",
+                  "name": "logs",
+                  "jsonName": null,
+                  "type": "System.Collections.Generic.List<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto>",
+                  "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto]",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.ISystemLogAppService"
+            }
+          }
+        },
+        "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.WebPushController": {
+          "controllerName": "WebPush",
+          "controllerGroupName": "WebPush",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.WebPushController",
+          "interfaces": [
+            {
+              "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.IWebPushAppService",
+              "name": "IWebPushAppService",
+              "methods": [
+                {
+                  "name": "AddWebPushSubscriptionAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "subscription",
+                      "typeAsString": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto, Eleon.SystemServices.Module.Full",
+                      "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto",
+                      "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "AddWebPushSubscriptionAsyncBySubscription": {
+              "uniqueName": "AddWebPushSubscriptionAsyncBySubscription",
+              "name": "AddWebPushSubscriptionAsync",
+              "httpMethod": "POST",
+              "url": "api/system-services/web-push/AddWebPushSubscription",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "subscription",
+                  "typeAsString": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto, Eleon.SystemServices.Module.Full",
+                  "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto",
+                  "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "subscription",
+                  "name": "subscription",
+                  "jsonName": null,
+                  "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto",
+                  "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.IWebPushAppService"
+            }
+          }
+        }
+      }
+    },
     "Templating": {
       "rootPath": "Templating",
       "remoteServiceName": "Templating",
@@ -40150,6 +40462,108 @@
         }
       ]
     },
+    "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.CreateSystemLogDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Message",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LogLevel",
+          "jsonName": null,
+          "type": "Eleon.Logging.Lib.SystemLog.Contracts.SystemLogLevel",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ApplicationName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ExtraProperties",
+          "jsonName": null,
+          "type": "{System.String:System.String}",
+          "typeSimple": "{string:string}",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.WebPushSubscriptionDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Endpoint",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "P256Dh",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Auth",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Eleon.Templating.Module.Samples.SampleDto": {
       "baseType": null,
       "isEnum": false,
@@ -42123,6 +42537,258 @@
       "genericArguments": null,
       "properties": null
     },
+    "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LockId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageIds",
+          "jsonName": null,
+          "type": "[System.Guid]",
+          "typeSimple": "[string]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.ClaimedMessageDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Message",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Token",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Claims",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Attempts",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CreatedUtc",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TraceId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "QueueName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaxCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LockSeconds",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LockId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "QueueStatus",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PendingCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Messages",
+          "jsonName": null,
+          "type": "[EventManagementModule.Module.Application.Contracts.Event.ClaimedMessageDto]",
+          "typeSimple": "[EventManagementModule.Module.Application.Contracts.Event.ClaimedMessageDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "EventManagementModule.Module.Application.Contracts.Event.EventDto": {
       "baseType": null,
       "isEnum": false,
@@ -42320,6 +42986,75 @@
           "name": "QueueId",
           "jsonName": null,
           "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LockId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaxAttempts",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DelaySeconds",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Error",
+          "jsonName": null,
+          "type": "System.String",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -59795,6 +60530,18 @@
           "jsonName": null,
           "type": "Common.Module.Constants.TimePeriodType",
           "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LastRun",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

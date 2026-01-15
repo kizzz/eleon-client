@@ -191,6 +191,7 @@
       <th>{{ 'JobScheduler::Trigger:Expire' | abpLocalization }}</th>
       <th>{{ 'JobScheduler::Trigger:PeriodType' | abpLocalization }}</th>
       <th>{{ 'JobScheduler::Trigger:NextRunTime' | abpLocalization }}</th>
+      <th>{{ 'JobScheduler::Trigger:LastRunTime' | abpLocalization }}</th>
       <th appResponsiveColumn="100" class="center-cell">
         {{ 'JobScheduler::Trigger:IsEnabled' | abpLocalization }}
       </th>
@@ -231,6 +232,10 @@
       <td>
         <span *ngIf="row.data.nextRunUtc">{{ row.data.nextRunUtc | date : 'M/d/yy, H:mm' : 'UTC' }}</span>
         <span *ngIf="!row.data.nextRunUtc">-</span>
+      </td>
+      <td>
+        <span *ngIf="row.data.lastRun">{{ row.data.lastRun | date : 'M/d/yy, H:mm' : 'UTC' }}</span>
+        <span *ngIf="!row.data.lastRun">-</span>
       </td>
       <td class="center-cell">
         <p-checkbox
