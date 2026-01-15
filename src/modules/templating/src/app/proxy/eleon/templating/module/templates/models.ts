@@ -35,6 +35,11 @@ export interface MinimalTemplateDto {
   isSystem: boolean;
 }
 
+export interface ResetTemplateInput {
+  name?: string;
+  type: TemplateType;
+}
+
 export interface TemplateDto extends MinimalTemplateDto {
   templateContent?: string;
   requiredPlaceholders?: string;

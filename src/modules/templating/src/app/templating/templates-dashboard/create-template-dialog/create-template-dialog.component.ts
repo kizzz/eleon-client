@@ -162,12 +162,15 @@ export class CreateTemplateDialogComponent implements OnChanges {
   }
 
   onReset(): void {
-    if (this.loading || !this.form.isSystem) {
+    if (this.loading || !this.form?.isSystem) {
       return;
     }
 
     this.loading = true;
-    this.templateService.reset(this.loadedTemplateId!).subscribe({
+    this.templateService.reset({
+      name: this.form.name,
+      type: this.form.type,
+    }).subscribe({
       next: (template) => {
         const oldTemplateId = this.loadedTemplateId; 
         this.setFormFromTemplate(template);

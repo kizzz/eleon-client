@@ -3,7 +3,7 @@ import type { PagedResultDto } from '@eleon/proxy-utils.lib';
 
 import { Observable } from 'rxjs/internal/Observable';
 
-import type { ApplyTemplateInput, CreateUpdateTemplateDto, GetTemplateListInput, MinimalTemplateDto, TemplateDto } from '../templates/models';
+import type { ApplyTemplateInput, CreateUpdateTemplateDto, GetTemplateListInput, MinimalTemplateDto, ResetTemplateInput, TemplateDto } from '../templates/models';
 
 import type { TemplateType } from '../templates/template-type.enum';
 
@@ -520,7 +520,7 @@ export class TemplateService {
   }
 
 
-  reset(id: string, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
+  reset(input: ResetTemplateInput, cancellationToken?: any, config?: Partial<any>): Observable<TemplateDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
     const baseUrl = apiBase + '/api/templating/templates/Reset';
@@ -528,18 +528,6 @@ export class TemplateService {
     // build ?a=1&b=2…
     const queryString = (() => {
       const qp = new URLSearchParams();
-
-      {
-        const raw = id;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-					!(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('id', String(raw));
-        }
-      }
 
       const s = qp.toString();
       return s ? `?${s}` : '';
@@ -557,6 +545,8 @@ export class TemplateService {
     const options: RequestInit = {
       method: 'POST',
       headers,
+
+      body: JSON.stringify(input),
 
     };
 
