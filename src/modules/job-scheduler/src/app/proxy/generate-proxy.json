@@ -16258,8 +16258,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                    "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
                   }
                 },
                 {
@@ -16368,8 +16368,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                    "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
                   }
                 },
                 {
@@ -16424,8 +16424,8 @@
                 }
               ],
               "returnValue": {
-                "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Tasks.ITaskAppService",
@@ -16462,8 +16462,8 @@
                 }
               ],
               "returnValue": {
-                "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Tasks.ITaskAppService",
@@ -60081,27 +60081,6 @@
           "jsonName": null,
           "type": "System.Boolean",
           "typeSimple": "boolean",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "VPortal.JobScheduler.Module.Tasks.TaskDto": {
-      "baseType": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Executions",
-          "jsonName": null,
-          "type": "[VPortal.JobScheduler.Module.Tasks.TaskExecutionDto]",
-          "typeSimple": "[VPortal.JobScheduler.Module.Tasks.TaskExecutionDto]",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,

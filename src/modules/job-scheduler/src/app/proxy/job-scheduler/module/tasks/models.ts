@@ -3,10 +3,6 @@ import type { ActionExecutionDto } from '../actions/models';
 import type { PagedAndSortedResultRequestDto } from '@eleon/proxy-utils.lib';
 import type { JobSchedulerTaskStatus } from '../../../common/module/constants/job-scheduler-task-status.enum';
 
-export interface TaskDto extends TaskHeaderDto {
-  executions: TaskExecutionDto[];
-}
-
 export interface TaskExecutionDto {
   id?: string;
   status: JobSchedulerTaskExecutionStatus;

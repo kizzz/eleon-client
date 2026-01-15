@@ -5,7 +5,7 @@ import {
 } from '@eleon/angular-sdk.lib';
 import { Subject } from "rxjs";
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { TaskDto } from "@eleon/job-scheduler-proxy";
+import { TaskHeaderDto } from "@eleon/job-scheduler-proxy";
 import { extractApiBase } from '@eleon/angular-sdk.lib'
 
 const CONFIG = {
@@ -23,7 +23,7 @@ const CONFIG = {
   providedIn: "root",
 })
 export class TaskHubService {
-  private taskCompletedSubject = new Subject<TaskDto>();
+  private taskCompletedSubject = new Subject<TaskHeaderDto>();
   public taskCompleted$ = this.taskCompletedSubject.asObservable();
 
   private connector: ISignalRConnector;
