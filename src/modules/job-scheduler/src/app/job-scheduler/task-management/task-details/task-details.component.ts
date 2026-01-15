@@ -16,6 +16,9 @@ import { Location } from '@angular/common';
 import { finalize } from 'rxjs'
 import { handleError } from '@eleon/angular-sdk.lib'
 import { TaskHubService } from '../../../task-services/task-hub.service';
+import { ActionSettingsComponent } from '../../action-management/action-settings/action-settings.component';
+import { TaskHistoryComponent } from '../task-history/task-history.component';
+import { TriggerSettingsComponent } from '../../trigger-management/trigger-settings/trigger-settings.component';
 
 interface Task {
   data: TaskDto,
@@ -59,6 +62,15 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   intervals: LocalizedValue[];
   longIntervals: LocalizedValue[];
   newRecipient = '';
+
+  @ViewChild(ActionSettingsComponent)
+  actionSettingsComponent: ActionSettingsComponent;
+
+  @ViewChild(TaskHistoryComponent)
+  taskHistoryComponent: TaskHistoryComponent;
+
+  @ViewChild(TriggerSettingsComponent)
+  triggerSettingsComponent: TriggerSettingsComponent;
 
 	@PageControls() controls = contributeControls([
     {
@@ -195,6 +207,8 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
 		this.editing = this.editing && task.status != JobSchedulerTaskStatus.Running;
 
     this.title = this.localizationService.instant('JobScheduler::Tasks:Title:Edit');
+
+    this.reloadChildComponents();
   }
 
   initIntervals(): void {
@@ -456,5 +470,20 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
         this.loadTask(this.header.data.id);
       }
     })
+  }
+
+  private reloadChildComponents(): void {
+    // Use setTimeout to ensure child components are initialized (they might be in tabs)
+    setTimeout(() => {
+      if (this.actionSettingsComponent) {
+        this.actionSettingsComponent.loadActions();
+      }
+      if (this.taskHistoryComponent) {
+        this.taskHistoryComponent.reloadTaskExecutions();
+      }
+      if (this.triggerSettingsComponent) {
+        this.triggerSettingsComponent.loadTriggers();
+      }
+    }, 0);
   }
 }
