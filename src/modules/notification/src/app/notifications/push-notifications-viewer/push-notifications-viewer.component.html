@@ -16,10 +16,10 @@
       class="cursor-pointer hover:bg-gray-100"
       (click)="openNotificationDialog(notification)"
     >
-      <td appResponsiveColumn="20">
+      <td appResponsiveColumn="20" style="padding-right: 2px">
         <i class="fa fa-envelope text-gray-500 mr-2"></i>
       </td>
-      <td>
+      <td style="padding-left: 0">
         <app-ellipsis
           class="w-full"
           [text]="localizeNotificationContent(notification)"

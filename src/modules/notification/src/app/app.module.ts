@@ -26,7 +26,7 @@ import { PROXY_SERVICES } from '@eleon/notificator-proxy'
   providers: [
     provideEcContainerComponentOnInitialization('layout-primeng-topbar-right', {
       component: NotificationsComponent, requiredAuthorize: true,
-      orderIndex: 2,
+      orderIndex: 1,
     }),
     provideLocalizationOnInitialization(
           (cultureName: string) => extractApiBase('eleonsoft') + `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=NotificatorModule`),

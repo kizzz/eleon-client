@@ -46,7 +46,7 @@ export const remoteRoutes: Route[] = [
     ),
     provideEcContainerComponentOnInitialization('layout-primeng-topbar-right', {
       component: ChatComponent, requiredAuthorize: true,
-      orderIndex: 1,
+      orderIndex: 2,
     }),
     provideEcContainerComponentOnInitialization('layout-primeng-main', { component: ChatFlayoutFacadeComponent, requiredAuthorize: true, }),
     provideEcContainerComponentOnInitialization('layout-primeng-main', { component: DocumentViewerFacadeComponent, requiredAuthorize: true, }),

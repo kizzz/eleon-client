@@ -30,7 +30,7 @@
           >
             <ng-template pTemplate="body" let-log>
               <tr (click)="onLogRowClick(log)" style="cursor: pointer;">
-                <td appResponsiveColumn="20">
+                <td appResponsiveColumn="10" style="padding-right: 2px">
                   <i
                     class="fa fa-info-circle fa-lg"
                     style="color: var(--blue-500)"
@@ -50,7 +50,7 @@
                     "
                   ></i>
                 </td>
-                <td>
+                <td style="padding-left: 0">
                   <div class="m0 text-md w-full px-2 flex align-items-center">
                     <app-ellipsis
                       class="w-full"
