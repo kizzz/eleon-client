@@ -1169,16 +1169,20 @@ p-avatar {
 
 .p-inputgroup .p-button-text {
   border: 1px solid var(--container-border-color);
-  margin: 0;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-  border-top-style: solid;
-  border-right-style: solid;
-  border-bottom-style: solid;
-  border-left-style: solid;
-  border-color: var(--container-border-color);
-  box-shadow: none !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  // margin: 0;
+  // border-top-width: 1px;
+  // border-bottom-width: 1px;
+  // border-left-width: 1px;
+  // border-top-style: solid;
+  // border-right-style: solid;
+  // border-bottom-style: solid;
+  // border-left-style: solid;
+  // border-color: var(--container-border-color);
+  // box-shadow: none !important;
   //border: 1px solid #d1d5db !important;
 }
 
