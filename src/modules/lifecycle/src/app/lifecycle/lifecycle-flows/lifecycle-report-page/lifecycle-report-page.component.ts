@@ -40,7 +40,7 @@ export class LifecycleReportPage {
   selectedDocument: StatesGroupAuditReportDto = null;
   selectedReportForDetails: StatesGroupAuditReportDto = null;
   showDetailsDialog = false;
-  stateGroupTemplateId: string | null = null;
+  statesGroupTemplateId: string | null = null;
 
   isMultiCompany: boolean = false;
   // selectedCompany: CompanyOrganizationUnitDto = null;
@@ -91,7 +91,7 @@ export class LifecycleReportPage {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.stateGroupTemplateId = params['stateGroupTemplateId'] || null;
+      this.statesGroupTemplateId = params['statesGroupTemplateId'] || null;
       this.loadDocs(this.lastLoadEvent);
     });
   }
@@ -110,7 +110,7 @@ export class LifecycleReportPage {
         maxResultCount: this.rowsCount,
         skipCount: event?.first ?? 0,
         sorting,
-        statesGroupTemplateId: this.stateGroupTemplateId || null,
+        statesGroupTemplateId: this.statesGroupTemplateId || null,
       })
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {

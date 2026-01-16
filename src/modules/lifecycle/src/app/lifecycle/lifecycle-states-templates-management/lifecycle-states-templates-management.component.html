@@ -29,7 +29,7 @@
       <td style="width:1%; max-width: 110px; min-width: 110px;">
         <p-cellEditor *ngIf="isLifecycleManager()">
           <ng-template pTemplate="input">
-            <p-select [options]="approvalTypes" [(ngModel)]="state.approvalType" optionLabel="name"
+            <p-select [options]="approvalTypes" [(ngModel)]="state.approvalType" optionLabel="name" appendTo="body"
               optionValue="value">
             </p-select>
           </ng-template>

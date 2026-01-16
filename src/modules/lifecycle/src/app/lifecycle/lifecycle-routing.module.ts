@@ -10,6 +10,7 @@ const routes: Routes = [
     component: LifecycleFlowsPage,
     data: {
       name: 'Lifecycle::DashboardPage:Workflows:Title',
+      parentNames: 'Lifecycle::Menu:Lifecycle',
     },
   },
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: LifecycleReportPage,
     data: {
       name: 'Lifecycle::DashboardPage:Reports:Title',
+      parentNames: 'Lifecycle::Menu:Lifecycle',
     },
   },
 ];

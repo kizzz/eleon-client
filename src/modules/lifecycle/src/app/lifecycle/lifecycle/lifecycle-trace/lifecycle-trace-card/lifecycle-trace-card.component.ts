@@ -60,6 +60,7 @@ export class LifecycleTraceCardComponent implements OnInit{
 
   reviewersLoading: boolean = false;
   approversLoading: boolean = false;
+  activeAccordionValue: number | number[] = undefined;
 
   constructor(
     private localizationService: ILocalizationService,

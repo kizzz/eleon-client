@@ -54,7 +54,7 @@ export class LifecycleStatesGroupsTemplatesManagementDetailsComponent
 
   loadFullStatesGroupTemplate(): void {
     this.loading = true;
-	if (!this.selectedStateGroup) {
+	if (!this.selectedStateGroup || !this.selectedStateGroup?.id) {
 		this.fullStatesGroupTemplate = null;
 		this.loading = false;
 		return;
