@@ -4,11 +4,12 @@
   (onHide)="onHide()"
   [modal]="true"
   [style]="{ width: isMobile ? '90vw' : '50vw', height: '600px' }"
-  [closable]="true"
+  [closable]="false"
   [resizable]="false"
   appendTo="body"
   [draggable]="false"
   [baseZIndex]="10000"
+  [autoFocus]="false"
   [focusOnShow]="false"
   [contentStyle]="{
     'padding': '0',
