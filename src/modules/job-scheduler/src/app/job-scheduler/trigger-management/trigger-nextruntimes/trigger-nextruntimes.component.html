@@ -61,7 +61,7 @@
 
       <ng-template pTemplate="header">
         <tr>
-          <th [pSortableColumn]="runTimeField">
+          <th class="center-cell" [pSortableColumn]="runTimeField">
             {{ 'JobScheduler::Trigger:NextRuntimes:RunTime' | abpLocalization }}
             <p-sortIcon [field]="runTimeField"></p-sortIcon>
           </th>
@@ -70,7 +70,7 @@
 
       <ng-template pTemplate="body" let-runtime>
         <tr>
-          <td>{{ runtime.runTime | date : 'M/d/yy, EEEE,  H:mm' : 'UTC' }}</td>
+          <td class="center-cell">{{ runtime.runTime | date : 'M/d/yy, EEEE,  H:mm' : 'UTC' }}</td>
         </tr>
       </ng-template>
 
