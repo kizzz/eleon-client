@@ -8,7 +8,6 @@ import { finalize } from 'rxjs/operators';
 
 interface NextRuntimeRow {
   runTime: string;
-  displayTime: string;
 }
 
 @Component({
@@ -21,6 +20,8 @@ export class TriggerNextRuntimesComponent implements OnInit, OnChanges {
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Input() triggerId: string;
+
+  readonly runTimeField: keyof NextRuntimeRow = 'runTime';
 
   runtimes: NextRuntimeRow[] = [];
   filteredRuntimes: NextRuntimeRow[] = [];
@@ -84,7 +85,6 @@ export class TriggerNextRuntimesComponent implements OnInit, OnChanges {
       .subscribe((runtimes) => {
         this.runtimes = runtimes.map((rt) => ({
           runTime: rt,
-          displayTime: this.formatDateTime(rt),
         }));
         this.applyFilter();
       });
@@ -101,22 +101,12 @@ export class TriggerNextRuntimesComponent implements OnInit, OnChanges {
       const query = this.searchQuery.toLowerCase();
       this.filteredRuntimes = this.runtimes.filter(
         (rt) =>
-          rt.runTime.toLowerCase().includes(query) ||
-          rt.displayTime.toLowerCase().includes(query)
+          rt.runTime.toLowerCase().includes(query)
       );
     }
   }
 
   onReload(): void {
     this.loadNextRuntimes();
-  }
-
-  formatDateTime(utcString: string): string {
-    try {
-      const date = new Date(utcString);
-      return date.toLocaleString();
-    } catch {
-      return utcString;
-    }
   }
 }

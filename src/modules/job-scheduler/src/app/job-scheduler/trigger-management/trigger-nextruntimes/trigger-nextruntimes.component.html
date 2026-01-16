@@ -6,7 +6,7 @@
   [modal]="true"
   [resizable]="false"
   [draggable]="false"
-  [style]="{ width: 'min(90vw, 700px)' }"
+  [style]="{ width: '500px' }"
 >
   <div style="max-height: 60vh; overflow-y: auto">
     <p-table
@@ -14,12 +14,15 @@
       [loading]="loading"
       [rows]="10"
       [paginator]="true"
+      sortMode="single"
+      [sortField]="runTimeField"
+      [sortOrder]="1"
       responsiveLayout="scroll"
       class="cell-center"
     >
       <ng-template pTemplate="caption">
         <div class="grid align-items-center gap-2">
-          <div class="col-8">
+          <div class="col-6">
             <input
               type="text"
               pInputText
@@ -30,7 +33,8 @@
             />
           </div>
 
-          <div class="col flex align-items-center gap-2">
+          <div class="col-4">
+            <div class=" flex align-items-center gap-2">
             <span>
               {{ 'JobScheduler::Trigger:NextRuntimes:Count' | abpLocalization }}
             </span>
@@ -50,19 +54,23 @@
               [pTooltip]="'Infrastructure::Reload' | abpLocalization"
               tooltipPosition="top"
             ></p-button>
+            </div>
           </div>
         </div>
       </ng-template>
 
       <ng-template pTemplate="header">
         <tr>
-          <th>{{ 'JobScheduler::Trigger:NextRuntimes:RunTime' | abpLocalization }}</th>
+          <th [pSortableColumn]="runTimeField">
+            {{ 'JobScheduler::Trigger:NextRuntimes:RunTime' | abpLocalization }}
+            <p-sortIcon [field]="runTimeField"></p-sortIcon>
+          </th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-runtime>
         <tr>
-          <td>{{ runtime.runTime | date : 'M/d/yy, H:mm' : 'UTC' }}</td>
+          <td>{{ runtime.runTime | date : 'M/d/yy, EEEE,  H:mm' : 'UTC' }}</td>
         </tr>
       </ng-template>
 
