@@ -17,7 +17,13 @@
     </button>
   </ng-template>
   <ng-template pTemplate="icons">
-    <p-button icon="pi pi-refresh" severity="secondary" rounded text (click)="getEntityChanges(entityLastLoadEvent); $event.stopPropagation()" />
+    <p-button
+      icon="pi pi-refresh"
+      severity="secondary"
+      rounded
+      text
+      (click)="getEntityChanges(entityLastLoadEvent); $event.stopPropagation()"
+    />
   </ng-template>
   <div class="grid">
     <div
@@ -235,7 +241,6 @@
   [(visible)]="showEntityChangesDetails"
   (onHide)="selectedEntityChange = null"
   [modal]="true"
-  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
   [closable]="true"
   [resizable]="false"
   appendTo="body"
@@ -246,7 +251,9 @@
     padding: '0',
     overflow: 'hidden',
     display: 'flex',
-    'flex-direction': 'column'
+    'flex-direction': 'column',
+    width: '650px',
+    height: '400px',
   }"
 >
   <ng-template pTemplate="header" class="p-dialog-header">
@@ -267,7 +274,7 @@
       padding: 1rem 1rem 0 1rem;
     "
   >
-    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+    <div style="flex: 1; overflow-y: auto; margin: 0">
       <div class="textAlign">
         <p-tabView>
           <p-tabPanel>
@@ -449,19 +456,17 @@
         </p-tabView>
       </div>
     </div>
-
-    <!-- footer / close -->
-    <div style="padding: 1rem; text-align: right">
-      <p-button
-        [text]="true"
-        [raised]="true"
-        styleClass="p-button-secondary p-button-sm"
-        style="width: 10rem"
-        (click)="showEntityChangesDetails = false"
-        icon="fa fa-times"
-        label="{{ 'Infrastructure::Close' | abpLocalization }}"
-      >
-      </p-button>
-    </div>
   </div>
+  <ng-template #footer>
+    <p-button
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-secondary p-button-sm"
+      style="width: 10rem"
+      (click)="showEntityChangesDetails = false"
+      icon="fa fa-times"
+      label="{{ 'Infrastructure::Close' | abpLocalization }}"
+    >
+    </p-button>
+  </ng-template>
 </p-dialog>

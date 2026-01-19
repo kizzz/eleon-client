@@ -327,7 +327,6 @@
   [(visible)]="displayLogDialog"
   (onHide)="selectedLog = null"
   [modal]="true"
-  [style]="{ width: isMobile ? '90vw' : '50vw', height: '80vh' }"
   [closable]="true"
   [resizable]="false"
   appendTo="body"
@@ -338,7 +337,9 @@
     padding: '0',
     overflow: 'hidden',
     display: 'flex',
-    'flex-direction': 'column'
+    'flex-direction': 'column',
+    width: '650px', 
+    height: '500px' 
   }"
 >
   <ng-template pTemplate="header" class="p-dialog-header">
@@ -360,7 +361,7 @@
       padding: 1rem 1rem 0 1rem;
     "
   >
-    <div class="card" style="flex: 1; overflow-y: auto; margin: 0">
+    <div style="flex: 1; overflow-y: auto; margin: 0">
       <div class="textAlign">
         <p-tabView>
           <p-tabPanel>
@@ -533,8 +534,8 @@
         </p-tabView>
       </div>
     </div>
-
-    <div style="padding: 1rem; text-align: right">
+  </div>
+  <ng-template #footer>
       <p-button
         [text]="true"
         [raised]="true"
@@ -545,6 +546,5 @@
         label="{{ 'Infrastructure::Close' | abpLocalization }}"
       >
       </p-button>
-    </div>
-  </div>
+    </ng-template>
 </p-dialog>
