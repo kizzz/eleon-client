@@ -46,7 +46,7 @@ export class SystemLogDetailsDialogComponent {
       case SystemLogLevel.Info:
         return 'info';
       case SystemLogLevel.Warning:
-        return 'warning';
+        return 'warn';
       case SystemLogLevel.Critical:
         return 'danger';
       default:
