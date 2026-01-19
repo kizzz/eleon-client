@@ -10,7 +10,7 @@
     selectionMode="single"
       [(first)]="firstRowIx" scrollDirection="both" class="cell-center" [loading]="loading" [lazy]="true" (onPage)="paginate($event)" 
       (onLazyLoad)="loadNotifications($event)" [(rows)]="rowsCount" [totalRecords]="totalRecords" [paginator]="true" [pageLinks]="pageLinks"
-      sortMode="single" [rowsPerPageOptions]="[15,25,50]" [filterDelay]="0" [showCurrentPageReport]="true">
+      sortMode="single" [rowsPerPageOptions]="[15,25,50]" [filterDelay]="0">
       <ng-template pTemplate="header">
         <tr>
           <th appResponsiveColumn="10">
@@ -18,7 +18,7 @@
           <th appResponsiveColumn="70" style="width:1%; min-width: 200px">
             {{"NotificatorModule::Notification:Date" | abpLocalization}}
           </th>
-          <th appResponsiveColumn="400">
+          <th>
             {{"NotificatorModule::Notification:Content" | abpLocalization}}
           </th>
           <th appResponsiveColumn="100">
@@ -37,6 +37,8 @@
                 (click)="reloadNotifications()">
               </p-button>
             </div>
+          </th>
+          <th appResponsiveColumn="10">
           </th>
         </tr>
       </ng-template>
@@ -67,11 +69,15 @@
               </div>
             </span>
           </td>
+           <td appResponsiveColumn="20">
+            <span class="fa fa-magnifying-glass text-primary cursor-pointer">
+          </span>
+        </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr class="table-emptymessage">
-          <td class="w-full" colspan="4">
+          <td class="w-full" colspan="5">
             <div class="card w-full">
               <div class="card-body w-full">
                 <div class="card-header text-center">
