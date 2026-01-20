@@ -21,7 +21,7 @@
 ::ng-deep .p-chips .p-chips-multiple-container {
     width: 100% !important;
 }
-::ng-deep .p-element.missing-placeholder .p-chip .p-chip-text {
+::ng-deep .p-chip.missing-placeholder .p-chip-label {
     color: var(--danger-color);
 }
 
