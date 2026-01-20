@@ -40,9 +40,3 @@
     </ng-container>
   </ng-container>
 </div>
-
-<div class="card-footer flex align-items-center gap-2" *ngIf="showButtons()">
-  <p-button [text]="true" [raised]="true" autoWidth="false" class="mx-1" *ngIf="showTestEmailButton()"
-    [label]="'TenantManagement::SendTestEmail' | abpLocalization" icon="fa fa-check" (click)="sendTestEmail()" [loading]="loading">
-  </p-button>
-</div>

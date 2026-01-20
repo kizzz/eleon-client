@@ -179,6 +179,41 @@ export class EmailSettingsComponent implements OnInit {
         }
       });
   }
+
+  sendTestTelegram(): void {
+    const errors : string[] = [];
+    if(!this.settings.telegram.chatId.length){
+      errors.push('TenantManagement::SendTestTelegram:ChatIdEmpty');
+    }
+    if(!this.settings.telegram.botToken.length){
+      errors.push('TenantManagement::SendTestTelegram:BotTokenEmpty');
+    }
+    if(errors.length > 0){
+      errors.forEach(error => this.msgService.error(error));
+      return;
+    }
+
+    this.loading = true;
+    this.settingsService.sendCustomTestTelegram({
+      message: this.localizationService.instant('TenantManagement::TelegramTestMessage'),
+      chatId: this.settings.telegram.chatId,
+      botToken: this.settings.telegram.botToken
+    })
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        next: (reply) => {
+          if(reply?.length > 0){
+            this.msgService.error(reply);
+            return;
+          }
+          this.closeTestEmailDialog();
+          this.msgService.success('TenantManagement::SendTestTelegram:Success');
+        },
+        error: (err) => {
+          this.msgService.error('TenantManagement::SendTestTelegram:Error');
+        }
+      });
+  }
   
   public openEmailTemplateDialog(): void {
     this.templateDialogName = 'Notification Email';

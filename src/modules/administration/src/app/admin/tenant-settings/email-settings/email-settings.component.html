@@ -81,10 +81,20 @@
               }}</span>
             </label>
           </div>
+          <div class="p-1 flex flex-wrap align-items-center">
+            <p-button
+              [text]="true"
+              [raised]="true"
+              styleClass="p-button-primary"
+              (click)="openTestEmailDialog()"
+              [loading]="loading"
+              icon="fa fa-check"
+              [label]="'TenantManagement::SendTestEmail' | abpLocalization"
+            >
+            </p-button>
+          </div>
 
-          <div
-            *ngIf="!settings.smtpSettings.smtpUseDefaultCredentials"
-          >
+          <div *ngIf="!settings.smtpSettings.smtpUseDefaultCredentials">
             <div class="p-1">
               <label>{{
                 'TenantManagement::SmtpDomain' | abpLocalization
@@ -128,9 +138,7 @@
           </div>
         </div>
 
-        <div
-          *ngIf="settings?.generalSettings?.serverType === 'azureews'"
-        >
+        <div *ngIf="settings?.generalSettings?.serverType === 'azureews'">
           <div class="p-1">
             <label>{{ 'NotificatorModule::TenantId' | abpLocalization }}</label>
             <input
@@ -272,23 +280,28 @@
         </div>
         <div class="p-1">
           <p-checkbox
-              [binary]="true"
-              [(ngModel)]="settings.generalSettings.sendErrors"
-              inputId="sendErrors"
-              (ngModelChange)="state.setDirty()"
-            ></p-checkbox>
+            [binary]="true"
+            [(ngModel)]="settings.generalSettings.sendErrors"
+            inputId="sendErrors"
+            (ngModelChange)="state.setDirty()"
+          ></p-checkbox>
           <label class="text-lg mx-2 mb-1" for="sendErrors">
             <span>{{ 'TenantManagement::SendErrors' | abpLocalization }}</span>
           </label>
         </div>
         <div class="p-1">
-          <label>{{ 'TenantManagement::EmailTemplate' | abpLocalization }}</label>
-          <div 
+          <label>{{
+            'TenantManagement::EmailTemplate' | abpLocalization
+          }}</label>
+          <div
             class="system-template-preview p-3 template-border cursor-pointer hover:surface-hover"
             (click)="openEmailTemplateDialog()"
             [title]="'TenantManagement::ClickToEdit' | abpLocalization"
           >
-            <div class="text-overflow-ellipsis white-space-nowrap overflow-hidden" *ngIf="emailTemplateContent">
+            <div
+              class="text-overflow-ellipsis white-space-nowrap overflow-hidden"
+              *ngIf="emailTemplateContent"
+            >
               {{ emailTemplateContent }}
             </div>
             <div class="text-500 italic" *ngIf="!emailTemplateContent">
@@ -389,17 +402,23 @@
             [placeholder]="'TenantManagement::SelectLogLevel' | abpLocalization"
           ></p-select>
           <small>{{
-            'NotificatorModule::TelegramSelectLogLevelDescription' | abpLocalization
+            'NotificatorModule::TelegramSelectLogLevelDescription'
+              | abpLocalization
           }}</small>
         </div>
         <div class="p-1" *ngIf="settings.telegram.enabled">
-          <label>{{ 'NotificatorModule::TelegramTemplate' | abpLocalization }}</label>
-          <div 
+          <label>{{
+            'NotificatorModule::TelegramTemplate' | abpLocalization
+          }}</label>
+          <div
             class="system-template-preview p-3 template-border cursor-pointer hover:surface-hover"
             (click)="openTelegramTemplateDialog()"
             [title]="'TenantManagement::ClickToEdit' | abpLocalization"
           >
-            <div class="text-overflow-ellipsis white-space-nowrap overflow-hidden" *ngIf="telegramTemplateContent">
+            <div
+              class="text-overflow-ellipsis white-space-nowrap overflow-hidden"
+              *ngIf="telegramTemplateContent"
+            >
               {{ telegramTemplateContent }}
             </div>
             <div class="text-500 italic" *ngIf="!telegramTemplateContent">
@@ -410,6 +429,18 @@
             'NotificatorModule::TelegramTemplateDescription' | abpLocalization
           }}</small>
         </div>
+        <div class="p-1 flex flex-wrap align-items-center">
+            <p-button
+              [text]="true"
+              [raised]="true"
+              styleClass="p-button-primary"
+              (click)="sendTestTelegram()"
+              [loading]="loading"
+              icon="fa fa-check"
+              [label]="'TenantManagement::SendTestTelegram' | abpLocalization"
+            >
+            </p-button>
+          </div>
       </div>
     </div>
   </div>

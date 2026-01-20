@@ -179,14 +179,6 @@ export class SettingsManagementComponent implements OnInit {
     return currentComponent ? (currentComponent as any).title : '';
   }
 
-  sendTestEmail(): void {
-    this.emailSettingsComponent?.openTestEmailDialog();
-  }
-
-  showTestEmailButton(): boolean {
-    return this.currentTabKey === 'notifications';
-  }
-
   showButtons = () => {
     return this.currentTabKey !== 'domains';
   };
