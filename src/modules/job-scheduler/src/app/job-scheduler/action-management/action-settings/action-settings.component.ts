@@ -90,9 +90,6 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   }
 
   @Input()
-  editing: boolean = false;
-
-  @Input()
   public taskId: string;
 
   constructor(
@@ -353,10 +350,13 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   }
 
   actionAdded() {
-    this.loading = true;
 
     const data = this.gatherData();
+    if (!data) {
+      return;
+    }
 
+    this.loading = true;
     let obs: Observable<ActionDto> = null;
     if (this.isNewAction()) {
       obs = this.actionsService.add(data);
