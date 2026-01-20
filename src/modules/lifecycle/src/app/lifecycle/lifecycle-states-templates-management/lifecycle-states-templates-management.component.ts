@@ -19,7 +19,7 @@ import { PageStateService } from '@eleon/primeng-ui.lib';
 import { LifecycleService } from '../lifecycle-services/lifecycle-service';
 
 import { MessageService } from 'primeng/api';
-import { StateTemplateService } from "@eleon/lifecycle-feature-proxy";
+import { StateActorTemplateDto, StateTemplateService } from "@eleon/lifecycle-feature-proxy";
 
 export interface ApprovalTypeOption {
   name: string;
@@ -45,6 +45,7 @@ export interface ApprovalTypeOption {
   expandedRowKeys: any = {};
   statesLoaded: boolean = false;
   @Input() statesGroup: StatesGroupTemplateDto;
+  @Output() actorsChangedEvent: EventEmitter<StateActorTemplateDto> = new EventEmitter<StateActorTemplateDto>();
 
 	isLifecycleManager(){
 		return true; // TODO: add permissions check //this.permissionService.getGrantedPolicy('LifecycleFeatureModule.LifecycleManager');
@@ -98,6 +99,10 @@ export interface ApprovalTypeOption {
     for (const subscr of this.subscriptions) {
       subscr.unsubscribe();
     }
+  }
+
+  onActorChanged(event: StateActorTemplateDto){
+    this.actorsChangedEvent.emit(event);
   }
 
   resetComponent(){

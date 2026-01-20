@@ -1,5 +1,5 @@
 import { ILifecycleService, ILocalizationService, IPermissionService, StateActorTemplateDto, StatesGroupTemplateDto, StateTemplateDto } from '@eleon/angular-sdk.lib';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { StateActorTemplateSelectionDialogComponent } from './../state-actor-template-selection/state-actor-template-selection-dialog';
 import { StateActorTypeOption,StateActorTypesService } from './../state-actor-template-selection';
 import { MessageService } from 'primeng/api';
@@ -34,6 +34,10 @@ export class LifecycleStateActorsTemplatesManagementComponent implements OnInit 
   statesGroup: StatesGroupTemplateDto;
   @Input()
   state: StateTemplateDto;
+
+  @Output()
+  actorsChangedEvent:  EventEmitter<StateActorTemplateDto> =
+    new EventEmitter<StateActorTemplateDto>();
 
 	isLifecycleManager(){
 		return true; // TODO: add permissions check  this.permissionService.getGrantedPolicy('LifecycleFeatureModule.LifecycleManager');
@@ -101,6 +105,7 @@ export class LifecycleStateActorsTemplatesManagementComponent implements OnInit 
 
       this.success('Lifecycle::States:Actors:Added');
       this.loadStateActors();
+      this.actorsChangedEvent.emit(event);
     });
   }
 
@@ -128,6 +133,7 @@ export class LifecycleStateActorsTemplatesManagementComponent implements OnInit 
       }
       this.success('Lifecycle::States:Actors:Removed');
       this.loadStateActors();
+      this.actorsChangedEvent.emit(event);
     });
   }
 
@@ -139,6 +145,7 @@ export class LifecycleStateActorsTemplatesManagementComponent implements OnInit 
       }
       this.success('Lifecycle::States:Actors:Updated');
       this.loadStateActors();
+      this.actorsChangedEvent.emit(event);
     });
   }
 

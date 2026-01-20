@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, viewChild, ViewChild } from '@angular/core';
 import { StatesGroupTemplateDto } from '@eleon/angular-sdk.lib';
 import { PageStateService } from '@eleon/primeng-ui.lib';
+import { LifecycleStatesGroupsTemplatesManagementDetailsComponent } from './lifecycle-states-groups-templates-management-details/lifecycle-states-groups-templates-management-details.component';
 
 @Component({
   standalone: false,
@@ -22,7 +23,7 @@ export class LifecycleStatesGroupsTemplatesManagementComponent {
   ) { }
 
   select(event) {
-    this.selectedStatesGroup = event;
+    this.selectedStatesGroup = {...event};
   }
   saved(event) {
     this.selectedStatesGroup = {...event};

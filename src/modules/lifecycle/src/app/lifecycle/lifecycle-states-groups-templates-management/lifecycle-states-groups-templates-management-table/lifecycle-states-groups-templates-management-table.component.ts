@@ -287,6 +287,14 @@ export class LifecycleStatesGroupsTemplatesManagementTableComponent
     this.groupSelection.emit(event.data);
   }
 
+  selectRow(event) {
+    if (this.editingRow) {
+      return;
+    }
+    this.groupSelection.emit(event);
+  }
+
+
   edit(event) {
     this.selectedStatesGroup = event;
     this.groupSelection.emit( this.selectedStatesGroup);

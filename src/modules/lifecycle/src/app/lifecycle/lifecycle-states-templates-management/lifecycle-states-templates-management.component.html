@@ -74,6 +74,7 @@
     <tr>
       <td colspan="5">
         <app-lifecycle-state-actors-templates-management
+          (actorsChangedEvent)="onActorChanged($event)"
           [statesGroup]="statesGroup" [state]="state">
         </app-lifecycle-state-actors-templates-management>
       </td>
