@@ -26,7 +26,7 @@
         <td class="text-center" style="max-width: 20px">
           <i class="fa fa-hand-pointer text-primary" *ngIf="!role.isSelected && !isMultiple"></i>
           <i class="fa fa-trash" style="color: red" *ngIf="role.isSelected && !isMultiple"></i>
-          <p-checkbox *ngIf="isMultiple" [binary]="true" [(ngModel)]="role.isSelected">
+          <p-checkbox *ngIf="isMultiple" [binary]="true" [ngModel]="role.isSelected">
           </p-checkbox>
         </td>
       </tr>

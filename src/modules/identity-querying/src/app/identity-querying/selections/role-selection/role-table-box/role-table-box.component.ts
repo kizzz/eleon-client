@@ -60,6 +60,10 @@ export class RoleSelectionBoxComponent implements OnInit, OnChanges {
       this.ignoredRoles = this.dynamicDialogConfig.data.ignoredRoles || [];
       this.isMultiple = this.dynamicDialogConfig.data.isMultiple || false;
       this.selectedRoles = this.dynamicDialogConfig.data.selectedRoles || [];
+      
+      if (this.selectedRoles?.length && this.ignoredRoles?.length) {
+        this.selectedRoles = this.filterIgnoredRoles(this.selectedRoles);
+      }
 
       if (this.dynamicDialogConfig.data.onSelect && typeof this.dynamicDialogConfig.data.onSelect === 'function'){
         this.selectEvent.subscribe(this.dynamicDialogConfig.data.onSelect);
@@ -74,22 +78,31 @@ export class RoleSelectionBoxComponent implements OnInit, OnChanges {
   }
 
 	ngOnChanges(changes){
-		if (changes['ignoredRoles'] || changes['selectedRoles']) {
+		if (changes['ignoredRoles']) {
+      if (this.selectedRoles?.length && this.ignoredRoles?.length) {
+        this.selectedRoles = this.filterIgnoredRoles(this.selectedRoles);
+      }
+      this.recalculateState();
+		}
+		if (changes['selectedRoles']) {
+      if (this.selectedRoles?.length && this.ignoredRoles?.length) {
+        this.selectedRoles = this.filterIgnoredRoles(this.selectedRoles);
+      }
       this.recalculateState();
 		}
 	}
 
   recalculateState(){
-    this.roles = this.roles?.map(r => {
+    this.roles = this.roles?.filter(r => !this.isRoleIgnored(r)).map(r => {
 				const extendedRole: ExtendedRoleDto = {
 					...r,
 					isSelected: false
 				};
-				if (this.ignoredRoles?.length) {
-					extendedRole.isSelected = !!this.ignoredRoles.find(ignored => ignored.id === r.id || ignored.name === r.name);
-				}
+				// Check if role is in selectedRoles (but not if it's ignored)
 				if (this.selectedRoles?.length) {
-					extendedRole.isSelected = !!this.selectedRoles.find(selected => selected.id === r.id || selected.name === r.name);
+					const isSelected = !!this.selectedRoles.find(selected => selected.id === r.id || selected.name === r.name);
+					const isIgnored = this.isRoleIgnored(r);
+					extendedRole.isSelected = isSelected && !isIgnored;
 				}
 				return extendedRole;
 			});
@@ -116,7 +129,7 @@ export class RoleSelectionBoxComponent implements OnInit, OnChanges {
       return;
     }
 
-		if (this.ignoredRoles && this.ignoredRoles.find(role => role.id === event.id)) {
+		if (this.isRoleIgnored(event)) {
 			return;
 		}
 
@@ -163,6 +176,12 @@ export class RoleSelectionBoxComponent implements OnInit, OnChanges {
     if (!this.selectedRoles) {
       this.selectedRoles = [];
     }
+    
+    // Prevent adding ignored roles
+    if (this.isRoleIgnored(role)) {
+      return;
+    }
+    
     if (this.isMultiple){
       if (!this.selectedRoles.find(r => r.id === role.id)) {
         this.selectedRoles.push(role);
@@ -176,8 +195,9 @@ export class RoleSelectionBoxComponent implements OnInit, OnChanges {
     else{
       this.selectedRoles = [role];
       this.roles.forEach(r => r.isSelected = false);
-      this.selectEvent.emit(this.selectedRoles);
       role.isSelected = true;
+      // Emit filtered roles (without ignored ones)
+      this.selectEvent.emit(this.filterIgnoredRoles(this.selectedRoles));
     }
   }
 
@@ -189,6 +209,28 @@ export class RoleSelectionBoxComponent implements OnInit, OnChanges {
   }
 
   selectRoles(){
-    this.selectEvent.emit(this.selectedRoles);
+    // Filter out ignored roles before emitting
+    const filteredRoles = this.filterIgnoredRoles(this.selectedRoles);
+    this.selectEvent.emit(filteredRoles);
+  }
+
+  private isRoleIgnored(role: CommonRoleDto): boolean {
+    if (!this.ignoredRoles?.length || !role) {
+      return false;
+    }
+    return !!this.ignoredRoles.find(ignored => 
+      (ignored.id && role.id && ignored.id === role.id) || 
+      (ignored.name && role.name && ignored.name === role.name)
+    );
+  }
+
+  private filterIgnoredRoles(roles: CommonRoleDto[]): CommonRoleDto[] {
+    if (!roles?.length) {
+      return [];
+    }
+    if (!this.ignoredRoles?.length) {
+      return roles;
+    }
+    return roles.filter(role => !this.isRoleIgnored(role));
   }
 }
