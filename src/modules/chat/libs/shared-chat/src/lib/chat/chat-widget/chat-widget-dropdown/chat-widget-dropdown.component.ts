@@ -7,11 +7,11 @@ import {
   effect,
   OnDestroy,
 } from "@angular/core";
-import { ChatInteractionService, ChatRoomType, UserChatInfoDto } from '@eleon/collaboration-proxy';
 import { ChatWidgetFlyoutService } from "../chat-widget-flyout.service";
 import { Popover } from "primeng/popover";
 import { LatestChatsService } from '../../chat-common'
 import { Subscription } from 'rxjs';
+import { ChatInteractionService, ChatRoomType, UserChatInfoDto } from "../../../proxy";
 
 @Component({
   standalone: false,
@@ -50,8 +50,7 @@ export class ChatWidgetDropdownComponent implements OnDestroy {
   private loadChats(): void {
     // Cancel any pending request to prevent parallel calls
     if (this.loadChatsSubscription) {
-      this.loadChatsSubscription.unsubscribe();
-      this.loadChatsSubscription = undefined;
+      return;
     }
 
     // Prevent parallel requests
