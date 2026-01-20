@@ -86,9 +86,9 @@ export class FileUploadService {
         FileUploadProcessComponent,
         {
           header:
-            files[0]?.webkitRelativePath?.length > 0
-              ? this.localizationService.instant('FileManager::UploadingFolder')
-              : this.localizationService.instant('FileManager::UploadingFiles'),
+            files?.length > 1
+              ? this.localizationService.instant('FileManager::UploadingFiles')
+              : this.localizationService.instant('FileManager::UploadingFile'),
           width: '600px',
         }
       );
