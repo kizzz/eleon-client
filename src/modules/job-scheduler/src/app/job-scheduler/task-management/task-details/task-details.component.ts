@@ -465,7 +465,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToTaskUpdate(): void {
-    this.taskHub.taskCompleted$.subscribe((task) => {
+    this.taskHub.taskStatusChanged$.subscribe((task) => {
       if (this.header?.data?.id === task.id) {
         this.loadTask(this.header.data.id);
       }

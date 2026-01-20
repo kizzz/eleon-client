@@ -243,7 +243,7 @@ export class TaskListComponent implements OnInit {
   }
 
   private subscribeToTaskUpdate(): void {
-    this.taskHub.taskCompleted$.subscribe((task) => {
+    this.taskHub.taskStatusChanged$.subscribe((task) => {
       this.rows = this.rows.map((row) => {
         if (row.data.id === task.id) {
           row.data = { ...row.data, ...task };

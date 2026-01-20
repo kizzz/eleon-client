@@ -1,4 +1,7 @@
-import { ILocalizationService, ITemplatingDialogService } from '@eleon/angular-sdk.lib';
+import {
+  ILocalizationService,
+  ITemplatingDialogService,
+} from '@eleon/angular-sdk.lib';
 import {
   ChangeDetectorRef,
   Component,
@@ -10,7 +13,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionDto, TextFormat, textFormatOptions, DuplicateActionRequestDto } from '@eleon/job-scheduler-proxy';
+import {
+  ActionDto,
+  TextFormat,
+  textFormatOptions,
+  DuplicateActionRequestDto,
+} from '@eleon/job-scheduler-proxy';
 import { ActionService } from '@eleon/job-scheduler-proxy';
 import { TimePeriodType } from '@eleon/job-scheduler-proxy';
 import { Observable, of, PartialObserver } from 'rxjs';
@@ -20,10 +28,7 @@ import {
   LocalizedMessageService,
   PageStateService,
 } from '@eleon/primeng-ui.lib';
-import {
-  contributeControls,
-  PageControls,
-} from '@eleon/primeng-ui.lib';
+import { contributeControls, PageControls } from '@eleon/primeng-ui.lib';
 import { handleError } from '@eleon/angular-sdk.lib';
 
 interface LocalizedValue {
@@ -68,16 +73,18 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   actions: ActionDto[] = [];
   isEditingActions = false;
   loading: boolean = false;
-  
+
   showDuplicateDialog = false;
   duplicateActionId: string = null;
   duplicateCount: number = 1;
   duplicateFieldToModify: string = '';
 
-  public readonly textFormatOptions = textFormatOptions.filter(opt => opt.value !== TextFormat.Scriban).map((opt) => ({
-    label: this.localizationService.instant(opt.key),
-    value: opt.value,
-  }));
+  public readonly textFormatOptions = textFormatOptions
+    .filter((opt) => opt.value !== TextFormat.Scriban)
+    .map((opt) => ({
+      label: this.localizationService.instant(opt.key),
+      value: opt.value,
+    }));
 
   private _editedId: string;
   public get editedId(): string {
@@ -144,7 +151,6 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
       },
     ];
     this.executionIntervals = [
-      
       {
         name: this.localizationService.instant(`JobScheduler::None`),
         value: 0,
@@ -211,7 +217,10 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
       eventName: actionDto?.eventName || null,
       actionParams: actionDto?.actionParams || '',
       actionExtraParams: actionDto?.actionExtraParams || '',
-      paramsFormat: actionDto?.paramsFormat === 0 ?  actionDto?.paramsFormat : TextFormat.Json,
+      paramsFormat:
+        actionDto?.paramsFormat === 0
+          ? actionDto?.paramsFormat
+          : TextFormat.Json,
       restartAfterFailSet:
         !!actionDto &&
         actionDto?.maxRetryAttempts != 0 &&
@@ -281,9 +290,8 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
         this.header.parentActions?.map((pa) => pa.id) ||
         this.header.data.parentActionIds ||
         [],
-      timeoutInMinutes: this.header.maxDelay != 0
-        ? (this.header.maxDelay || 0) / 60
-        : 0,
+      timeoutInMinutes:
+        this.header.maxDelay != 0 ? (this.header.maxDelay || 0) / 60 : 0,
       onFailureRecepients:
         this.header.onFailureRecipients
           ?.filter((r) => r && r.length > 0)
@@ -311,7 +319,10 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
     }
 
     if (!this.header.onFailureRecipients.includes(value)) {
-      this.header.onFailureRecipients = [...this.header.onFailureRecipients, value];
+      this.header.onFailureRecipients = [
+        ...this.header.onFailureRecipients,
+        value,
+      ];
       this.pageStateService.setDirty();
     }
 
@@ -319,7 +330,9 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   }
 
   removeRecipient(recipient: string): void {
-    this.header.onFailureRecipients = this.header.onFailureRecipients.filter(r => r !== recipient);
+    this.header.onFailureRecipients = this.header.onFailureRecipients.filter(
+      (r) => r !== recipient
+    );
     this.pageStateService.setDirty();
   }
 
@@ -350,7 +363,6 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   }
 
   actionAdded() {
-
     const data = this.gatherData();
     if (!data) {
       return;
@@ -401,8 +413,13 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
             handleError((err) => this.messageService.error(err.message))
           )
           .subscribe(() => {
-            this.loadActions();
+            if (this.actions.length == 1) {
+              this.messageService.success(
+                'JobScheduler::Actions:TaskSetToInactive'
+              );
+            }
             this.messageService.success('JobScheduler::Actions:DeleteSuccess');
+            this.loadActions();
           });
       }
     );
@@ -499,8 +516,14 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
   }
 
   confirmDuplicate(): void {
-    if (!this.duplicateActionId || !this.duplicateCount || this.duplicateCount < 1) {
-      this.messageService.error('JobScheduler::Actions:Errors:InvalidDuplicateCount');
+    if (
+      !this.duplicateActionId ||
+      !this.duplicateCount ||
+      this.duplicateCount < 1
+    ) {
+      this.messageService.error(
+        'JobScheduler::Actions:Errors:InvalidDuplicateCount'
+      );
       return;
     }
 
@@ -524,5 +547,4 @@ export class ActionSettingsComponent implements OnInit, OnChanges {
         this.cancelDuplicate();
       });
   }
-
 }

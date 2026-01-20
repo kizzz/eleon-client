@@ -11,7 +11,7 @@ import { TaskHeaderDto } from "@eleon/job-scheduler-proxy";
 const CONFIG = {
   ROUTE: "/hubs/JobScheduler/TaskHub",
   METHODS: {
-    TaskCompleted: "TaskCompleted",
+    TaskStatusChanged: "TaskStatusChanged",
   },
 
 	getRoute(){
@@ -23,8 +23,8 @@ const CONFIG = {
   providedIn: "root",
 })
 export class TaskHubService {
-  private taskCompletedSubject = new Subject<TaskHeaderDto>();
-  public taskCompleted$ = this.taskCompletedSubject.asObservable();
+  private taskStatusChangedSubject = new Subject<TaskHeaderDto>();
+  public taskStatusChanged$ = this.taskStatusChangedSubject.asObservable();
 
   private connector: ISignalRConnector;
 
@@ -35,12 +35,12 @@ export class TaskHubService {
   private initConnection() {
     const connector = this.signalRService.startConnection(CONFIG.getRoute());
 
-    connector.addMessageListener(CONFIG.METHODS.TaskCompleted, (updatedTask) => {
+    connector.addMessageListener(CONFIG.METHODS.TaskStatusChanged, (updatedTask) => {
       const appName = updatedTask.applicationName?.toLowerCase();
       const currentAppName = this.config.getAppConfig()?.applicationName?.toLowerCase();
 
       if (!appName || appName == currentAppName){
-        this.taskCompletedSubject.next(updatedTask); 
+        this.taskStatusChangedSubject.next(updatedTask); 
       }
     });
   }
