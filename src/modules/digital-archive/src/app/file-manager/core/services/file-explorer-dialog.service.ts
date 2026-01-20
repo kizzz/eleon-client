@@ -20,6 +20,7 @@ export class FileExplorerDialogService extends IFileExplorerDialogService {
         archiveId: archiveId,
         viewMode: onlyExplorer ? FileExplorerView.OnlyExplorer : FileExplorerView.Full
       },
+      closable: true,
       width: '40vw',
       height: '80vh'
     });

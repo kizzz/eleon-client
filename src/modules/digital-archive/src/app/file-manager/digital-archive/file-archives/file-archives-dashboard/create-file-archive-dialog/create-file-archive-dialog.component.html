@@ -3,12 +3,12 @@
   [header]="
     isEditMode
       ? ('FileManager::ArchiveSettings' | abpLocalization)
-      : ('FileManager::AddFolder' | abpLocalization)
+      : ('FileManager::AddDrive' | abpLocalization)
   "
   [(visible)]="display"
   [modal]="true"
   [draggable]="false"
-  [closable]="false"
+  [closable]="true"
   [blockScroll]="true"
   [style]="{ width: '600px' }"
   (onHide)="onHide()"
@@ -84,8 +84,8 @@
       </div>
 
       <div class="field col-12 p-0">
-        <label>{{ 'FileManager::Active' | abpLocalization }}</label>
         <div class="flex align-items-center gap-2">
+          <span>{{ 'FileManager::Active' | abpLocalization }}</span>
           <p-checkbox
             inputId="isActive"
             [binary]="true"
@@ -96,8 +96,8 @@
       </div>
 
       <div class="field col-12 p-0">
-        <label>{{ 'FileManager::PersonalizedArchive' | abpLocalization }}</label>
         <div class="flex align-items-center gap-2">
+          <span>{{ 'FileManager::PersonalizedArchive' | abpLocalization }}</span>
           <p-checkbox
             inputId="isPersonalizedArchive"
             [binary]="true"
@@ -130,7 +130,7 @@
         [loading]="loading"
         [disabled]="loading"
         (onClick)="save()"
-        [label]="'Infrastructure::Save' | abpLocalization"
+        [label]="'Infrastructure::Create' | abpLocalization"
       >
       </p-button>
     </div>

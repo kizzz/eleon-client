@@ -110,12 +110,6 @@ export class StorageProviderConfigComponent implements OnInit {
       show: () => !this.editMode,
       action: () => (this.editMode = true),
     },
-    PAGE_CONTROLS.SAVE({
-      loading: () => this.loading,
-      action: () => this.saveStorageProvider(),
-      disabled: () => this.loading,
-      show: () => this.editMode,
-    }),
     {
       key: 'Infrastructure::Delete',
       icon: 'fa fa-trash',
@@ -134,6 +128,12 @@ export class StorageProviderConfigComponent implements OnInit {
       show: () => this.editMode && this.provider?.originalData?.id?.length > 0,
       action: () => this.cancelEditing(),
     },
+    PAGE_CONTROLS.SAVE({
+      loading: () => this.loading,
+      action: () => this.saveStorageProvider(),
+      disabled: () => this.loading,
+      show: () => this.editMode,
+    }),
   ]);
 
   constructor(

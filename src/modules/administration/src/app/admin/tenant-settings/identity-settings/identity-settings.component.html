@@ -90,16 +90,18 @@
           </ng-container>
           <ng-container *ngIf="setting.type == SettingType.Boolean">
             <div class="p-1">
+              <div class="flex align-items-center gap-2">
               <p-checkbox
                 [binary]="true"
                 [(ngModel)]="setting.value"
                 trueValue="True"
                 falseValue="False"
                 [inputId]="setting.name"
-                [label]="setting.displayName"
                 (onChange)="onBooleanChange(setting, $event)"
               >
               </p-checkbox>
+              <span>{{ setting.name }}</span>
+              </div>
               <div>
                 <small>{{ setting.description }}</small>
               </div>

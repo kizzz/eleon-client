@@ -5,7 +5,9 @@
   <p-message
     severity="success"
     *ngIf="provider?.tests.testPassed"
-    [text]="'StorageModule::ProvidersOptions:TestSuccessTitle' | abpLocalization"
+    [text]="
+      'StorageModule::ProvidersOptions:TestSuccessTitle' | abpLocalization
+    "
   ></p-message>
 
   <p-message
@@ -24,12 +26,12 @@
         <li
           class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
         >
-          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+          <label class="col-12 mb-2 md:col-5 md:mb-0 text-500 font-medium">
             {{ 'StorageModule::StorageProvider:Id' | abpLocalization }}
           </label>
 
           <div
-            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center gap-2"
+            class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center gap-2"
           >
             <span class="text-900">{{
               provider?.originalData?.id || '-'
@@ -52,11 +54,11 @@
           *ngIf="!editMode"
           class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
         >
-          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+          <label class="col-12 mb-2 md:col-5 md:mb-0 text-500 font-medium">
             {{ 'StorageModule::StorageProvider:Name' | abpLocalization }}
           </label>
           <div
-            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+            class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1 line-height-3"
           >
             <span class="text-900">{{ provider?.name || '-' }}</span>
           </div>
@@ -65,12 +67,12 @@
           *ngIf="editMode"
           class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
         >
-          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+          <label class="col-12 mb-2 md:col-5 md:mb-0 text-500 font-medium">
             {{ 'StorageModule::StorageProvider:Name' | abpLocalization }}
             <span class="text-red-500">*</span>
           </label>
           <div
-            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+            class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1 line-height-3"
           >
             <input
               [(ngModel)]="provider.name"
@@ -90,11 +92,11 @@
         <li
           class="flex align-items-center border-bottom-1 surface-border flex-wrap custom-li"
         >
-          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+          <label class="col-12 mb-2 md:col-5 md:mb-0 text-500 font-medium">
             {{ 'StorageModule::StorageProvider:Type' | abpLocalization }}
           </label>
           <div
-            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+            class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1 line-height-3"
           >
             <span class="text-900">{{
               provider?.originalData?.storageProviderTypeName || '-'
@@ -106,11 +108,11 @@
           *ngIf="!editMode"
           class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
         >
-          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+          <label class="col-12 mb-2 md:col-5 md:mb-0 text-500 font-medium">
             {{ 'StorageModule::StorageProvider:IsActive' | abpLocalization }}
           </label>
           <div
-            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+            class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1 line-height-3"
           >
             <span class="text-900">{{
               getIsActiveText(provider?.originalData?.isActive)
@@ -121,11 +123,11 @@
           *ngIf="editMode"
           class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
         >
-          <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">
+          <label class="col-12 mb-2 md:col-5 md:mb-0 text-500 font-medium">
             {{ 'StorageModule::StorageProvider:IsActive' | abpLocalization }}
           </label>
           <div
-            class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1 line-height-3"
+            class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1 line-height-3"
           >
             <p-select
               class="w-full"
@@ -144,7 +146,7 @@
       <!-- SETTINGS -->
       <div class="mt-5">
         <div class="">
-          <h3 class="mb-4">
+          <h3 class="mb-4" style="font-weight: 200">
             &nbsp;
             {{
               ('StorageModule::ProvidersOptions:Settings' | abpLocalization) ||
@@ -164,13 +166,13 @@
           >
             <ng-template pTemplate="header">
               <tr>
-                <th style="width: 40%">
+                <th style="width: 41%">
                   {{
                     'StorageModule::ProvidersOptions:SettingKey'
                       | abpLocalization
                   }}
                 </th>
-                <th style="width: 60%">
+                <th style="width: 59%">
                   {{
                     'StorageModule::ProvidersOptions:SettingValue'
                       | abpLocalization
@@ -213,7 +215,8 @@
                         pTextarea
                         [autoResize]="true"
                         class="w-full"
-                      >*********
+                      >
+*********
                       </textarea>
 
                       <!-- Real editable value -->
@@ -305,3 +308,4 @@
     ></app-file-manager-explorer>
   </p-dialog>
 </div> -->
+</div>

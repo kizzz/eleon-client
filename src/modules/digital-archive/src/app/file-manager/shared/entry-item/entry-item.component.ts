@@ -213,6 +213,7 @@ export class EntryItemComponent implements OnInit {
         header: this.localizationService.instant('FileManager::History'),
         headerIcon: 'fa fa-book',
       },
+      closable: true,
       header: this.localizationService.instant('FileManager::History'),
       width: '900px',
     });
