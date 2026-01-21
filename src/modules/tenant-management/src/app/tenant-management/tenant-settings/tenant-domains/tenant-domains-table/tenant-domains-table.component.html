@@ -7,6 +7,7 @@
   [rowAdded]="addHostname"
   [rowEdited]="editHostname"
   [rowRemoved]="deleteHostname"
+  [rowFactory]="hostnameRowFactory"
   dataKey="data.id"
   [paginator]="true"
   [rows]="rowsCount"
@@ -15,7 +16,10 @@
   <ng-template pTemplate="header">
     <tr>
       <th>
-        {{ 'TenantManagement::TenantSettings:HostnameSettings:Hostname' | abpLocalization }}
+        {{
+          'TenantManagement::TenantSettings:HostnameSettings:Hostname'
+            | abpLocalization
+        }}
       </th>
       <!-- keep a narrow header cell for the actions column -->
       <th class="text-right" style="width: 1%"></th>
@@ -27,31 +31,34 @@
         <p-cellEditor>
           <ng-template pTemplate="input">
             <div class="field grid w-full mb-0">
-              <p-select
-                class="col-12 mb-2 md:col-2 md:mb-0"
-                [options]="availableProtocolsList"
-                [style]="{ width: '100%' }"
-                [(ngModel)]="hostname.isSsl"
-                [showClear]="false"
-                appendTo="body"
-                [filter]="false"
-                autoWidth="false"
-                [disabled]="loading"
-                optionValue="value"
-                optionLabel="name"
-              >
-              </p-select>
+              <div class="col-12 mb-2 md:col-2 md:mb-0">
+                <p-select
+                  class="w-full"
+                  [options]="availableProtocolsList"
+                  [(ngModel)]="hostname.isSsl"
+                  [showClear]="false"
+                  appendTo="body"
+                  [filter]="false"
+                  autoWidth="false"
+                  [disabled]="loading"
+                  optionValue="value"
+                  optionLabel="name"
+                >
+                </p-select>
+              </div>
 
-              <input
-                class="col-12 md:col-10"
-                pInputText
-                [(ngModel)]="hostname.domain"
-                [ngClass]="{
-                  'ng-invalid ng-dirty':
-                    hostname.validators.domainRequired ||
-                    hostname.validators.domainInvalid
-                }"
-              />
+              <div class="col-12 md:col-10">
+                <input
+                  class="w-full"
+                  pInputText
+                  [(ngModel)]="hostname.domain"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      hostname.validators.domainRequired ||
+                      hostname.validators.domainInvalid
+                  }"
+                />
+              </div>
             </div>
           </ng-template>
           <ng-template pTemplate="output">
@@ -69,16 +76,16 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage">
-          <tr class="table-emptymessage">
-            <td class="w-100" colspan="2">
-              <div class="card w-100">
-                <div class="card-body w-full text-center">
-                  <div class="card-header">
-                    {{'TenantManagement::NoTenantDomains' | abpLocalization}}
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
+    <tr class="table-emptymessage">
+      <td class="w-100" colspan="2">
+        <div class="card w-100">
+          <div class="card-body w-full text-center">
+            <div class="card-header">
+              {{ 'TenantManagement::NoTenantDomains' | abpLocalization }}
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>

@@ -13,9 +13,6 @@ export class TenantDomainsComponent implements OnInit {
   tenantId: string;
 
   title = "TenantManagement::TenantSettings:TenantDomains";
-  @Input()
-  visible: boolean = false;
-
 
   constructor(
     private configStateService: IApplicationConfigurationManager
