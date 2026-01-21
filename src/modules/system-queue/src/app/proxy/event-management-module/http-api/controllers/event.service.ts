@@ -1,9 +1,7 @@
 
 import type { PagedResultDto } from '@eleon/proxy-utils.lib';
 
-import type { RecieveMessagesResponseDto } from '../../../module-collector/event-management-module/event-management-module/module/application/contracts/event/models';
-
-import type { EventDto, FullEventDto, MessagesPagedAndSortedResultRequestDto, PublishMessageRequestDto } from '../../module/application/contracts/event/models';
+import type { AckRequestDto, ClaimMessagesRequestDto, ClaimMessagesResponseDto, EventDto, FullEventDto, MessagesPagedAndSortedResultRequestDto, NackRequestDto, PublishMessageRequestDto } from '../../module/application/contracts/event/models';
 
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -17,6 +15,130 @@ export class EventService {
       headers.set('Authorization', `Bearer ${token}`);
     }
     return fetch(input, { ...init, headers });
+  }
+
+
+  ack(input: AckRequestDto, config?: Partial<any>): Observable<void> {
+    // baseUrl is already a quoted literal
+		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+    const baseUrl = apiBase + '/api/EventManagement/Events/Ack';
+
+    // build ?a=1&b=2…
+    const queryString = (() => {
+      const qp = new URLSearchParams();
+
+      const s = qp.toString();
+      return s ? `?${s}` : '';
+    })();
+
+    const eleoncoreApiUrl = baseUrl + queryString;
+
+    // headers
+    const headers: HeadersInit = {};
+    if (!config?.skipAddingHeader) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    // options
+    const options: RequestInit = {
+      method: 'POST',
+      headers,
+
+      body: JSON.stringify(input),
+
+    };
+
+    return new Observable<void>(subscriber => {
+      this.authFetch(eleoncoreApiUrl, options)
+        .then(res => {
+          if (!res.ok) {
+            if (!config?.skipHandleError) {
+              // ← you can hook in your global reporter here
+            }
+            return res.text().then(err => {
+              subscriber.error(new Error(err || res.statusText));
+            });
+          }
+
+
+          const contentType = res.headers.get("Content-Type") || "";
+					if (contentType.includes("application/json")) {
+						return res.json().then(data => {
+							subscriber.next(data as void);
+							subscriber.complete();
+						});
+					} else {
+						return res.text().then(data => {
+							subscriber.next(data as any);
+							subscriber.complete();
+						});
+					}
+
+        })
+        .catch(err => subscriber.error(err));
+    });
+  }
+
+
+  claimMany(input: ClaimMessagesRequestDto, config?: Partial<any>): Observable<ClaimMessagesResponseDto> {
+    // baseUrl is already a quoted literal
+		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+    const baseUrl = apiBase + '/api/EventManagement/Events/ClaimMany';
+
+    // build ?a=1&b=2…
+    const queryString = (() => {
+      const qp = new URLSearchParams();
+
+      const s = qp.toString();
+      return s ? `?${s}` : '';
+    })();
+
+    const eleoncoreApiUrl = baseUrl + queryString;
+
+    // headers
+    const headers: HeadersInit = {};
+    if (!config?.skipAddingHeader) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    // options
+    const options: RequestInit = {
+      method: 'POST',
+      headers,
+
+      body: JSON.stringify(input),
+
+    };
+
+    return new Observable<ClaimMessagesResponseDto>(subscriber => {
+      this.authFetch(eleoncoreApiUrl, options)
+        .then(res => {
+          if (!res.ok) {
+            if (!config?.skipHandleError) {
+              // ← you can hook in your global reporter here
+            }
+            return res.text().then(err => {
+              subscriber.error(new Error(err || res.statusText));
+            });
+          }
+
+
+          const contentType = res.headers.get("Content-Type") || "";
+					if (contentType.includes("application/json")) {
+						return res.json().then(data => {
+							subscriber.next(data as ClaimMessagesResponseDto);
+							subscriber.complete();
+						});
+					} else {
+						return res.text().then(data => {
+							subscriber.next(data as any);
+							subscriber.complete();
+						});
+					}
+
+        })
+        .catch(err => subscriber.error(err));
+    });
   }
 
 
@@ -200,10 +322,10 @@ export class EventService {
   }
 
 
-  publish(input: PublishMessageRequestDto, config?: Partial<any>): Observable<void> {
+  nack(input: NackRequestDto, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
-    const baseUrl = apiBase + '/api/EventManagement/Events/Publish';
+    const baseUrl = apiBase + '/api/EventManagement/Events/Nack';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -262,26 +384,14 @@ export class EventService {
   }
 
 
-  publishError(message: string, config?: Partial<any>): Observable<void> {
+  publish(input: PublishMessageRequestDto, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
-    const baseUrl = apiBase + '/api/EventManagement/Events/PublishError';
+    const baseUrl = apiBase + '/api/EventManagement/Events/Publish';
 
     // build ?a=1&b=2…
     const queryString = (() => {
       const qp = new URLSearchParams();
-
-      {
-        const raw = message;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-					!(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('message', String(raw));
-        }
-      }
 
       const s = qp.toString();
       return s ? `?${s}` : '';
@@ -299,6 +409,8 @@ export class EventService {
     const options: RequestInit = {
       method: 'POST',
       headers,
+
+      body: JSON.stringify(input),
 
     };
 
@@ -319,90 +431,6 @@ export class EventService {
 					if (contentType.includes("application/json")) {
 						return res.json().then(data => {
 							subscriber.next(data as void);
-							subscriber.complete();
-						});
-					} else {
-						return res.text().then(data => {
-							subscriber.next(data as any);
-							subscriber.complete();
-						});
-					}
-
-        })
-        .catch(err => subscriber.error(err));
-    });
-  }
-
-
-  receiveMany(queueName: string, maxCount: number = 100, config?: Partial<any>): Observable<RecieveMessagesResponseDto> {
-    // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
-    const baseUrl = apiBase + '/api/EventManagement/Events/RecieveMany';
-
-    // build ?a=1&b=2…
-    const queryString = (() => {
-      const qp = new URLSearchParams();
-
-      {
-        const raw = queueName;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-					!(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('queueName', String(raw));
-        }
-      }
-
-      {
-        const raw = maxCount;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-					!(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('maxCount', String(raw));
-        }
-      }
-
-      const s = qp.toString();
-      return s ? `?${s}` : '';
-    })();
-
-    const eleoncoreApiUrl = baseUrl + queryString;
-
-    // headers
-    const headers: HeadersInit = {};
-    if (!config?.skipAddingHeader) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // options
-    const options: RequestInit = {
-      method: 'GET',
-      headers,
-
-    };
-
-    return new Observable<RecieveMessagesResponseDto>(subscriber => {
-      this.authFetch(eleoncoreApiUrl, options)
-        .then(res => {
-          if (!res.ok) {
-            if (!config?.skipHandleError) {
-              // ← you can hook in your global reporter here
-            }
-            return res.text().then(err => {
-              subscriber.error(new Error(err || res.statusText));
-            });
-          }
-
-
-          const contentType = res.headers.get("Content-Type") || "";
-					if (contentType.includes("application/json")) {
-						return res.json().then(data => {
-							subscriber.next(data as RecieveMessagesResponseDto);
 							subscriber.complete();
 						});
 					} else {
