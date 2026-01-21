@@ -172,4 +172,4 @@
   </div>
 </p-dialog>
 
-<app-queue-messages-dialog #queueDetailed></app-queue-messages-dialog>
+<app-queue-messages-dialog #queueDetailed (cleared)="onQueueCleared($event)"></app-queue-messages-dialog>
