@@ -30,9 +30,6 @@
       "@eleon/system-log-proxy": [
         "src/shared/proxies/typescript-proxy/system-log-proxy/src/index.ts"
       ],
-      "@eleon/notificator-proxy": [
-        "src/shared/proxies/typescript-proxy/notificator-proxy/src/index.ts"
-      ],
       "@eleon/storage-proxy": [
         "src/shared/proxies/typescript-proxy/storage-proxy/src/index.ts"
       ],

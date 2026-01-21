@@ -16,7 +16,6 @@ import { SessionsService, TenantAppearanceService } from '@eleon/tenant-manageme
 import { PROXY_SERVICES as APPLICATION_CONFIGURATION_PROXY_SERVICES, ApplicationConfigurationManager, EleoncoreApplicationConfigurationDto } from '@eleon/app-config.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
 import { PROXY_SERVICES as SYSTEM_LOG_PROXY_SERVICES, SystemLogService } from '@eleon/system-services.lib';
-import { PROXY_SERVICES as NOTIFICATOR_PROXY_SERVICES } from '@eleon/notificator-proxy';
 import { PROXY_SERVICES as IDENTITY_QUERYING_PROXY_SERVICES } from '@eleon/identity-querying.lib';
 import { PermissionService, QuickReloginService } from '@eleon/typescript-sdk.lib';
 import {
@@ -289,7 +288,6 @@ function registerHostProxy() {
       ...APPLICATION_CONFIGURATION_PROXY_SERVICES,
       ...TENANT_MANAGEMENT_PROXY_SERVICES,
       ...SYSTEM_LOG_PROXY_SERVICES,
-      ...NOTIFICATOR_PROXY_SERVICES,
       ...STORAGE_PROXY_SERVICES,
       ...IDENTITY_QUERYING_PROXY_SERVICES
     ].map(service => ({

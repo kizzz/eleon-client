@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { finalize, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { EmailSettingsComponent } from '../email-settings/email-settings.component';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
 import {
   contributeControls,
@@ -32,9 +31,6 @@ type TenantSettingsTabKey =
 })
 export class SettingsManagementComponent implements OnInit {
   private readonly defaultTabKey: TenantSettingsTabKey = 'general';
-
-  @ViewChild(EmailSettingsComponent)
-  public emailSettingsComponent: EmailSettingsComponent;
 
   @ViewChild(IdentitySettingsComponent)
   public identitySettingsComponent: IdentitySettingsComponent;
@@ -162,8 +158,6 @@ export class SettingsManagementComponent implements OnInit {
         return this.generalTenantSettingsComponent;
       case 'telemetry':
         return this.telemetrySettingsComponent;
-      case 'notifications':
-        return this.emailSettingsComponent;
       case 'identity':
         return this.identitySettingsComponent;
       case 'time-zone':

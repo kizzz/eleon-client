@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { TenantSettingsRoutingModule } from "./tenant-settings-routing.module";
 import { SettingsManagementComponent } from "./settings-management/settings-management.component";
 import { InputTextModule } from "primeng/inputtext";
-import { EmailSettingsComponent } from "./email-settings/email-settings.component";
+// import { EmailSettingsComponent } from "./email-settings/email-settings.component";
 import { TabsModule } from "primeng/tabs";
 import { InputNumberModule } from "primeng/inputnumber";
 import { ButtonModule } from "primeng/button";
@@ -40,7 +40,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 @NgModule({
   declarations: [
     SettingsManagementComponent,
-    EmailSettingsComponent,
     IdentitySettingsComponent,
     TimeZoneSettingsComponent,
     AppearanceSettingsComponent,

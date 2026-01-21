@@ -34,18 +34,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'notifications',
-    component: SettingsManagementComponent,
-    canDeactivate: [CanDeactivateDirtyGuard],
-    data: {
-      type: 'notifications',
-      tab: 2,
-      name: 'TenantManagement::TenantSettings:Menu:NotificationSettings',
-      parentNames: 'TenantManagement::TenantSettings:Menu:Top',
-      policyKey: 'Settings',
-    },
-  },
-  {
     path: 'identity',
     component: SettingsManagementComponent,
     canDeactivate: [CanDeactivateDirtyGuard],

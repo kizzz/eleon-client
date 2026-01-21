@@ -16,7 +16,6 @@ export default composePlugins(
       '@eleon/logging.lib': path.resolve(__dirname, '../eleon.logging.lib/src/index.ts'),
       '@eleon/tenant-management-proxy': path.resolve(__dirname, '../../shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts'),
       '@eleon/system-services.lib': path.resolve(__dirname, '../eleon.system-services.lib/src/index.ts'),
-      '@eleon/notificator-proxy': path.resolve(__dirname, '../../shared/proxies/typescript-proxy/notificator-proxy/src/index.ts'),
       '@eleon/identity-querying.lib': path.resolve(__dirname, '../eleon.identity-querying.lib/src/index.ts'),
       '@eleon/typescript-sdk.lib': path.resolve(__dirname, '../../shared/libs/eleon.typescript-sdk.lib/src/index.ts'),
       '@eleon/storage.lib': path.resolve(__dirname, '../eleon.storage.lib/src/index.ts'),

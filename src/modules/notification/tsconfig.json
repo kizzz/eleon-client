@@ -24,7 +24,7 @@
       ],
 
       "@eleon/notificator-proxy": [
-        "src/shared/proxies/typescript-proxy/notificator-proxy/src/index.ts"
+        "src/modules/notification/src/app/proxy/index.ts"
       ],			
       "@eleon/primeng-ui.lib": [
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"

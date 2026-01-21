@@ -28,9 +28,6 @@
       "@eleon/infrastructure-proxy": [
         "src/shared/proxies/typescript-proxy/infrastructure-proxy/src/index.ts"
       ],
-      "@eleon/notificator-proxy": [
-        "src/shared/proxies/typescript-proxy/notificator-proxy/src/index.ts"
-      ],
       "@eleon/providers-proxy": [
         "src/shared/proxies/typescript-proxy/providers-proxy/src/index.ts"
       ],
