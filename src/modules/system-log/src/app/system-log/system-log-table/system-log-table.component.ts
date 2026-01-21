@@ -22,6 +22,7 @@ import { finalize, first } from 'rxjs';
 import { viewportBreakpoints } from '@eleon/angular-sdk.lib';
 import {
   contributeControls,
+  LocalizedConfirmationService,
   PAGE_CONTROLS,
   PageControls,
 } from '@eleon/primeng-ui.lib';
@@ -96,7 +97,7 @@ export class SystemLogTableComponent implements OnInit, OnChanges {
     public docMessageLogService: SystemLogService,
     public localizationService: ILocalizationService,
     public messageService: MessageService,
-    public confirmationService: ConfirmationService
+    public confirmationService: LocalizedConfirmationService
   ) {}
 
   get defaultSorting(): string {
@@ -319,12 +320,11 @@ export class SystemLogTableComponent implements OnInit, OnChanges {
   }
 
   markAllAsReaded() {
-    this.confirmationService.confirm({
-      header: this.localizationService.instant('Infrastructure::Warning'),
-      message: this.localizationService.instant(
+    this.confirmationService.confirm(
+      this.localizationService.instant(
         'SystemLog::ResolveAllLogsConfirmationMessage'
       ),
-      accept: () => {
+      () => {
         this.docMessageLogService.markAllReaded().subscribe((res) => {
           this.messageService.add({
             severity: 'success',
@@ -334,14 +334,8 @@ export class SystemLogTableComponent implements OnInit, OnChanges {
           });
           this.onLoadLogs(this.lastLazyLoadEvent);
         });
-      },
-      acceptLabel: this.localizationService.instant('Infrastructure::Yes'),
-      rejectLabel: this.localizationService.instant('Infrastructure::No'),
-      acceptButtonStyleClass:
-        'p-button-sm p-button-raised p-button-text p-button-info',
-      rejectButtonStyleClass:
-        'p-button-sm p-button-raised p-button-text p-button-danger',
-    });
+      }
+    );
   }
 
   onMessageTypeFilter({ value }) {
@@ -480,12 +474,11 @@ export class SystemLogTableComponent implements OnInit, OnChanges {
   }
 
   resolveSelectedLogs(): void {
-    this.confirmationService.confirm({
-      header: this.localizationService.instant('Infrastructure::Warning'),
-      message: this.localizationService.instant(
+    this.confirmationService.confirm(
+      this.localizationService.instant(
         'SystemLog::ResolveSelectedLogsConfirmationMessage'
       ),
-      accept: () => {
+      () => {
         if (!this.isSystemAlerts || this.selectedLogs.length === 0) {
           return;
         }
@@ -504,13 +497,7 @@ export class SystemLogTableComponent implements OnInit, OnChanges {
             this.onLoadLogs(this.lastLazyLoadEvent);
           });
       },
-      acceptLabel: this.localizationService.instant('Infrastructure::Yes'),
-      rejectLabel: this.localizationService.instant('Infrastructure::No'),
-      acceptButtonStyleClass:
-        'p-button-sm p-button-raised p-button-text p-button-info',
-      rejectButtonStyleClass:
-        'p-button-sm p-button-raised p-button-text p-button-danger',
-    });
+    );
   }
 
   private syncSelectedAlertSelections(): void {
