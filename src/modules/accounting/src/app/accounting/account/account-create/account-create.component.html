@@ -63,162 +63,7 @@
                 [ignoredUsers]="[]"
               >
               </app-user-selection-multi>
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AdminPassword' | abpLocalization}}</label>
-                <div class="flex align-items-center grid">
-                  <div class="col-11 px-1">
-                    <p-password [(ngModel)]="header.data.adminPassword" (change)="resetValidators();"
-                      [disabled]="loading" [ngClass]="{'ng-invalid ng-dirty': header.adminPasswordEmpty}"
-                      [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" autocomplete="one-time-code"
-                      [inputStyle]="{'margin-left':'2%'}">
-                      <ng-template pTemplate="header">
-                        <h6>{{'AccountingModule::PickPassword' | abpLocalization}}</h6>
-                      </ng-template>
-                      <ng-template pTemplate="footer">
-                        <p-divider></p-divider>
-                        <p class="mt-2">{{'AccountingModule::Suggestions' | abpLocalization}}</p>
-                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                          <li>{{'AccountingModule::AtLeastOneLowercase' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::AtLeastOneUppercase' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::AtLeastOneNumeric' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::AtLeastOneSymbol' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::MinimumCharactersForPsw' | abpLocalization}}</li>
-                        </ul>
-                      </ng-template>
-                    </p-password>
-                  </div>
-                  <div class="col-1 text-center">
-                    <span (click)="generatePassword()"
-                      [pTooltip]="'AccountingModule::Tooltip:GeneratePassword' | abpLocalization"
-                      tooltipPosition="bottom">
-                      <i class="fas fa-unlock-alt" style="color: grey; font-size: large;"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label>{{'AccountingModule::Header:ResellerType' | abpLocalization}}</label>
-                <div class="flex">
-                  <p-select [options]="localizedResellerTypes" class="w-full" [(ngModel)]="header.data.resellerType"
-                    appendTo="body" (onChange)="resetValidators(); resellerTypeChange()" optionValue="type"
-                    optionLabel="name" [filter]="false" autoWidth="false" [style]="{'width':'100%'}">
-                  </p-select>
-                </div>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label>{{'AccountingModule::Header:ResellerRef' | abpLocalization}}</label>
-                <div class="p-float-label">
-                  <ng-template #beforeResellerButton>
-                    <input class="no-select flex-1" #beforeResellerButton [value]="header?.data.resellerRefName"
-                      type="text" [ngClass]="{'ng-invalid ng-dirty': header?.currencyNotSelected}" pInputText
-                      [readonly]="true" placeholder="{{ 'AccountingModule::SelectReseller' | abpLocalization }}" />
-                  </ng-template>
-                  <app-account-selection-dialog [style]="{'width':'100%'}" [beforeButton]="beforeResellerButton"
-                    (selectEvent)="onResellerChange($event)" icon="fa fa-list">
-                  </app-account-selection-dialog>
-                </div>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label>{{'AccountingModule::Header:AccountCurrency' | abpLocalization}}</label>
-                <div class="p-float-label">
-                  <p-select [(ngModel)]="header.data.accountCurrency" [options]="currencies"
-                    [style]="{'width':'100%'}" appendTo="body" [disabled]="isResellerModule() || loading"
-                    optionValue="value" optionLabel="name">
-                  </p-select>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="grid">
-          <div class="col-12">
-            <!-- <app-user-fields #headerUfs *ngIf="header?.data?.id" [documentObjectType]="documentObjectType"
-              [auditDocumentObjectType]="documentObjectType" [(version)]="header.data.documentVersionEntity"
-              [alwaysEditable]="true" [documentId]="header.data.id"></app-user-fields> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <div #generalDetailsCard class="grid" *ngIf="isResellerModule()">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ 'AccountingModule::HeaderTitle' | abpLocalization }}</h5>
-            <div class="grid">
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AccountName' | abpLocalization}}</label>
-                <input [(ngModel)]="header.data.accountName" (change)="resetValidators();" [disabled]="loading"
-                  type="text" pInputText [ngClass]="{'ng-invalid ng-dirty': header.nameEmpty}" />
-            </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AccountNameEng' | abpLocalization}}</label>
-                <input [(ngModel)]="header.data.accountNameEng" (change)="resetValidators();" [disabled]="loading"
-                  type="text" pInputText [ngClass]="{'ng-invalid ng-dirty': header.nameEngEmpty}"
-                  [style]="{'width':'100%'}" maxlength="230" (input)="onInputChange($event)" />
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AccountType' | abpLocalization}}</label>
-                <p-select [options]="localizedAccountTypes" [(ngModel)]="header.data.type" appendTo="body"
-                  (onChange)="resetValidators();onAccountTypeChange($event)" optionValue="type" optionLabel="name"
-                  [filter]="false" autoWidth="false" [style]="{'width':'100%'}">
-                </p-select>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AdminUserName' | abpLocalization}}</label>
-                <input [(ngModel)]="header.data.adminUserName" (change)="resetValidators();"
-                  (input)="validateAdminUserName()" [disabled]="loading" type="text" pInputText
-                  [ngClass]="{'ng-invalid ng-dirty': header.adminUserNameEmpty}" [style]="{'width':'100%'}"
-                  maxlength="230" />
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AdminEmail' | abpLocalization}}</label>
-                <input [(ngModel)]="header.data.adminEmail" (change)="resetValidators();" (input)="validateEmail()"
-                  [disabled]="loading" type="text" pInputText
-                  [ngClass]="{'ng-invalid ng-dirty': header.adminEmailEmpty}" [style]="{'width':'100%'}"
-                  maxlength="230" />
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'sm:col-4'">
-                <label appRequired>{{'AccountingModule::Header:AdminPassword' | abpLocalization}}</label>
-                <div class="flex align-items-center grid">
-                  <div class="col-11 px-1">
-                    <p-password [(ngModel)]="header.data.adminPassword" (change)="resetValidators();"
-                      [disabled]="loading" [ngClass]="{'ng-invalid ng-dirty': header.adminPasswordEmpty}"
-                      [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full"
-                      [inputStyle]="{'margin-left':'2%'}">
-                      <ng-template pTemplate="header">
-                        <h6>{{'AccountingModule::PickPassword' | abpLocalization}}</h6>
-                      </ng-template>
-                      <ng-template pTemplate="footer">
-                        <p-divider></p-divider>
-                        <p class="mt-2">{{'AccountingModule::Suggestions' | abpLocalization}}</p>
-                        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                          <li>{{'AccountingModule::AtLeastOneLowercase' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::AtLeastOneUppercase' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::AtLeastOneNumeric' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::AtLeastOneSymbol' | abpLocalization}}</li>
-                          <li>{{'AccountingModule::MinimumCharactersForPsw' | abpLocalization}}</li>
-                        </ul>
-                      </ng-template>
-                    </p-password>
-                  </div>
-                  <div class="col-1 text-center">
-                    <span (click)="generatePassword()"
-                      [pTooltip]="'AccountingModule::Tooltip:GeneratePassword' | abpLocalization"
-                      tooltipPosition="bottom">
-                      <i class="fas fa-unlock-alt" style="color: grey; font-size: large;"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
           </div>
         </div>
       </div>
@@ -227,38 +72,38 @@
 
   <div #rowsCard class="card table-card">
     <div class="card-body">
-      <p-tabs [scrollable]="false" [(activeIndex)]="activeTabIndex">
+      <p-tabs [value]="activeTabIndex" [scrollable]="false" (valueChange)="activeTabIndex = $event">
         <p-tablist>
-            <p-tab value="0">
-              <span
-                pBadge
-                severity="warning"
-                class="pr-2"
-                [value]="getRowsLength()"
-                [badgeDisabled]="getRowsLength() === 0"
-              >
-                {{ 'AccountingModule::Subscriptions' | abpLocalization }}
-              </span>
-            </p-tab>
-            <p-tab value="1">
-              <span class="pr-2">
-                {{ 'AccountingModule::BillingInformation' | abpLocalization }}
-              </span>
-            </p-tab>
-            <p-tab value="2">
-              <span
-                pBadge
-                severity="info"
-                class="pr-2"
-                [value]="getMembersLength()"
-                [badgeDisabled]="getMembersLength() === 0"
-              >
-                {{ 'AccountingModule::Members' | abpLocalization }}
-              </span>
-            </p-tab>
-          </p-tablist>
+          <p-tab [value]="0">
+            <span
+              pBadge
+              severity="warning"
+              class="pr-2"
+              [value]="getRowsLength()"
+              [badgeDisabled]="getRowsLength() === 0"
+            >
+              {{ 'AccountingModule::Subscriptions' | abpLocalization }}
+            </span>
+          </p-tab>
+          <p-tab [value]="1">
+            <span class="pr-2">
+              {{ 'AccountingModule::BillingInformation' | abpLocalization }}
+            </span>
+          </p-tab>
+          <p-tab [value]="2">
+            <span
+              pBadge
+              severity="info"
+              class="pr-2"
+              [value]="getMembersLength()"
+              [badgeDisabled]="getMembersLength() === 0"
+            >
+              {{ 'AccountingModule::Members' | abpLocalization }}
+            </span>
+          </p-tab>
+        </p-tablist>
         <p-tabpanels>
-          <p-tabpanel>
+          <p-tabpanel [value]="0">
           <div>
             <ng-template
               appResponsiveTable="md"
@@ -364,7 +209,7 @@
                         }}
                       </span>
                       <p-cellEditor>
-                        <ng-template pTemplate="input">
+                        <ng-template #input>
                           <div class="p-float-label">
                             <ng-template #beforeAreaButton>
                               <input
@@ -404,7 +249,7 @@
                             >
                           </div>
                         </ng-template>
-                        <ng-template pTemplate="output">
+                        <ng-template #output>
                           <span class="column-content">
                             {{ row.data.name ?? '-' }}
                           </span>
@@ -417,9 +262,9 @@
                           | abpLocalization
                       }}</span>
                       <p-cellEditor>
-                        <ng-template pTemplate="input">
+                        <ng-template #input>
                           <div class="p-float-label">
-                            <p-select
+                            <p-dropdown
                               [options]="localizedBillingPeriodTypes"
                               [(ngModel)]="row.data.billingPeriodType"
                               appendTo="body"
@@ -431,7 +276,7 @@
                               [style]="{ width: '100%' }"
                               id="billingPeriodType-input"
                             >
-                            </p-select>
+                            </p-dropdown>
                             <label
                               class="editing-only small-width-only"
                               for="billingPeriodType-input"
@@ -443,7 +288,7 @@
                             >
                           </div>
                         </ng-template>
-                        <ng-template pTemplate="output">
+                        <ng-template #output>
                           <span class="column-content">
                             {{
                               getBillingPeriodTypeName(
@@ -460,7 +305,7 @@
                           | abpLocalization
                       }}</span>
                       <p-cellEditor>
-                        <ng-template pTemplate="input">
+                        <ng-template #input>
                           <div class="p-float-label">
                             <p-inputNumber
                               id="oneTimeDiscount-input"
@@ -486,7 +331,7 @@
                             >
                           </div>
                         </ng-template>
-                        <ng-template pTemplate="output">
+                        <ng-template #output>
                           <span class="column-content">
                             {{ row.data.oneTimeDiscount }}
                           </span>
@@ -499,7 +344,7 @@
                           | abpLocalization
                       }}</span>
                       <p-cellEditor>
-                        <ng-template pTemplate="input">
+                        <ng-template #input>
                           <div class="p-float-label">
                             <p-inputNumber
                               id="permanentDiscount-input"
@@ -525,7 +370,7 @@
                             >
                           </div>
                         </ng-template>
-                        <ng-template pTemplate="output">
+                        <ng-template #output>
                           <span class="column-content">
                             {{ row.data.permanentDiscount }}
                           </span>
@@ -537,7 +382,7 @@
                         'AccountingModule::Row:AutoRenewal' | abpLocalization
                       }}</span>
                       <p-cellEditor>
-                        <ng-template pTemplate="input">
+                        <ng-template #input>
                           <div class="text-center">
                             <p-checkbox
                               [binary]="true"
@@ -557,7 +402,7 @@
                             >
                           </div>
                         </ng-template>
-                        <ng-template pTemplate="output">
+                        <ng-template #output>
                           <span class="column-content">
                             <p-checkbox
                               [binary]="true"
@@ -602,7 +447,8 @@
                       [alignFrozen]="direction"
                       pFrozenColumn
                     >
-                      <ng-container *ngIf="!editing">
+                      <div *ngIf="!editing"
+                        class="flex gap-2">
                         <i
                           (click)="editRow(row)"
                           class="fa fa-edit"
@@ -613,7 +459,7 @@
                         ></i>
                         <i
                           (click)="removeRow(rowIndex)"
-                          class="fa fa-trash" style="color: red"
+                          class="fa fa-trash" style="color: var(--danger-color)"
                           [pTooltip]="
                             'AccountingModule::Tooltip:RemoveAccountPackage'
                               | abpLocalization
@@ -627,8 +473,9 @@
                               | abpLocalization
                           "
                         ></i>
-                      </ng-container>
-                      <ng-container *ngIf="editing">
+                      </div>
+                      <div *ngIf="editing"
+                        class="flex gap-2">
                         <i
                           (click)="openMemberSelectionDialog(row)"
                           class="fa fa-users"
@@ -643,17 +490,19 @@
                             'AccountingModule::Tooltip:SaveAccountPackageRow'
                               | abpLocalization
                           "
+                          style="color: #22c55e;"
                           class="fa fa-check"
                         ></i>
                         <i
                           (click)="cancelRowEditing(row, rowIndex)"
                           class="fa fa-ban"
+                          style="color: var(--danger-color)"
                           [pTooltip]="
                             'AccountingModule::Tooltip:CancelAccountPackageRowEditing'
                               | abpLocalization
                           "
                         ></i>
-                      </ng-container>
+                      </div>
                     </td>
                   </tr>
                 </ng-template>
@@ -695,9 +544,9 @@
               </p-table>
             </ng-template>
           </div>
-        </p-tabpanel>
-        <p-tabpanel>
-          <div class="card-body">
+          </p-tabpanel>
+          <p-tabpanel [value]="1">
+            <div class="card-body">
             <div class="grid">
               <div class="col-6">
                 <div class="grid">
@@ -770,7 +619,7 @@
                         </span>
                       </div>
                       <div class="col-8">
-                        <p-select
+                        <p-dropdown
                           [options]="localizedPaymentMethods"
                           [(ngModel)]="
                             header.data.billingInformation.paymentMethod
@@ -788,7 +637,7 @@
                           (onChange)="resetBillingValidators()"
                           [disabled]="loading"
                         >
-                        </p-select>
+                        </p-dropdown>
                       </div>
                     </div>
                   </div>
@@ -1064,9 +913,9 @@
               </div>
             </div>
           </div>
-        </p-tabpanel>
-        <p-tabpanel>
-          <div>
+          </p-tabpanel>
+          <p-tabpanel [value]="2">
+            <div>
             <ng-template
               appResponsiveTable="md"
               let-scrollable
@@ -1202,9 +1051,8 @@
               </p-table>
             </ng-template>
           </div>
-        </p-tabpanel>
+          </p-tabpanel>
         </p-tabpanels>
-        
       </p-tabs>
     </div>
   </div>
