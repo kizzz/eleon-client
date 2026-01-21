@@ -94,6 +94,7 @@
               [ngModel]="isRowSelected(rowNode)"
               *ngIf="selectionMode === 'checkbox'"
               [disabled]="disableCheckBoxSelection"
+              [readonly]="true"
               styleClass="table-body-checkbox">
             </p-checkbox>
           </div>

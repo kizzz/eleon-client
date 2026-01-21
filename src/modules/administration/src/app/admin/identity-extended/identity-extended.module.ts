@@ -44,6 +44,8 @@ import { UserSessionManagementComponent } from './user-session-management/user-s
 import { TreeTableModule } from 'primeng/treetable';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http'
 import { UsersNotificationSettingsComponent } from './user-details/users-notification-settings/users-notification-settings.component';
+import { OrganizationUnitsModule } from "../organization-units/organization-units.module"
+import { OrganizationUnitsSelectionTreeComponent } from "./shared/organization-units-selection-tree/organization-units-selection-tree.component"
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { UsersNotificationSettingsComponent } from './user-details/users-notific
     RoleUsersManagementComponent,
     UserRolesManagementComponent,
     UserOrgUnitsManagementComponent,
+    OrganizationUnitsSelectionTreeComponent,
     
     RoleOrgUnitsManagementComponent,
     UserDetailsDialogComponent,
@@ -119,6 +122,6 @@ import { UsersNotificationSettingsComponent } from './user-details/users-notific
       }
     ]),
   ],
-  exports: [IdentityUserExtendedComponent, UserSettingBoxComponent, PermissionManagementComponent],
+  exports: [IdentityUserExtendedComponent, UserSettingBoxComponent, PermissionManagementComponent, OrganizationUnitsSelectionTreeComponent],
 })
 export class IdentityExtendedModule {}

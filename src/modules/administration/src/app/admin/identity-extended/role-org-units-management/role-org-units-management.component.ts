@@ -7,7 +7,7 @@ import { ReplaySubject, finalize } from "rxjs";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { PageStateService } from "@eleon/primeng-ui.lib";
 import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
-import { OrganizationUnitSelectionEvent } from '../../organization-units/shared/organization-units-selection-tree/organization-unit-selection-event';
+import { OrganizationUnitSelectionEvent } from '../shared/organization-units-selection-tree/organization-unit-selection-event';
 
 @Component({
   standalone: false,

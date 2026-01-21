@@ -21,7 +21,6 @@ import { OrganizationUnitsCloneComponent } from './shared/organization-units-clo
 import { OrganizationUnitsCreateComponent } from './shared/organization-units-create/organization-units-create.component'
 import { OrganizationUnitsMoveComponent } from './shared/organization-units-move/organization-units-move.component'
 import { OrganizationUnitsEditComponent } from './shared/organization-units-edit/organization-units-edit.component'
-import { OrganizationUnitsSelectionTreeComponent } from './shared/organization-units-selection-tree/organization-units-selection-tree.component';
 import { TreeTable, TreeTableModule } from 'primeng/treetable';
 import { CommonModule } from '@angular/common';
 import { TreeModule } from 'primeng/tree';
@@ -38,8 +37,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
     OrganizationUnitsCloneComponent,
     OrganizationUnitsCreateComponent,
     OrganizationUnitsMoveComponent,
-    OrganizationUnitsEditComponent,
-    OrganizationUnitsSelectionTreeComponent
+    OrganizationUnitsEditComponent
   ],
   imports: [
     SharedModule,

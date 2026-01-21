@@ -30,8 +30,8 @@ import { CommonOrganizationUnitTreeNodeDto } from '@eleon/tenant-management-prox
 import { IIdentitySelectionDialogService, ILocalizationService } from '@eleon/angular-sdk.lib';
 import { ConfirmationService } from "primeng/api";
 import { LocalizedConfirmationService, LocalizedMessageService } from "@eleon/primeng-ui.lib";
-import { OrganizationUnitsSelectionTreeComponent } from "../shared/organization-units-selection-tree/organization-units-selection-tree.component";
-import { OrganizationUnitSelectionEvent } from "../shared/organization-units-selection-tree/organization-unit-selection-event";
+import { OrganizationUnitsSelectionTreeComponent } from "../../identity-extended/shared/organization-units-selection-tree/organization-units-selection-tree.component";
+import { OrganizationUnitSelectionEvent } from "../../identity-extended/shared/organization-units-selection-tree/organization-unit-selection-event";
 
 
 @Component({

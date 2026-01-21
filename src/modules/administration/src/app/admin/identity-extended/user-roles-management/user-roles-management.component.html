@@ -28,8 +28,8 @@
               </div>
             </div>
             <div class="col-4 py-3 md:py-0 flex align-items-center justify-content-center lg:justify-content-end gap-2">
-              <div class="flex align-items-center">
-                <p-checkbox [binary]="true" [(ngModel)]="searchOnlySelected" (ngModelChange)="filter()" class="px-1"
+              <div class="flex align-items-center gap-2">
+                <p-checkbox [binary]="true" [(ngModel)]="searchOnlySelected" (ngModelChange)="filter()"
                 inputId="only-selected">
                 </p-checkbox>
                 <label for="only-selected">
@@ -57,6 +57,7 @@
                 </div>
                 <div style="width: 40px;">
                   <p-checkbox [ngModel]="role.granted" binary="true" [disabled]="!role.editable || !canManageRoles" [inputId]="role.id"
+                    [readonly]="true"
                     [tooltipDisabled]="role.editable" class="me-2 mr-1 ml-1"
                     [pTooltip]="'TenantManagement::RoleUsersManagement:CanNotRemoveInheritedRole' | abpLocalization"
                     tooltipPosition="bottom">

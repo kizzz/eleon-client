@@ -16,8 +16,9 @@ export class IdentitySelectionDialogService extends IIdentitySelectionDialogServ
 
   override openUserSelectionDialog(config: UserSelectionDialogConfig): void {
     const ref = this.dialogService.open(UserSelectionBoxComponent, {
-      header: "[ QUERYING ] " +  (config.title || this.localizationService.instant('Infrastructure::UserSelection')),
+      header: (config.title || this.localizationService.instant('Infrastructure::UserSelection')),
       width: '600px',
+      closable: true,
       data: {
         permissions: config.permissions,
         selectedUsers: config.selectedUsers,
@@ -36,8 +37,9 @@ export class IdentitySelectionDialogService extends IIdentitySelectionDialogServ
 
   override openTenantSelectionDialog(config: TenantSelectionDialogConfig): void {
     const ref = this.dialogService.open(TenantSelectionBoxComponent, {
-      header: "[ QUERYING ] " + (config.title || this.localizationService.instant('Infrastructure::TenantSelection')),
+      header: (config.title || this.localizationService.instant('Infrastructure::TenantSelection')),
       width: '600px',
+      closable: true,
       data: {
         selectedTenants: config.selectedTenants,
         ignoredTenants: config.ignoredTenants,
@@ -60,8 +62,9 @@ export class IdentitySelectionDialogService extends IIdentitySelectionDialogServ
     }
 
     const ref = this.dialogService.open(RoleSelectionBoxComponent, {
-      header: "[ QUERYING ] " + (config.title || this.localizationService.instant('Infrastructure::RoleSelection')),
+      header: (config.title || this.localizationService.instant('Infrastructure::RoleSelection')),
       width: '440px',
+      closable: true,
       data: {
         permissions: config.permissions,
         selectedRoles: config.selectedRoles,
@@ -80,8 +83,9 @@ export class IdentitySelectionDialogService extends IIdentitySelectionDialogServ
 
   override openOrganizationUnitSelectionDialog(config: OrganizationUnitSelectionDialogConfig): void {
     const ref = this.dialogService.open(OrganizationUnitsSelectionTreeComponent, {
-      header: "[ QUERYING ] " +  (config.title || this.localizationService.instant('Infrastructure::OrganizationUnitSelection')),
+      header: (config.title || this.localizationService.instant('Infrastructure::OrganizationUnitSelection')),
       width: '600px',
+      closable: true,
       data: {
         onlyUsers: config.onlyUsers,
         defaultSelectedOrganizationUnits: config.defaultSelectedOrganizationUnits,

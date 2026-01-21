@@ -9,7 +9,7 @@ import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { PageStateService } from "@eleon/primeng-ui.lib";
 
 import { IPermissionService, ILocalizationService } from '@eleon/angular-sdk.lib';
-import { OrganizationUnitSelectionEvent } from '../../organization-units/shared/organization-units-selection-tree/organization-unit-selection-event';
+import { OrganizationUnitSelectionEvent } from '../shared/organization-units-selection-tree/organization-unit-selection-event';
 @Component({
   standalone: false,
   selector: "app-user-org-units-management",
