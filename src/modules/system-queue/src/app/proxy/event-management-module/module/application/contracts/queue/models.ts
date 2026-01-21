@@ -14,7 +14,6 @@ export interface QueueDto {
   messagesLimit: number;
   displayName?: string;
   forwarding?: string;
-  isSystem: boolean;
 }
 
 export interface UpdateQueueRequestDto {
