@@ -3,13 +3,17 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/angular:package",
+      "executor": "@nx/webpack:webpack",
       "outputs": [
-        "{workspaceRoot}/output/{projectRoot}"
+        "{options.outputPath}"
       ],
       "options": {
-        "project": "{projectRoot}/ng-package.json",
-        "tsConfig": "{projectRoot}/tsconfig.json"
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "bin/debug/libs/eleon.identity-querying.lib",
+        "main": "src/libs/eleon.identity-querying.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.identity-querying.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.identity-querying.lib/webpack.config.ts"
       },
       "configurations": {
         "production": {},

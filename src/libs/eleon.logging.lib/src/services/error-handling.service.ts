@@ -10,16 +10,16 @@ export class EleoncoreErrorHandlingService extends IErrorHandlingService {
   }
 
   override add(error: string | EleoncoreError): void {
-    if (typeof window !== "undefined" && typeof window.addEleoncoreError === "function") {
-      window.addEleoncoreError(error);
+    if (typeof window !== "undefined" && typeof window['addEleoncoreError'] === "function") {
+      window['addEleoncoreError'](error);
     } else {
       console.warn("addEleoncoreError is not available on window.");
     }
   }
 
   override setLevel(level: ErrorHandlingLevel): void {
-    if (typeof window !== "undefined" && typeof window.setEleoncoreErrorLevel === "function") {
-      window.setEleoncoreErrorLevel(level);
+    if (typeof window !== "undefined" && typeof window['setEleoncoreErrorLevel'] === "function") {
+      window['setEleoncoreErrorLevel'](level);
     } else {
       console.warn("setEleoncoreErrorLevel is not available on window.");
     }
@@ -27,14 +27,14 @@ export class EleoncoreErrorHandlingService extends IErrorHandlingService {
 
   override subscribe(callback: (error: EleoncoreError) => void): void {
     if (typeof window !== "undefined") {
-      window.__eleoncoreErrorSubscribers = window.__eleoncoreErrorSubscribers || [];
-      window.__eleoncoreErrorSubscribers.push(callback);
+      window['__eleoncoreErrorSubscribers'] = window['__eleoncoreErrorSubscribers'] || [];
+      window['__eleoncoreErrorSubscribers'].push(callback);
     }
   }
 
   override getErrors(): EleoncoreError[] {
-    if (typeof window !== "undefined" && window.environment?.eleoncoreErrors) {
-      return window.environment.eleoncoreErrors;
+    if (typeof window !== "undefined" && window['environment']?.eleoncoreErrors) {
+      return window['environment'].eleoncoreErrors;
     }
     return [];
   }

@@ -3,13 +3,17 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/angular:package",
+      "executor": "@nx/webpack:webpack",
       "outputs": [
-        "{workspaceRoot}/output/{projectRoot}"
+        "{options.outputPath}"
       ],
       "options": {
-        "project": "{projectRoot}/ng-package.json",
-        "tsConfig": "{projectRoot}/tsconfig.json"
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "bin/debug/libs/eleon.storage-provider.lib",
+        "main": "src/libs/eleon.storage-provider.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.storage-provider.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.storage-provider.lib/webpack.config.ts"
       },
       "configurations": {
         "production": {},

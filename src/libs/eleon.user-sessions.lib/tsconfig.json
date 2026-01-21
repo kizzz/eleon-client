@@ -43,6 +43,9 @@
       "@eleon/tables.lib": [
         "src/shared/libs/eleon.tables.lib/src/index.ts"
       ],
+      "@eleon/proxy-utils.lib": [
+        "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"
+      ],
     }
   }
 }

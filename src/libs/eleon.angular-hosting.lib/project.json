@@ -3,13 +3,17 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/angular:package",
+      "executor": "@nx/webpack:webpack",
       "outputs": [
-        "{workspaceRoot}/output/{projectRoot}"
+        "{options.outputPath}"
       ],
       "options": {
-        "project": "{projectRoot}/ng-package.json",
-        "tsConfig": "{projectRoot}/tsconfig.json"
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "bin/debug/libs/eleon.angular-hosting.lib",
+        "main": "src/libs/eleon.angular-hosting.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.angular-hosting.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.angular-hosting.lib/webpack.config.ts"
       },
       "configurations": {
         "production": {},

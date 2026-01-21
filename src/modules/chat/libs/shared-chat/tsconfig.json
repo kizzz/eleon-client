@@ -21,7 +21,7 @@
       ],
 
       "@eleon/collaboration-proxy": [
-        "src/modules/chat/libs/shared-chat/src/proxy/index.ts"
+        "src/modules/chat/libs/shared-chat/src/lib/proxy/index.ts"
       ],
 
       "@eleoncore/ng.schematics": [
@@ -41,6 +41,9 @@
 
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"
+      ],
+      "@eleon/tenant-management-proxy": [
+        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
       ],
     }
   }
