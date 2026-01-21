@@ -288,6 +288,7 @@ export class LayoutService extends ILayoutService  {
 
   initLayout() {
     this.doc.documentElement.style.setProperty('--p-popover-content-padding', '0rem');
+    this.doc.documentElement.style.setProperty('--p-datepicker-dropdown-background', '#ffffff');
   }
 
   changeTheme() {
