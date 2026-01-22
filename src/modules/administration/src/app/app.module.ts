@@ -38,7 +38,6 @@ import {
   DEFAULT_CHAT_MODULE_CONFIG,
 } from '@eleon/angular-sdk.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
-import { PROXY_SERVICES as INFRASTRUCTURE_PROXY_SERVICES } from '@eleon/infrastructure-proxy';
 import { PROXY_SERVICES as PROVIDERS_PROXY_SERVICES } from '@eleon/providers-proxy';
 
 export const remoteRoutes: Route[] = [
@@ -227,7 +226,6 @@ export const providers = [
     },
   }),
   ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-  ...provideMultipleOnInitialization(INFRASTRUCTURE_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
   ...provideMultipleOnInitialization(PROVIDERS_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
 ];
 

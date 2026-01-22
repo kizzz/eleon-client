@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Route } from '@angular/router';
 import { provideMenuOnInitialization, provideMultipleOnInitialization } from '@eleon/angular-sdk.lib';
 import { DefaultParentMenuItems, VPortalMenuItem } from '@eleon/angular-sdk.lib';
-import { PROXY_SERVICES } from '@eleon/infrastructure-proxy'
+import { PROXY_SERVICES } from '@eleon/dynamic-dashboard-proxy'
 
 export const remoteRoutes: Route[] = [
   {
