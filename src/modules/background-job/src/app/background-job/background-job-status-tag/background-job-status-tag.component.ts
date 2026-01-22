@@ -42,6 +42,8 @@ export class BackgroundJobStatusTagComponent implements OnInit, OnChanges {
 	localizedBackgroundJobExecutionStatuses: LocalizedBackgroundJobExecutionStatus[];
   @Input()
   value: BackgroundJobStatus | BackgroundJobExecutionStatus;
+  @Input()
+  isText: boolean = false;
 
 	@Input() mode: 'execution' | 'job' = 'job';
 
@@ -100,5 +102,21 @@ export class BackgroundJobStatusTagComponent implements OnInit, OnChanges {
 
   getStyleClass() {
     return this.mode === 'execution' ? BackgroundJobExecutionStatus[this.value]?.toLowerCase() : BackgroundJobStatus[this.value]?.toLowerCase();
+  }
+  
+   getTextColorStyle(): { [key: string]: string } {
+    const styleClass = this.getStyleClass();
+    const colorMap: { [key: string]: string } = {
+      'completed': 'var(--green-800)',
+      'new': 'var(--yellow-500)',
+      'executing': 'var(--orange-500)',
+      'executingfailed': 'var(--red-500)',
+      'errored': 'var(--red-500)',
+      'canceled': 'var(--blue-500)',
+      'cancelled': 'var(--blue-500)',
+      'starting': 'var(--orange-500)',
+      'started': 'var(--orange-500)',
+    };
+    return { color: colorMap[styleClass] || 'inherit' };
   }
 }

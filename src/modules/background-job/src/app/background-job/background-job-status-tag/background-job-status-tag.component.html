@@ -1,3 +1,7 @@
-<p-tag *ngIf="display && localizedValue" [styleClass]="getStyleClass()" [value]="localizedValue"
+<p-tag *ngIf="display && localizedValue && !isText" [styleClass]="getStyleClass()" [value]="localizedValue"
   [icon]="getIcon()">
 </p-tag>
+
+<span *ngIf="display && localizedValue && isText" class="font-bold" [ngStyle]="getTextColorStyle()">
+  {{ localizedValue }}
+</span>

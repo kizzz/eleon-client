@@ -25,6 +25,9 @@
           {{ 'JobScheduler::TaskExecution:LastRunTime' | abpLocalization }}
         </th>
         <th>{{ 'JobScheduler::TaskExecution:Status' | abpLocalization }}</th>
+        <th appResponsiveColumn="20" >
+
+        </th>
       </tr>
     </ng-template>
     <ng-template
@@ -73,6 +76,13 @@
             [icon]="row.statusIcon"
           ></p-tag>
         </td>
+        <td appResponsiveColumn="20">
+          <div class="flex justify-content-end align-items-center">
+            <span
+              class="fa fa-magnifying-glass text-primary cursor-pointer"
+              (click)="navigateToBackgroundJobs(row.data.id)"
+            ></span>
+          </div>
       </tr>
 
       <tr></tr

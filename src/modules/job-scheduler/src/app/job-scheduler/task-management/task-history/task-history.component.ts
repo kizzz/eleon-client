@@ -154,4 +154,9 @@ export class TaskHistoryComponent implements OnInit, OnChanges {
 
     await navigator.clipboard.writeText(id);
   }
+  navigateToBackgroundJobs(taskExecutionId: string) {
+    this.router.navigate(['/background-job/dashboard'], {
+      queryParams: { taskExecutionid: taskExecutionId },
+    });
+  }
 }

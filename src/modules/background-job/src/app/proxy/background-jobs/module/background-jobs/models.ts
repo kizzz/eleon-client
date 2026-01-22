@@ -64,7 +64,7 @@ export interface BackgroundJobListRequestDto extends PagedAndSortedResultRequest
   searchQuery?: string;
   statusFilter: BackgroundJobStatus[];
   objectTypeFilter: string[];
-  typeFilter: string[];
+  typeFilter?: string;
   creationDateFilterStart?: string;
   creationDateFilterEnd?: string;
   lastExecutionDateFilterStart?: string;

@@ -23,79 +23,85 @@
     <p-table
       *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
       [scrollable]="scrollable"
-      
       responsiveLayout="stack"
       [breakpoint]="breakpoint"
       scrollDirection="both"
       [lazy]="true"
       (onLazyLoad)="loadBackgroundJobs($event)"
-      [rows]="rowsCount"
+      [rows]="taskExecutionid ? null :rowsCount"
       styleClass="pr-table"
       [totalRecords]="totalRecords"
       [loading]="loading"
+      [filters]="filters"
       [value]="rows"
-      [paginator]="true"
+      [paginator]="taskExecutionid ? false : true"
       (onRowSelect)="select($event)"
       selectionMode="single"
       sortMode="single"
-      sortOrder="-1"
+      sortField="lastExecutiondateUtc"
+      [sortOrder]="-1"
+      rowGroupMode="subheader"
+      groupRowsBy="data.status"
     >
-      <ng-template pTemplate="header">
+      <ng-template #header>
         <tr>
           <th appResponsiveColumn="20">
             {{ 'BackgroundJob::Header:Id' | abpLocalization }}
           </th>
-          <th class="" pSortableColumn="type">
+
+          <th pSortableColumn="type">
             {{ 'BackgroundJob::Header:Name' | abpLocalization }}
             <p-sortIcon field="type"></p-sortIcon>
           </th>
-          <!-- <th class="" appResponsiveColumn="110" pSortableColumn="initiatorDocEntry">
-          {{ "BackgroundJob::Header:InitiatorDocNumber" | abpLocalization }}
-          <p-sortIcon field="initiatorDocEntry"></p-sortIcon>
-        </th> -->
-          <th class="" appResponsiveColumn="150" pSortableColumn="creationTime">
+
+          <th appResponsiveColumn="150" pSortableColumn="creationTime">
             {{ 'BackgroundJob::Header:CreationTime' | abpLocalization }}
             <p-sortIcon field="creationTime"></p-sortIcon>
           </th>
-          <th
-            class=""
-            appResponsiveColumn="150"
-            pSortableColumn="lastExecutionDate"
-          >
+
+          <th appResponsiveColumn="150" pSortableColumn="lastExecutionDateUtc">
             {{ 'BackgroundJob::Header:LastExecutionDate' | abpLocalization }}
             <p-sortIcon field="lastExecutionDateUtc"></p-sortIcon>
           </th>
-          <th class="" appResponsiveColumn="100">
+
+          <th appResponsiveColumn="100">
             {{ 'BackgroundJob::Header:Duration' | abpLocalization }}
           </th>
-          <th class="" appResponsiveColumn="50" pSortableColumn="status">
+
+          <th appResponsiveColumn="50" pSortableColumn="status">
             {{ 'BackgroundJob::Header:Status' | abpLocalization }}
             <p-sortIcon field="status"></p-sortIcon>
           </th>
+
           <th appResponsiveColumn="10"></th>
         </tr>
+
+        <!-- Filters row -->
         <tr>
           <th appResponsiveColumn="20"></th>
+
           <th>
             <p-columnFilter
               matchMode="in"
               field="type"
+              class="w-full"
               type="text"
+              style="width: 100%;"
               [showMenu]="false"
               [showClearButton]="false"
+              filterOn="input"
               [placeholder]="'BackgroundJob::Header:Name' | abpLocalization"
             >
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{
-                    'BackgroundJob::Header:Name' | abpLocalization
-                  }}</span>
+                  <span class="font-bold">
+                    {{ 'BackgroundJob::Header:Name' | abpLocalization }}
+                  </span>
                 </div>
               </ng-template>
             </p-columnFilter>
           </th>
-          <!-- <th>
-        </th> -->
+
           <th appResponsiveColumn="100">
             <p-columnFilter
               matchMode="in"
@@ -106,11 +112,12 @@
             >
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{
-                    'BackgroundJob::Header:CreationTime' | abpLocalization
-                  }}</span>
+                  <span class="font-bold">
+                    {{ 'BackgroundJob::Header:CreationTime' | abpLocalization }}
+                  </span>
                 </div>
               </ng-template>
+
               <ng-template
                 pTemplate="filter"
                 let-value
@@ -135,21 +142,26 @@
               </ng-template>
             </p-columnFilter>
           </th>
+
           <th appResponsiveColumn="100">
             <p-columnFilter
               matchMode="in"
               [showClearButton]="false"
-              field="lastExecutionDate"
+              field="lastExecutionDateUtc"
               [showMenu]="false"
               [style]="{ overflow: 'visible' }"
             >
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{
-                    'BackgroundJob::Header:LastExecutionDate' | abpLocalization
-                  }}</span>
+                  <span class="font-bold">
+                    {{
+                      'BackgroundJob::Header:LastExecutionDate'
+                        | abpLocalization
+                    }}
+                  </span>
                 </div>
               </ng-template>
+
               <ng-template
                 pTemplate="filter"
                 let-value
@@ -174,8 +186,10 @@
               </ng-template>
             </p-columnFilter>
           </th>
+
           <!-- Duration column -->
           <th appResponsiveColumn="100"></th>
+
           <th appResponsiveColumn="100">
             <p-columnFilter
               matchMode="in"
@@ -185,12 +199,15 @@
             >
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{
-                    'BackgroundJob::Header:BackgroundJobStatus'
-                      | abpLocalization
-                  }}</span>
+                  <span class="font-bold">
+                    {{
+                      'BackgroundJob::Header:BackgroundJobStatus'
+                        | abpLocalization
+                    }}
+                  </span>
                 </div>
               </ng-template>
+
               <ng-template
                 pTemplate="filter"
                 let-value
@@ -214,11 +231,33 @@
               </ng-template>
             </p-columnFilter>
           </th>
+
           <!-- Icon column -->
           <th appResponsiveColumn="10"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-row>
+
+      <!-- Row group header (subheader style) -->
+      <ng-template #groupheader let-row>
+        <tr pRowGroupHeader>
+          <td colspan="7">
+            <div class="flex items-center gap-2">
+              <app-background-job-status-tag [value]="row?.data?.status" [isText]="true"></app-background-job-status-tag>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #groupfooter let-row>
+        <tr>
+          <td colspan="7">
+            <div class="text-right font-bold pe-12">
+              {{ calculateTotalByCount(row?.data?.status) }}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-row>
         <tr [pSelectableRow]="row">
           <td appResponsiveColumn="20">
             <i
@@ -230,10 +269,11 @@
             >
             </i>
           </td>
+
           <td>
-            <span class="non-editing-only p-column-title">{{
-              'BackgroundJob::Header:Name' | abpLocalization
-            }}</span>
+            <span class="non-editing-only p-column-title">
+              {{ 'BackgroundJob::Header:Name' | abpLocalization }}
+            </span>
             <span
               class="column-content"
               [ngClass]="'type-' + row.data.type | lowercase"
@@ -241,34 +281,31 @@
               {{ row.data.type }}
             </span>
           </td>
-          <!-- <td style="width:110px">
-          <span class="non-editing-only p-column-title">
-            {{'BackgroundJob::Header:InitiatorDocNumber' | abpLocalization}}
-          </span>
-          <span class="column-content">
-            {{row.data.initiatorDocEntry | slice:0:8}}
-          </span>
-        </td> -->
+
           <td appResponsiveColumn="100">
-            <span class="non-editing-only p-column-title">{{
-              'BackgroundJob::Header:CreationTime' | abpLocalization
-            }}</span>
+            <span class="non-editing-only p-column-title">
+              {{ 'BackgroundJob::Header:CreationTime' | abpLocalization }}
+            </span>
             <span class="column-content">
               {{ row.data.creationTime | date : 'M/d/yy, H:mm' : 'UTC' }}
             </span>
           </td>
+
           <td appResponsiveColumn="100">
-            <span class="non-editing-only p-column-title">{{
-              'BackgroundJob::Header:LastExecutionDate' | abpLocalization
-            }}</span>
+            <span class="non-editing-only p-column-title">
+              {{ 'BackgroundJob::Header:LastExecutionDate' | abpLocalization }}
+            </span>
             <span class="column-content">
-              {{ row.data.lastExecutionDateUtc | date : 'M/d/yy, H:mm' : 'UTC' }}
+              {{
+                row.data.lastExecutionDateUtc | date : 'M/d/yy, H:mm' : 'UTC'
+              }}
             </span>
           </td>
+
           <td appResponsiveColumn="100">
-            <span class="non-editing-only p-column-title">{{
-              'BackgroundJob::Header:Duration' | abpLocalization
-            }}</span>
+            <span class="non-editing-only p-column-title">
+              {{ 'BackgroundJob::Header:Duration' | abpLocalization }}
+            </span>
             <span class="column-content">
               <app-duration
                 *ngIf="row.data?.lastExecutionDateUtc"
@@ -305,10 +342,11 @@
               <span *ngIf="!row.data?.lastExecutionDateUtc">-</span>
             </span>
           </td>
+
           <td appResponsiveColumn="100">
-            <span class="non-editing-only p-column-title">{{
-              'BackgroundJob::Header:Status' | abpLocalization
-            }}</span>
+            <span class="non-editing-only p-column-title">
+              {{ 'BackgroundJob::Header:Status' | abpLocalization }}
+            </span>
             <span class="column-content">
               <app-background-job-status-tag
                 class="mr-3"
@@ -317,6 +355,7 @@
               </app-background-job-status-tag>
             </span>
           </td>
+
           <!-- Icons column -->
           <td appResponsiveColumn="10">
             <div class="flex align-items-center justify-content-end">
@@ -325,9 +364,10 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="emptymessage">
+
+      <ng-template #emptymessage>
         <tr class="table-emptymessage">
-          <td class="w-100" colspan="6">
+          <td class="w-100" colspan="7">
             <div class="card w-100">
               <div class="card-body w-100">
                 <div class="card-header text-center">

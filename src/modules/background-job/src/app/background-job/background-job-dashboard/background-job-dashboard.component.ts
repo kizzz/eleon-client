@@ -1,8 +1,8 @@
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackgroundJobStatus } from '@eleon/background-jobs-proxy';
-import { LazyLoadEvent } from 'primeng/api';
+import { FilterMetadata, LazyLoadEvent } from 'primeng/api';
 import { viewportBreakpoints } from '@eleon/angular-sdk.lib';
 import { BackgroundJobService } from '@eleon/background-jobs-proxy';
 import { BackgroundJobHeaderDto } from '@eleon/background-jobs-proxy';
@@ -40,11 +40,17 @@ export class BackgroundJobDashboardComponent implements OnInit {
   lastExecutionDateRangeFilter: Date[] = null;
   currentSorting: string;
 
+  taskExecutionid: string | null = null;
+  readonly filters: { [s: string]: FilterMetadata} = {
+  type: { value: '', matchMode: 'in' }
+};
+
   constructor(
     private backroundJobHub: BackgroundJobHubService,
     public backgroundJobService: BackgroundJobService,
     public localizationService: ILocalizationService,
-    public router: Router
+    public router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +64,15 @@ export class BackgroundJobDashboardComponent implements OnInit {
         ),
       }));
 
-     this.subscribeToJobUpdate();
+    this.route.queryParams.subscribe((params) => {
+      this.taskExecutionid = params['taskExecutionid'] || null;
+      if (this.taskExecutionid) {
+        this.filters['type'].value = this.taskExecutionid;
+        this.loadBackgroundJobs(this.lastLoadEvent);
+      }
+    });
+
+    this.subscribeToJobUpdate();
   }
 
   get defaultSorting(): string {
@@ -109,15 +123,13 @@ export class BackgroundJobDashboardComponent implements OnInit {
     }
     this.backgroundJobService
       .getBackgroundJobList({
-        maxResultCount: this.rowsCount,
+        maxResultCount: this.taskExecutionid ? 1000 : this.rowsCount,
         skipCount: event.first,
         sorting,
-        typeFilter: event.filters?.['type']?.value?.map((x) => x.type),
+        typeFilter: event.filters?.['type']?.value,
         searchQuery: this.searchQuery,
-        statusFilter: event.filters?.['status']?.value?.map((x) => x.jobStatus),
-        objectTypeFilter: event.filters?.['moduleObjectType']?.value?.map(
-          (x) => x.moduleObjectType
-        ),
+        statusFilter: event.filters?.['status']?.value,
+        objectTypeFilter: event.filters?.['moduleObjectType']?.value,
         creationDateFilterEnd: toDate,
         creationDateFilterStart: fromDate,
         lastExecutionDateFilterStart: lastExecutionFromDate,
@@ -281,5 +293,9 @@ export class BackgroundJobDashboardComponent implements OnInit {
         return row;
       });
     });
+  }
+
+  calculateTotalByCount(jobStatus: BackgroundJobStatus): number {
+    return this.rows.filter((row) => row.data.status === jobStatus).length;
   }
 }
