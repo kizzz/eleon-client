@@ -22,6 +22,7 @@ import {
 } from '../chat-services';
 import { MessageService } from 'primeng/api';
 import { ChatWidgetFlyoutService } from '../../chat-widget';
+import { ToastCloseEvent } from 'primeng/toast';
 
 @Component({
   standalone: false,
@@ -123,6 +124,15 @@ export class ChatMessageToastComponent implements OnInit {
           data: msg,
         };
       })
+    );
+  }
+
+  onClose(event: ToastCloseEvent) {
+    if (event?.message?.data == null) {
+      return;
+    }
+    this.messageQueue = this.messageQueue.filter(
+      (msg) => msg !== event.message.data
     );
   }
 

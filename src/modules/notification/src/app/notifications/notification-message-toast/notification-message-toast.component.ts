@@ -21,6 +21,7 @@ import {
   ILocalizationService,
   NotificationLogDto,
 } from '@eleon/angular-sdk.lib';
+import { ToastCloseEvent } from 'primeng/toast';
 @Component({
   standalone: false,
   selector: 'app-notification-message-toast',
@@ -64,7 +65,7 @@ export class NotificationMessageToastComponent implements OnInit {
           content: this.getLocalizedMessage(message),
         },
       });
-	  return;
+      return;
     }
 
     // Clear all toasts and re-add the latest messages
@@ -107,6 +108,15 @@ export class NotificationMessageToastComponent implements OnInit {
     return this.localizationService.instant(
       message.content,
       ...message.languageKeyParams
+    );
+  }
+
+  onClose(event: ToastCloseEvent) {
+    if (event?.message?.data == null) {
+      return;
+    }
+    this.messageQueue = this.messageQueue.filter(
+      (msg) => msg !== event.message.data
     );
   }
 }

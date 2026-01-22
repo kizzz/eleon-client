@@ -1,7 +1,8 @@
 <p-toast 
 	position="bottom-right" 
 	key="chat-message" 
-	[baseZIndex]="5000">
+	[baseZIndex]="5000"
+	(onClose)="onClose($event)">
 	<ng-template let-message pTemplate="message">
 			<div class="flex flex-column align-items-start" style="flex: 1">
 					<div class="flex align-items-center gap-2">
