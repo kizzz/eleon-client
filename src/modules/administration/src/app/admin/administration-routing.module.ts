@@ -97,12 +97,6 @@ const routes: Routes = [
   //     ),
   //   canActivate: [EcAuthGuard, PermissionGuard],
   // },
-  {
-    path: 'storage',
-    loadChildren: () =>
-      import('./storage/storage.module').then((m) => m.StorageModule),
-    canActivate: [EcAuthGuard, PermissionGuard],
-  },
 ];
 
 @NgModule({

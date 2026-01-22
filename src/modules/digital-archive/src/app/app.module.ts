@@ -26,6 +26,14 @@ export const remoteRoutes = [
 
 const menuItems: VPortalMenuItem[] = [
   {
+    label: 'StorageModule::Menu:Top',
+    parentName: DefaultParentMenuItems.System,
+
+    icon: 'fas fa-hdd',
+    order: 5,
+    requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
+  },
+  {
     routerLink: "/digital-archive/drives",
     label: "FileManager::Menu:DigitalArchive",
     icon: "fa-solid fa-folder-tree",
@@ -39,7 +47,6 @@ const menuItems: VPortalMenuItem[] = [
     parentName: DefaultParentMenuItems.Application,
     order: 3,
   },
-  
 ] as any;
 
 @NgModule({

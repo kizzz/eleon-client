@@ -38,7 +38,6 @@ import {
   DEFAULT_CHAT_MODULE_CONFIG,
 } from '@eleon/angular-sdk.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
-import { PROXY_SERVICES as PROVIDERS_PROXY_SERVICES } from '@eleon/providers-proxy';
 
 export const remoteRoutes: Route[] = [
   {
@@ -148,25 +147,6 @@ const identitiesRoutes: VPortalMenuItem[] = [
   },
 ];
 
-const storageRoutes: VPortalMenuItem[] = [
-  {
-    label: 'StorageModule::Menu:Top',
-    parentName: DefaultParentMenuItems.System,
-
-    icon: 'fas fa-hdd',
-    order: 5,
-    requiredPolicy: 'Permission.LanguageManagement.ManageLanguages',
-  },
-  {
-    routerLink: '/storage/providers-options/list',
-    label: 'StorageModule::Menu:ProvidersOptions',
-    parentName: 'StorageModule::Menu:Top',
-    icon: 'fas fa-hdd',
-    order: 1,
-    requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
-  },
-];
-
 const allRoutes: VPortalMenuItem[] = [
   {
     routerLink: null,
@@ -183,7 +163,6 @@ const allRoutes: VPortalMenuItem[] = [
     icon: 'pi pi-cog',
     order: 7,
   },
-  ...storageRoutes,
   ...tenantSettingsRoutes,
 ];
 
@@ -226,7 +205,6 @@ export const providers = [
     },
   }),
   ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-  ...provideMultipleOnInitialization(PROVIDERS_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
 ];
 
 @NgModule({
