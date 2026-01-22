@@ -6,10 +6,17 @@
 			<!-- *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable" [breakpoint]="breakpoint"     -->
 			<ng-template pTemplate="caption">
 				<div class="flex align-items-center justify-content-between">
-					<div>{{'EventManagementModule::Queue:Usage' | abpLocalization}} 
-					<span>{{data.count}}<span *ngIf="data.messagesLimit > 0"> / {{data.messagesLimit}}</span></span> ( <span [ngStyle]="{
-						color: getColor(data.count, data.messagesLimit)
-					}"> {{data.count / data.messagesLimit * 100 | number:'1.1-1'}}% </span> )</div>
+					<div>
+						{{'EventManagementModule::Queue:Usage' | abpLocalization}} 
+						<span>{{data?.count || 0}}<span *ngIf="data?.messagesLimit > 0"> / {{data?.messagesLimit}}</span></span>
+						<ng-container *ngIf="data?.messagesLimit > 0">
+							(
+							<span [ngStyle]="{ color: getColor(data?.count || 0, data?.messagesLimit || 0) }">
+								{{ ((data?.count || 0) / (data?.messagesLimit || 1) * 100) | number:'1.1-1'}}%
+							</span>
+							)
+						</ng-container>
+					</div>
 
 					<div class="gap-3">
 						<p-button [text]="true" [raised]="true" styleClass="p-button-warning" (onClick)="refresh()" icon="fa fa-refresh"

@@ -30,9 +30,6 @@
       "@eleon/system-log-proxy": [
         "src/shared/proxies/typescript-proxy/system-log-proxy/src/index.ts"
       ],
-      "@eleon/notificator-proxy": [
-        "src/shared/proxies/typescript-proxy/notificator-proxy/src/index.ts"
-      ],
       "@eleon/storage-proxy": [
         "src/shared/proxies/typescript-proxy/storage-proxy/src/index.ts"
       ],
@@ -54,7 +51,13 @@
 
       "@eleon/ts-hosting.lib": [
         "src/libs/eleon.ts-hosting.lib/src/index.ts"
-      ],			
+      ],
+      "@eleon/proxy-utils.lib": [
+        "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"
+      ],
+      "@eleon/primeng-ui.lib": [
+        "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
+      ]			
     }
   },
 }

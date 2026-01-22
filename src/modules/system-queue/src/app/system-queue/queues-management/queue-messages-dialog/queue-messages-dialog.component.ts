@@ -1,7 +1,7 @@
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 
 import { CommonModule } from "@angular/common"
-import { Component, OnInit } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 import {
   EventDto,
   EventService,
@@ -77,6 +77,8 @@ showDialog: boolean = false;
   data: QueueDto | null = null;
   rows: EventDto[] = [];
 
+  @Output() cleared = new EventEmitter<QueueDto>();
+
   constructor(
     private confirmationService: LocalizedConfirmationService,
     private messageService: LocalizedMessageService,
@@ -138,8 +140,9 @@ showDialog: boolean = false;
   }
 
   clearMessages(){
-    if (this.data.id === '00000000-0000-0000-0000-000000000000'){ return; }
+    if (!this.data || this.data.id === '00000000-0000-0000-0000-000000000000'){ return; }
     this.confirmationService.confirm('EventManagementModule::Queue:ClearMessages', () => {
+      this.loading = true;
       this.queuesService.clear( { queueName:  this.data.name })
         .pipe(
           finalize(() => this.loading = false),
@@ -149,7 +152,12 @@ showDialog: boolean = false;
           }))
         .subscribe(_ => {
           this.messageService.success("EventManagementModule::Queue:Events:Clear:Success")
-          this.refresh();
+          this.rows = [];
+          this.totalRecords = 0;
+          this.data = this.data ? { ...this.data, count: 0 } : null;
+          if (this.data) {
+            this.cleared.emit(this.data);
+          }
         }
         );
     })

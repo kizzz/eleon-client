@@ -13,11 +13,12 @@ import { TableModule } from "primeng/table"
 import { CheckboxModule } from 'primeng/checkbox'
 import { NotificationsModule } from './notifications/notifications.module'
 import { NotificationsRoutingModule } from './notifications-routing.module'
+import { EmailSettingsComponent } from './settings/email-settings/email-settings.component'
 
 
 @NgModule({
   declarations: [
-    
+    EmailSettingsComponent
   ],
   imports: [
     CommonModule,

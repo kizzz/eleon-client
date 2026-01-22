@@ -16,7 +16,7 @@ export function useEleoncoreErrorHandling(
   let currentLevel = initialErrorHandlingLevel;
 
   if (typeof window !== "undefined") {
-    window.addEleoncoreError = () => {
+    window['addEleoncoreError'] = () => {
       // Placeholder function - will be replaced below
     };
   }
@@ -25,19 +25,19 @@ export function useEleoncoreErrorHandling(
     return;
   }
 
-  window.__eleoncoreErrorSubscribers = window.__eleoncoreErrorSubscribers || [];
+  window['__eleoncoreErrorSubscribers'] = window['__eleoncoreErrorSubscribers'] || [];
 
   if (typeof onNewErrorCallback === "function") {
-    window.__eleoncoreErrorSubscribers.push(onNewErrorCallback);
+    window['__eleoncoreErrorSubscribers'].push(onNewErrorCallback);
   }
 
-  if (window.__eleoncoreErrorHandlingInitialized) return;
-  window.__eleoncoreErrorHandlingInitialized = true;
+  if (window['__eleoncoreErrorHandlingInitialized']) return;
+  window['__eleoncoreErrorHandlingInitialized'] = true;
 
-  window.environment = window.environment || { eleoncoreErrors: [] };
-  window.environment.eleoncoreErrors = window.environment.eleoncoreErrors || [];
+  window['environment'] = window['environment'] || { eleoncoreErrors: [] };
+  window['environment'].eleoncoreErrors = window['environment'].eleoncoreErrors || [];
 
-  window.addEleoncoreError = function (input: string | EleoncoreError) {
+  window['addEleoncoreError'] = function (input: string | EleoncoreError) {
     let error: EleoncoreError;
 
     if (typeof input === "string") {
@@ -56,10 +56,10 @@ export function useEleoncoreErrorHandling(
       return;
     }
 
-    window.environment?.eleoncoreErrors?.push(error);
+    window['environment']?.eleoncoreErrors?.push(error);
 
-    if (window.__eleoncoreErrorSubscribers) {
-      for (const cb of window.__eleoncoreErrorSubscribers) {
+    if (window['__eleoncoreErrorSubscribers']) {
+      for (const cb of window['__eleoncoreErrorSubscribers']) {
         try {
           cb(error);
         } catch (err) {
@@ -88,7 +88,7 @@ export function useEleoncoreErrorHandling(
     //   }
     // );
   };
-  window.setEleoncoreErrorLevel = function (newLevel: ErrorHandlingLevel) {
+  window['setEleoncoreErrorLevel'] = function (newLevel: ErrorHandlingLevel) {
     currentLevel = newLevel;
   };
 

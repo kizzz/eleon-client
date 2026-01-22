@@ -327,6 +327,26 @@ export class QueuesManagementComponent implements OnInit {
     this.queueMessagesDialog.show(queue);
   }
 
+  onQueueCleared(queue: QueueDto){
+    const index = this.rows.findIndex(r => r.id === queue.id);
+    if (index === -1){ return; }
+
+    const limit = queue.messagesLimit ?? this.rows[index].messagesLimit;
+    const updatedCount = queue.count ?? 0;
+    const updated: QueueDtoExtended = {
+      ...this.rows[index],
+      count: updatedCount,
+      messagesLimit: limit,
+      fillPercentage: limit === 0 ? 0 : (updatedCount / limit) * 100,
+    };
+
+    this.rows = [
+      ...this.rows.slice(0, index),
+      updated,
+      ...this.rows.slice(index + 1),
+    ];
+  }
+
   getColor(fillPercentage: number): string {
     if (fillPercentage >= 100) {
       return 'var(--danger-color)';

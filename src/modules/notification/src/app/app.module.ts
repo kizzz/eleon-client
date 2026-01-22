@@ -51,6 +51,16 @@ import { PROXY_SERVICES } from '@eleon/notificator-proxy'
       multi: true,
     }),
     ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+    provideMenuOnInitialization([
+      {
+        routerLink: '/notifications/settings',
+        label: 'TenantManagement::TenantSettings:Menu:NotificationSettings',
+        parentName: 'TenantManagement::TenantSettings:Menu:Top',
+        icon: 'fas fa-envelope',
+        order: 3,
+        requiredPolicy: 'VPortal.Dashboard.Host',
+      },
+    ])
   ]
 })
 export class AppModule {

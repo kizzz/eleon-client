@@ -40,7 +40,6 @@ import {
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
 import { PROXY_SERVICES as INFRASTRUCTURE_PROXY_SERVICES } from '@eleon/infrastructure-proxy';
 import { PROXY_SERVICES as PROVIDERS_PROXY_SERVICES } from '@eleon/providers-proxy';
-import { PROXY_SERVICES as NOTIFICATOR_PROXY_SERVICES } from '@eleon/notificator-proxy';
 
 export const remoteRoutes: Route[] = [
   {
@@ -75,14 +74,6 @@ const tenantSettingsRoutes: VPortalMenuItem[] = [
     parentName: 'TenantManagement::TenantSettings:Menu:Top',
     icon: 'fas fa-satellite-dish',
     order: 2,
-    requiredPolicy: 'VPortal.Dashboard.Host',
-  },
-  {
-    routerLink: '/tenant-settings/notifications',
-    label: 'TenantManagement::TenantSettings:Menu:NotificationSettings',
-    parentName: 'TenantManagement::TenantSettings:Menu:Top',
-    icon: 'fas fa-envelope',
-    order: 3,
     requiredPolicy: 'VPortal.Dashboard.Host',
   },
   {
@@ -238,7 +229,6 @@ export const providers = [
   ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
   ...provideMultipleOnInitialization(INFRASTRUCTURE_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
   ...provideMultipleOnInitialization(PROVIDERS_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-  ...provideMultipleOnInitialization(NOTIFICATOR_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
 ];
 
 @NgModule({

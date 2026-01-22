@@ -409,7 +409,7 @@ export function initializeClientLogUI(){
     }
     
     try {
-      const config = await window.applicationConfiguration?.getAppConfig?.();
+      const config = await window['applicationConfiguration']?.getAppConfig?.();
       configContent = JSON.stringify(config, null, 2);
       showConfig();
     } catch (err) {

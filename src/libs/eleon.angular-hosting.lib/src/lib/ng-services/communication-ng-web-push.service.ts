@@ -1,7 +1,7 @@
 import { Injectable, Optional } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
 import { IAuthManager } from '@eleon/contracts.lib';
-import { WebPushService } from '@eleon/notificator-proxy';
+import { WebPushService } from '@eleon/system-services.lib';
 import { ErrorHandlingLevel } from '@eleon/contracts.lib';
 import { IApplicationConfigurationManager, ICommunicationManager } from '@eleon/contracts.lib';
 import { firstValueFrom } from "rxjs/internal/firstValueFrom";
@@ -73,7 +73,7 @@ export class NgWebPushCommunicationService extends ICommunicationManager {
       });
 
       success = await firstValueFrom(
-        this.webPushService.addWebPushSubscriptionBySubscription({
+        this.webPushService.addWebPushSubscription({
           endpoint: sub.endpoint,
           p256Dh: sub.toJSON().keys["p256dh"],
           auth: sub.toJSON().keys["auth"],

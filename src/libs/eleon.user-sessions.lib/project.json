@@ -3,13 +3,17 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/angular:package",
+      "executor": "@nx/webpack:webpack",
       "outputs": [
-        "{workspaceRoot}/output/{projectRoot}"
+        "{options.outputPath}"
       ],
       "options": {
-        "project": "{projectRoot}/ng-package.json",
-        "tsConfig": "{projectRoot}/tsconfig.json"
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "bin/debug/libs/eleon.user-sessions.lib",
+        "main": "src/libs/eleon.user-sessions.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.user-sessions.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.user-sessions.lib/webpack.config.ts"
       },
       "configurations": {
         "production": {},

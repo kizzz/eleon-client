@@ -3,13 +3,17 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/angular:package",
+      "executor": "@nx/webpack:webpack",
       "outputs": [
-        "{workspaceRoot}/output/{projectRoot}"
+        "{options.outputPath}"
       ],
       "options": {
-        "project": "{projectRoot}/ng-package.json",
-        "tsConfig": "{projectRoot}/tsconfig.json"
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "bin/debug/libs/eleon.primeng-layout.lib",
+        "main": "src/libs/eleon.primeng-layout.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.primeng-layout.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.primeng-layout.lib/webpack.config.ts"
       },
       "configurations": {
         "production": {},
