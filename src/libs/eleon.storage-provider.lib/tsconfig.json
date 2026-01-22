@@ -25,20 +25,8 @@
       "@eleon/angular-sdk.lib": [
         "src/shared/libs/eleon.angular-sdk.lib/src/index.ts"
       ],
-      "@eleon/localization.lib": [
-        "src/shared/libs/eleon.localization.lib/src/index.ts"
-      ],
       "@eleon/primeng-ui.lib": [
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
-      ],
-      "@eleon/page-title.lib": [
-        "src/shared/libs/eleon.page-title.lib/src/index.ts"
-      ],
-      "@eleon/page-state.lib": [
-        "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
-      ],
-      "@eleon/tables.lib": [
-        "src/shared/libs/eleon.tables.lib/src/index.ts"
       ],
       "@eleon/proxy-utils.lib": [
         "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"

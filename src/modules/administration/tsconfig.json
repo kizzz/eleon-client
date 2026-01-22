@@ -18,9 +18,6 @@
         "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"
       ],
 
-      "@eleon/infrastructure-proxy": [
-        "src/shared/proxies/typescript-proxy/infrastructure-proxy/src/index.ts"
-      ],
       "@eleon/providers-proxy": [
         "src/shared/proxies/typescript-proxy/providers-proxy/src/index.ts"
       ],
@@ -42,6 +39,9 @@
       ],
       "@eleon/identity-selection.lib": [
         "src/libs/eleon.identity-selection.lib/src/index.ts"
+      ],
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
       ],
       "@eleon/user-sessions.lib": [
         "src/libs/eleon.user-sessions.lib/src/index.ts"

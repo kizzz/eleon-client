@@ -28,9 +28,6 @@
       "@eleon/eleoncore-multi-tenancy-proxy": [
         "src/modules/tenant-management/src/app/proxy/index.ts"
       ],
-      "@eleon/infrastructure-proxy": [
-        "src/shared/proxies/typescript-proxy/infrastructure-proxy/src/index.ts"
-      ],
       "@eleon/tenant-management-proxy": [
         "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
       ]

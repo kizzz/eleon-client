@@ -12,9 +12,9 @@ import {
   DisplayGrid,
   GridsterItemComponentInterface,
 } from "angular-gridster2";
-import { DashboardSettingDto } from '@eleon/infrastructure-proxy';
+import { DashboardSettingDto } from '@eleon/dynamic-dashboard-proxy';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
-import { DashboardSettingService } from '@eleon/infrastructure-proxy';
+import { DashboardSettingService } from '@eleon/dynamic-dashboard-proxy';
 import { BestSellingComponent } from "./widgets/best-selling/best-selling.component";
 import { CommentsComponent } from "./widgets/comments/comments.component";
 import { CustomersComponent } from "./widgets/customers/customers.component";

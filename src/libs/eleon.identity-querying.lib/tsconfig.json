@@ -25,10 +25,6 @@
       "@eleon/primeng-ui.lib": [
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
       ],
-
-      "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
-      ],
     }
   }
 }

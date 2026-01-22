@@ -17,7 +17,7 @@ import {
   PushDirections,
   Resizable,
 } from "angular-gridster2";
-import { DashboardSettingService, DashboardSettingDto } from '@eleon/infrastructure-proxy';
+import { DashboardSettingService, DashboardSettingDto } from '@eleon/dynamic-dashboard-proxy';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
 import {
   PageControls,

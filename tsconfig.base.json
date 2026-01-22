@@ -39,17 +39,8 @@
         "src/shared/libs/eleon.typescript-sdk.lib/src/index.ts"
       ],
 
-      "@eleon/application-configuration-proxy": [
-        "src/shared/proxies/typescript-proxy/application-configuration-proxy/src/index.ts"
-      ],
-      "@eleon/infrastructure-proxy": [
-        "src/shared/proxies/typescript-proxy/infrastructure-proxy/src/index.ts"
-      ],
       "@eleon/providers-proxy": [
         "src/shared/proxies/typescript-proxy/providers-proxy/src/index.ts"
-      ],
-      "@eleon/storage-proxy": [
-        "src/shared/proxies/typescript-proxy/storage-proxy/src/index.ts"
       ],
       "@eleon/tenant-management-proxy": [
         "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"

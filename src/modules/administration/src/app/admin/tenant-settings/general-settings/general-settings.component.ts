@@ -5,8 +5,7 @@ import {
   SystemLogLevel,
   TelemetrySettingsDto,
 } from '@eleon/tenant-management-proxy';
-import {   CurrencyService,
-  CurrencyDto, } from '@eleon/infrastructure-proxy';
+import { CurrencyService, CurrencyDto } from '@eleon/system-services.lib';
 import { Observable, finalize, map, forkJoin, switchMap } from "rxjs";
 import { PageStateService } from "@eleon/primeng-ui.lib";
 import { of } from "rxjs";
