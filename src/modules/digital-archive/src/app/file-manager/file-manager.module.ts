@@ -20,7 +20,6 @@ import { FileManagerRoutingModule } from './file-manager-routing.module';
 import { ResponsiveTableModule, SharedTableModule } from '@eleon/primeng-ui.lib';
 import { TooltipModule } from 'primeng/tooltip';
 import { FileHierarchyTypeSelectionModule } from './file-hierarchy-type-selection/file-hierarchy-type-selection.module';
-import { StorageProviderSelectionModule } from '@eleon/storage-provider.lib';
 import { FileManagerExplorerComponent } from './file-manager-explorer/file-manager-explorer.component';
 import { FolderPathComponent } from './file-manager-explorer/folder-path/folder-path.component';
 import { FileUploadProcessComponent } from './shared/file-upload-process/file-upload-process.component';
@@ -141,7 +140,6 @@ import { FileArchiveSelectionComponent } from './file-archive-selection/file-arc
     FormsModule,
     FileHierarchyTypeSelectionModule,
     BreadcrumbModule,
-    StorageProviderSelectionModule,
     MatDialogModule,
     MatIconModule,
     MatButtonModule,

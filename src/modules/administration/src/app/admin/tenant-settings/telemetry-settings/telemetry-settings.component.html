@@ -1,12 +1,23 @@
 <div class="card p-fluid single-column-wrapper">
   <div class="field half-width-field">
     <label>{{ 'TenantManagement::Telemetry:TelemetryStorageProvider' | abpLocalization }}</label>
-    <app-storage-provider-selection
+    <!-- <app-storage-provider-selection
       [showWithCard]="false"
       [readOnly]="telemetryFieldsDisabled"
       [defaultSelectedId]="telemetrySettings.storageProviderId"
       (storageProviderSelectionEvent)="onStorageProviderSelected($event)"
-    ></app-storage-provider-selection>
+    ></app-storage-provider-selection> -->
+
+    <p-button
+      [text]="true"
+      [raised]="true"
+      [disabled]="telemetryFieldsDisabled"
+      styleClass="p-button-primary"
+      (click)="openProviderSelectionDialog()"
+      icon="fa fa-plus"
+      [label]="'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization"
+    >
+    </p-button>
   </div>
 
   <div class="field half-width-field">

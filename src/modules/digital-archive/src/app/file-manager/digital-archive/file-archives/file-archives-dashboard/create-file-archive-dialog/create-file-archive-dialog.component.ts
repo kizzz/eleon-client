@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Optional, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FileArchiveHierarchyType, FileArchiveDto, FileArchiveService, FileSystemEntryDto } from '@eleon/file-manager-proxy';
 import { isFolder } from '../../../../shared/utils/entry-helpers';
-import { StorageProviderDto } from '@eleon/providers-proxy';
-import { VPortalOption } from '@eleon/angular-sdk.lib';
+import { StorageProviderDto } from '@eleon/angular-sdk.lib';
+import { IProvidersService, VPortalOption } from '@eleon/angular-sdk.lib';
 import { FileHierarchyTypeSelectionComponent } from '../../../../file-hierarchy-type-selection/file-hierarchy-type-selection/file-hierarchy-type-selection.component';
 
 interface FileArchiveModelValidators {
@@ -54,6 +54,7 @@ export class CreateFileArchiveDialogComponent implements AfterViewInit, OnChange
 
   constructor(
     private fileArchiveService: FileArchiveService,
+    @Optional() private providersService: IProvidersService
   ) {
   }
 
@@ -231,5 +232,9 @@ export class CreateFileArchiveDialogComponent implements AfterViewInit, OnChange
       },
       error: () => this.loading = false
     });
+  }
+
+  openProviderSelectionDialog(){
+    this.providersService?.openProviderSelectionDialog(this.model.storageProviderId, (provider) => this.onStorageProviderSelected(provider));
   }
 }

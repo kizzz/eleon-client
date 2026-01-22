@@ -12,8 +12,7 @@ import { PageStateService } from '@eleon/primeng-ui.lib';
 import { LocalizedConfirmationService } from '@eleon/primeng-ui.lib';
 import { FileArchiveHierarchyType } from '@eleon/file-manager-proxy';
 import { LocalizedOptionService } from '@eleon/primeng-ui.lib';
-import { StorageProviderDto } from '@eleon/providers-proxy';
-import { StorageProvidersService } from '@eleon/providers-proxy';
+import { StorageProviderDto } from '@eleon/angular-sdk.lib';
 import { PermissionManagementComponent } from '../../../shared/permission-management/permission-management.component';
 import { DialogHeaderService } from '../../../shared/file-dynamic-dialog-header-service';
 import { PageControls, contributeControls, PAGE_CONTROLS } from '@eleon/primeng-ui.lib';
@@ -82,7 +81,6 @@ export class FileArchivesDashboardComponent implements OnInit {
     public router: Router,
     public state: PageStateService,
     public optionService: LocalizedOptionService,
-    public storageProviderService: StorageProvidersService,
     private dialogHeaderService: DialogHeaderService,
     private route: ActivatedRoute
   ) {

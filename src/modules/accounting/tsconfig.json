@@ -37,10 +37,6 @@
       ],
       "@eleon/primeng-ui.lib": [
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
-      ],
-
-      "@eleon/storage-provider.lib": [
-        "src/libs/eleon.storage-provider.lib/src/index.ts"
       ]
     }
   }

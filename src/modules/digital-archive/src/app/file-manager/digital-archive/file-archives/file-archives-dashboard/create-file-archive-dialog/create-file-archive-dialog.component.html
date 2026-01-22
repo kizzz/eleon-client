@@ -40,14 +40,26 @@
 
       <div class="field col-12 p-0">
         <label appRequired>{{ 'FileManager::FileArchive:StorageProvider' | abpLocalization }}</label>
-        <app-storage-provider-selection
+        <!-- <app-storage-provider-selection
           class="w-full"
           [showWithCard]="false"
           [defaultSelectedId]="model.storageProviderId"
           [readOnly]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
           (storageProviderSelectionEvent)="onStorageProviderSelected($event)"
         >
-        </app-storage-provider-selection>
+        </app-storage-provider-selection> -->
+
+        <p-button
+          class="w-full"
+          [text]="true"
+          [raised]="true"
+          [disabled]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
+          styleClass="p-button-primary"
+          (click)="openProviderSelectionDialog()"
+          icon="fa fa-plus"
+          [label]="'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization"
+        >
+        </p-button>
 
         <small class="error" *ngIf="model.validators.storageProviderEmpty">
           {{ 'FileManager::Error:StorageRequired' | abpLocalization }}

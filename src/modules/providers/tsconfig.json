@@ -19,7 +19,7 @@
       ],
 
       "@eleon/providers-proxy": [
-        "src/shared/proxies/typescript-proxy/providers-proxy/src/index.ts"
+        "src/modules/providers/src/app/proxy/index.ts"
       ],
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"
@@ -30,9 +30,6 @@
       ],
       "@eleon/primeng-ui.lib": [
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
-      ],
-      "@eleon/storage-provider.lib": [
-        "src/libs/eleon.storage-provider.lib/src/index.ts"
       ],
       "@eleon/identity-selection.lib": [
         "src/libs/eleon.identity-selection.lib/src/index.ts"

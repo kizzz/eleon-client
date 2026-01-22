@@ -11,9 +11,9 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "bin/debug/modules/chat/libs/shared-chat",
-        "main": "src/modules/chat/libs/shared-chat/src/index.ts",
-        "tsConfig": "src/modules/chat/libs/shared-chat/tsconfig.json",
-        "webpackConfig": "src/modules/chat/libs/shared-chat/webpack.config.ts"
+        "main": "src/modules/eleoncorechat/libs/shared-chat/src/index.ts",
+        "tsConfig": "src/modules/eleoncorechat/libs/shared-chat/tsconfig.json",
+        "webpackConfig": "src/modules/eleoncorechat/libs/shared-chat/webpack.config.ts"
       },
       "configurations": {
         "production": {},

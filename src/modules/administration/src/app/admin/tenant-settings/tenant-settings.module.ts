@@ -34,7 +34,6 @@ import { TelemetrySettingsComponent } from './telemetry-settings/telemetry-setti
 import { CurrencyManagementModule } from '../currency-management/currency-management.module'
 import { RawEditorModule } from '@eleon/primeng-ui.lib'
 import { ToggleSwitchModule } from 'primeng/toggleswitch'
-import { StorageProviderSelectionModule } from "@eleon/storage-provider.lib";
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
@@ -50,7 +49,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
   imports: [
     CommonModule,
     SharedModule,
-    StorageProviderSelectionModule,
     TenantSettingsRoutingModule,
     InputTextModule,
     RequiredMarkModule,

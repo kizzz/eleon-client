@@ -1,14 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Optional } from "@angular/core";
 import {
   TenantSettingsService,
   TenantSystemHealthSettingsDto,
   TelemetrySettingsDto,
 } from '@eleon/tenant-management-proxy';
-import { StorageProviderDto } from '@eleon/providers-proxy';
 import { Observable, finalize, map, switchMap } from "rxjs";
 import { PageStateService } from "@eleon/primeng-ui.lib";
+import { ILocalizationService, IProvidersService, StorageProviderDto } from '@eleon/angular-sdk.lib';
 
-import { ILocalizationService } from '@eleon/angular-sdk.lib';
 @Component({
   standalone: false,
   selector: "app-telemetry-settings",
@@ -25,7 +24,8 @@ export class TelemetrySettingsComponent implements OnInit {
   constructor(
     private tenantSettingService: TenantSettingsService,
     public state: PageStateService,
-    private localizationService: ILocalizationService
+    private localizationService: ILocalizationService,
+    @Optional() private providersService: IProvidersService
   ) {}
 
   ngOnInit(): void {
@@ -126,5 +126,18 @@ export class TelemetrySettingsComponent implements OnInit {
         value: "grpc",
       },
     ];
+  }
+
+  openProviderSelectionDialog(): void {
+    if (this.telemetryFieldsDisabled){
+      return;
+    }
+
+    this.providersService.openProviderSelectionDialog(
+      this.telemetrySettings.storageProviderId ?? "",
+      (provider: StorageProviderDto) => {
+        this.onStorageProviderSelected(provider);
+      }
+    );
   }
 }

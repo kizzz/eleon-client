@@ -9,13 +9,12 @@ import {
 } from '@eleon/angular-sdk.lib';
 import { FileExplorerDialogService } from './file-manager/core/services/file-explorer-dialog.service'
 import { PROXY_SERVICES } from '@eleon/file-manager-proxy';
-import { PROXY_SERVICES as PROVIDERS_PROXY_SERVICES } from '@eleon/providers-proxy';
-import { PROXY_SERVICES as IDENTITY_QUERYING_PROXY_SERVICES } from '@eleon/identity-querying.lib';
+import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 // ## Here you add exports to your new modules
 // export * from './example/example.layout.module';
-
 import { DefaultParentMenuItems, IFileArchiveSelectionDialogService, IFileExplorerDialogService, VPortalMenuItem } from '@eleon/angular-sdk.lib';
 import { FileArchiveSelectionDialogService } from './file-manager/core/services/file-archive-selection-dialog.service';
+
 export const remoteRoutes = [
   {
       path: "digital-archive",
@@ -68,8 +67,8 @@ const menuItems: VPortalMenuItem[] = [
       useClass: FileArchiveSelectionDialogService,
     }),
     ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-    ...provideMultipleOnInitialization(PROVIDERS_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-    ...provideMultipleOnInitialization(IDENTITY_QUERYING_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+    ...provideMultipleOnInitialization(provideIdentityQuerying()),
+    
   ],
 })
 export class AppModule {
