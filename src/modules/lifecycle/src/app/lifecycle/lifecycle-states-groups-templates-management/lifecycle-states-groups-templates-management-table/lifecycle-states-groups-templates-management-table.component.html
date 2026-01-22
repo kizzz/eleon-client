@@ -87,6 +87,7 @@ selectionMode="single" expandableRows="true">
     <td colspan="5">
       <app-lifecycle-states-templates-management [isLifecycleManage]="isLifecycleManager()"
         (actorsChangedEvent)="selectRow(row)"
+        (stateTemplateChangedEvent)="selectRow(row)"
         [statesGroup]="row">
       </app-lifecycle-states-templates-management>
     </td>

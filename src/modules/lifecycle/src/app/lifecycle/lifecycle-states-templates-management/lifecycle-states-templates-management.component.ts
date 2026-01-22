@@ -46,6 +46,7 @@ export interface ApprovalTypeOption {
   statesLoaded: boolean = false;
   @Input() statesGroup: StatesGroupTemplateDto;
   @Output() actorsChangedEvent: EventEmitter<StateActorTemplateDto> = new EventEmitter<StateActorTemplateDto>();
+  @Output() stateTemplateChangedEvent: EventEmitter<StateTemplateDto> = new EventEmitter<StateTemplateDto>();
 
 	isLifecycleManager(){
 		return true; // TODO: add permissions check //this.permissionService.getGrantedPolicy('LifecycleFeatureModule.LifecycleManager');
@@ -188,6 +189,7 @@ export interface ApprovalTypeOption {
     }
 
     this.editingRow = null;
+    this.stateTemplateChangedEvent.emit(row);
     this.lifecycleService.setIsEditing(false);
     this.statesTable.saveRowEdit(data, row);
     this.loading = false;
@@ -309,6 +311,7 @@ export interface ApprovalTypeOption {
         } else {
           this.success('Lifecycle::States:Removed');
           this.stateName = '';
+          this.stateTemplateChangedEvent.emit(row);
           this.loadStates();
         }
       });

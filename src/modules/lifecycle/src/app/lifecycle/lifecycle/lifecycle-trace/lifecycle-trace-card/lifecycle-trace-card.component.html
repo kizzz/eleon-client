@@ -169,5 +169,5 @@
   </div>
 </div>
 <div *ngIf="!fullStatesGroupTemplate && !statesGroupAuditTree">
-  <p>{{ 'Lifecycle::StatesGroup:NotSelected' | abpLocalization }}</p>
+  <p style="text-align: center;">{{  mode === TraceCardMode.Template ? 'Lifecycle::StatesGroup:LifecycleNotSelected' : 'Lifecycle::StatesGroup:ReportNotSelected' | abpLocalization }}</p>
 </div>
