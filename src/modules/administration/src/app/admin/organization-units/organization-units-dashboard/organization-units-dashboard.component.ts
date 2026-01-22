@@ -79,7 +79,6 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
 
   constructor(
     public organizationUnitService: OrganizationUnitService,
-    public confirmationService: ConfirmationService,
     public localizationService: ILocalizationService,
     private cdr: ChangeDetectorRef,
     private msgService: LocalizedMessageService,
@@ -201,10 +200,9 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
       '"' + this.destinationPath + '"'
     );
 
-    this.confirmationService.confirm({
-      header: this.localizationService.instant("Infrastructure::Warning"),
-      message: this.localizationService.instant(msg),
-      accept: () => {
+    this.localizedConfirmationService.confirm(
+       this.localizationService.instant(msg),
+       () => {
         this.destinationPath = null;
         this.displayMove = false;
         this.organizationUnitService
@@ -220,19 +218,11 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
             }
           });
       },
-      reject: () => {
+      () => {
         this.destinationPath = null;
         return;
       },
-      acceptLabel: this.localizationService.instant("Infrastructure::Save"),
-      rejectLabel: this.localizationService.instant(
-        "Infrastructure::Cancel"
-      ),
-      acceptButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-info",
-      rejectButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-danger",
-    });
+    );
   }
 
 	private findRecursively(id: string, nodes: TreeNode<CommonOrganizationUnitDto>[]): TreeNode<CommonOrganizationUnitDto> | null {
@@ -503,13 +493,12 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
   }
 
   removeCompany(company) {
-    this.confirmationService.confirm({
-      header: this.localizationService.instant("Infrastructure::Warning"),
-      message: this.localizationService.instant(
+    this.localizedConfirmationService.confirm(
+      this.localizationService.instant(
         "Infrastructure::UnlinkToCompanyConfirmation",
         company.companyName || company.entityName
       ),
-      accept: () => {
+      () => {
         // this.permissionService
         //   .removeCompanyOrgUnitByCompanyUidAndOrgUnitId(
         //     company.entityUid,
@@ -519,25 +508,19 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
         //     this.loadCompaniesData();
         //   });
       },
-      reject: () => {
+      () => {
         return;
       },
-      acceptLabel: this.localizationService.instant("Infrastructure::Yes"),
-      rejectLabel: this.localizationService.instant("Infrastructure::No"),
-      acceptButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-info",
-      rejectButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-danger",
-    });
+      );
   }
 
   removeOrgUnit() {
-    this.confirmationService.confirm({
-      message: this.localizationService.instant(
+    this.localizedConfirmationService.confirm(
+      this.localizationService.instant(
         "TenantManagement::RemoveOrgUnitConfirmation",
         this.selectedUnit?.data?.displayName
       ),
-      accept: () => {
+      () => {
         this.loadingDetails = true;
         this.organizationUnitService
           .delete(this.selectedUnit?.data?.id)
@@ -550,18 +533,10 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
             this.loadOrganizationUnits();
           });
       },
-      reject: () => {
+      () => {
         return;
       },
-      acceptLabel: this.localizationService.instant("Infrastructure::Yes"),
-      rejectLabel: this.localizationService.instant(
-        "Infrastructure::Cancel"
-      ),
-      acceptButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-info",
-      rejectButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-danger",
-    });
+    );
   }
 
   addMembers(users) {
@@ -583,12 +558,11 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
   }
 
   removeMember(user) {
-    this.confirmationService.confirm({
-      header: this.localizationService.instant("Infrastructure::Warning"),
-      message: this.localizationService.instant(
+    this.localizedConfirmationService.confirm(
+      this.localizationService.instant(
         "TenantManagement::Member:User:DeleteConfirmation"
       ),
-      accept: () => {
+      () => {
         this.organizationUnitService
           .removeMemberByUserIdAndOrgUnitId(user.id, this.selectedUnit.data.id)
           .pipe(first())
@@ -599,18 +573,10 @@ export class OrganizationUnitsDashboardComponent implements OnInit {
             this.loadMembersData();
           });
       },
-      reject: () => {
+      () => {
         return;
       },
-      acceptLabel: this.localizationService.instant("Infrastructure::Save"),
-      rejectLabel: this.localizationService.instant(
-        "Infrastructure::Cancel"
-      ),
-      acceptButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-info",
-      rejectButtonStyleClass:
-        "p-button-sm p-button-raised p-button-text p-button-danger",
-    });
+);
   }
 
   addRoles(roles) {
