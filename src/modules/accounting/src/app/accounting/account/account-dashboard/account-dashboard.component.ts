@@ -45,6 +45,7 @@ export class AccountDashboardComponent implements OnInit {
   organizationUnits: CommonOrganizationUnitDto[];
   moduleType: string = 'Account';
   activeIndex: number = 0;
+  showAccountCreateDialog: boolean = false;
 
   @PageControls()
   controls = contributeControls([
@@ -245,8 +246,13 @@ export class AccountDashboardComponent implements OnInit {
 
   create() {
     if (this.isAccountModule()) {
-      this.router.navigate(['/account/create/']);
+      this.showAccountCreateDialog = true;
     }
+  }
+
+  onAccountCreated(accountId: string): void {
+    this.showAccountCreateDialog = false;
+    this.router.navigate(['/account/create', accountId]);
   }
   
   async copyId(id: string, event: MouseEvent) {

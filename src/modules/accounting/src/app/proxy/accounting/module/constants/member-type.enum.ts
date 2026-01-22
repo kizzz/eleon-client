@@ -24,8 +24,8 @@ function mapEnumToOptions<T>(_enum: T): Option<T>[] {
 
 
 export enum MemberType {
-  Tenant = 0,
-  User = 1,
+  Tenant = 1,
+  User = 2,
 }
 
 export const memberTypeOptions = mapEnumToOptions(MemberType);

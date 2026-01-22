@@ -1,0 +1,99 @@
+<div>
+  <p-dialog
+    [resizable]="false"
+    [header]="title"
+    [(visible)]="display"
+    [modal]="true"
+    [draggable]="false"
+    (onHide)="closeDialog()"
+  >
+    <div class="grid m-0 account-create-new" *ngIf="display">
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'AccountingModule::Header:AccountName' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <input
+              style="width: 100%"
+              type="text"
+              pInputText
+              [(ngModel)]="account.accountName"
+              (change)="resetAccountValidators()"
+              [disabled]="loading"
+              [ngClass]="{
+                'ng-invalid ng-dirty': account.validators.accountNameEmpty
+              }"
+              maxlength="230"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'AccountingModule::Header:Owner' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <div class="p-inputgroup">
+              <input
+                class="no-select"
+                inputId="owner-input"
+                [value]="account.owner?.name || ''"
+                type="text"
+                pInputText
+                [disabled]="true"
+                placeholder="{{
+                  'AccountingModule::Header:Owner:Placeholder'
+                    | abpLocalization
+                }}"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': account.validators.ownerNotSelected
+                }"
+              />
+              <button
+                type="button"
+                (click)="openOwnerSelectionDialog()"
+                pButton
+                pRipple
+                icon="fa fa-user"
+                [disabled]="loading"
+                styleClass="p-button-info"
+                class="p-button-text"
+                [pTooltip]="'AccountingModule::Header:Owner:Select' | abpLocalization"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3 justify-content-end">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-secondary"
+          icon="pi pi-times"
+          [disabled]="loading"
+          (onClick)="closeDialog()"
+          [label]="'Infrastructure::Cancel' | abpLocalization"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-primary"
+          icon="fa fa-check"
+          (onClick)="saveAccount()"
+          [label]="'Infrastructure::Create' | abpLocalization"
+          [disabled]="loading"
+        >
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

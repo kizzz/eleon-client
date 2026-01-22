@@ -56,19 +56,11 @@ const allRoutes = [
     //requiredPolicy: "Permission.Account.General && VPortal.Dashboard.Host",
   },
   {
-    routerLink: '/account/create/',
-    label: 'AccountingModule::Menu:Create',
-    parentName: DefaultParentMenuItems.Accounting,
-    icon: 'fas fa-plus',
-    order: 2,
-    //requiredPolicy: "Permission.Account.Create && VPortal.Dashboard.Host",
-  },
-  {
     routerLink: '/account/packagetemplate/dashboard',
     label: 'AccountingModule::Menu:PackageTemplates',
     parentName: DefaultParentMenuItems.Accounting,
     icon: 'fas fa-list',
-    order: 3,
+    order: 2,
     // requiredPolicy: "Permission.Account.General && VPortal.Dashboard.Host",
   },
 ];

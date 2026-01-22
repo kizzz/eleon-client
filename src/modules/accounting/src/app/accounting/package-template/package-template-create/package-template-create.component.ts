@@ -155,6 +155,7 @@ export class PackageTemplateCreateComponent implements OnInit {
     this.header = {
       data: {
         ...this.originalDraft,
+        id: this.originalDraft?.id || generateTempGuid(),
         packageTemplateModules:
           this.originalDraft?.packageTemplateModules || [],
         description: this.originalDraft?.description || '',

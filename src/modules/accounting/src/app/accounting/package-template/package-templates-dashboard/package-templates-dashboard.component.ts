@@ -30,6 +30,7 @@ export class PackageTemplatesDashboardComponent implements OnInit {
   viewportBreakpoints = viewportBreakpoints;
   title: string;
   localizedBillingPeriodTypes: { value: BillingPeriodType; name: string }[];
+  showPackageTemplateCreateDialog: boolean = false;
 
 
   @PageControls()
@@ -43,7 +44,7 @@ export class PackageTemplatesDashboardComponent implements OnInit {
       PAGE_CONTROLS.CREATE({
         show: () => true,
         loading: () => this.loading,
-        action: () => this.router.navigate(['/account/packagetemplate/create/']),
+        action: () => this.showPackageTemplateCreateDialog = true,
         disabled: () => this.loading,
       }),
     ]);
@@ -148,5 +149,10 @@ export class PackageTemplatesDashboardComponent implements OnInit {
     return this.localizationService.instant(
       "Infrastructure::BillingPeriodType:" + BillingPeriodType[type]
     );
+  }
+
+  onPackageTemplateCreated(packageTemplateId: string): void {
+    this.showPackageTemplateCreateDialog = false;
+    this.router.navigate(['/account/packagetemplate/details', packageTemplateId]);
   }
 }

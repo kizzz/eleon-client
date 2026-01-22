@@ -45,12 +45,7 @@ export interface AccountListRequestDto extends PagedAndSortedResultRequestDto {
 }
 
 export interface CreateAccountDto {
-  dataSourceUid?: string;
-  dataSourceName?: string;
-  companyUid?: string;
-  companyName?: string;
-  organizationUnitId?: string;
-  organizationUnitName?: string;
+  accountName?: string;
   ownerId?: string;
 }
 

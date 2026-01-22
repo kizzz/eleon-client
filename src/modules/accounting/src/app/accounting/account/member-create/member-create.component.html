@@ -14,6 +14,7 @@
         <p-select
           [options]="memberTypeOptions"
           [(ngModel)]="editedMember.type"
+          (ngModelChange)="onMemberTypeChange()"
           appendTo="body"
           optionValue="value"
           optionLabel="name"
@@ -23,13 +24,27 @@
       </div>
       <div class="field col-12 p-0">
         <label appRequired>{{ 'AccountingModule::Header:RefId' | abpLocalization }}</label>
-        <input
-          [(ngModel)]="editedMember.refId"
-          (ngModelChange)="resetRefIdValidator()"
-          [ngClass]="{'ng-invalid ng-dirty': refIdEmpty}"
-          type="text"
-          pInputText
-          [style]="{'width':'100%'}" />
+        <div class="p-inputgroup">
+          <input
+            [value]="selectedEntityName"
+            type="text"
+            pInputText
+            [disabled]="true"
+            [ngClass]="{'ng-invalid ng-dirty': refIdEmpty}"
+            [placeholder]="'AccountingModule::Header:RefId:Placeholder' | abpLocalization"
+          />
+          <button
+            type="button"
+            (click)="openUserOrTenantSelectionDialog()"
+            pButton
+            pRipple
+            [icon]="editedMember.type === MemberType.User ? 'fa fa-user' : 'fa fa-building'"
+            [disabled]="loading || !editedMember.type"
+            styleClass="p-button-info"
+            class="p-button-text"
+            [pTooltip]="editedMember.type === MemberType.User ? ('Infrastructure::UserSelection' | abpLocalization) : ('Infrastructure::TenantSelection' | abpLocalization)"
+          ></button>
+        </div>
       </div>
     </div>
 

@@ -9,31 +9,31 @@
       <h5 class="card-title">{{ 'AccountingModule::PackageTemplate:HeaderTitle' | abpLocalization }}</h5>
       <div class="grid m-0">
         <div class="field col-12 md:col-6">
-          <label><strong>{{'AccountingModule::Header:Name' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:Name' | abpLocalization}}</strong></label>
           <p>{{packageTemplate.packageName || '-'}}</p>
         </div>
         <div class="field col-12 md:col-3">
-          <label><strong>{{'AccountingModule::Header:BillingPeriodType' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:BillingPeriodType' | abpLocalization}}</strong></label>
           <p>{{getBillingPeriodTypeName(packageTemplate.billingPeriodType)}}</p>
         </div>
         <div class="field col-12 md:col-3">
-          <label><strong>{{'AccountingModule::Header:PackageType' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:PackageType' | abpLocalization}}</strong></label>
           <p>{{getPackageTypeName(packageTemplate.packageType)}}</p>
         </div>
         <div class="field col-12">
-          <label><strong>{{'AccountingModule::Header:Description' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:Description' | abpLocalization}}</strong></label>
           <p>{{packageTemplate.description || '-'}}</p>
         </div>
         <div class="field col-12 md:col-4">
-          <label><strong>{{'AccountingModule::Header:MaxMembers' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:MaxMembers' | abpLocalization}}</strong></label>
           <p>{{packageTemplate.maxMembers ?? '-'}}</p>
         </div>
         <div class="field col-12 md:col-4">
-          <label><strong>{{'AccountingModule::Header:Price' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:Price' | abpLocalization}}</strong></label>
           <p>{{packageTemplate.price ?? '-'}}</p>
         </div>
         <div class="field col-12 md:col-4">
-          <label><strong>{{'AccountingModule::Header:SystemCurrency' | abpLocalization}}</strong></label>
+          <label><strong>{{'AccountingModule::PackageTemplate:Header:SystemCurrency' | abpLocalization}}</strong></label>
           <p>{{packageTemplate.systemCurrency || '-'}}</p>
         </div>
       </div>

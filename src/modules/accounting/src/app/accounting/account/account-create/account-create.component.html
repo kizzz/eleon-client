@@ -17,7 +17,7 @@
               "
             >
               <label appRequired>{{
-                'AccountingModule::Header:AccountName' | abpLocalization
+                'AccountingModule::Account:Header:AccountName' | abpLocalization
               }}</label>
               <input
                 [(ngModel)]="header.data.accountName"
@@ -39,30 +39,33 @@
               "
             >
               <label appRequired>{{
-                'AccountingModule::Header:Owner' | abpLocalization
+                'AccountingModule::Account:Header:Owner' | abpLocalization
               }}</label>
-              <ng-template #beforeOwnerButton>
+              <div class="p-inputgroup">
                 <input
-                  class="no-select flex-1"
-                  (change)="resetRowValidators(row)"
-                  inputId="module-input"
+                  class="no-select"
+                  inputId="owner-input"
                   [value]="header.owner?.name || ''"
                   type="text"
                   pInputText
                   [disabled]="true"
                   placeholder="{{
-                    'AccountingModule::Header:Owner:Placeholder'
+                    'AccountingModule::Account:Header:Owner:Placeholder'
                       | abpLocalization
                   }}"
                 />
-              </ng-template>
-              <app-user-selection-multi
-                [isMultiple]="false"
-                [beforeButton]="beforeOwnerButton"
-                (selectionEvent)="onOwnerSelected($event)"
-                [ignoredUsers]="[]"
-              >
-              </app-user-selection-multi>
+                <button
+                  type="button"
+                  (click)="openOwnerSelectionDialog()"
+                  pButton
+                  pRipple
+                  icon="fa fa-user"
+                  [disabled]="loading"
+                  styleClass="p-button-info"
+                  class="p-button-text"
+                  [pTooltip]="'AccountingModule::Account:Header:Owner:Select' | abpLocalization"
+                ></button>
+              </div>
             </div>
           </div>
         </div>
@@ -119,7 +122,6 @@
                 responsiveLayout="stack"
                 [breakpoint]="breakpoint"
                 scrollDirection="both"
-                class="cell-center"
                 [value]="header.rows"
                 dataKey="rowUniqueId"
                 editMode="row"
@@ -264,7 +266,7 @@
                       <p-cellEditor>
                         <ng-template #input>
                           <div class="p-float-label">
-                            <p-dropdown
+                            <p-select
                               [options]="localizedBillingPeriodTypes"
                               [(ngModel)]="row.data.billingPeriodType"
                               appendTo="body"
@@ -276,7 +278,7 @@
                               [style]="{ width: '100%' }"
                               id="billingPeriodType-input"
                             >
-                            </p-dropdown>
+                            </p-select>
                             <label
                               class="editing-only small-width-only"
                               for="billingPeriodType-input"
@@ -546,365 +548,266 @@
           </div>
           </p-tabpanel>
           <p-tabpanel [value]="1">
-            <div class="card-body">
-            <div class="grid">
-              <div class="col-6">
-                <div class="grid">
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:CompanyName'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+            <div #billingInfoCard class="grid">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      {{ 'AccountingModule::BillingInformation' | abpLocalization }}
+                    </h5>
+                    <div class="grid m-0">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:CompanyName' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.companyName
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators.companyEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.companyName"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.companyEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:CompanyCID'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:CompanyCID' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.companyCID
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators.companyCIDEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.companyCID"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.companyCIDEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:PaymentMethod'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
-                        <p-dropdown
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:PaymentMethod' | abpLocalization
+                        }}</label>
+                        <p-select
                           [options]="localizedPaymentMethods"
-                          [(ngModel)]="
-                            header.data.billingInformation.paymentMethod
-                          "
+                          [(ngModel)]="header.data.billingInformation.paymentMethod"
                           optionValue="method"
                           optionLabel="name"
                           [filter]="false"
                           autoWidth="false"
                           [style]="{ width: '100%' }"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators
-                                .paymentMethodNotSelected
-                          }"
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.paymentMethodNotSelected }"
                           (onChange)="resetBillingValidators()"
                           [disabled]="loading"
                         >
-                        </p-dropdown>
+                        </p-select>
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:ContactPersonName'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:ContactPersonName' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.contactPersonName
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators
-                                .contactPersonNameEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.contactPersonName"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.contactPersonNameEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:ContactPersonEmail'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:ContactPersonEmail' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.contactPersonEmail
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators
-                                .contactPersonEmailEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.contactPersonEmail"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.contactPersonEmailEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:ContactPersonTelephone'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:ContactPersonTelephone' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation
-                              .contactPersonTelephone
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators
-                                .contactPersonTelephoneEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.contactPersonTelephone"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.contactPersonTelephoneEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-6">
-                <div class="grid">
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:BillingAddressLine1'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:BillingAddressLine1' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.billingAddressLine1
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators
-                                .billingAddressLine1Empty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.billingAddressLine1"
                           (change)="resetBillingValidators()"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:BillingAddressLine2'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
-                        <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.billingAddressLine2
-                          "
-                          pInputText
                           [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.billingAddressLine1Empty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:Country' | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label>{{
+                          'AccountingModule::Account:Header:BillingAddressLine2' | abpLocalization
+                        }}</label>
                         <input
+                          [(ngModel)]="header.data.billingInformation.billingAddressLine2"
+                          [disabled]="loading"
                           type="text"
-                          class="w-full"
+                          pInputText
                           [style]="{ width: '100%' }"
+                        />
+                      </div>
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:Country' | abpLocalization
+                        }}</label>
+                        <input
                           [(ngModel)]="header.data.billingInformation.country"
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators.countryEmpty
-                          }"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.countryEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:City' | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:City' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
                           [(ngModel)]="header.data.billingInformation.city"
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators.cityEmpty
-                          }"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.cityEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:StateOrProvince'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:StateOrProvince' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.stateOrProvince
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators.stateOrProvinceEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.stateOrProvince"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.stateOrProvinceEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="flex align-items-center col-12 mt-2">
-                    <div class="grid w-full align-items-center">
-                      <div class="col-4">
-                        <span>
-                          {{
-                            'AccountingModule::Header:PostalCode'
-                              | abpLocalization
-                          }}
-                        </span>
-                      </div>
-                      <div class="col-8">
+                      <div
+                        class="field pr-only"
+                        [ngClass]="
+                          billingInfoCard.offsetWidth < viewportBreakpoints.md
+                            ? 'col-12'
+                            : 'sm:col-4'
+                        "
+                      >
+                        <label appRequired>{{
+                          'AccountingModule::Account:Header:PostalCode' | abpLocalization
+                        }}</label>
                         <input
-                          type="text"
-                          class="w-full"
-                          [style]="{ width: '100%' }"
-                          [(ngModel)]="
-                            header.data.billingInformation.postalCode
-                          "
-                          pInputText
-                          [disabled]="loading"
-                          [ngClass]="{
-                            'ng-invalid ng-dirty':
-                              header.billingInfoValidators.postalCodeEmpty
-                          }"
+                          [(ngModel)]="header.data.billingInformation.postalCode"
                           (change)="resetBillingValidators()"
+                          [disabled]="loading"
+                          type="text"
+                          pInputText
+                          [ngClass]="{ 'ng-invalid ng-dirty': header.billingInfoValidators.postalCodeEmpty }"
+                          [style]="{ width: '100%' }"
                         />
                       </div>
                     </div>
@@ -912,7 +815,6 @@
                 </div>
               </div>
             </div>
-          </div>
           </p-tabpanel>
           <p-tabpanel [value]="2">
             <div>
@@ -928,7 +830,6 @@
                 responsiveLayout="stack"
                 [breakpoint]="breakpoint"
                 scrollDirection="both"
-                class="cell-center"
                 [value]="members"
                 dataKey="id"
                 [loading]="loading"
@@ -947,6 +848,7 @@
                       [alignFrozen]="direction"
                       pFrozenColumn
                     >
+                    <div class="flex justify-content-end">
                       <p-button
                         icon="fa fa-plus"
                         (click)="addMember()"
@@ -959,6 +861,7 @@
                         [label]="'AccountingModule::Add' | abpLocalization"
                       >
                       </p-button>
+                    </div>
                     </th>
                   </tr>
                 </ng-template>
@@ -989,6 +892,7 @@
                       [alignFrozen]="direction"
                       pFrozenColumn
                     >
+                    <div class="flex gap-2 justify-content-end">
                       <i
                         (click)="editMember(member)"
                         class="fa fa-edit mr-1"
@@ -1014,6 +918,7 @@
                             | abpLocalization
                         "
                       ></i>
+                    </div>
                     </td>
                   </tr>
                 </ng-template>

@@ -14,6 +14,7 @@ import {
   AccountHeaderDto,
   MemberDto,
   MemberType,
+  LinkedMemberDto,
 } from '@eleon/accounting-proxy';
 import { BillingInformationDto } from '@eleon/accounting-proxy';
 import { CommonOrganizationUnitDto, CommonUserDto, CommonUserService } from '@eleon/tenant-management-proxy';
@@ -31,7 +32,7 @@ import { PAGE_CONTROLS, PageControls, contributeControls } from "@eleon/primeng-
 import { PageStateService } from '@eleon/primeng-ui.lib';
 import { BeforeDialogOpenEvent, assertAlert, generateTempGuid, viewportBreakpoints } from "@eleon/angular-sdk.lib";
 
-import { IPermissionService, ILocalizationService } from '@eleon/angular-sdk.lib';
+import { IPermissionService, ILocalizationService, IIdentitySelectionDialogService } from '@eleon/angular-sdk.lib';
 
 interface AccountPackageRow {
   data: AccountPackageDto;
@@ -131,7 +132,8 @@ export class AccountCreateComponent implements OnInit {
     private pageStateService: PageStateService,
     private accountService: AccountService,
     private userService: CommonUserService,
-    private permissionService: IPermissionService
+    private permissionService: IPermissionService,
+    private identitySelectionService: IIdentitySelectionDialogService
   ) {
   }
 
@@ -153,12 +155,6 @@ export class AccountCreateComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       if (params["id"]) {
         this.loadAccountDetails(params["id"]);
-      } else {
-        this.isCreateAccount = true;
-        this.title = this.localizationService.instant(
-          "AccountingModule::AccountCreation"
-        );
-        this.createAccountIfNeeded();
       }
     });
 
@@ -171,27 +167,6 @@ export class AccountCreateComponent implements OnInit {
         ),
       }));
 
-  }
-
-  createAccountIfNeeded() {
-    if (!this.isCreateAccount) {
-      return;
-    }
-
-    this.loading = true;
-    this.accountService
-      .createAccountByDto({
-        dataSourceUid: '', // this .header.data.dataSourceUid
-        dataSourceName: '', // this .header.data.dataSourceName,
-        companyUid: this.header.data.companyUid,
-        companyName: this.header.data.companyName,
-        organizationUnitId: this.header.data.organizationUnitId,
-        organizationUnitName: this.header.data.organizationUnitName,
-      })
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe((dto) => {
-        this.init(dto);
-      });
   }
 
   async loadAccountDetails(id: string) {
@@ -277,6 +252,7 @@ export class AccountCreateComponent implements OnInit {
 
   onAccountPackageChange(event: PackageTemplateDto, row: AccountPackageRow) {
     if (event) {
+      row.data.name = event.packageName;
       row.data.packageTemplateEntityId = event.id;
       row.data.billingPeriodType = event.billingPeriodType;
     }
@@ -304,8 +280,9 @@ export class AccountCreateComponent implements OnInit {
   async updateAccount(
     dto: AccountDto
   ): Promise<void> {
+    this.loading = true;
     const request$ =
-      this.accountService.updateAccountByUpdatedAccount(dto);
+      this.accountService.updateAccountByUpdatedAccount(dto).pipe(finalize(() => (this.loading = false)));
     await request$.toPromise();
   }
 
@@ -317,7 +294,6 @@ export class AccountCreateComponent implements OnInit {
     const dto: AccountDto = this.gatherRequestData(saveAsDraft);
     if (!dto) return;
 
-    this.loading = true;
     await this.updateAccount(
       dto
     );
@@ -726,6 +702,17 @@ export class AccountCreateComponent implements OnInit {
     }
   }
 
+  openOwnerSelectionDialog(): void {
+    this.identitySelectionService.openUserSelectionDialog({
+      title: this.localizationService.instant('AccountingModule::Header:Owner'),
+      permissions: [],
+      selectedUsers: this.header.owner?.id ? [this.header.owner] : [],
+      ignoredUsers: [],
+      isMultiple: false,
+      onSelect: (users) => this.onOwnerSelected(users)
+    });
+  }
+
   // Members methods
   addMember(): void {
     this.editingMember = null;
@@ -778,10 +765,10 @@ export class AccountCreateComponent implements OnInit {
     this.showMemberSelectionDialog = true;
   }
 
-  onMemberSelectionSave(selectedMembers: MemberDto[]): void {
+  onMemberSelectionSave(selectedLinkedMembers: LinkedMemberDto[]): void {
     if (this.currentPackageRow) {
       this.pageStateService.setDirty();
-      this.currentPackageRow.data.linkedMembers = selectedMembers;
+      this.currentPackageRow.data.linkedMembers = selectedLinkedMembers;
       this.currentPackageRow = null;
       this.showMemberSelectionDialog = false;
     }

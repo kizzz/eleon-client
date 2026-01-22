@@ -8,7 +8,7 @@
         <div class="card-body">
           <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
             [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"
-            class="cell-center" [lazy]="true" (onLazyLoad)="loadPackageTemplates($event)" [rows]="rowsCount"
+            [lazy]="true" (onLazyLoad)="loadPackageTemplates($event)" [rows]="rowsCount"
             styleClass="pr-table" [totalRecords]="totalRecords" [loading]="loading" [value]="rows" [paginator]="true"
             (onRowSelect)="select($event)" selectionMode="single" sortOrder="-1" sortMode="single" sortField="CreationTime">
             <ng-template pTemplate="caption">
@@ -58,35 +58,35 @@
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
-                <th class="when-big-width-cell-center" style="width:1%; max-width: 100px; min-width: 100px;" pSortableColumn="id">
+                <th appResponsiveColumn="30" pSortableColumn="id">
                   {{ "AccountingModule::Header:Id" | abpLocalization }}
                   <p-sortIcon field="id"></p-sortIcon>
                 </th>
-                <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="name">
+                <th pSortableColumn="name">
                   {{ "AccountingModule::Header:Name" | abpLocalization }}
                   <p-sortIcon field="name"></p-sortIcon>
                 </th>
-                <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="billingPeriodType">
+                <th appResponsiveColumn="160" pSortableColumn="billingPeriodType">
                   {{ "AccountingModule::Header:BillingPeriodType" | abpLocalization }}
                   <p-sortIcon field="billingPeriodType"></p-sortIcon>
                 </th>
-                <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="creatorName">
+                <th appResponsiveColumn="200" pSortableColumn="creatorName">
                   {{ "AccountingModule::Header:Initiator" | abpLocalization }}
                 </th>
-                <th class="when-big-width-cell-center" appResponsiveColumn="150" pSortableColumn="creationTime">
+                <th appResponsiveColumn="150" pSortableColumn="creationTime">
                   {{ "AccountingModule::Header:CreationDate" | abpLocalization }}
                   <p-sortIcon field="creationTime"></p-sortIcon>
                 </th>
-                <th class="when-big-width-cell-center" style="width:1%; max-width: 30px; min-width: 30px;">
+                <th appResponsiveColumn="30">
                 </th>
               </tr>
               <tr>
-                <th style="width:100px">
+                <th appResponsiveColumn="30">
                 </th>
-                <th style="width:200px">
+                <th>
                   <p-columnFilter type="text" field="packageName" matchMode="in" [showMenu]="false"></p-columnFilter>
                 </th>
-                <th style="width:200px">
+                <th appResponsiveColumn="160">
                   <p-columnFilter matchMode="in" field="billingPeriodType" [showMenu]="false" [showClearButton]="false">
                     <ng-template pTemplate="header">
                       <div class="px-3 pt-3 pb-0">
@@ -102,10 +102,10 @@
                     </ng-template>
                   </p-columnFilter>
                 </th>
-                <th style="width:200px">
+                <th appResponsiveColumn="200">
                   <p-columnFilter type="text" field="creatorName" matchMode="in" [showMenu]="false"></p-columnFilter>
                 </th>
-                <th style="width:150px">
+                <th appResponsiveColumn="150">
                   <p-columnFilter matchMode="in" [showClearButton]="false" field="creationTime" [showMenu]="false"
                     [style]="{'overflow':'visible'}">
                     <ng-template pTemplate="header">
@@ -127,42 +127,42 @@
             </ng-template>
             <ng-template pTemplate="body" let-row>
               <tr [pSelectableRow]="row">
-                <td style="width:1%; max-width: 100px; min-width: 100px;">
+                <td appResponsiveColumn="30">
                   <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Id' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.docEntry | slice:0:8}}
                   </span>
                 </td>
-                <td style="width:200px" class="when-big-width-cell-center">
+                <td>
                   <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Name' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.packageName }}
                   </span>
                 </td>
-                <td style="width:200px" class="when-big-width-cell-center">
+                <td appResponsiveColumn="160">
                   <span class="non-editing-only p-column-title">{{'AccountingModule::Header:BillingPeriodType' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{getBillingPeriodTypeName(row.data.billingPeriodType)}}
                   </span>
                 </td>
-                <td style="width:200px" class="when-big-width-cell-center">
+                <td appResponsiveColumn="200">
                   <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Initiator' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.creatorName}}
                   </span>
                 </td>
-                <td style="width:150px" class="when-big-width-cell-center">
+                <td appResponsiveColumn="150">
                   <span class="non-editing-only p-column-title">{{'AccountingModule::Header:CreationDate' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.creationTime | date:'shortDate'}}
                   </span>
                 </td>
-                <td>
+                <td appResponsiveColumn="30">
                   <div class="column-content">
                     <span (click)="select(row)" class="cursor-pointer text-primary">
                       <i class="fa-solid fa-magnifying-glass" style="font-size: medium;"></i>
@@ -188,5 +188,10 @@
         </div>
       </div>
     </div>
+
+    <app-package-template-create-dialog
+      [(display)]="showPackageTemplateCreateDialog"
+      (createdPackageTemplate)="onPackageTemplateCreated($event)"
+    ></app-package-template-create-dialog>
   
   
