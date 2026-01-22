@@ -5011,23 +5011,6 @@
               "name": "IEventAppService",
               "methods": [
                 {
-                  "name": "PublishErrorAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "message",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                },
-                {
                   "name": "PublishAsync",
                   "parametersOnMethod": [
                     {
@@ -5045,28 +5028,54 @@
                   }
                 },
                 {
-                  "name": "ReceiveManyAsync",
+                  "name": "ClaimManyAsync",
                   "parametersOnMethod": [
                     {
-                      "name": "queueName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
+                      "name": "input",
+                      "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto, Eleon.EventManagement.Module.Full",
+                      "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                      "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
                       "isOptional": false,
                       "defaultValue": null
-                    },
-                    {
-                      "name": "maxCount",
-                      "typeAsString": "System.Int32, System.Private.CoreLib",
-                      "type": "System.Int32",
-                      "typeSimple": "number",
-                      "isOptional": true,
-                      "defaultValue": 1000
                     }
                   ],
                   "returnValue": {
-                    "type": "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto",
-                    "typeSimple": "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto"
+                    "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto",
+                    "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto"
+                  }
+                },
+                {
+                  "name": "AckAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto, Eleon.EventManagement.Module.Full",
+                      "type": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                      "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "NackAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto, Eleon.EventManagement.Module.Full",
+                      "type": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                      "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
                   }
                 },
                 {
@@ -5144,90 +5153,107 @@
               "allowAnonymous": null,
               "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
             },
-            "ReceiveManyAsyncByQueueNameAndMaxCount": {
-              "uniqueName": "ReceiveManyAsyncByQueueNameAndMaxCount",
-              "name": "ReceiveManyAsync",
-              "httpMethod": "GET",
-              "url": "api/EventManagement/Events/RecieveMany",
+            "ClaimManyAsyncByInput": {
+              "uniqueName": "ClaimManyAsyncByInput",
+              "name": "ClaimManyAsync",
+              "httpMethod": "POST",
+              "url": "api/EventManagement/Events/ClaimMany",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "queueName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "name": "input",
+                  "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto, Eleon.EventManagement.Module.Full",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
                   "isOptional": false,
                   "defaultValue": null
-                },
-                {
-                  "name": "maxCount",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": true,
-                  "defaultValue": 100
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "queueName",
-                  "name": "queueName",
+                  "nameOnMethod": "input",
+                  "name": "input",
                   "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "maxCount",
-                  "name": "maxCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "bindingSourceId": "Body",
                   "descriptorName": ""
                 }
               ],
               "returnValue": {
-                "type": "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto",
-                "typeSimple": "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto"
+                "type": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto",
+                "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto"
               },
               "allowAnonymous": null,
               "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
             },
-            "PublishErrorAsyncByMessage": {
-              "uniqueName": "PublishErrorAsyncByMessage",
-              "name": "PublishErrorAsync",
+            "AckAsyncByInput": {
+              "uniqueName": "AckAsyncByInput",
+              "name": "AckAsync",
               "httpMethod": "POST",
-              "url": "api/EventManagement/Events/PublishError",
+              "url": "api/EventManagement/Events/Ack",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "message",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "name": "input",
+                  "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto, Eleon.EventManagement.Module.Full",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "message",
-                  "name": "message",
+                  "nameOnMethod": "input",
+                  "name": "input",
                   "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EventManagementModule.Module.Application.Contracts.Event.IEventAppService"
+            },
+            "NackAsyncByInput": {
+              "uniqueName": "NackAsyncByInput",
+              "name": "NackAsync",
+              "httpMethod": "POST",
+              "url": "api/EventManagement/Events/Nack",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto, Eleon.EventManagement.Module.Full",
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "typeSimple": "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
                   "descriptorName": ""
                 }
               ],
@@ -15217,316 +15243,6 @@
             }
           }
         },
-        "ModuleCollector.Infrastructure.Module.Infrastructure.Module.HttpApi.Currency.CurrencyController": {
-          "controllerName": "Currency",
-          "controllerGroupName": "Currency",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.HttpApi.Currency.CurrencyController",
-          "interfaces": [
-            {
-              "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
-              "name": "ICurrencyAppService",
-              "methods": [
-                {
-                  "name": "GetSystemCurrencyAsync",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto",
-                    "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto"
-                  }
-                },
-                {
-                  "name": "SetSystemCurrencyAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "code",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "GetCurrenciesAsync",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto>",
-                    "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto]"
-                  }
-                },
-                {
-                  "name": "GetCurrencyRatesAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "from",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "rateDate",
-                      "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.DateTime?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto>",
-                    "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto]"
-                  }
-                },
-                {
-                  "name": "GetCurrencyRateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "from",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "to",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "rateDate",
-                      "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.DateTime?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto",
-                    "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetCurrenciesAsync": {
-              "uniqueName": "GetCurrenciesAsync",
-              "name": "GetCurrenciesAsync",
-              "httpMethod": "GET",
-              "url": "api/infrastructure/currency/GetCurrencies",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto>",
-                "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService"
-            },
-            "GetCurrencyRateAsyncByFromAndToAndRateDate": {
-              "uniqueName": "GetCurrencyRateAsyncByFromAndToAndRateDate",
-              "name": "GetCurrencyRateAsync",
-              "httpMethod": "GET",
-              "url": "api/infrastructure/currency/GetCurrencyRate",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "from",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "to",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "rateDate",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "from",
-                  "name": "from",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "to",
-                  "name": "to",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "rateDate",
-                  "name": "rateDate",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto",
-                "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService"
-            },
-            "GetCurrencyRatesAsyncByFromAndRateDate": {
-              "uniqueName": "GetCurrencyRatesAsyncByFromAndRateDate",
-              "name": "GetCurrencyRatesAsync",
-              "httpMethod": "GET",
-              "url": "api/infrastructure/currency/GetCurrencyRates",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "from",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "rateDate",
-                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "from",
-                  "name": "from",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "rateDate",
-                  "name": "rateDate",
-                  "jsonName": null,
-                  "type": "System.DateTime?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto>",
-                "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService"
-            },
-            "GetSystemCurrencyAsync": {
-              "uniqueName": "GetSystemCurrencyAsync",
-              "name": "GetSystemCurrencyAsync",
-              "httpMethod": "GET",
-              "url": "api/infrastructure/currency/GetSystemCurrency",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto",
-                "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService"
-            },
-            "SetSystemCurrencyAsyncByCode": {
-              "uniqueName": "SetSystemCurrencyAsyncByCode",
-              "name": "SetSystemCurrencyAsync",
-              "httpMethod": "POST",
-              "url": "api/infrastructure/currency/SetSystemCurrency",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "code",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "code",
-                  "name": "code",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService"
-            }
-          }
-        },
         "VPortal.Addresses.Feature.Module.Controllers.AddressController": {
           "controllerName": "Address",
           "controllerGroupName": "Address",
@@ -15835,6 +15551,23 @@
                   }
                 },
                 {
+                  "name": "DuplicateAction",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto, Eleon.JobScheduler.Module.Full",
+                      "type": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                      "typeSimple": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
                   "name": "DeleteAsync",
                   "parametersOnMethod": [
                     {
@@ -15925,6 +15658,43 @@
               "returnValue": {
                 "type": "System.Boolean",
                 "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.JobScheduler.Module.Actions.IActionAppService"
+            },
+            "DuplicateActionByInput": {
+              "uniqueName": "DuplicateActionByInput",
+              "name": "DuplicateAction",
+              "httpMethod": "POST",
+              "url": "api/JobScheduler/Actions/DuplicateAction",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto, Eleon.JobScheduler.Module.Full",
+                  "type": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "typeSimple": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "typeSimple": "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Actions.IActionAppService"
@@ -16091,8 +15861,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                    "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
                   }
                 },
                 {
@@ -16201,8 +15971,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                    "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                    "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
                   }
                 },
                 {
@@ -16257,8 +16027,8 @@
                 }
               ],
               "returnValue": {
-                "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Tasks.ITaskAppService"
@@ -16294,8 +16064,8 @@
                 }
               ],
               "returnValue": {
-                "type": "VPortal.JobScheduler.Module.Tasks.TaskDto",
-                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskDto"
+                "type": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+                "typeSimple": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Tasks.ITaskAppService"
@@ -16651,6 +16421,23 @@
                   }
                 },
                 {
+                  "name": "GetNextRuntimes",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto, Eleon.JobScheduler.Module.Full",
+                      "type": "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto",
+                      "typeSimple": "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<System.DateTime>",
+                    "typeSimple": "[string]"
+                  }
+                },
+                {
                   "name": "SetTriggerIsEnabledAsync",
                   "parametersOnMethod": [
                     {
@@ -16980,6 +16767,67 @@
               "returnValue": {
                 "type": "System.Collections.Generic.List<VPortal.JobScheduler.Module.Triggers.TriggerDto>",
                 "typeSimple": "[VPortal.JobScheduler.Module.Triggers.TriggerDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.JobScheduler.Module.Triggers.ITriggerAppService"
+            },
+            "GetNextRuntimesByRequest": {
+              "uniqueName": "GetNextRuntimesByRequest",
+              "name": "GetNextRuntimes",
+              "httpMethod": "GET",
+              "url": "api/JobScheduler/Triggers/GetNextRuntimes",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto, Eleon.JobScheduler.Module.Full",
+                  "type": "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto",
+                  "typeSimple": "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "TriggerId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "request"
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "FromUtc",
+                  "jsonName": null,
+                  "type": "System.DateTime?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "request"
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "Count",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "request"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<System.DateTime>",
+                "typeSimple": "[string]"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.JobScheduler.Module.Triggers.ITriggerAppService"
@@ -21038,7 +20886,7 @@
                 },
                 {
                   "nameOnMethod": "input",
-                  "name": "DataParams",
+                  "name": "LanguageKeyParams",
                   "jsonName": null,
                   "type": "System.Collections.Generic.List<System.String>",
                   "typeSimple": "[string]",
@@ -22046,6 +21894,23 @@
                   }
                 },
                 {
+                  "name": "SendCustomTestTelegramAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto, Eleon.Notificator.Module.Full",
+                      "type": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto",
+                      "typeSimple": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.String",
+                    "typeSimple": "string"
+                  }
+                },
+                {
                   "name": "ValidateTemplateAsync",
                   "parametersOnMethod": [
                     {
@@ -22112,6 +21977,43 @@
                   "jsonName": null,
                   "type": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestEmailInputDto",
                   "typeSimple": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestEmailInputDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.INotificatorSettingsAppService"
+            },
+            "SendCustomTestTelegramAsyncByInput": {
+              "uniqueName": "SendCustomTestTelegramAsyncByInput",
+              "name": "SendCustomTestTelegramAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/NotificatorSettings/SendCustomTestTelegram",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto, Eleon.Notificator.Module.Full",
+                  "type": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto",
+                  "typeSimple": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto",
+                  "typeSimple": "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -27757,6 +27659,72 @@
       "rootPath": "SystemServices",
       "remoteServiceName": "SystemServices",
       "controllers": {
+        "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.SessionController": {
+          "controllerName": "Session",
+          "controllerGroupName": "Session",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.SessionController",
+          "interfaces": [
+            {
+              "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "name": "ISessionAppService",
+              "methods": [
+                {
+                  "name": "GetCurrentSessionAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto",
+                    "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto"
+                  }
+                },
+                {
+                  "name": "RevokeAllAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetCurrentSessionAsync": {
+              "uniqueName": "GetCurrentSessionAsync",
+              "name": "GetCurrentSessionAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/sessions/GetCurrentSession",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto",
+                "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            },
+            "RevokeAllAsync": {
+              "uniqueName": "RevokeAllAsync",
+              "name": "RevokeAllAsync",
+              "httpMethod": "POST",
+              "url": "api/system-services/sessions/RevokeAll",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            }
+          }
+        },
         "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.SystemLogController": {
           "controllerName": "SystemLog",
           "controllerGroupName": "SystemLog",
@@ -27899,6 +27867,321 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.WebPush.IWebPushAppService",
+              "baseUrl": ""
+            }
+          }
+        },
+        "ModuleCollector.Infrastructure.Module.Infrastructure.Module.HttpApi.Currency.CurrencyController": {
+          "controllerName": "Currency",
+          "controllerGroupName": "Currency",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.HttpApi.Currency.CurrencyController",
+          "interfaces": [
+            {
+              "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
+              "name": "ICurrencyAppService",
+              "methods": [
+                {
+                  "name": "GetSystemCurrencyAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto",
+                    "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto"
+                  }
+                },
+                {
+                  "name": "SetSystemCurrencyAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "code",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "GetCurrenciesAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto>",
+                    "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto]"
+                  }
+                },
+                {
+                  "name": "GetCurrencyRatesAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "from",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "rateDate",
+                      "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.DateTime?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto>",
+                    "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto]"
+                  }
+                },
+                {
+                  "name": "GetCurrencyRateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "from",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "to",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "rateDate",
+                      "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.DateTime?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto",
+                    "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetCurrenciesAsync": {
+              "uniqueName": "GetCurrenciesAsync",
+              "name": "GetCurrenciesAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/currency/GetCurrencies",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto>",
+                "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
+              "baseUrl": ""
+            },
+            "GetCurrencyRateAsyncByFromAndToAndRateDate": {
+              "uniqueName": "GetCurrencyRateAsyncByFromAndToAndRateDate",
+              "name": "GetCurrencyRateAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/currency/GetCurrencyRate",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "from",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "to",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "rateDate",
+                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.DateTime?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "from",
+                  "name": "from",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "to",
+                  "name": "to",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "rateDate",
+                  "name": "rateDate",
+                  "jsonName": null,
+                  "type": "System.DateTime?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto",
+                "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
+              "baseUrl": ""
+            },
+            "GetCurrencyRatesAsyncByFromAndRateDate": {
+              "uniqueName": "GetCurrencyRatesAsyncByFromAndRateDate",
+              "name": "GetCurrencyRatesAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/currency/GetCurrencyRates",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "from",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "rateDate",
+                  "typeAsString": "System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.DateTime?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "from",
+                  "name": "from",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "rateDate",
+                  "name": "rateDate",
+                  "jsonName": null,
+                  "type": "System.DateTime?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto>",
+                "typeSimple": "[ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyRateDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
+              "baseUrl": ""
+            },
+            "GetSystemCurrencyAsync": {
+              "uniqueName": "GetSystemCurrencyAsync",
+              "name": "GetSystemCurrencyAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/currency/GetSystemCurrency",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto",
+                "typeSimple": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.CurrencyDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
+              "baseUrl": ""
+            },
+            "SetSystemCurrencyAsyncByCode": {
+              "uniqueName": "SetSystemCurrencyAsyncByCode",
+              "name": "SetSystemCurrencyAsync",
+              "httpMethod": "POST",
+              "url": "api/system-services/currency/SetSystemCurrency",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "code",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "code",
+                  "name": "code",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "ModuleCollector.Infrastructure.Module.Infrastructure.Module.Application.Contracts.Currency.ICurrencyAppService",
               "baseUrl": ""
             }
           }
@@ -28116,10 +28399,10 @@
                   "name": "ResetAsync",
                   "parametersOnMethod": [
                     {
-                      "name": "id",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
+                      "name": "input",
+                      "typeAsString": "Eleon.Templating.Module.Templates.ResetTemplateInput, Eleon.Templating.Module.Full",
+                      "type": "Eleon.Templating.Module.Templates.ResetTemplateInput",
+                      "typeSimple": "Eleon.Templating.Module.Templates.ResetTemplateInput",
                       "isOptional": false,
                       "defaultValue": null
                     },
@@ -28580,18 +28863,18 @@
               "allowAnonymous": null,
               "implementFrom": "Eleon.Templating.Module.Templates.ITemplateAppService"
             },
-            "ResetAsyncByIdAndCancellationToken": {
-              "uniqueName": "ResetAsyncByIdAndCancellationToken",
+            "ResetAsyncByInputAndCancellationToken": {
+              "uniqueName": "ResetAsyncByInputAndCancellationToken",
               "name": "ResetAsync",
               "httpMethod": "POST",
               "url": "api/templating/templates/Reset",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
+                  "name": "input",
+                  "typeAsString": "Eleon.Templating.Module.Templates.ResetTemplateInput, Eleon.Templating.Module.Full",
+                  "type": "Eleon.Templating.Module.Templates.ResetTemplateInput",
+                  "typeSimple": "Eleon.Templating.Module.Templates.ResetTemplateInput",
                   "isOptional": false,
                   "defaultValue": null
                 },
@@ -28606,15 +28889,15 @@
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
+                  "nameOnMethod": "input",
+                  "name": "input",
                   "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
+                  "type": "Eleon.Templating.Module.Templates.ResetTemplateInput",
+                  "typeSimple": "Eleon.Templating.Module.Templates.ResetTemplateInput",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "bindingSourceId": "Body",
                   "descriptorName": ""
                 }
               ],
@@ -40043,6 +40326,51 @@
         }
       ]
     },
+    "Eleon.JobScheduler.Module.Full.Eleon.JobScheduler.Module.Application.Contracts.Triggers.NextRuntimesRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "TriggerId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FromUtc",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Count",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "Eleon.Logging.Lib.SystemLog.Contracts.SystemLogLevel": {
       "baseType": "System.Enum",
       "isEnum": true,
@@ -40150,6 +40478,123 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Device",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IpAddress",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeviceInfo",
+          "jsonName": null,
+          "type": "System.Object",
+          "typeSimple": "object",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Browser",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SignInDate",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LastAccessTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Expiration",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -40561,6 +41006,39 @@
           "jsonName": null,
           "type": "System.Boolean",
           "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Eleon.Templating.Module.Templates.ResetTemplateInput": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Type",
+          "jsonName": null,
+          "type": "Eleon.Templating.Module.Templates.TemplateType",
+          "typeSimple": "enum",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -41768,7 +42246,7 @@
           "regex": null
         },
         {
-          "name": "DataParams",
+          "name": "LanguageKeyParams",
           "jsonName": null,
           "type": "[System.String]",
           "typeSimple": "[string]",
@@ -42234,6 +42712,270 @@
       "genericArguments": null,
       "properties": null
     },
+    "EventManagementModule.Module.Application.Contracts.Event.AckRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LockId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageIds",
+          "jsonName": null,
+          "type": "[System.Guid]",
+          "typeSimple": "[string]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.ClaimedMessageDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TenantId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Message",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Token",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Claims",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Attempts",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CreatedUtc",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TraceId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "QueueName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaxCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LockSeconds",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.ClaimMessagesResponseDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LockId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "QueueStatus",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PendingCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Messages",
+          "jsonName": null,
+          "type": "[EventManagementModule.Module.Application.Contracts.Event.ClaimedMessageDto]",
+          "typeSimple": "[EventManagementModule.Module.Application.Contracts.Event.ClaimedMessageDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "EventManagementModule.Module.Application.Contracts.Event.EventDto": {
       "baseType": null,
       "isEnum": false,
@@ -42293,6 +43035,90 @@
           "name": "CreationTime",
           "jsonName": null,
           "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CreatedUtc",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Byte",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Attempts",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LockedUntilUtc",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "VisibleAfterUtc",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TraceId",
+          "jsonName": null,
+          "type": "System.String",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -42395,6 +43221,18 @@
           "regex": null
         },
         {
+          "name": "CreatedUtc",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "Token",
           "jsonName": null,
           "type": "System.String",
@@ -42408,6 +43246,78 @@
         },
         {
           "name": "Claims",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "System.Byte",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Attempts",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LockedUntilUtc",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "VisibleAfterUtc",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageKey",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TraceId",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -42431,6 +43341,75 @@
           "name": "QueueId",
           "jsonName": null,
           "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "EventManagementModule.Module.Application.Contracts.Event.NackRequestDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LockId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MessageId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "MaxAttempts",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DelaySeconds",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Error",
+          "jsonName": null,
+          "type": "System.String",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -42627,18 +43606,6 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "IsSystem",
-          "jsonName": null,
-          "type": "System.Boolean",
-          "typeSimple": "boolean",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -43198,6 +44165,30 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TenantId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
         {
           "name": "ExpirationDateTime",
           "jsonName": null,
@@ -44473,51 +45464,6 @@
       "genericArguments": null,
       "properties": null
     },
-    "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Event.RecieveMessagesResponseDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "QueueStatus",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "MessagesLeft",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Messages",
-          "jsonName": null,
-          "type": "[EventManagementModule.Module.Application.Contracts.Event.FullEventDto]",
-          "typeSimple": "[EventManagementModule.Module.Application.Contracts.Event.FullEventDto]",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "ModuleCollector.EventManagementModule.EventManagementModule.Module.Application.Contracts.Queue.QueueRequestDto": {
       "baseType": null,
       "isEnum": false,
@@ -45692,6 +46638,51 @@
         },
         {
           "name": "Body",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "ModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.Emails.SendTestTelegramInputDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Message",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ChatId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BotToken",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -59466,18 +60457,42 @@
         }
       ]
     },
-    "VPortal.JobScheduler.Module.Tasks.TaskDto": {
-      "baseType": "VPortal.JobScheduler.Module.Tasks.TaskHeaderDto",
+    "VPortal.JobScheduler.Module.Actions.DuplicateActionRequestDto": {
+      "baseType": null,
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
         {
-          "name": "Executions",
+          "name": "Id",
           "jsonName": null,
-          "type": "[VPortal.JobScheduler.Module.Tasks.TaskExecutionDto]",
-          "typeSimple": "[VPortal.JobScheduler.Module.Tasks.TaskExecutionDto]",
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Count",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FieldToModify",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -59878,6 +60893,18 @@
           "regex": null
         },
         {
+          "name": "NextRunUtc",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "ExpireUtc",
           "jsonName": null,
           "type": "System.DateTime?",
@@ -59894,6 +60921,18 @@
           "jsonName": null,
           "type": "Common.Module.Constants.TimePeriodType",
           "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LastRun",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -62317,7 +63356,7 @@
           "regex": null
         },
         {
-          "name": "DataParams",
+          "name": "LanguageKeyParams",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -62608,7 +63647,7 @@
           "regex": null
         },
         {
-          "name": "DataParams",
+          "name": "LanguageKeyParams",
           "jsonName": null,
           "type": "[System.String]",
           "typeSimple": "[string]",

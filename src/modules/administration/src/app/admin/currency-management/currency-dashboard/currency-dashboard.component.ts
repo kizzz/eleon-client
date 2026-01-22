@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyService } from '@eleon/infrastructure-proxy';
-import { CurrencyDto, CurrencyRateDto } from '@eleon/infrastructure-proxy';
+import { CurrencyService, CurrencyDto, CurrencyRateDto } from '@eleon/system-services.lib';
 import { switchMap } from 'rxjs/operators';
 import { Input } from '@angular/core';
 

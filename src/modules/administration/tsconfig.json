@@ -43,6 +43,9 @@
       "@eleon/identity-selection.lib": [
         "src/libs/eleon.identity-selection.lib/src/index.ts"
       ],
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
+      ],
       "@eleon/user-sessions.lib": [
         "src/libs/eleon.user-sessions.lib/src/index.ts"
       ]

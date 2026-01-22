@@ -10,9 +10,10 @@ import {
   VPortalTopbarService,
   SignalRService,
   SoundsService,
+  CurrencyService,
 } from '@eleon/ts-hosting.lib';
 import { APP_INITIALIZER, Component, importProvidersFrom, Injector, isDevMode, PLATFORM_ID, Provider } from '@angular/core';
-import { SessionsService, TenantAppearanceService } from '@eleon/tenant-management-proxy';
+import { SessionsService } from '@eleon/tenant-management-proxy';
 import { PROXY_SERVICES as APPLICATION_CONFIGURATION_PROXY_SERVICES, ApplicationConfigurationManager, EleoncoreApplicationConfigurationDto } from '@eleon/app-config.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
 import { PROXY_SERVICES as SYSTEM_LOG_PROXY_SERVICES, SystemLogService } from '@eleon/system-services.lib';
@@ -32,7 +33,7 @@ import { NoopConfigStateService, NoopSessionStateService } from '@eleon/ts-hosti
 import { HashLocationStrategy, isPlatformBrowser, LocationStrategy } from '@angular/common';
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { NgModuleLoaderManager, IdentityHubService, SystemEventsService, ImpersonationService } from "../ng-services";
-import { IAssetLoaderService, IBreadcrumbsService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
+import { IAssetLoaderService, IBreadcrumbsService, ICurrencyService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
 import { ClientLogService, sendSystemLogs, EleoncoreErrorHandlingService } from '@eleon/logging.lib';
 import { EleoncoreError, IAppearanceService, IVPortalMenuService, IVPortalTopbarService } from '@eleon/contracts.lib';
 
@@ -190,6 +191,12 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
       provide: ISoundsService,
       useFactory: () => {
         return new SoundsService();
+      }
+    },
+    {
+      provide: ICurrencyService,
+      useFactory: () => {
+        return new CurrencyService();
       }
     },
     {

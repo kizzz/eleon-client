@@ -16,3 +16,4 @@ export * from './vportal-user-menu.service';
 export * from './signal-r.service';
 export * from './sounds-service.service';
 export * from './module-loading-observable.service';
+export * from './currency.service';

@@ -40,7 +40,6 @@ import {
   DEFAULT_CHAT_MODULE_CONFIG,
 } from '@eleon/angular-sdk.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
-import { PROXY_SERVICES as INFRASTRUCTURE_PROXY_SERVICES } from '@eleon/infrastructure-proxy';
 import { PROXY_SERVICES as ELEONCORE_MULTI_TENANCY_PROXY_SERVICES } from '@eleon/eleoncore-multi-tenancy-proxy';
 
 export const remoteRoutes: Route[] = [
@@ -80,7 +79,6 @@ export const providers = [
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=Infrastructure&localizationResources=TenantManagement&localizationResources=AbpUiMultiTenancy`,
   ),
   ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-  ...provideMultipleOnInitialization(INFRASTRUCTURE_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
   ...provideMultipleOnInitialization(ELEONCORE_MULTI_TENANCY_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
 ];
 
