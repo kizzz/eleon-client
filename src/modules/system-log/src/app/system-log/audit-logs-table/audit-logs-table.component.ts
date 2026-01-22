@@ -300,7 +300,10 @@ export class AuditLogsTableComponent implements OnInit {
   }
 
   getSeverity(code: number) {
-    if (code >= 100 && code <= 199) {
+    if (code === null) {
+      return 'primary';
+    }
+    else if (code >= 100 && code <= 199) {
       return 'primary';
     } else if (code >= 200 && code <= 299) {
       return 'success';
@@ -312,7 +315,11 @@ export class AuditLogsTableComponent implements OnInit {
   }
 
   getSeverityForMethod(method: string) {
-    if (method === 'GET') {
+    if (!method)
+    {
+      return 'primary';
+    }
+    else if (method === 'GET') {
       return 'primary';
     } else {
       return 'warning';

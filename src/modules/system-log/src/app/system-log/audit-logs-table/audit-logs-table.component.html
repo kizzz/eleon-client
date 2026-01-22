@@ -370,11 +370,11 @@
         <div class="textAlign flex align-items-center column-content gap-2">
           <p-tag
             severity="{{ getSeverity(row.httpStatusCode) }}"
-            value="{{ row.httpStatusCode }}"
+            value="{{ row.httpStatusCode || '-'}}"
           ></p-tag>
           <p-tag
             severity="{{ getSeverityForMethod(row.httpMethod) }}"
-            value="{{ row.httpMethod }}"
+            value="{{ row.httpMethod || '-'}}"
           ></p-tag>
           <span>
             {{ row.url }}
