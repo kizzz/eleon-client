@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { UserSessionDto } from '@eleon/tenant-management-proxy';
+import { UserSessionDto } from '@eleon/system-services.lib';
 import { SimpleChanges } from '@angular/core';
 import { OnChanges } from '@angular/core';
 

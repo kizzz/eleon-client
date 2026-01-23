@@ -13,8 +13,7 @@ import {
   ValidationService,
   validationRule,
 } from "@eleon/primeng-ui.lib";
-
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 
 const RowValidationRules: ValidationRuleSet<
   ControlDelegationTableRow,

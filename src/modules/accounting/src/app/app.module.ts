@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { extractApiBase } from '@eleon/angular-sdk.lib';
 import { EcAuthGuard, PermissionGuard } from '@eleon/angular-sdk.lib';
-import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
 import {
   DefaultParentMenuItems,
   VPortalMenuItem,
@@ -26,6 +25,7 @@ import {
   provideMultipleOnInitialization,
   provideOnInitialization,
 } from '@eleon/angular-sdk.lib';
+import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 
 export const remoteRoutes: Route[] = [
   {
@@ -78,7 +78,7 @@ export const providers = [
   provideLocalizationOnInitialization(
     (cultureName: string) => extractApiBase('eleonsoft') + `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=AccountingModule`
   ),
-  ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+  ...provideMultipleOnInitialization(provideIdentityQuerying()),
 ];
 
 @NgModule({

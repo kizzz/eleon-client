@@ -8,6 +8,7 @@ import { map, Observable } from 'rxjs'
   providedIn: 'root'
 })
 export class OrganizationUnitService extends IOrganizationUnitService {
+  
   constructor(private proxy: OrganizationUnitQueryingService) {
     super()
   }
@@ -23,4 +24,9 @@ export class OrganizationUnitService extends IOrganizationUnitService {
   getMembers(input: GetAllUnitAndChildsMembersRequestDto): Observable<{ items: CommonUserDto[]; totalCount: number }> {
     return this.proxy.getAllUnitAndChildsMembers(input).pipe(map((r) => ({ items: r.items, totalCount: r.totalCount })));
   }
+
+  getAvailableForUser(userId?: string): Observable<{ organizationUnit: CommonOrganizationUnitDto; isMember: boolean }[]> {
+    return this.proxy.getAvailableForUser({ userId: userId }).pipe(map((r) => r.map(x => ({ organizationUnit: x.organizationUnit, isMember: x.isMember }))));
+  }
+  
 }

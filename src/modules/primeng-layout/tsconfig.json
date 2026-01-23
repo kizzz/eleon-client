@@ -20,8 +20,12 @@
         "src/shared/libs/eleon.typescript-sdk.lib/src/index.ts"
       ],
 
-      "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
+      ],
+
+      "@eleon/identity-querying.lib": [
+        "src/libs/eleon.identity-querying.lib/src/index.ts"
       ],
 			
       "@eleon/angular-sdk.lib": [

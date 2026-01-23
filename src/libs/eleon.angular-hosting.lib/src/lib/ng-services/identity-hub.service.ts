@@ -1,6 +1,6 @@
 import { Injectable, Injector } from "@angular/core";
 import { IAuthManager, ISignalRConnector, ISignalRService } from '@eleon/contracts.lib';
-import { SessionsService } from '@eleon/tenant-management-proxy';
+import { SessionService } from '@eleon/system-services.lib';
 import { extractApiBase } from '@eleon/angular-sdk.lib'
 
 const CONFIG = {
@@ -32,7 +32,7 @@ export class IdentityHubService {
 			connector.addMessageListener(CONFIG.METHODS.CheckSession, (data) => {
 				console.log("IdentityHubService: CheckSession received", data);
 				const auth = this.injector.get(IAuthManager);
-				const sessions = this.injector.get(SessionsService);
+				const sessions = this.injector.get(SessionService);
 
 				sessions.getCurrentSession().subscribe(res => {
 					if (!res){

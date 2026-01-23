@@ -3,7 +3,6 @@ import { MessageService, TreeNode } from 'primeng/api';
 import {
   ApplicationMenuItemDto,
   ApplicationMenuItemService,
-  CustomPermissionDto,
   ItemType,
   MenuType,
 } from '@eleon/sites-management-proxy';
@@ -23,7 +22,6 @@ import { ResponsiveTableModule, SharedTableModule } from '@eleon/primeng-ui.lib'
 import { finalize, Observable, tap } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
 import { TextareaModule } from 'primeng/textarea';
-import { PermissionSelectionModule } from '../permission-management/permission-selection/permission-selection.module';
 
 interface ItemsTreeNode extends TreeNode {
   data: ApplicationMenuItemDto;
@@ -64,8 +62,7 @@ interface MenuItemModel {
     ResponsiveTableModule,
     InputNumberModule,
     DialogModule,
-    TextareaModule,
-    PermissionSelectionModule],
+    TextareaModule],
   templateUrl: './application-menu-user-item-management.component.html',
   styleUrls: ['./application-menu-user-item-management.component.css'],
   providers:[
@@ -426,7 +423,7 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
       this.showPermissionDialog = true;
     }
   
-    selectedPermissionHandler(event: CustomPermissionDto[]){
+    selectedPermissionHandler(event: any[]){
       if(event.length > 0){
         this.menuItemModel.requiredPolicy = event.map(permission => permission.name).join(',');
       }

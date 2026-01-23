@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  CommonUserDto,
-} from '@eleon/tenant-management-proxy';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 import {
   isPWAInstallPromptAvailable,
   promptPWAInstall,

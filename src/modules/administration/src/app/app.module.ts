@@ -163,6 +163,22 @@ const allRoutes: VPortalMenuItem[] = [
     icon: 'pi pi-cog',
     order: 7,
   },
+  {
+    label: 'TenantManagement::PermissionManagement:Header:Title',
+    routerLink: '/permission-management',
+    parentName: DefaultParentMenuItems.System,
+    icon: 'fas fa-cog',
+    order: 7,
+    requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
+  },
+  {
+    label: 'TenantManagement::FeatureManagement:Header:Title',
+    routerLink: '/features-management',
+    parentName: DefaultParentMenuItems.System,
+    icon: 'fas fa-cog',
+    order: 7,
+    requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
+  },
   ...tenantSettingsRoutes,
 ];
 

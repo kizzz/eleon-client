@@ -13,10 +13,9 @@ import {
   CurrencyService,
 } from '@eleon/ts-hosting.lib';
 import { APP_INITIALIZER, Component, importProvidersFrom, Injector, isDevMode, PLATFORM_ID, Provider } from '@angular/core';
-import { SessionsService } from '@eleon/tenant-management-proxy';
+import { SessionService } from '@eleon/system-services.lib';
 import { PROXY_SERVICES as APPLICATION_CONFIGURATION_PROXY_SERVICES, ApplicationConfigurationManager, EleoncoreApplicationConfigurationDto } from '@eleon/app-config.lib';
-import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
-import { PROXY_SERVICES as SYSTEM_LOG_PROXY_SERVICES, SystemLogService } from '@eleon/system-services.lib';
+import { PROXY_SERVICES as SYSTEM_PROXY_SERVICES, SystemLogService } from '@eleon/system-services.lib';
 import { PROXY_SERVICES as IDENTITY_QUERYING_PROXY_SERVICES } from '@eleon/identity-querying.lib';
 import { PermissionService, QuickReloginService } from '@eleon/typescript-sdk.lib';
 import {
@@ -121,7 +120,7 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
 		},
     {
         provide: IAuthManager,
-        useFactory: (platformId: Object, appConfigurationManager: IApplicationConfigurationManager, sessionsService: SessionsService, injector: Injector, moduleLoadingObservableService: IModuleLoadingObservableService) => {
+        useFactory: (platformId: Object, appConfigurationManager: IApplicationConfigurationManager, sessionsService: SessionService, injector: Injector, moduleLoadingObservableService: IModuleLoadingObservableService) => {
             if (isPlatformBrowser(platformId)) {
                 const clientAuthManager = new ClientAuthManager(appConfigurationManager, sessionsService, injector.get(Router), moduleLoadingObservableService);
 								clientAuthManager.authorized$.subscribe(auth => {
@@ -134,7 +133,7 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
             }
             return new NoopAuthService();
         },
-        deps: [PLATFORM_ID, IApplicationConfigurationManager, SessionsService, Injector, IModuleLoadingObservableService]
+        deps: [PLATFORM_ID, IApplicationConfigurationManager, SessionService, Injector, IModuleLoadingObservableService]
     },
     {
         provide: IQuickReloginService,
@@ -293,8 +292,7 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
 function registerHostProxy() {
     return [
       ...APPLICATION_CONFIGURATION_PROXY_SERVICES,
-      ...TENANT_MANAGEMENT_PROXY_SERVICES,
-      ...SYSTEM_LOG_PROXY_SERVICES,
+      ...SYSTEM_PROXY_SERVICES,
       ...STORAGE_PROXY_SERVICES,
       ...IDENTITY_QUERYING_PROXY_SERVICES
     ].map(service => ({

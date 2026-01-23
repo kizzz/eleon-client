@@ -2,9 +2,9 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FileArchivePermissionService } from '@eleon/file-manager-proxy';
 import { FileArchivePermissionDto } from '@eleon/file-manager-proxy';
 import { PermissionActorType } from '@eleon/file-manager-proxy';
-import { CommonOrganizationUnitDto } from '@eleon/tenant-management-proxy';
-import { CommonRoleDto } from '@eleon/tenant-management-proxy';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { CommonOrganizationUnitDto } from '@eleon/angular-sdk.lib';
+import { CommonRoleDto } from '@eleon/angular-sdk.lib';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { first } from 'rxjs';
 import {

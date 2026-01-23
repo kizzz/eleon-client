@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SessionsService, UserSessionDto } from '@eleon/tenant-management-proxy';
+import { SessionService, UserSessionDto } from '@eleon/system-services.lib';
 import {
   LocalizedConfirmationService,
   LocalizedMessageService,
@@ -20,7 +20,7 @@ export class UserSessionsComponent implements OnInit {
   protected sessions: UserSessionDto[] = [];
 
   constructor(
-    private sessionService: SessionsService,
+    private sessionService: SessionService,
     private confirmationService: LocalizedConfirmationService,
     private messageService: LocalizedMessageService
   ) {}

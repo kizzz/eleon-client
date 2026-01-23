@@ -17,12 +17,10 @@ import {
   IdentitySettingDto,
   IdentitySettingService,
   UserSettingsService,
-  UserSettingDto,
 } from '@eleon/tenant-management-proxy';
 import { ILocalizationService, IPermissionService, IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 // import { EmployeeDto } from '@vportal-ui/eleonsphere-proxy'
 // import { EmploymentType } from '@vportal-ui/eleonsphere-proxy'
-import { TwoFaNotificationType } from '@eleon/tenant-management-proxy';
 
 import { Password } from "primeng/password";
 import { ConfirmationService } from "primeng/api";
@@ -89,15 +87,14 @@ export class UserDetailsDialogComponent implements OnInit {
   showPasswordField: boolean = false;
 
   //custom settings
-  userSetting: UserSettingDto = {};
-  customOptions: { value: TwoFaNotificationType; name: string }[];
+  userSetting: any = {};
+  customOptions: { value: any; name: string }[];
   customSettings: boolean = false;
   systemSettings: boolean = false;
-  customOption: TwoFaNotificationType;
+  customOption: any;
   settings: IdentitySettingDto[];
   selectedOption: string = 'systemSettings';
   userSettingsIsDirty: boolean = false;
-  TwoFaNotificationType = TwoFaNotificationType;
 
   hasManagePermission: boolean = false;
 
@@ -136,13 +133,13 @@ export class UserDetailsDialogComponent implements OnInit {
     //   ),
     // }));
     this.customOptions = [
-      TwoFaNotificationType.Sms,
-      TwoFaNotificationType.Email,
-      TwoFaNotificationType.Mixed,
+      'Sms',
+      'Email',
+      'Mixed',
     ].map((value) => ({
       value: value,
       name: this.localizationService.instant(
-        `Infrastructure::TwoFaNotificationType:${TwoFaNotificationType[value]}`
+        `Infrastructure::TwoFaNotificationType:${value}`
       ),
     }));
 
@@ -198,8 +195,8 @@ export class UserDetailsDialogComponent implements OnInit {
       this.newUser.lockoutEnabled = true;
       //this.loadEmployee();
       this.userSetting = {};
-      this.userSetting.twoFaNotificationType = TwoFaNotificationType.None;
-      this.customOption = TwoFaNotificationType.Email;
+      this.userSetting.twoFaNotificationType = 'Email';
+      this.customOption = 'Email';
       this.systemSettings = true;
       this.selectedOption = 'systemSettings';
     }
@@ -559,13 +556,13 @@ export class UserDetailsDialogComponent implements OnInit {
 
   loadUserSetting(userId){
     this.loading = true;
-    this.userSettingsService.getUserSettingByUserIdByUserId(userId)
+    this.userSettingsService.getUserSetting(userId, 'TWO_FA_NOTIFICATION_TYPE')
     .pipe(finalize(() => this.loading = false))
     .subscribe((reply) => {
       if (reply) {
-        this.userSetting = reply;
+        this.userSetting = JSON.parse(reply);
         this.customOption = this.userSetting.twoFaNotificationType;
-        if (this.userSetting.twoFaNotificationType == TwoFaNotificationType.None || this.userSetting.twoFaNotificationType == null) {
+        if (this.userSetting.twoFaNotificationType == '' || this.userSetting.twoFaNotificationType == null) {
           this.customSettings = false;
           this.systemSettings = true;
           this.selectedOption = 'systemSettings';
@@ -577,8 +574,8 @@ export class UserDetailsDialogComponent implements OnInit {
       }
       else{
         this.userSetting = {};
-        this.userSetting.twoFaNotificationType = TwoFaNotificationType.None;
-        this.customOption = TwoFaNotificationType.Email;
+        this.userSetting.twoFaNotificationType = 'Email';
+        this.customOption = 'Email';
         this.systemSettings = true;
         this.selectedOption = 'systemSettings';
         this.customSettings = false;
@@ -607,28 +604,23 @@ export class UserDetailsDialogComponent implements OnInit {
   public async saveSignInSettings(): Promise<boolean> {
     let isSuccess = false;
     try {
-      if(this.customSettings && (this.customOption == TwoFaNotificationType.None || this.customOption == null)){
+      if(this.customSettings && (this.customOption == '' || this.customOption == null)){
         this.msgService.error("TenantManagement::User:SignInSettings:CustomSettingsEmpty");
         return false;
       }
-      let settingsToUpdate: UserSettingDto = {} as UserSettingDto;
+      let settingsToUpdate: any = {};
       settingsToUpdate.userId =this.userSetting.id?.length > 0 ? this.userSetting.userId :  this.userId;
       settingsToUpdate.id = this.userSetting.id?.length > 0 ? this.userSetting.id : generateTempGuid();
-      settingsToUpdate.twoFaNotificationType = this.systemSettings ? TwoFaNotificationType.None : this.customOption;
+      settingsToUpdate.twoFaNotificationType = this.systemSettings ? '' : this.customOption;
       this.loading = true;
-      const observable = this.userSettingsService.setUserSettingsByUserSettingDto(settingsToUpdate)
+      const observable = this.userSettingsService.setUserSetting(settingsToUpdate.userId, 'TWO_FA_NOTIFICATION_TYPE', JSON.stringify(settingsToUpdate))
       .pipe(finalize(() => this.loading = false));
 
 			observable
       .subscribe((reply) => {
         this.userSettingsIsDirty = false;
-        if (reply) {
-          isSuccess = true;
-          this.msgService.success("TenantManagement::User:SignInSettings:Success");
-        } else {
-          isSuccess = false;
-          this.msgService.error("TenantManagement::User:SignInSettings:Error");
-        }
+        isSuccess = true;
+        this.msgService.success("TenantManagement::User:SignInSettings:Success");
       });
 			await firstValueFrom(observable);
       return isSuccess;

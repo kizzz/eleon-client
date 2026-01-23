@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { IIdentitySelectionDialogService, ILocalizationService } from '@eleon/angular-sdk.lib'
-import { CommonRoleDto } from '@eleon/tenant-management-proxy';
+import { CommonRoleDto } from '@eleon/angular-sdk.lib';
 
 @Component({
   standalone: false,

@@ -10,7 +10,6 @@ import {
 import { MenuItem } from "primeng/api";
 import { IAppearanceService, IEcContainerService, IImpersonationService, IVPortalTopbarService } from '@eleon/angular-sdk.lib';
 import { IAuthManager, IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { CommonUserService } from '@eleon/tenant-management-proxy';
 import { ProfileService } from "./service/profile.service";
 import { isPWAInstallPromptAvailable, promptPWAInstall } from '@eleon/angular-sdk.lib';
 import { Menu } from "primeng/menu";
@@ -94,7 +93,6 @@ export class AppTopBarComponent {
     public appearance: IAppearanceService,
     private config: IApplicationConfigurationManager,
     public el: ElementRef,
-    protected userService: CommonUserService,
     public profileService: ProfileService,
     public topbarSettings: IVPortalTopbarService,
     public ecContainerService: IEcContainerService

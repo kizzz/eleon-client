@@ -1,6 +1,6 @@
 import { UserManager, WebStorageStateStore, Log, UserManagerSettings, SigninRedirectArgs, SignoutRedirectArgs, IWindow, CreateSignoutRequestArgs, NavigateResponse, User } from 'oidc-client-ts';
 import { IApplicationConfigurationManager, IAuthManager, IModuleLoadingObservableService, User as UserInfo } from '@eleon/contracts.lib';
-import { SessionsService } from '@eleon/tenant-management-proxy';
+import { SessionService } from '@eleon/system-services.lib';
 import { Subject, Observable } from 'rxjs';
 import { Router } from '@angular/router'
 
@@ -67,7 +67,7 @@ export class ClientAuthManager extends IAuthManager {
 
   constructor(
     private appConfigService: IApplicationConfigurationManager,
-		private sessionsService: SessionsService,
+		private sessionsService: SessionService,
     private router: Router,
     private modulesLoaded: IModuleLoadingObservableService
   ) {

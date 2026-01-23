@@ -1,5 +1,5 @@
 import { DEFAULT_IMAGES, IApplicationConfigurationManager } from '@eleon/contracts.lib';
-import { TenantAppearanceService } from '@eleon/tenant-management-proxy';
+import { TenantAppearanceService } from '@eleon/system-services.lib';
 import { FileHelperService } from '@eleon/primeng-ui.lib';
 import {
   Observable,

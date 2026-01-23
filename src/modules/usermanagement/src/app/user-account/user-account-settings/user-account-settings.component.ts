@@ -6,7 +6,6 @@ import {
   CommonUserService,
   IdentitySettingService,
   ProfileService,
-  UpdateProfileDto,
 } from '@eleon/tenant-management-proxy';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib"
 import { ManageProfileStateService } from "../manage-profile.state.service"

@@ -9,8 +9,9 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { IAppearanceService, IApplicationConfigurationManager, IBreadcrumbsService, provideAssetsOnInitialization, provideMultipleOnInitialization } from '@eleon/angular-sdk.lib';
 import { LayoutService } from './layout/service/app.layout.service';
 import { ILayoutService } from '@eleon/angular-sdk.lib';
-import { PROXY_SERVICES, TenantAppearanceService } from '@eleon/tenant-management-proxy'
 import { AppearanceService, BreadcrumbsService } from '@eleon/primeng-layout.lib';
+import { TenantAppearanceService } from '@eleon/system-services.lib';
+import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,7 @@ import { AppearanceService, BreadcrumbsService } from '@eleon/primeng-layout.lib
                 useClass: LayoutService
             },
         ]),
-        ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+        ...provideMultipleOnInitialization(provideIdentityQuerying()),
         ...provideMultipleOnInitialization(
         [
           {

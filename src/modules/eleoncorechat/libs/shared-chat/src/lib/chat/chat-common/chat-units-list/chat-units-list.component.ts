@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { IIdentitySelectionDialogService, ILocalizationService } from '@eleon/contracts.lib'
-import { CommonOrganizationUnitDto } from '@eleon/tenant-management-proxy';
+import { CommonOrganizationUnitDto } from '@eleon/angular-sdk.lib';
 import { Observable, of } from 'rxjs'
 
 @Component({

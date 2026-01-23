@@ -2,8 +2,7 @@ import { IIdentitySelectionDialogService, ILocalizationService, LifecycleActorTy
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { StateActorTypeOption } from '../state-actor-types-option';
 import { StateActorTypesService } from '../state-actor-types.service';
-import { CommonUserDto, CommonRoleDto } from '@eleon/tenant-management-proxy'
-import { nameRegexp } from '@eleon/angular-sdk.lib';
+import { CommonUserDto, CommonRoleDto } from '@eleon/angular-sdk.lib';
 import { PageStateService } from '@eleon/primeng-ui.lib';
 import { MessageService } from 'primeng/api';
 

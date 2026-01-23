@@ -14,7 +14,6 @@ export default composePlugins(
       '@eleon/typescript-sdk.lib': path.resolve(__dirname, '../../../../shared/libs/eleon.typescript-sdk.lib/src/index.ts'),
       '@eleon/angular-sdk.lib': path.resolve(__dirname, '../../../../shared/libs/eleon.angular-sdk.lib/src/index.ts'),
       '@eleon/primeng-ui.lib': path.resolve(__dirname, '../../../../shared/libs/eleon.primeng-ui.lib/src/index.ts'),
-      '@eleon/tenant-management-proxy': path.resolve(__dirname, '../../../../shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts'),
       '@eleon/collaboration-proxy': path.resolve(__dirname, 'src/lib/proxy/index.ts'),
       '@eleon/identity-querying.lib': path.resolve(__dirname, '../../../../libs/eleon.identity-querying.lib/src/index.ts'),
       '@eleon/identity-selection.lib': path.resolve(__dirname, '../../../../libs/eleon.identity-selection.lib/src/index.ts'),

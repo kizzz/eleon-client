@@ -16,7 +16,7 @@ import { PopoverModule } from "primeng/popover";
 import { TooltipModule } from "primeng/tooltip";
 import { BadgeModule } from 'primeng/badge';
 import { ListboxModule } from 'primeng/listbox';
-import { CommonUserService, GetCommonUsersInput } from '@eleon/tenant-management-proxy';
+import { IUserService } from '@eleon/angular-sdk.lib';
 import { PipesModule } from '@eleon/angular-sdk.lib';
 
 import { LocalizedConfirmationService } from '@eleon/primeng-ui.lib'
@@ -58,7 +58,7 @@ export class QuickReloginComponent {
 	}
 
 	constructor(
-			private userService: CommonUserService,
+			private userService: IUserService,
 			private quickReloginService: IQuickReloginService,
 			private confirmService: LocalizedConfirmationService
 		) {
@@ -78,21 +78,15 @@ export class QuickReloginComponent {
 
 	loadUsers() {
 		this.loading = true;
-		this.userService.getCurrentUser()
-			.pipe(first())
-			.subscribe(user => {
-				if (user) {
-					this.userService.getAllUsersList()
-						.pipe(finalize(() => this.loading = false))
-						.subscribe(res => {
-							this.users = res.filter(x => x.id !== user.id).map(user => ({
-								id: user.id,
-								systemUserName: user.userName,
-								displayUserName: user.name + ' ' + user.surname
-							}));
-						});
-				}
-			});
+		this.userService.getList({ maxResultCount: 1000, ignoreCurrentUser: true, ignoredUsers: [] })
+      .pipe(finalize(() => this.loading = false))
+      .subscribe(res => {
+        this.users = res.items.map(user => ({
+          id: user.id,
+          systemUserName: user.userName,
+          displayUserName: user.name + ' ' + user.surname
+        }));
+      });
 		
 	}
 	

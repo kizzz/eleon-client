@@ -26,6 +26,9 @@
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"
       ],
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
+      ],
 			
       "@eleon/angular-sdk.lib": [
         "src/shared/libs/eleon.angular-sdk.lib/src/index.ts"

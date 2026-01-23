@@ -21,8 +21,9 @@ import { AppTitleStrategy } from './app-title-strategy';
 import { LayoutService } from './layout/service/app.layout.service';
 import { AppTopbarMenuComponent } from './layout/app.topbar-menu.component';
 import { ILayoutService } from '@eleon/angular-sdk.lib';
-import { PROXY_SERVICES, TenantAppearanceService } from '@eleon/tenant-management-proxy';
 import { AppearanceService, BreadcrumbsService } from '@eleon/primeng-layout.lib';
+import { TenantAppearanceService } from '@eleon/system-services.lib';
+import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 
 export const remoteRoutes = [
 	{
@@ -64,7 +65,7 @@ export const providers = [
 			useClass: LayoutService,
 		}
 	],),
-  ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+  ...provideMultipleOnInitialization(provideIdentityQuerying()),
   ...provideMultipleOnInitialization(
     [
       {

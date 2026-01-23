@@ -19,7 +19,7 @@ import { ScreenCaptureViewerFacadeComponent } from './screen-capture-viewer-faca
 import { NbThemeModule } from '@nebular/theme';
 import { EleoncoreChatService } from '@vportal-ui/shared-chat'
 import { PROXY_SERVICES } from '@eleon/collaboration-proxy'
-import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
+import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 
 export const remoteRoutes: Route[] = [
   {
@@ -52,7 +52,7 @@ export const remoteRoutes: Route[] = [
     provideEcContainerComponentOnInitialization('layout-primeng-main', { component: DocumentViewerFacadeComponent, requiredAuthorize: true, }),
     provideEcContainerComponentOnInitialization('layout-primeng-main', { component: ScreenCaptureViewerFacadeComponent, requiredAuthorize: true, }),
     ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-    ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+    ...provideMultipleOnInitialization(provideIdentityQuerying()),
 		provideMenuOnInitialization([], dynamicMenuFactory, [IVPortalMenuService, CHAT_MODULE_CONFIG]),
     provideOnInitialization([
       {

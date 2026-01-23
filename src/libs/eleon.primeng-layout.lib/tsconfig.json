@@ -23,11 +23,12 @@
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
       ],
 
+      "@eleon/system-services.lib": [
+        "src/libs/eleon.system-services.lib/src/index.ts"
+      ],
+
       "@eleon/proxy-utils.lib": [
         "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"
-      ],
-      "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
       ],
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"

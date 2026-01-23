@@ -14,7 +14,6 @@ export default composePlugins(
       '@eleon/contracts.lib': path.resolve(__dirname, '../../shared/libs/eleon.contracts.lib/src/index.ts'),
       '@eleon/angular-sdk.lib': path.resolve(__dirname, '../../shared/libs/eleon.angular-sdk.lib/src/index.ts'),
       '@eleon/logging.lib': path.resolve(__dirname, '../eleon.logging.lib/src/index.ts'),
-      '@eleon/tenant-management-proxy': path.resolve(__dirname, '../../shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts'),
       '@eleon/system-services.lib': path.resolve(__dirname, '../eleon.system-services.lib/src/index.ts'),
       '@eleon/identity-querying.lib': path.resolve(__dirname, '../eleon.identity-querying.lib/src/index.ts'),
       '@eleon/typescript-sdk.lib': path.resolve(__dirname, '../../shared/libs/eleon.typescript-sdk.lib/src/index.ts'),

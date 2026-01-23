@@ -16,7 +16,7 @@ import {
   MemberType,
 } from '@eleon/accounting-proxy';
 import { BillingInformationDto } from '@eleon/accounting-proxy';
-import { CommonOrganizationUnitDto, CommonUserDto, CommonUserService } from '@eleon/tenant-management-proxy';
+import { IUserService, CommonOrganizationUnitDto, CommonUserDto } from '@eleon/angular-sdk.lib';
 import {
   PackageTemplateDto,
   PackageTemplateModuleDto,
@@ -130,7 +130,7 @@ export class AccountCreateComponent implements OnInit {
     public confirmationService: ConfirmationService,
     private pageStateService: PageStateService,
     private accountService: AccountService,
-    private userService: CommonUserService,
+    private userService: IUserService,
     private permissionService: IPermissionService
   ) {
   }
@@ -257,7 +257,7 @@ export class AccountCreateComponent implements OnInit {
 
     const emptyGuid = '00000000-0000-0000-0000-000000000000';
     if (this.header.data.ownerId && this.header.data.ownerId !== emptyGuid) {
-      this.userService.getByIdById(this.header.data.ownerId).subscribe({
+      this.userService.getById(this.header.data.ownerId).subscribe({
         next: (user) => {
           this.header.owner = user;
         }

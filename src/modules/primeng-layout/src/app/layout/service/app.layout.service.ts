@@ -1,6 +1,6 @@
 import { DOCUMENT, Inject, Injectable, WritableSignal, effect, signal } from "@angular/core";
 import { IAuthManager, IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { UserSettingsService } from '@eleon/tenant-management-proxy';
+import { IUserSettingService } from '@eleon/angular-sdk.lib';
 import { Observable, Subject, first, map, of } from "rxjs";
 import { IAssetLoaderService } from '@eleon/angular-sdk.lib';
 import { PrimeNG } from "primeng/config";
@@ -42,7 +42,7 @@ export class LayoutService extends ILayoutService  {
   currentTheme = this.getDefaultState();
 
   constructor(
-    public userSettings: UserSettingsService,
+    public userSettings: IUserSettingService,
     public configStateService: IApplicationConfigurationManager,
     public moduleSettings: IModuleSettingService,
     public assetLoader: IAssetLoaderService,
@@ -141,7 +141,7 @@ export class LayoutService extends ILayoutService  {
     if (!this.authService.isAuthenticated()) {
       return;
     }
-    this.userSettings.setAppearanceSettingByAppearanceSettingsDtoAndAppId(JSON.stringify(configToSave), appId)
+    this.userSettings.setAppearanceSetting(appId, JSON.stringify(configToSave))
       .pipe(first())
       .subscribe(() => {
         localStorage.setItem(this.localStorageKey, JSON.stringify(configToSave));
@@ -185,13 +185,10 @@ export class LayoutService extends ILayoutService  {
     if (!this.authService.isAuthenticated()) {
       return of(defaultState);
     }
-    return this.userSettings.getAppearanceSettingByAppId(appId).pipe(
+    return this.userSettings.getAppearanceSetting(appId).pipe(
       first(),
       map((c) => {
-        if (c.isFailed) {
-          return defaultState;
-        }
-        const setting = JSON.parse(c.value ?? '{}');
+        const setting = JSON.parse(c ?? '{}');
 
         return {
           ...defaultState,

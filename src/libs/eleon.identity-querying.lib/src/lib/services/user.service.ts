@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { CommonUserDto, GetCommonUsersInput, IUserService } from '@eleon/contracts.lib'
+import { CommonRoleDto, CommonUserDto, GetCommonUsersInput, IUserService } from '@eleon/contracts.lib'
 import { PagedResultDto } from '@eleon/proxy-utils.lib'
 import { UserQueryingService } from '../proxy/core/infrastructure/module/controllers/user-querying.service'
 import { IdentityUserDto } from '../proxy/volo/abp/identity/models'
@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators'
   providedIn: 'root'
 })
 export class UserService extends IUserService {
+  
 
   private readonly proxy = new UserQueryingService()
 
@@ -19,6 +20,10 @@ export class UserService extends IUserService {
 
   getById(userId: string): Observable<CommonUserDto> {
     return this.proxy.getByIdById(userId)
+  }
+
+  getRolesById(userId: string): Observable<CommonRoleDto[]> {
+    return this.proxy.getRolesById(userId)
   }
 
   getCurrentUser(): Observable<CommonUserDto> {

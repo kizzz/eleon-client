@@ -21,18 +21,6 @@
         "src/shared/libs/eleon.angular-sdk.lib/src/index.ts"
       ],
 
-      "@eleon/application-configuration-proxy": [
-        "src/shared/proxies/typescript-proxy/application-configuration-proxy/src/index.ts"
-      ],
-      "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
-      ],
-      "@eleon/system-log-proxy": [
-        "src/shared/proxies/typescript-proxy/system-log-proxy/src/index.ts"
-      ],
-      "@eleon/storage-proxy": [
-        "src/shared/proxies/typescript-proxy/storage-proxy/src/index.ts"
-      ],
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"
       ],

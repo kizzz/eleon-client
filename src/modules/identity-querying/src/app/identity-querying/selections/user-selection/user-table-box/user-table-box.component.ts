@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Optional, Output, Si
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { first, forkJoin, map } from 'rxjs';
-// import { PermissionsService } from '@eleon/tenant-management-proxy';
+// import { PermissionsService } from '@eleon/identity-querying.lib';
 import { DataService } from '@eleon/primeng-ui.lib';
 import { CheckPermission } from '@eleon/angular-sdk.lib';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';

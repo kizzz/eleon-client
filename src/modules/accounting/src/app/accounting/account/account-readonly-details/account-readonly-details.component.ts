@@ -15,7 +15,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { AccountDto } from '@eleon/accounting-proxy';
 import { PageControls, contributeControls } from "@eleon/primeng-ui.lib";
-import { CommonUserDto, CommonUserService } from '@eleon/tenant-management-proxy';
+import { CommonUserDto, IUserService } from '@eleon/angular-sdk.lib';
 
 interface AccountDetails {
   data: AccountDto;
@@ -103,7 +103,7 @@ export class AccountReadonlyDetailsComponent implements OnInit {
     public router: Router,
     public localizationService: ILocalizationService,
     public confirmationService: ConfirmationService,
-    private userService: CommonUserService,
+    private userService: IUserService,
     private accountService: AccountService
   ) {}
 
@@ -150,7 +150,7 @@ export class AccountReadonlyDetailsComponent implements OnInit {
 
     const emptyGuid = '00000000-0000-0000-0000-000000000000';
     if (this.details.data.ownerId && this.details.data.ownerId !== emptyGuid) {
-      this.userService.getByIdById(this.details.data.ownerId).subscribe({
+      this.userService.getById(this.details.data.ownerId).subscribe({
         next: (user) => {
           this.details.owner = user;
         }

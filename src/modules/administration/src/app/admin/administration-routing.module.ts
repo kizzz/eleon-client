@@ -1,6 +1,8 @@
 import { EcAuthGuard, PermissionGuard } from '@eleon/angular-sdk.lib';
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { FeaturesManagementDashboardComponent } from './features-management/features-management-dashboard/features-management-dashboard.component'
+import { PermissionManagementDashboardComponent } from './permission-management/permission-management-dashboard/permission-management-dashboard.component'
 
 const routes: Routes = [
   // {
@@ -56,22 +58,22 @@ const routes: Routes = [
       requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
     },
   },
-  // {
-  //   path: 'permission-management',
-  //   loadChildren: () =>
-  //     import('./permission-management/permission-management.module').then(
-  //       (m) => m.PermissionManagementModule
-  //     ),
-  //   canActivate: [EcAuthGuard, PermissionGuard],
-  // },
-  // {
-  //   path: 'features-management',
-  //   loadChildren: () =>
-  //     import('./features-management/features-management.module').then(
-  //       (m) => m.FeaturesManagementModule
-  //     ),
-  //   canActivate: [EcAuthGuard, PermissionGuard],
-  // },
+  {
+    path: 'features-management',
+    component: FeaturesManagementDashboardComponent,
+    canActivate: [EcAuthGuard, PermissionGuard],
+    data: {
+      name: "TenantManagement::Features"
+    }
+  },
+  {
+    path: 'permission-management',
+    component: PermissionManagementDashboardComponent,
+    canActivate: [EcAuthGuard, PermissionGuard],
+    data: {
+      name: "TenantManagement::Permissions"
+    }
+  },
   {
     path: 'identity',
     loadChildren: () =>

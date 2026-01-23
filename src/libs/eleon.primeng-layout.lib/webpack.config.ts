@@ -10,7 +10,6 @@ export default composePlugins(
     config.resolve.alias = {
       ...config.resolve.alias,
       '@eleon/contracts.lib': path.resolve(__dirname, '../../shared/libs/eleon.contracts.lib/src/index.ts'),
-      '@eleon/tenant-management-proxy': path.resolve(__dirname, '../../shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts'),
       '@eleon/primeng-ui.lib': path.resolve(__dirname, '../../shared/libs/eleon.primeng-ui.lib/src/index.ts'),
     };
     

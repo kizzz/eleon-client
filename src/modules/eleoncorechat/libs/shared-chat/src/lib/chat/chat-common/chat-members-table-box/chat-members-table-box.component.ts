@@ -1,8 +1,7 @@
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { CommonUserService } from '@eleon/tenant-management-proxy';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { IUserService, CommonUserDto } from '@eleon/angular-sdk.lib';
 import { LazyLoadEvent, MessageService } from "primeng/api";
 import { finalize } from "rxjs";
 import { ChangeDetectorRef } from '@angular/core';
@@ -44,7 +43,7 @@ export class ChatMembersSelectionBoxComponent {
   userSelected: EventEmitter<CommonUserDto> = new EventEmitter<CommonUserDto>();
 
   constructor(
-    public userService: CommonUserService,
+    public userService: IUserService,
     public messageService: MessageService,
     public configService: IApplicationConfigurationManager,
     public localizationService: ILocalizationService,

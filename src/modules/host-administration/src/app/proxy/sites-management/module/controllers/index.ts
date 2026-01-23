@@ -2,8 +2,6 @@ export * from './application-connection-string.service';
 export * from './application-menu-item.service';
 export * from './client-application.service';
 export * from './client-autodetect.service';
-export * from './custom-features.service';
-export * from './custom-permissions.service';
 export * from './microservice.service';
 export * from './resource.service';
 export * from './serverside-autodetect.service';

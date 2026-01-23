@@ -9,7 +9,6 @@ export default composePlugins(
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@eleon/tenant-management-proxy': path.resolve(__dirname, '../../shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts'),
       '@eleon/primeng-ui.lib': path.resolve(__dirname, '../../shared/libs/eleon.primeng-ui.lib/src/index.ts'),
       '@eleon/angular-sdk.lib': path.resolve(__dirname, '../../shared/libs/eleon.angular-sdk.lib/src/index.ts'),
       '@eleon/proxy-utils.lib': path.resolve(__dirname, '../../shared/libs/eleon.proxy-utils.lib/src/index.ts'),

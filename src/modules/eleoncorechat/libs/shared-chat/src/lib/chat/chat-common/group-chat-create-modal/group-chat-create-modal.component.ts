@@ -1,4 +1,5 @@
-import { CommonOrganizationUnitDto, CommonRoleDto } from '@eleon/tenant-management-proxy';
+import { CommonOrganizationUnitDto, CommonRoleDto, CommonUserDto } from '@eleon/angular-sdk.lib';
+
 import {
   Component,
   EventEmitter,
@@ -9,7 +10,6 @@ import {
 } from "@angular/core";
 import { ChatMemberInfo, ChatMemberService } from '@eleon/collaboration-proxy';
 import { ChatRoomService } from '@eleon/collaboration-proxy';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
 import { ChatMemberRole } from '@eleon/collaboration-proxy';
 import { ConfirmationService, MessageService } from "primeng/api";
 import { finalize } from "rxjs";

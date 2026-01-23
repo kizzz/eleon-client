@@ -8,13 +8,10 @@ import {
 import { LocalizationSchema } from '@eleon/angular-sdk.lib';
 import { RouterModule, Routes } from '@angular/router';
 import { PROXY_SERVICES } from '@eleon/sites-management-proxy'
-import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
 import { VPortalMenuItem } from "@eleon/angular-sdk.lib"
 import { Route } from '@angular/router';
 import { EcAuthGuard, PermissionGuard } from '@eleon/angular-sdk.lib';
 import { ApplicationManagementComponent } from './application-management/application-management.component';
-import { FeaturesManagementDashboardComponent } from './features-management/features-management-dashboard/features-management-dashboard.component';
-import { PermissionManagementDashboardComponent } from './permission-management/permission-management-dashboard/permission-management-dashboard.component';
 import { ApplicationsDashboardComponent } from './application-management/applications-dashboard/applications-dashboard.component';
 import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 
@@ -62,20 +59,6 @@ export const remoteRoutes: Route[] = [
 			parentNames: 'TenantManagement::HostAdministration',
 		}
 	},
-  {
-    path: 'features-management',
-    component: FeaturesManagementDashboardComponent,
-    data: {
-      name: "TenantManagement::Features"
-    }
-  },
-  {
-    path: 'permission-management',
-    component: PermissionManagementDashboardComponent,
-    data: {
-      name: "TenantManagement::Permissions"
-    }
-  },
 ];
 
 
@@ -122,22 +105,6 @@ export const hostAdministrationRoutes: VPortalMenuItem[] = [
     icon: "fa-solid fa-database",
     order: 14,
   },
-  {
-    label: 'TenantManagement::PermissionManagement:Header:Title',
-    routerLink: '/permission-management',
-    parentName: 'TenantManagement::HostAdministration',
-    icon: 'fas fa-cog',
-    order: 14,
-    requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
-  },
-  {
-    label: 'TenantManagement::FeatureManagement:Header:Title',
-    routerLink: '/features-management',
-    parentName: 'TenantManagement::HostAdministration',
-    icon: 'fas fa-cog',
-    order: 15,
-    requiredPolicy: 'VPortal.Dashboard.Host || VPortal.Dashboard.Tenant',
-  },
 ];
 
 
@@ -155,7 +122,6 @@ export const hostAdministrationRoutes: VPortalMenuItem[] = [
       LocalizationSchema.Abp,
     ),
     ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
-    ...provideMultipleOnInitialization(TENANT_MANAGEMENT_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
     ...provideMultipleOnInitialization(provideIdentityQuerying()),
   ],
 })

@@ -11,7 +11,7 @@ import {
 import { UserChatInfoDto } from '@eleon/collaboration-proxy';
 import { ChatMemberInfo } from '@eleon/collaboration-proxy';
 import { ChatMemberService } from '@eleon/collaboration-proxy';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 import { ChatMemberRole, ChatRoomType } from '@eleon/collaboration-proxy';
 import { finalize } from "rxjs";
 import { LatestChatsService } from "../chat-services/latest-chats.service";

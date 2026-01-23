@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { ProfileService } from './service/profile.service';
 import { IAuthManager, IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { CommonUserService } from '@eleon/tenant-management-proxy';
+import { IUserService } from '@eleon/angular-sdk.lib';
 import { Menu } from 'primeng/menu';
 
 
@@ -26,7 +26,7 @@ export class AppTopBarComponent {
 
     constructor(public layoutService: LayoutService,
         private config: IApplicationConfigurationManager,
-        protected userService: CommonUserService,
+        private userService: IUserService,
         private auth: IAuthManager,
         public profileService: ProfileService,) { }
     public ngOnInit(): void {
@@ -38,7 +38,7 @@ export class AppTopBarComponent {
 
     getUserProfile() {
         this.userService
-            .getByIdById(this.config.getAppConfig().currentUser?.id)
+            .getById(this.config.getAppConfig().currentUser?.id)
             .subscribe((profile) => {
                 this.profileService.userProfile = profile;
                 this.setUserMenu();

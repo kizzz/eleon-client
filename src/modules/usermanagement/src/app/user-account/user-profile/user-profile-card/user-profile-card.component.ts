@@ -1,8 +1,8 @@
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonUserService } from '@eleon/tenant-management-proxy';
-import { CommonRoleDto } from '@eleon/tenant-management-proxy';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { IUserService } from '@eleon/angular-sdk.lib';
+import { CommonRoleDto } from '@eleon/angular-sdk.lib';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 
 @Component({
   standalone: false,
@@ -23,7 +23,7 @@ export class UserProfileCardComponent implements OnInit {
 
   constructor(
     public accountService: IApplicationConfigurationManager,
-    public userService: CommonUserService,
+    public userService: IUserService,
     // public pictureService: ProfilePictureService
   ) { }
 
@@ -34,7 +34,7 @@ export class UserProfileCardComponent implements OnInit {
     this.loadUserProfile();
   }
   loadUserProfile() {
-    this.userService.getByIdById(this.userId)
+    this.userService.getById(this.userId)
         .subscribe(user => {
           this.user = user;
         })

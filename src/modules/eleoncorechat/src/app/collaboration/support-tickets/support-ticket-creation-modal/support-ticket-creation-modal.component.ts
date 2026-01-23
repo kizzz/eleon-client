@@ -11,7 +11,7 @@ import {
 import {
   SupportTicketService,
 } from '@eleon/collaboration-proxy';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 import { MessageService } from "primeng/api";
 
 @Component({

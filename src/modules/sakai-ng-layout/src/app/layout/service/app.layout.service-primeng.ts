@@ -1,5 +1,5 @@
 import { Injectable, WritableSignal, effect, signal } from "@angular/core";
-import { UserSettingsService } from '@eleon/tenant-management-proxy';
+import { IUserSettingService } from '@eleon/angular-sdk.lib';
 import { Observable, Subject, finalize, first, map, of } from "rxjs";
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { IAssetLoaderService } from '@eleon/angular-sdk.lib';
@@ -30,7 +30,7 @@ export class LayoutService extends ILayoutService  {
   topbarThemes: { name: string; color: string; isDark: boolean; }[];
 
   constructor(
-    public userSettings: UserSettingsService,
+    public userSettings: IUserSettingService,
     public configStateService: IApplicationConfigurationManager,
     public assetLoader: IAssetLoaderService,
   ) {
@@ -122,7 +122,7 @@ export class LayoutService extends ILayoutService  {
   private saveUserSettings(state: LayoutState) {
     const configToSave = this.transformStateToConfig(state);
     const appId = this.configStateService.getAppConfig()['clientApplication']['id'];
-    this.userSettings.setAppearanceSettingByAppearanceSettingsDtoAndAppId(JSON.stringify(configToSave), appId)
+    this.userSettings.setAppearanceSetting(appId, JSON.stringify(configToSave))
       .pipe(first())
       .subscribe(() => {
         localStorage.setItem(this.localStorageKey, JSON.stringify(configToSave));
@@ -163,13 +163,10 @@ export class LayoutService extends ILayoutService  {
     }
     const defaultState = this.getDefaultState();
     const appId = this.configStateService.getAppConfig()['clientApplication']['id'];
-    return this.userSettings.getAppearanceSettingByAppId(appId).pipe(
+    return this.userSettings.getAppearanceSetting(appId).pipe(
       first(),
       map((c) => {
-        if (c.isFailed) {
-          return defaultState;
-        }
-        const setting = JSON.parse(c.value ?? '{}');
+        const setting = JSON.parse(c ?? '{}');
 
         return {
           ...defaultState,

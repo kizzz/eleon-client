@@ -5,8 +5,7 @@ import { AccountListRequestType } from '@eleon/accounting-proxy';
 import { AccountService } from '@eleon/accounting-proxy';
 import { AccountHeaderDto } from '@eleon/accounting-proxy';
 import { LazyLoadEvent } from 'primeng/api';
-import { CommonOrganizationUnitDto } from '@eleon/tenant-management-proxy';
-import { OrganizationUnitService } from '@eleon/tenant-management-proxy';
+import { CommonOrganizationUnitDto, IOrganizationUnitService } from '@eleon/angular-sdk.lib';
 import { viewportBreakpoints } from '@eleon/angular-sdk.lib';
 import {
   contributeControls,
@@ -67,7 +66,7 @@ export class AccountDashboardComponent implements OnInit {
     public localizationService: ILocalizationService,
     public router: Router,
     private activatedRoute: ActivatedRoute,
-    public orgUnitService: OrganizationUnitService,
+    public orgUnitService: IOrganizationUnitService,
     public permissionService: IPermissionService,
     private cdr: ChangeDetectorRef
   ) {}
@@ -112,7 +111,7 @@ export class AccountDashboardComponent implements OnInit {
           break;
       }
       this.orgUnitService
-        .getAvailableForUser({})
+        .getAvailableForUser()
         .subscribe(
           (res) => (this.organizationUnits = res.map((x) => x.organizationUnit))
         );

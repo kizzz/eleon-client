@@ -7,7 +7,7 @@ import { finalize, first, forkJoin, map } from 'rxjs';
 import { DataService } from '@eleon/primeng-ui.lib';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog'
 import { CommonRoleDto, RoleQueryingService } from '@eleon/identity-querying.lib';
-// import { PermissionsService } from '@eleon/tenant-management-proxy';
+// import { PermissionsService } from '@eleon/identity-querying.lib';
 
 
 interface ExtendedRoleDto extends CommonRoleDto {

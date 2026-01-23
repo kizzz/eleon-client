@@ -22,10 +22,6 @@
         "src/shared/libs/eleon.typescript-sdk.lib/src/index.ts"
       ],
 
-      "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
-      ],
-
       "@eleon/ts-hosting.lib": [
         "src/libs/eleon.ts-hosting.lib/src/index.ts"
       ],

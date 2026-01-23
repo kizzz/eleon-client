@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, QueryList, Renderer2, ViewChildren } from "@angular/core";
 import { trigger, transition, style, animate } from "@angular/animations";
 import { IAuthManager, IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { CommonUserService } from '@eleon/tenant-management-proxy';
+import { IUserService } from '@eleon/angular-sdk.lib';
 import { ProfileService } from "./service/profile.service";
 import { Router } from "@angular/router";
 
@@ -48,7 +48,7 @@ export class AppMenuProfileComponent implements AfterViewInit, OnDestroy {
   constructor(
     public layoutService: ILayoutService,
     public el: ElementRef,
-    protected userService: CommonUserService,
+    protected userService: IUserService,
     protected localizationService: ILocalizationService,
     public auth: IAuthManager,
     public config: IApplicationConfigurationManager,
@@ -130,7 +130,7 @@ export class AppMenuProfileComponent implements AfterViewInit, OnDestroy {
 
   getUserProfile(userId: string) {
     this.userService
-      .getByIdById(userId)
+      .getById(userId)
       .subscribe((profile) => {
         this.profileService.userProfile = profile;
         this.profileService.fillUserProfileRoutes();

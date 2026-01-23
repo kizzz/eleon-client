@@ -1993,8 +1993,8 @@
                   "nameOnMethod": "input",
                   "name": "TypeFilter",
                   "jsonName": null,
-                  "type": "System.Collections.Generic.IList<System.String>",
-                  "typeSimple": "[string]",
+                  "type": "System.String",
+                  "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -4102,6 +4102,189 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.Collaboration.Feature.Module.UserChatSettings.IUserChatSettingAppService"
+            }
+          }
+        }
+      }
+    },
+    "DynamicDashboard": {
+      "rootPath": "DynamicDashboard",
+      "remoteServiceName": "DynamicDashboard",
+      "controllers": {
+        "Core.Infrastructure.Module.Controllers.DashboardSettingController": {
+          "controllerName": "DashboardSetting",
+          "controllerGroupName": "DashboardSetting",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Core.Infrastructure.Module.Controllers.DashboardSettingController",
+          "interfaces": [
+            {
+              "type": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService",
+              "name": "IDashboardSettingAppService",
+              "methods": [
+                {
+                  "name": "GetDashboardSettings",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
+                    "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]"
+                  }
+                },
+                {
+                  "name": "UpdateSettings",
+                  "parametersOnMethod": [
+                    {
+                      "name": "dashboardSettingDtos",
+                      "typeAsString": "System.Collections.Generic.List`1[[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto, Eleon.DynamicDashboard.Module.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
+                      "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
+                      "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "setAsDefault",
+                      "typeAsString": "System.Boolean, System.Private.CoreLib",
+                      "type": "System.Boolean",
+                      "typeSimple": "boolean",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.String",
+                    "typeSimple": "string"
+                  }
+                },
+                {
+                  "name": "DeleteDashboardSettings",
+                  "parametersOnMethod": [
+                    {
+                      "name": "dashboardSettingEntityId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.String",
+                    "typeSimple": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "UpdateSettingsByDashboardSettingDtosAndSetAsDefault": {
+              "uniqueName": "UpdateSettingsByDashboardSettingDtosAndSetAsDefault",
+              "name": "UpdateSettings",
+              "httpMethod": "POST",
+              "url": "api/dynamic-dashboard/DashboardSettings/CreateOrUpdateSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "dashboardSettingDtos",
+                  "typeAsString": "System.Collections.Generic.List`1[[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto, Eleon.DynamicDashboard.Module.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
+                  "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
+                  "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "setAsDefault",
+                  "typeAsString": "System.Boolean, System.Private.CoreLib",
+                  "type": "System.Boolean",
+                  "typeSimple": "boolean",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "dashboardSettingDtos",
+                  "name": "dashboardSettingDtos",
+                  "jsonName": null,
+                  "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
+                  "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "setAsDefault",
+                  "name": "setAsDefault",
+                  "jsonName": null,
+                  "type": "System.Boolean",
+                  "typeSimple": "boolean",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService"
+            },
+            "DeleteDashboardSettingsByDashboardSettingEntityId": {
+              "uniqueName": "DeleteDashboardSettingsByDashboardSettingEntityId",
+              "name": "DeleteDashboardSettings",
+              "httpMethod": "POST",
+              "url": "api/dynamic-dashboard/DashboardSettings/DeleteDashboardSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "dashboardSettingEntityId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "dashboardSettingEntityId",
+                  "name": "dashboardSettingEntityId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService"
+            },
+            "GetDashboardSettings": {
+              "uniqueName": "GetDashboardSettings",
+              "name": "GetDashboardSettings",
+              "httpMethod": "GET",
+              "url": "api/dynamic-dashboard/DashboardSettings/GetDashboardSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
+                "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService"
             }
           }
         }
@@ -14912,183 +15095,6 @@
       "rootPath": "Infrastructure",
       "remoteServiceName": "Infrastructure",
       "controllers": {
-        "Core.Infrastructure.Module.Controllers.DashboardSettingController": {
-          "controllerName": "DashboardSetting",
-          "controllerGroupName": "DashboardSetting",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "Core.Infrastructure.Module.Controllers.DashboardSettingController",
-          "interfaces": [
-            {
-              "type": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService",
-              "name": "IDashboardSettingAppService",
-              "methods": [
-                {
-                  "name": "GetDashboardSettings",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
-                    "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]"
-                  }
-                },
-                {
-                  "name": "UpdateSettings",
-                  "parametersOnMethod": [
-                    {
-                      "name": "dashboardSettingDtos",
-                      "typeAsString": "System.Collections.Generic.List`1[[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto, Eleon.Infrastructure.Module.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
-                      "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
-                      "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "setAsDefault",
-                      "typeAsString": "System.Boolean, System.Private.CoreLib",
-                      "type": "System.Boolean",
-                      "typeSimple": "boolean",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.String",
-                    "typeSimple": "string"
-                  }
-                },
-                {
-                  "name": "DeleteDashboardSettings",
-                  "parametersOnMethod": [
-                    {
-                      "name": "dashboardSettingEntityId",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.String",
-                    "typeSimple": "string"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "UpdateSettingsByDashboardSettingDtosAndSetAsDefault": {
-              "uniqueName": "UpdateSettingsByDashboardSettingDtosAndSetAsDefault",
-              "name": "UpdateSettings",
-              "httpMethod": "POST",
-              "url": "api/Infrastructure/DashboardSettings/CreateOrUpdateSettings",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "dashboardSettingDtos",
-                  "typeAsString": "System.Collections.Generic.List`1[[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto, Eleon.Infrastructure.Module.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
-                  "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
-                  "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "setAsDefault",
-                  "typeAsString": "System.Boolean, System.Private.CoreLib",
-                  "type": "System.Boolean",
-                  "typeSimple": "boolean",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "dashboardSettingDtos",
-                  "name": "dashboardSettingDtos",
-                  "jsonName": null,
-                  "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
-                  "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "setAsDefault",
-                  "name": "setAsDefault",
-                  "jsonName": null,
-                  "type": "System.Boolean",
-                  "typeSimple": "boolean",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.String",
-                "typeSimple": "string"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService"
-            },
-            "DeleteDashboardSettingsByDashboardSettingEntityId": {
-              "uniqueName": "DeleteDashboardSettingsByDashboardSettingEntityId",
-              "name": "DeleteDashboardSettings",
-              "httpMethod": "POST",
-              "url": "api/Infrastructure/DashboardSettings/DeleteDashboardSettings",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "dashboardSettingEntityId",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "dashboardSettingEntityId",
-                  "name": "dashboardSettingEntityId",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.String",
-                "typeSimple": "string"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService"
-            },
-            "GetDashboardSettings": {
-              "uniqueName": "GetDashboardSettings",
-              "name": "GetDashboardSettings",
-              "httpMethod": "GET",
-              "url": "api/Infrastructure/DashboardSettings/GetDashboardSettings",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto>",
-                "typeSimple": "[Core.Infrastructure.Module.DashboardSettings.DashboardSettingDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Core.Infrastructure.Module.DashboardSettings.IDashboardSettingAppService"
-            }
-          }
-        },
         "Core.Infrastructure.Module.Controllers.FeatureSettingsController": {
           "controllerName": "FeatureSettings",
           "controllerGroupName": "FeatureSettings",
@@ -15240,227 +15246,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.Core.Infrastructure.Module.FeatureSettings.IFeatureSettingsAppService"
-            }
-          }
-        },
-        "VPortal.Addresses.Feature.Module.Controllers.AddressController": {
-          "controllerName": "Address",
-          "controllerGroupName": "Address",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.Addresses.Feature.Module.Controllers.AddressController",
-          "interfaces": [
-            {
-              "type": "VPortal.Infrastructure.Module.Addresses.IAddressAppService",
-              "name": "IAddressAppService",
-              "methods": [
-                {
-                  "name": "GetAddressById",
-                  "parametersOnMethod": [
-                    {
-                      "name": "addressId",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                    "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto"
-                  }
-                },
-                {
-                  "name": "CreateAddress",
-                  "parametersOnMethod": [
-                    {
-                      "name": "createdDto",
-                      "typeAsString": "VPortal.Infrastructure.Module.Addresses.AddressDto, Eleon.Infrastructure.Module.Full",
-                      "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                      "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                    "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAddressByIdById": {
-              "uniqueName": "GetAddressByIdById",
-              "name": "GetAddressById",
-              "httpMethod": "GET",
-              "url": "api/address/addresses/GetAddressById",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.Infrastructure.Module.Addresses.IAddressAppService"
-            },
-            "CreateAddressByCreatedDto": {
-              "uniqueName": "CreateAddressByCreatedDto",
-              "name": "CreateAddress",
-              "httpMethod": "POST",
-              "url": "api/address/addresses/CreateAddress",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "createdDto",
-                  "typeAsString": "VPortal.Infrastructure.Module.Addresses.AddressDto, Eleon.Infrastructure.Module.Full",
-                  "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                  "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "createdDto",
-                  "name": "createdDto",
-                  "jsonName": null,
-                  "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                  "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "VPortal.Infrastructure.Module.Addresses.AddressDto",
-                "typeSimple": "VPortal.Infrastructure.Module.Addresses.AddressDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.Infrastructure.Module.Addresses.IAddressAppService"
-            }
-          }
-        },
-        "VPortal.Countries.Feature.Module.Controllers.CountryController": {
-          "controllerName": "Country",
-          "controllerGroupName": "Country",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.Countries.Feature.Module.Controllers.CountryController",
-          "interfaces": [
-            {
-              "type": "VPortal.Infrastructure.Module.Countries.ICountryAppService",
-              "name": "ICountryAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "VPortal.Infrastructure.Module.Countries.CountryDto",
-                    "typeSimple": "VPortal.Infrastructure.Module.Countries.CountryDto"
-                  }
-                },
-                {
-                  "name": "GetCountryList",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<VPortal.Infrastructure.Module.Countries.CountryDto>",
-                    "typeSimple": "[VPortal.Infrastructure.Module.Countries.CountryDto]"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetAsyncById": {
-              "uniqueName": "GetAsyncById",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/country/countries/Get/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "VPortal.Infrastructure.Module.Countries.CountryDto",
-                "typeSimple": "VPortal.Infrastructure.Module.Countries.CountryDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.Infrastructure.Module.Countries.ICountryAppService"
-            },
-            "GetCountryList": {
-              "uniqueName": "GetCountryList",
-              "name": "GetCountryList",
-              "httpMethod": "GET",
-              "url": "api/country/countries/GetCountryById",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<VPortal.Infrastructure.Module.Countries.CountryDto>",
-                "typeSimple": "[VPortal.Infrastructure.Module.Countries.CountryDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.Infrastructure.Module.Countries.ICountryAppService"
             }
           }
         }
@@ -27672,6 +27457,48 @@
               "name": "ISessionAppService",
               "methods": [
                 {
+                  "name": "GetByIdAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "sessionId",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto",
+                    "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto"
+                  }
+                },
+                {
+                  "name": "GetForCurrentUserAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.IReadOnlyList<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto>",
+                    "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto]"
+                  }
+                },
+                {
+                  "name": "GetForUserAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "userId",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.IReadOnlyList<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto>",
+                    "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto]"
+                  }
+                },
+                {
                   "name": "GetCurrentSessionAsync",
                   "parametersOnMethod": [],
                   "returnValue": {
@@ -27686,11 +27513,74 @@
                     "type": "System.Void",
                     "typeSimple": "System.Void"
                   }
+                },
+                {
+                  "name": "RevokeAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "sessionId",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "RevokeCurrentAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
                 }
               ]
             }
           ],
           "actions": {
+            "GetByIdAsyncBySessionId": {
+              "uniqueName": "GetByIdAsyncBySessionId",
+              "name": "GetByIdAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/sessions/GetById",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "sessionId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "sessionId",
+                  "name": "sessionId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto",
+                "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            },
             "GetCurrentSessionAsync": {
               "uniqueName": "GetCurrentSessionAsync",
               "name": "GetCurrentSessionAsync",
@@ -27707,11 +27597,119 @@
               "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
               "baseUrl": ""
             },
+            "GetForCurrentUserAsync": {
+              "uniqueName": "GetForCurrentUserAsync",
+              "name": "GetForCurrentUserAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/sessions/GetForCurrentUser",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.IReadOnlyList<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto>",
+                "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            },
+            "GetForUserAsyncByUserId": {
+              "uniqueName": "GetForUserAsyncByUserId",
+              "name": "GetForUserAsync",
+              "httpMethod": "GET",
+              "url": "api/system-services/sessions/GetForUser",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "userId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "userId",
+                  "name": "userId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.IReadOnlyList<Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto>",
+                "typeSimple": "[Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.UserSessionDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            },
             "RevokeAllAsync": {
               "uniqueName": "RevokeAllAsync",
               "name": "RevokeAllAsync",
               "httpMethod": "POST",
               "url": "api/system-services/sessions/RevokeAll",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            },
+            "RevokeAsyncBySessionId": {
+              "uniqueName": "RevokeAsyncBySessionId",
+              "name": "RevokeAsync",
+              "httpMethod": "POST",
+              "url": "api/system-services/sessions/Revoke",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "sessionId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "sessionId",
+                  "name": "sessionId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.Session.ISessionAppService",
+              "baseUrl": ""
+            },
+            "RevokeCurrentAsync": {
+              "uniqueName": "RevokeCurrentAsync",
+              "name": "RevokeCurrentAsync",
+              "httpMethod": "POST",
+              "url": "api/system-services/sessions/RevokeCurrent",
               "supportedVersions": [],
               "parametersOnMethod": [],
               "parameters": [],
@@ -27794,6 +27792,48 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.SystemLog.ISystemLogAppService",
+              "baseUrl": ""
+            }
+          }
+        },
+        "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.TenantAppearanceController": {
+          "controllerName": "TenantAppearance",
+          "controllerGroupName": "TenantAppearance",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.HttpApi.Controllers.TenantAppearanceController",
+          "interfaces": [
+            {
+              "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.ITenantAppearanceAppService",
+              "name": "ITenantAppearanceAppService",
+              "methods": [
+                {
+                  "name": "GetTenantAppearanceSettings",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.TenantAppearanceSettingDto",
+                    "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.TenantAppearanceSettingDto"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetTenantAppearanceSettings": {
+              "uniqueName": "GetTenantAppearanceSettings",
+              "name": "GetTenantAppearanceSettings",
+              "httpMethod": null,
+              "url": "api/system-services/appearance",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.TenantAppearanceSettingDto",
+                "typeSimple": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.TenantAppearanceSettingDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.ITenantAppearanceAppService",
               "baseUrl": ""
             }
           }
@@ -37870,8 +37910,8 @@
         {
           "name": "TypeFilter",
           "jsonName": null,
-          "type": "[System.String]",
-          "typeSimple": "[string]",
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -40652,6 +40692,63 @@
           "jsonName": null,
           "type": "{System.String:System.String}",
           "typeSimple": "{string:string}",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Eleon.SystemServices.Module.Full.Eleon.SystemServicesModule.Module.Application.Contracts.TenantAppearance.TenantAppearanceSettingDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "LightLogo",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LightIcon",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DarkLogo",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DarkIcon",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -58205,243 +58302,6 @@
         }
       ]
     },
-    "VPortal.Infrastructure.Module.Addresses.AddressDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "EntityUid",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "EntityName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ParentUid",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddressName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "CardCode",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Street",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ZipCode",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "City",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Country",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "State",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ObjType",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Building",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddresType",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Address2",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Address3",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddrType",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "StreetNo",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "AddressHashCode",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
     "VPortal.Infrastructure.Module.AuditLogs.AuditLogActionDto": {
       "baseType": null,
       "isEnum": false,
@@ -59549,63 +59409,6 @@
         },
         {
           "name": "PropertyTypeFullName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "VPortal.Infrastructure.Module.Countries.CountryDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "TenantId",
-          "jsonName": null,
-          "type": "System.Guid?",
-          "typeSimple": "string?",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Name",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Code",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",

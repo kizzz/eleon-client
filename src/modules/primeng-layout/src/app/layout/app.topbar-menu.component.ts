@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ProfilePictureModule } from '@eleon/primeng-ui.lib';
 import { ButtonModule } from 'primeng/button';
 import { IAuthManager, IApplicationConfigurationManager, IVPortalTopbarService, IAppearanceService } from '@eleon/angular-sdk.lib';
-import { CommonUserService } from '@eleon/tenant-management-proxy';
+import { IUserService } from '@eleon/angular-sdk.lib';
 import { ProfileService } from './service/profile.service';
 import { EcContainerComponent } from '@eleon/primeng-layout.lib';
 import { LocalizationModule } from '@eleon/angular-sdk.lib';
@@ -86,7 +86,7 @@ export class AppTopbarMenuComponent {
     public appearance: IAppearanceService,
         private config: IApplicationConfigurationManager,
     public el: ElementRef,
-    protected userService: CommonUserService,
+    protected userService: IUserService,
     public profileService: ProfileService,
     public topbarSettings: IVPortalTopbarService,
     private vPortalUserMenuService: IVPortalUserMenuService
@@ -119,7 +119,7 @@ export class AppTopbarMenuComponent {
 
   getUserProfile(userId: string) {
     this.userService
-      .getByIdById(userId)
+      .getById(userId)
       .subscribe((profile) => {
         this.profileService.userProfile = profile;
         this.setUserMenu();
