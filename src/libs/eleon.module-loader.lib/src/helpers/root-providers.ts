@@ -9,7 +9,8 @@ import {
   IdentityHubService, 
   SystemEventsService, 
   ImpersonationService,
-  NgWebPushCommunicationService
+  NgWebPushCommunicationService,
+  PwaService
 } from '@eleon/common-services.lib';
 import { APP_INITIALIZER, Component, importProvidersFrom, Injector, isDevMode, PLATFORM_ID, Provider } from '@angular/core';
 import { SessionService } from '@eleon/system-services.lib';
@@ -28,7 +29,7 @@ import {
 import { AssetLoaderService, ModuleSettingService, NgModuleLoaderManager, NoopConfigStateService, NoopSessionStateService, NoopAuthService, ModuleLoadingObservableService, } from '../services';
 import { HashLocationStrategy, isPlatformBrowser, LocationStrategy } from '@angular/common';
 import { ServiceWorkerModule, SwPush } from "@angular/service-worker";
-import { IAssetLoaderService, IBreadcrumbsService, ICommunicationManager, ICurrencyService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
+import { IAssetLoaderService, IBreadcrumbsService, ICommunicationManager, ICurrencyService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, IPwaService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
 import { ClientLogService, sendSystemLogs, EleoncoreErrorHandlingService } from '@eleon/logging.lib';
 import { EleoncoreError, IAppearanceService, IVPortalMenuService, IVPortalTopbarService } from '@eleon/contracts.lib';
 
@@ -57,6 +58,10 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
     {
         provide: IErrorHandlingService,
         useFactory: () => new EleoncoreErrorHandlingService(),
+    },
+    {
+      provide: IPwaService,
+      useFactory: () => new PwaService(),
     },
     {
       provide: ICommunicationManager,
