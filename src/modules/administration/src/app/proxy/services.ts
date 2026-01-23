@@ -1,0 +1,23 @@
+import { ApiKeyService } from './core/infrastructure/module/controllers/api-key.service';
+import { OrganizationUnitService } from './core/infrastructure/module/controllers/organization-unit.service';
+import { TenantSettingsCacheService } from './core/infrastructure/module/controllers/tenant-settings-cache.service';
+import { TenantSettingsService } from './core/infrastructure/module/controllers/tenant-settings.service';
+import { UserSettingsService } from './core/infrastructure/module/controllers/user-settings.service';
+import { CommonUserService } from './core/infrastructure/module/controllers/common-user.service';
+import { RoleService } from './core/infrastructure/module/controllers/role.service';
+import { ApplicationConfigurationService } from './module-collector/tenant-management/module/tenant-management/module/http-api/controllers/application-configuration.service';
+import { BaseApplicationConfigurationService } from './module-collector/tenant-management/module/tenant-management/module/http-api/controllers/base-application-configuration.service';
+import { CustomFeaturesService } from './sites-management/module/controllers/custom-features.service';
+import { CustomPermissionsService } from './sites-management/module/controllers/custom-permissions.service';
+import { ClientIsolationService } from './tenant-management/module/controllers/client-isolation.service';
+import { FeaturePermissionListService } from './tenant-management/module/controllers/feature-permission-list.service';
+import { IdentitySettingService } from './tenant-management/module/controllers/identity-setting.service';
+import { PermissionGroupService } from './tenant-management/module/controllers/permission-group.service';
+import { PermissionsService } from './tenant-management/module/controllers/permissions.service';
+import { SessionsService } from './tenant-management/module/controllers/sessions.service';
+import { TenantAppearanceService } from './tenant-management/module/controllers/tenant-appearance.service';
+import { TenantStatusService } from './tenant-management/module/controllers/tenant-status.service';
+import { TimeZoneSettingsService } from './tenant-management/module/controllers/time-zone-settings.service';
+import { UserOtpSettingsService } from './tenant-management/module/controllers/user-otp-settings.service';
+
+export const PROXY_SERVICES = [ApiKeyService, OrganizationUnitService, TenantSettingsCacheService, TenantSettingsService, UserSettingsService, CommonUserService, RoleService, ApplicationConfigurationService, BaseApplicationConfigurationService, CustomFeaturesService, CustomPermissionsService, ClientIsolationService, FeaturePermissionListService, IdentitySettingService, PermissionGroupService, PermissionsService, SessionsService, TenantAppearanceService, TenantStatusService, TimeZoneSettingsService, UserOtpSettingsService];

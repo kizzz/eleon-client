@@ -1,11 +1,10 @@
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { Component, EventEmitter, Input, OnInit } from "@angular/core";
-import { TenantSettingsService } from '@eleon/tenant-management-proxy';
-import { ExternalLoginProviderType } from '@eleon/tenant-management-proxy';
+import { ITenantSettingService } from '@eleon/angular-sdk.lib';
+import { ExternalLoginProviderType, TenantExternalLoginProviderDto } from '@eleon/angular-sdk.lib';
 import { finalize } from "rxjs";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
-import { TenantExternalLoginProviderDto } from '@eleon/tenant-management-proxy';
 
 interface ExternalProvider {
   type: ExternalLoginProviderType | null;
@@ -58,14 +57,14 @@ export class TenantExternalLoginSettingsBoxComponent implements OnInit {
     private localizationService: ILocalizationService,
     private msgService: LocalizedMessageService,
     private confirmationService: LocalizedConfirmationService,
-    private tenantSettingService: TenantSettingsService
+    private tenantSettingService: ITenantSettingService
   ) {}
 
   public ngOnInit(): void {
     this.initProviders([]);
     this.loading = true;
     this.tenantSettingService
-      .getTenantSettingsByTenantId(this.tenantId)
+      .getSettingsByTenantId(this.tenantId)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.initProviders(res.externalProviders);
@@ -90,7 +89,7 @@ export class TenantExternalLoginSettingsBoxComponent implements OnInit {
 
     this.loading = true;
     this.tenantSettingService
-      .setExternalProviderSettingsByRequest({
+      .setExternalProviderSettings({
         tenantId: this.tenantId,
         providers: this.providers.map((x) => x.data),
       })

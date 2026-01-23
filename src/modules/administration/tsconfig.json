@@ -19,7 +19,7 @@
       ],
 
       "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
+        "src/modules/administration/src/app/proxy/index.ts"
       ],
       "@eleon/identity-querying.lib": [
         "src/libs/eleon.identity-querying.lib/src/index.ts"

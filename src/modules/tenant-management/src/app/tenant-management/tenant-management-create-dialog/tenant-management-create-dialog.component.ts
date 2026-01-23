@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
 import { finalize, first } from "rxjs";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { TenantService } from '@eleon/eleoncore-multi-tenancy-proxy';
-import { HostService } from '@eleon/tenant-management-proxy';
+import { HostService } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { TenantCreateDto } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { CreateTenantRequestDto } from '@eleon/eleoncore-multi-tenancy-proxy';
 

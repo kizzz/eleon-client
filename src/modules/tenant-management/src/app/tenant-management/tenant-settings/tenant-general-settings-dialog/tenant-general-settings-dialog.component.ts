@@ -1,16 +1,14 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { Observable, catchError, finalize, of, tap, throwError } from "rxjs";
-import { TenantContentSecurityService } from "@eleon/tenant-management-proxy";
-import { TenantContentSecurityHostDto } from "@eleon/tenant-management-proxy";
-import { TenantSettingsService } from "@eleon/tenant-management-proxy";
+import { TenantContentSecurityService, TenantClientIsolationService } from "@eleon/eleoncore-multi-tenancy-proxy";
+import { TenantContentSecurityHostDto } from "@eleon/angular-sdk.lib";
+import { ITenantSettingService } from "@eleon/angular-sdk.lib";
 import { ValidationRuleSet, ValidationService, createValidationState } from "@eleon/primeng-ui.lib";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { FileHelperService } from '@eleon/primeng-ui.lib';
-import { ClientIsolationService } from "@eleon/tenant-management-proxy";
-import { DomainSettingsService } from "@eleon/tenant-management-proxy";
+import { TenantHostnameDto, DomainSettingsService } from "@eleon/eleoncore-multi-tenancy-proxy";
 import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
-import { TenantHostnameDto } from "@eleon/tenant-management-proxy";
-import { TenantWhitelistedIpDto } from "@eleon/tenant-management-proxy";
+import { TenantWhitelistedIpDto } from "@eleon/angular-sdk.lib";
 import { TenantExternalLoginSettingsBoxComponent } from "../tenant-external-login-settings-box/tenant-external-login-settings-box.component";
 import { ILocalizationService } from "@eleon/angular-sdk.lib";
 
@@ -173,12 +171,12 @@ export class TenantGeneralSettingsDialogComponent {
 
   constructor(
     private contentSecurityService: TenantContentSecurityService,
-    private tenantSettingsService: TenantSettingsService,
+    private tenantSettingsService: ITenantSettingService,
     public localizationService: ILocalizationService,
     private validationService: ValidationService,
     private msgService: LocalizedMessageService,
     private fileHelper: FileHelperService,
-    private clientIsolationService: ClientIsolationService,
+    private clientIsolationService: TenantClientIsolationService,
     private adminDomainSettingsService: DomainSettingsService,
     private confirmationService: LocalizedConfirmationService
   ) {}
@@ -282,7 +280,7 @@ export class TenantGeneralSettingsDialogComponent {
     }
     this.loadingContentSecurity = true;
     this.tenantSettingsService
-      .getTenantSettingsByTenantId(this.tenantId)
+      .getSettingsByTenantId(this.tenantId)
       .pipe(finalize(() => (this.loadingContentSecurity = false)))
       .subscribe((res) => {
         this.contentSecurityData = {
@@ -333,7 +331,7 @@ export class TenantGeneralSettingsDialogComponent {
     }
     this.loadingIpIsolation = true;
     this.tenantSettingsService
-      .getTenantSettingsByTenantId(this.tenantId)
+      .getSettingsByTenantId(this.tenantId)
       .pipe(finalize(() => (this.loadingIpIsolation = false)))
       .subscribe((res) => {
         this.ipIsolationData = {

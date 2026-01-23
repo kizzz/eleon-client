@@ -35,13 +35,13 @@ import { registerBasicProviders } from '@eleon/angular-hosting.lib';
 import { AppComponent } from './app.component';
 
 export const remoteRoutes: Route[] = [
-  {
-    path: '',
-    loadChildren: () =>
-      import('@vportal-ui/administration-module').then(
-        (r) => r.AdministrationModule
-      ),
-  },
+  // {
+  //   path: '',
+  //   loadChildren: () =>
+  //     import('@vportal-ui/administration-module').then(
+  //       (r) => r.AdministrationModule
+  //     ),
+  // },
 ];
 
 export const providers = [

@@ -33,9 +33,7 @@ import { TooltipModule } from "primeng/tooltip"
 import { TreeModule, TreeNodeSelectEvent } from 'primeng/tree'
 import { TreeTableModule } from 'primeng/treetable'
 import { catchError, finalize, throwError } from 'rxjs'
-import {
-  FeatureGroupDto,
-} from '@eleon/tenant-management-proxy';
+import { FeatureGroupDto, } from '@eleon/angular-sdk.lib';
 
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 interface CustomGroup {

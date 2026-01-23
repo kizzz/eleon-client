@@ -303,6 +303,74 @@
                     "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.AccountHeaderDto>",
                     "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.AccountHeaderDto>"
                   }
+                },
+                {
+                  "name": "GetAccountUserMembers",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto, Eleon.Accounting.Module.Full",
+                      "type": "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto",
+                      "typeSimple": "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.UserMemberDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.UserMemberDto>"
+                  }
+                },
+                {
+                  "name": "GetAccountTenantMembers",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto, Eleon.Accounting.Module.Full",
+                      "type": "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto",
+                      "typeSimple": "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.TenantMemberDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.TenantMemberDto>"
+                  }
+                },
+                {
+                  "name": "GetAccountPackageLinkedUsers",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto, Eleon.Accounting.Module.Full",
+                      "type": "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto",
+                      "typeSimple": "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedUserDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedUserDto>"
+                  }
+                },
+                {
+                  "name": "GetAccountPackageLinkedTenants",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto, Eleon.Accounting.Module.Full",
+                      "type": "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto",
+                      "typeSimple": "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedTenantDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedTenantDto>"
+                  }
                 }
               ]
             }
@@ -640,62 +708,27 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.Accounting.Module.Accounts.IAccountAppService"
-            }
-          }
-        },
-        "VPortal.Accounting.Module.Controllers.BillingInformationController": {
-          "controllerName": "BillingInformation",
-          "controllerGroupName": "BillingInformation",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.Accounting.Module.Controllers.BillingInformationController",
-          "interfaces": [
-            {
-              "type": "VPortal.Accounting.Module.BillingInformations.IBillingInformationAppService",
-              "name": "IBillingInformationAppService",
-              "methods": [
-                {
-                  "name": "GetBillingInfoDetailsById",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "VPortal.Accounting.Module.BillingInformations.BillingInformationDto",
-                    "typeSimple": "VPortal.Accounting.Module.BillingInformations.BillingInformationDto"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetBillingInfoDetailsByIdById": {
-              "uniqueName": "GetBillingInfoDetailsByIdById",
-              "name": "GetBillingInfoDetailsById",
-              "httpMethod": "POST",
-              "url": "api/account/billingInformations/GetBillingInfoDetailsById",
+            },
+            "GetAccountUserMembersByInput": {
+              "uniqueName": "GetAccountUserMembersByInput",
+              "name": "GetAccountUserMembers",
+              "httpMethod": "GET",
+              "url": "api/account/accounts/GetAccountUserMembers",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
+                  "name": "input",
+                  "typeAsString": "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto, Eleon.Accounting.Module.Full",
+                  "type": "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto",
+                  "typeSimple": "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
+                  "nameOnMethod": "input",
+                  "name": "AccountId",
                   "jsonName": null,
                   "type": "System.Guid",
                   "typeSimple": "string",
@@ -703,15 +736,270 @@
                   "defaultValue": null,
                   "constraintTypes": null,
                   "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
                 }
               ],
               "returnValue": {
-                "type": "VPortal.Accounting.Module.BillingInformations.BillingInformationDto",
-                "typeSimple": "VPortal.Accounting.Module.BillingInformations.BillingInformationDto"
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.UserMemberDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.UserMemberDto>"
               },
               "allowAnonymous": null,
-              "implementFrom": "VPortal.Accounting.Module.BillingInformations.IBillingInformationAppService"
+              "implementFrom": "VPortal.Accounting.Module.Accounts.IAccountAppService"
+            },
+            "GetAccountTenantMembersByInput": {
+              "uniqueName": "GetAccountTenantMembersByInput",
+              "name": "GetAccountTenantMembers",
+              "httpMethod": "GET",
+              "url": "api/account/accounts/GetAccountTenantMembers",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto, Eleon.Accounting.Module.Full",
+                  "type": "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto",
+                  "typeSimple": "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "AccountId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.TenantMemberDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.Accounts.TenantMemberDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.Accounting.Module.Accounts.IAccountAppService"
+            },
+            "GetAccountPackageLinkedUsersByInput": {
+              "uniqueName": "GetAccountPackageLinkedUsersByInput",
+              "name": "GetAccountPackageLinkedUsers",
+              "httpMethod": "GET",
+              "url": "api/account/accounts/GetAccountPackageLinkedUsers",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto, Eleon.Accounting.Module.Full",
+                  "type": "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto",
+                  "typeSimple": "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "AccountPackageId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedUserDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedUserDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.Accounting.Module.Accounts.IAccountAppService"
+            },
+            "GetAccountPackageLinkedTenantsByInput": {
+              "uniqueName": "GetAccountPackageLinkedTenantsByInput",
+              "name": "GetAccountPackageLinkedTenants",
+              "httpMethod": "GET",
+              "url": "api/account/accounts/GetAccountPackageLinkedTenants",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto, Eleon.Accounting.Module.Full",
+                  "type": "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto",
+                  "typeSimple": "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "AccountPackageId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedTenantDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.LinkedTenantDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.Accounting.Module.Accounts.IAccountAppService"
             }
           }
         },
@@ -5568,6 +5856,1077 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.TenantManagement.Module.Tenants.ITenantAppService"
+            }
+          }
+        },
+        "VPortal.Controllers.HostController": {
+          "controllerName": "Host",
+          "controllerGroupName": "Host",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "VPortal.Controllers.HostController",
+          "interfaces": [
+            {
+              "type": "VPortal.Host.IHostAppService",
+              "name": "IHostAppService",
+              "methods": [
+                {
+                  "name": "MigrateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "MigrateAsyncById": {
+              "uniqueName": "MigrateAsyncById",
+              "name": "MigrateAsync",
+              "httpMethod": "POST",
+              "url": "api/Infrastructure/migration/Migrate",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.Host.IHostAppService"
+            }
+          }
+        },
+        "VPortal.TenantManagement.Module.Controllers.DomainSettingsController": {
+          "controllerName": "DomainSettings",
+          "controllerGroupName": "DomainSettings",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "VPortal.TenantManagement.Module.Controllers.DomainSettingsController",
+          "interfaces": [
+            {
+              "type": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService",
+              "name": "IDomainSettingsAppService",
+              "methods": [
+                {
+                  "name": "GetCurrentTenantHostnamesAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
+                    "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
+                  }
+                },
+                {
+                  "name": "GetHostnamesByApplicationAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "applicationId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
+                    "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
+                  }
+                },
+                {
+                  "name": "AddCorporateDomainAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "UpdateCorporateDomainAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "UpdateDomainApplicationAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "domainId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "appId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "RemoveCorporateDomainAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "GetHostnamesForTenantAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "tenantId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
+                    "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
+                  }
+                },
+                {
+                  "name": "AddCorporateDomainForTenantAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "tenantId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "request",
+                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "UpdateCorporateDomainForTenantAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "tenantId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "request",
+                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "RemoveCorporateDomainForTenantAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "tenantId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "domainId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetCurrentTenantHostnamesAsync": {
+              "uniqueName": "GetCurrentTenantHostnamesAsync",
+              "name": "GetCurrentTenantHostnamesAsync",
+              "httpMethod": "GET",
+              "url": "api/TenantManagement/DomainSettings/GetCurrentTenantHostnames",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
+                "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "AddCorporateDomainAsyncByRequest": {
+              "uniqueName": "AddCorporateDomainAsyncByRequest",
+              "name": "AddCorporateDomainAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/AddCorporateDomain",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "UpdateCorporateDomainAsyncByRequest": {
+              "uniqueName": "UpdateCorporateDomainAsyncByRequest",
+              "name": "UpdateCorporateDomainAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/UpdateCorporateDomain",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "RemoveCorporateDomainAsyncById": {
+              "uniqueName": "RemoveCorporateDomainAsyncById",
+              "name": "RemoveCorporateDomainAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/RemoveCorporateDomain",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "GetHostnamesForTenantAsyncByTenantId": {
+              "uniqueName": "GetHostnamesForTenantAsyncByTenantId",
+              "name": "GetHostnamesForTenantAsync",
+              "httpMethod": "GET",
+              "url": "api/TenantManagement/DomainSettings/GetHostnamesForTenant",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "tenantId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "tenantId",
+                  "name": "tenantId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
+                "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "AddCorporateDomainForTenantAsyncByTenantIdAndRequest": {
+              "uniqueName": "AddCorporateDomainForTenantAsyncByTenantIdAndRequest",
+              "name": "AddCorporateDomainForTenantAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/AddCorporateDomainForTenant",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "tenantId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "request",
+                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "tenantId",
+                  "name": "tenantId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "UpdateCorporateDomainForTenantAsyncByTenantIdAndRequest": {
+              "uniqueName": "UpdateCorporateDomainForTenantAsyncByTenantIdAndRequest",
+              "name": "UpdateCorporateDomainForTenantAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/UpdateCorporateDomainForTenant",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "tenantId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "request",
+                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "tenantId",
+                  "name": "tenantId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "RemoveCorporateDomainForTenantAsyncByTenantIdAndDomainId": {
+              "uniqueName": "RemoveCorporateDomainForTenantAsyncByTenantIdAndDomainId",
+              "name": "RemoveCorporateDomainForTenantAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/RemoveCorporateDomainForTenant",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "tenantId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "domainId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "tenantId",
+                  "name": "tenantId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "domainId",
+                  "name": "domainId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "GetHostnamesByApplicationAsyncByApplicationId": {
+              "uniqueName": "GetHostnamesByApplicationAsyncByApplicationId",
+              "name": "GetHostnamesByApplicationAsync",
+              "httpMethod": "GET",
+              "url": "api/TenantManagement/DomainSettings/GetHostnamesByApplication",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "applicationId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "applicationId",
+                  "name": "applicationId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
+                "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            },
+            "UpdateDomainApplicationAsyncByDomainIdAndAppId": {
+              "uniqueName": "UpdateDomainApplicationAsyncByDomainIdAndAppId",
+              "name": "UpdateDomainApplicationAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/DomainSettings/UpdateDomainApplication",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "domainId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "appId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "domainId",
+                  "name": "domainId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "appId",
+                  "name": "appId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
+            }
+          }
+        },
+        "VPortal.TenantManagement.Module.Controllers.TenantClientIsolationController": {
+          "controllerName": "TenantClientIsolation",
+          "controllerGroupName": "TenantClientIsolation",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "VPortal.TenantManagement.Module.Controllers.TenantClientIsolationController",
+          "interfaces": [
+            {
+              "type": "VPortal.TenantManagement.Module.TenantIsolation.ITenantClientIsolationAppService",
+              "name": "ITenantClientIsolationAppService",
+              "methods": [
+                {
+                  "name": "SetTenantIsolation",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "SetTenantIpIsolationSettings",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "ValidateClientIsolation",
+                  "parametersOnMethod": [
+                    {
+                      "name": "validateClientIsolationDto",
+                      "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "SetTenantIpIsolationSettingsByRequest": {
+              "uniqueName": "SetTenantIpIsolationSettingsByRequest",
+              "name": "SetTenantIpIsolationSettings",
+              "httpMethod": "POST",
+              "url": "api/eleoncore-multi-tenancy/ClientIsolation/SetTenantIpIsolationSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.ITenantClientIsolationAppService"
+            },
+            "SetTenantIsolationByRequest": {
+              "uniqueName": "SetTenantIsolationByRequest",
+              "name": "SetTenantIsolation",
+              "httpMethod": "POST",
+              "url": "api/eleoncore-multi-tenancy/ClientIsolation/SetTenantIsolation",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.ITenantClientIsolationAppService"
+            },
+            "ValidateClientIsolationByValidateClientIsolationDto": {
+              "uniqueName": "ValidateClientIsolationByValidateClientIsolationDto",
+              "name": "ValidateClientIsolation",
+              "httpMethod": "POST",
+              "url": "api/eleoncore-multi-tenancy/ClientIsolation/ValidateClientIsolation",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "validateClientIsolationDto",
+                  "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "validateClientIsolationDto",
+                  "name": "validateClientIsolationDto",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.ValidateClientIsolationDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.ITenantClientIsolationAppService"
+            }
+          }
+        },
+        "VPortal.TenantManagement.Module.Controllers.TenantContentSecurityController": {
+          "controllerName": "TenantContentSecurity",
+          "controllerGroupName": "TenantContentSecurity",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "VPortal.TenantManagement.Module.Controllers.TenantContentSecurityController",
+          "interfaces": [
+            {
+              "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService",
+              "name": "ITenantContentSecurityAppService",
+              "methods": [
+                {
+                  "name": "AddTenantContentSecurityHost",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "RemoveTenantContentSecurityHost",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "UpdateTenantContentSecurityHost",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                      "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
+                      "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "AddTenantContentSecurityHostByInput": {
+              "uniqueName": "AddTenantContentSecurityHostByInput",
+              "name": "AddTenantContentSecurityHost",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/ContentSecurity/AddTenantContentSecurityHost",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService"
+            },
+            "RemoveTenantContentSecurityHostByInput": {
+              "uniqueName": "RemoveTenantContentSecurityHostByInput",
+              "name": "RemoveTenantContentSecurityHost",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/ContentSecurity/RemoveTenantContentSecurityHost",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService"
+            },
+            "UpdateTenantContentSecurityHostByInput": {
+              "uniqueName": "UpdateTenantContentSecurityHostByInput",
+              "name": "UpdateTenantContentSecurityHost",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/ContentSecurity/UpdateTenantContentSecurityHost",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto, Eleon.EleoncoreMultiTenancy.Module.Full",
+                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
+                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService"
             }
           }
         }
@@ -14669,6 +16028,213 @@
             }
           }
         },
+        "Core.Infrastructure.Module.Controllers.TenantSettingsController": {
+          "controllerName": "TenantSettings",
+          "controllerGroupName": "TenantSettings",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Core.Infrastructure.Module.Controllers.TenantSettingsController",
+          "interfaces": [
+            {
+              "type": "TenantSettings.Module.Cache.ITenantSettingsAppService",
+              "name": "ITenantSettingsAppService",
+              "methods": [
+                {
+                  "name": "GetTenantSettings",
+                  "parametersOnMethod": [
+                    {
+                      "name": "tenantId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "TenantSettings.Module.Cache.TenantSettingDto",
+                    "typeSimple": "TenantSettings.Module.Cache.TenantSettingDto"
+                  }
+                },
+                {
+                  "name": "SetExternalProviderSettings",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto, Eleon.IdentityQuerying.Module.Full",
+                      "type": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto",
+                      "typeSimple": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "GetTenantSystemHealthSettingsAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                    "typeSimple": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto"
+                  }
+                },
+                {
+                  "name": "UpdateTenantSystemHealthSettingsAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "request",
+                      "typeAsString": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto, Eleon.IdentityQuerying.Module.Full",
+                      "type": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                      "typeSimple": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetTenantSettingsByTenantId": {
+              "uniqueName": "GetTenantSettingsByTenantId",
+              "name": "GetTenantSettings",
+              "httpMethod": "GET",
+              "url": "api/identity-querying/tenant-settings/GetTenantSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "tenantId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "tenantId",
+                  "name": "tenantId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "TenantSettings.Module.Cache.TenantSettingDto",
+                "typeSimple": "TenantSettings.Module.Cache.TenantSettingDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "TenantSettings.Module.Cache.ITenantSettingsAppService",
+              "baseUrl": ""
+            },
+            "SetExternalProviderSettingsByRequest": {
+              "uniqueName": "SetExternalProviderSettingsByRequest",
+              "name": "SetExternalProviderSettings",
+              "httpMethod": "POST",
+              "url": "api/identity-querying/tenant-settings/SetExternalProviderSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto, Eleon.IdentityQuerying.Module.Full",
+                  "type": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto",
+                  "typeSimple": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto",
+                  "typeSimple": "TenantSettings.Module.Cache.SetTenantProviderSettingsRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "TenantSettings.Module.Cache.ITenantSettingsAppService",
+              "baseUrl": ""
+            },
+            "GetTenantSystemHealthSettingsAsync": {
+              "uniqueName": "GetTenantSystemHealthSettingsAsync",
+              "name": "GetTenantSystemHealthSettingsAsync",
+              "httpMethod": "GET",
+              "url": "api/identity-querying/tenant-settings/GetTenantSystemHealthSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                "typeSimple": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "TenantSettings.Module.Cache.ITenantSettingsAppService",
+              "baseUrl": ""
+            },
+            "UpdateTenantSystemHealthSettingsAsyncByRequest": {
+              "uniqueName": "UpdateTenantSystemHealthSettingsAsyncByRequest",
+              "name": "UpdateTenantSystemHealthSettingsAsync",
+              "httpMethod": "POST",
+              "url": "api/identity-querying/tenant-settings/UpdateTenantSystemHealthSettings",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto, Eleon.IdentityQuerying.Module.Full",
+                  "type": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                  "typeSimple": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "jsonName": null,
+                  "type": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                  "typeSimple": "EleonsoftModuleCollector.TenantManagement.Module.TenantManagement.Module.Application.Contracts.TenantSettings.TenantSystemHealthSettingsDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "TenantSettings.Module.Cache.ITenantSettingsAppService",
+              "baseUrl": ""
+            }
+          }
+        },
         "Core.Infrastructure.Module.Controllers.UserSettingsController": {
           "controllerName": "UserSettings",
           "controllerGroupName": "UserSettings",
@@ -16005,6 +17571,301 @@
               },
               "allowAnonymous": null,
               "implementFrom": "Eleon.IdentityQuerying.Module.Full.Eleon.IdentityQuerying.Module.Application.Contracts.Users.ICommonUserAppService",
+              "baseUrl": ""
+            }
+          }
+        },
+        "VPortal.TenantManagement.Module.Controllers.FeaturesController": {
+          "controllerName": "Features",
+          "controllerGroupName": "Features",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "VPortal.TenantManagement.Module.Controllers.FeaturesController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.FeatureManagement.IFeatureAppService",
+              "name": "IFeatureAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
+                    "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
+                      "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                      "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "providerName",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "providerKey",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "DeleteAsyncByProviderNameAndProviderKey": {
+              "uniqueName": "DeleteAsyncByProviderNameAndProviderKey",
+              "name": "DeleteAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/Features/DeleteAsync",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService",
+              "baseUrl": ""
+            },
+            "GetAsyncByProviderNameAndProviderKey": {
+              "uniqueName": "GetAsyncByProviderNameAndProviderKey",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/TenantManagement/Features/GetAsync",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
+                "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService",
+              "baseUrl": ""
+            },
+            "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
+              "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "POST",
+              "url": "api/TenantManagement/Features/UpdateAsync",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "providerName",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "providerKey",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
+                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "providerName",
+                  "name": "providerName",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "providerKey",
+                  "name": "providerKey",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService",
               "baseUrl": ""
             }
           }
@@ -32402,78 +34263,6 @@
             }
           }
         },
-        "VPortal.Controllers.HostController": {
-          "controllerName": "Host",
-          "controllerGroupName": "Host",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.Controllers.HostController",
-          "interfaces": [
-            {
-              "type": "VPortal.Host.IHostAppService",
-              "name": "IHostAppService",
-              "methods": [
-                {
-                  "name": "MigrateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "MigrateAsyncById": {
-              "uniqueName": "MigrateAsyncById",
-              "name": "MigrateAsync",
-              "httpMethod": "POST",
-              "url": "api/VPortal/Host/Migrate",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.Host.IHostAppService"
-            }
-          }
-        },
         "VPortal.Core.Infrastructure.Module.Controllers.CommonUserController": {
           "controllerName": "CommonUser",
           "controllerGroupName": "CommonUser",
@@ -35168,23 +36957,6 @@
               "name": "IClientIsolationAppService",
               "methods": [
                 {
-                  "name": "SetTenantIsolation",
-                  "parametersOnMethod": [
-                    {
-                      "name": "request",
-                      "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
                   "name": "SetUserIsolation",
                   "parametersOnMethod": [
                     {
@@ -35192,23 +36964,6 @@
                       "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.SetUserIsolationRequestDto, Eleon.TenantManagement.Module.Full",
                       "type": "VPortal.TenantManagement.Module.ClientIsolation.SetUserIsolationRequestDto",
                       "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetUserIsolationRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "SetTenantIpIsolationSettings",
-                  "parametersOnMethod": [
-                    {
-                      "name": "request",
-                      "typeAsString": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
                       "isOptional": false,
                       "defaultValue": null
                     }
@@ -35293,80 +37048,6 @@
               "allowAnonymous": null,
               "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.IClientIsolationAppService"
             },
-            "SetTenantIpIsolationSettingsByRequest": {
-              "uniqueName": "SetTenantIpIsolationSettingsByRequest",
-              "name": "SetTenantIpIsolationSettings",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/ClientIsolation/SetTenantIpIsolationSettings",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.TenantIsolation.SetIpIsolationRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.IClientIsolationAppService"
-            },
-            "SetTenantIsolationByRequest": {
-              "uniqueName": "SetTenantIsolationByRequest",
-              "name": "SetTenantIsolation",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/ClientIsolation/SetTenantIsolation",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ClientIsolation.SetTenantIsolationRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.IClientIsolationAppService"
-            },
             "SetUserIsolationByRequest": {
               "uniqueName": "SetUserIsolationByRequest",
               "name": "SetUserIsolation",
@@ -35440,645 +37121,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.TenantManagement.Module.TenantIsolation.IClientIsolationAppService"
-            }
-          }
-        },
-        "VPortal.TenantManagement.Module.Controllers.DomainSettingsController": {
-          "controllerName": "DomainSettings",
-          "controllerGroupName": "DomainSettings",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.TenantManagement.Module.Controllers.DomainSettingsController",
-          "interfaces": [
-            {
-              "type": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService",
-              "name": "IDomainSettingsAppService",
-              "methods": [
-                {
-                  "name": "GetCurrentTenantHostnamesAsync",
-                  "parametersOnMethod": [],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
-                    "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
-                  }
-                },
-                {
-                  "name": "GetHostnamesByApplicationAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "applicationId",
-                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.Guid?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
-                    "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
-                  }
-                },
-                {
-                  "name": "AddCorporateDomainAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "request",
-                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "UpdateCorporateDomainAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "request",
-                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "UpdateDomainApplicationAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "domainId",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "appId",
-                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.Guid?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "RemoveCorporateDomainAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "id",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "GetHostnamesForTenantAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "tenantId",
-                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.Guid?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
-                    "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
-                  }
-                },
-                {
-                  "name": "AddCorporateDomainForTenantAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "tenantId",
-                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.Guid?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "request",
-                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "UpdateCorporateDomainForTenantAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "tenantId",
-                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.Guid?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "request",
-                      "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "RemoveCorporateDomainForTenantAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "tenantId",
-                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                      "type": "System.Guid?",
-                      "typeSimple": "string?",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "domainId",
-                      "typeAsString": "System.Guid, System.Private.CoreLib",
-                      "type": "System.Guid",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "GetCurrentTenantHostnamesAsync": {
-              "uniqueName": "GetCurrentTenantHostnamesAsync",
-              "name": "GetCurrentTenantHostnamesAsync",
-              "httpMethod": "GET",
-              "url": "api/TenantManagement/DomainSettings/GetCurrentTenantHostnames",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
-                "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "AddCorporateDomainAsyncByRequest": {
-              "uniqueName": "AddCorporateDomainAsyncByRequest",
-              "name": "AddCorporateDomainAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/AddCorporateDomain",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "UpdateCorporateDomainAsyncByRequest": {
-              "uniqueName": "UpdateCorporateDomainAsyncByRequest",
-              "name": "UpdateCorporateDomainAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/UpdateCorporateDomain",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "RemoveCorporateDomainAsyncById": {
-              "uniqueName": "RemoveCorporateDomainAsyncById",
-              "name": "RemoveCorporateDomainAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/RemoveCorporateDomain",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "GetHostnamesForTenantAsyncByTenantId": {
-              "uniqueName": "GetHostnamesForTenantAsyncByTenantId",
-              "name": "GetHostnamesForTenantAsync",
-              "httpMethod": "GET",
-              "url": "api/TenantManagement/DomainSettings/GetHostnamesForTenant",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "tenantId",
-                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "tenantId",
-                  "name": "tenantId",
-                  "jsonName": null,
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
-                "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "AddCorporateDomainForTenantAsyncByTenantIdAndRequest": {
-              "uniqueName": "AddCorporateDomainForTenantAsyncByTenantIdAndRequest",
-              "name": "AddCorporateDomainForTenantAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/AddCorporateDomainForTenant",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "tenantId",
-                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "request",
-                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "tenantId",
-                  "name": "tenantId",
-                  "jsonName": null,
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.CreateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "UpdateCorporateDomainForTenantAsyncByTenantIdAndRequest": {
-              "uniqueName": "UpdateCorporateDomainForTenantAsyncByTenantIdAndRequest",
-              "name": "UpdateCorporateDomainForTenantAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/UpdateCorporateDomainForTenant",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "tenantId",
-                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "request",
-                  "typeAsString": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "tenantId",
-                  "name": "tenantId",
-                  "jsonName": null,
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.CorporateDomains.UpdateCorporateDomainRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "RemoveCorporateDomainForTenantAsyncByTenantIdAndDomainId": {
-              "uniqueName": "RemoveCorporateDomainForTenantAsyncByTenantIdAndDomainId",
-              "name": "RemoveCorporateDomainForTenantAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/RemoveCorporateDomainForTenant",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "tenantId",
-                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "domainId",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "tenantId",
-                  "name": "tenantId",
-                  "jsonName": null,
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "domainId",
-                  "name": "domainId",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "GetHostnamesByApplicationAsyncByApplicationId": {
-              "uniqueName": "GetHostnamesByApplicationAsyncByApplicationId",
-              "name": "GetHostnamesByApplicationAsync",
-              "httpMethod": "GET",
-              "url": "api/TenantManagement/DomainSettings/GetHostnamesByApplication",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "applicationId",
-                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "applicationId",
-                  "name": "applicationId",
-                  "jsonName": null,
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<TenantSettings.Module.Cache.TenantHostnameDto>",
-                "typeSimple": "[TenantSettings.Module.Cache.TenantHostnameDto]"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
-            },
-            "UpdateDomainApplicationAsyncByDomainIdAndAppId": {
-              "uniqueName": "UpdateDomainApplicationAsyncByDomainIdAndAppId",
-              "name": "UpdateDomainApplicationAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/DomainSettings/UpdateDomainApplication",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "domainId",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "appId",
-                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "domainId",
-                  "name": "domainId",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "appId",
-                  "name": "appId",
-                  "jsonName": null,
-                  "type": "System.Guid?",
-                  "typeSimple": "string?",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": false,
-              "implementFrom": "VPortal.TenantManagement.Module.CorporateDomains.IDomainSettingsAppService"
             }
           }
         },
@@ -36179,298 +37221,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.TenantManagement.Module.PermissionGroups.IFeaturePermissionListAppService"
-            }
-          }
-        },
-        "VPortal.TenantManagement.Module.Controllers.FeaturesController": {
-          "controllerName": "Features",
-          "controllerGroupName": "Features",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.TenantManagement.Module.Controllers.FeaturesController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.FeatureManagement.IFeatureAppService",
-              "name": "IFeatureAppService",
-              "methods": [
-                {
-                  "name": "GetAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
-                    "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
-                  }
-                },
-                {
-                  "name": "UpdateAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "input",
-                      "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
-                      "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                      "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                },
-                {
-                  "name": "DeleteAsync",
-                  "parametersOnMethod": [
-                    {
-                      "name": "providerName",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    },
-                    {
-                      "name": "providerKey",
-                      "typeAsString": "System.String, System.Private.CoreLib",
-                      "type": "System.String",
-                      "typeSimple": "string",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Void",
-                    "typeSimple": "System.Void"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "DeleteAsyncByProviderNameAndProviderKey": {
-              "uniqueName": "DeleteAsyncByProviderNameAndProviderKey",
-              "name": "DeleteAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/Features/DeleteAsync",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
-            },
-            "GetAsyncByProviderNameAndProviderKey": {
-              "uniqueName": "GetAsyncByProviderNameAndProviderKey",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/TenantManagement/Features/GetAsync",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
-                "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
-            },
-            "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
-              "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
-              "name": "UpdateAsync",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/Features/UpdateAsync",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "providerName",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "providerKey",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
-                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "providerName",
-                  "name": "providerName",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "providerKey",
-                  "name": "providerKey",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.FeatureManagement.IFeatureAppService"
             }
           }
         },
@@ -37294,186 +38044,6 @@
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.TenantManagement.Module.TenantAppearance.ITenantAppearanceAppService"
-            }
-          }
-        },
-        "VPortal.TenantManagement.Module.Controllers.TenantContentSecurityController": {
-          "controllerName": "TenantContentSecurity",
-          "controllerGroupName": "TenantContentSecurity",
-          "isRemoteService": true,
-          "isIntegrationService": false,
-          "apiVersion": null,
-          "type": "VPortal.TenantManagement.Module.Controllers.TenantContentSecurityController",
-          "interfaces": [
-            {
-              "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService",
-              "name": "ITenantContentSecurityAppService",
-              "methods": [
-                {
-                  "name": "AddTenantContentSecurityHost",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "RemoveTenantContentSecurityHost",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                },
-                {
-                  "name": "UpdateTenantContentSecurityHost",
-                  "parametersOnMethod": [
-                    {
-                      "name": "input",
-                      "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto, Eleon.TenantManagement.Module.Full",
-                      "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
-                      "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
-                      "isOptional": false,
-                      "defaultValue": null
-                    }
-                  ],
-                  "returnValue": {
-                    "type": "System.Boolean",
-                    "typeSimple": "boolean"
-                  }
-                }
-              ]
-            }
-          ],
-          "actions": {
-            "AddTenantContentSecurityHostByInput": {
-              "uniqueName": "AddTenantContentSecurityHostByInput",
-              "name": "AddTenantContentSecurityHost",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/ContentSecurity/AddTenantContentSecurityHost",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.AddTenantContentSecurityHostDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService"
-            },
-            "RemoveTenantContentSecurityHostByInput": {
-              "uniqueName": "RemoveTenantContentSecurityHostByInput",
-              "name": "RemoveTenantContentSecurityHost",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/ContentSecurity/RemoveTenantContentSecurityHost",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.RemoveTenantContentSecurityHostDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService"
-            },
-            "UpdateTenantContentSecurityHostByInput": {
-              "uniqueName": "UpdateTenantContentSecurityHostByInput",
-              "name": "UpdateTenantContentSecurityHost",
-              "httpMethod": "POST",
-              "url": "api/TenantManagement/ContentSecurity/UpdateTenantContentSecurityHost",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto, Eleon.TenantManagement.Module.Full",
-                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
-                  "typeSimple": "VPortal.TenantManagement.Module.ContentSecurityHosts.UpdateTenantContentSecurityHostDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "VPortal.TenantManagement.Module.ContentSecurityHosts.ITenantContentSecurityAppService"
             }
           }
         },
@@ -38760,7 +39330,8 @@
         "Active",
         "Suspended",
         "Canceled",
-        "Deleted"
+        "Deleted",
+        "InActive"
       ],
       "enumValues": [
         0,
@@ -38768,7 +39339,8 @@
         2,
         3,
         4,
-        5
+        5,
+        6
       ],
       "genericArguments": null,
       "properties": null
@@ -53495,10 +54067,22 @@
           "regex": null
         },
         {
-          "name": "LinkedMembers",
+          "name": "LinkedUsers",
           "jsonName": null,
-          "type": "[VPortal.Accounting.Module.AccountPackages.LinkedMemberDto]",
-          "typeSimple": "[VPortal.Accounting.Module.AccountPackages.LinkedMemberDto]",
+          "type": "[VPortal.Accounting.Module.AccountPackages.LinkedUserDto]",
+          "typeSimple": "[VPortal.Accounting.Module.AccountPackages.LinkedUserDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LinkedTenants",
+          "jsonName": null,
+          "type": "[VPortal.Accounting.Module.AccountPackages.LinkedTenantDto]",
+          "typeSimple": "[VPortal.Accounting.Module.AccountPackages.LinkedTenantDto]",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -53508,7 +54092,7 @@
         }
       ]
     },
-    "VPortal.Accounting.Module.AccountPackages.LinkedMemberDto": {
+    "VPortal.Accounting.Module.AccountPackages.LinkedTenantDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -53540,7 +54124,52 @@
           "regex": null
         },
         {
-          "name": "MemberEntityId",
+          "name": "TenantMemberEntityId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.AccountPackages.LinkedUserDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "AccountPackageEntityId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserMemberEntityId",
           "jsonName": null,
           "type": "System.Guid",
           "typeSimple": "string",
@@ -53561,10 +54190,10 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "BillingInformation",
+          "name": "BillingName",
           "jsonName": null,
-          "type": "VPortal.Accounting.Module.BillingInformations.BillingInformationDto",
-          "typeSimple": "VPortal.Accounting.Module.BillingInformations.BillingInformationDto",
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -53573,10 +54202,130 @@
           "regex": null
         },
         {
-          "name": "Members",
+          "name": "CompanyCID",
           "jsonName": null,
-          "type": "[VPortal.Accounting.Module.Accounts.MemberDto]",
-          "typeSimple": "[VPortal.Accounting.Module.Accounts.MemberDto]",
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BillingAddressLine1",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "BillingAddressLine2",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "City",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "StateOrProvince",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PostalCode",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Country",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ContactPersonEmail",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ContactPersonTelephone",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PaymentMethod",
+          "jsonName": null,
+          "type": "Common.Module.Constants.PaymentMethod",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -53714,10 +54463,22 @@
           "regex": null
         },
         {
-          "name": "AccountName",
+          "name": "Name",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Active",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -53924,193 +54685,7 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "AccountName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "OwnerId",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "VPortal.Accounting.Module.Accounts.MemberDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "RefId",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Type",
-          "jsonName": null,
-          "type": "VPortal.Accounting.Module.Constants.MemberType",
-          "typeSimple": "enum",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        }
-      ]
-    },
-    "VPortal.Accounting.Module.BillingInformations.BillingInformationDto": {
-      "baseType": null,
-      "isEnum": false,
-      "enumNames": null,
-      "enumValues": null,
-      "genericArguments": null,
-      "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "CompanyName",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "CompanyCID",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "BillingAddressLine1",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "BillingAddressLine2",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "City",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "StateOrProvince",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "PostalCode",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "Country",
-          "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null
-        },
-        {
-          "name": "ContactPersonName",
+          "name": "Name",
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
@@ -54132,11 +54707,62 @@
           "minimum": null,
           "maximum": null,
           "regex": null
-        },
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.Accounts.LinkedTenantListRequestDto": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
         {
-          "name": "ContactPersonTelephone",
+          "name": "AccountPackageId",
           "jsonName": null,
-          "type": "System.String",
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.Accounts.LinkedUserListRequestDto": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "AccountPackageId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.Accounts.TenantMemberDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
           "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
@@ -54146,10 +54772,85 @@
           "regex": null
         },
         {
-          "name": "PaymentMethod",
+          "name": "RefTenantId",
           "jsonName": null,
-          "type": "Common.Module.Constants.PaymentMethod",
-          "typeSimple": "enum",
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.Accounts.TenantMemberListRequestDto": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "AccountId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.Accounts.UserMemberDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "VPortal.Accounting.Module.Accounts.UserMemberListRequestDto": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "AccountId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -54183,20 +54884,6 @@
         6,
         7,
         8
-      ],
-      "genericArguments": null,
-      "properties": null
-    },
-    "VPortal.Accounting.Module.Constants.MemberType": {
-      "baseType": "System.Enum",
-      "isEnum": true,
-      "enumNames": [
-        "Tenant",
-        "User"
-      ],
-      "enumValues": [
-        1,
-        2
       ],
       "genericArguments": null,
       "properties": null

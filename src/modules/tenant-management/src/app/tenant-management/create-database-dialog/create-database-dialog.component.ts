@@ -1,7 +1,7 @@
 import { Component, ContentChild, Input, OnInit, TemplateRef, Output, EventEmitter} from '@angular/core';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
-import { HostService } from '@eleon/tenant-management-proxy';
+import { HostService } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { TenantDto } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { TenantService } from '@eleon/eleoncore-multi-tenancy-proxy';
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { TenantSettingsService } from '@eleon/tenant-management-proxy';
-import { ClientIsolationService } from '@eleon/tenant-management-proxy';
-import { TenantWhitelistedIpDto } from '@eleon/tenant-management-proxy';
+import { ITenantSettingService } from '@eleon/angular-sdk.lib';
+import { TenantClientIsolationService } from '@eleon/eleoncore-multi-tenancy-proxy';
+import { TenantWhitelistedIpDto } from '@eleon/angular-sdk.lib';
 import { Observable, finalize, of } from "rxjs";
 import { FileHelperService } from '@eleon/primeng-ui.lib';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
@@ -73,11 +73,10 @@ export class TenantIpIsolationDialogComponent implements OnInit {
   @Input() tenantId: string;
 
   constructor(
-    private clientIsolationService: ClientIsolationService,
-    private tenantSettingsService: TenantSettingsService,
+    private clientIsolationService: TenantClientIsolationService,
+    private tenantSettingsService: ITenantSettingService,
     private validationService: ValidationService,
-    private msgService: LocalizedMessageService,
-    private fileHelper: FileHelperService
+    private msgService: LocalizedMessageService
   ) {}
 
   public ngOnInit(): void {}
@@ -137,7 +136,7 @@ export class TenantIpIsolationDialogComponent implements OnInit {
   private loadTenantSettings(): void {
     this.loading = true;
     this.tenantSettingsService
-      .getTenantSettingsByTenantId(this.tenantId)
+      .getSettingsByTenantId(this.tenantId)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.data = {

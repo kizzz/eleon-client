@@ -1,17 +1,12 @@
 
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
-import { FeaturesService } from '@eleon/tenant-management-proxy';
-import {
-  FeatureDto,
-  FeatureGroupDto,
-  UpdateFeatureDto,
-} from '@eleon/tenant-management-proxy';
+import { FeatureDto, FeatureGroupDto, UpdateFeatureDto, IFeaturesService } from '@eleon/angular-sdk.lib';
 import { finalize } from "rxjs";
 import { PageStateService } from "@eleon/primeng-ui.lib";
 import { ConfirmationService } from "primeng/api";
-
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
+
 enum ValueTypes {
   ToggleStringValueType = "ToggleStringValueType",
   FreeTextStringValueType = "FreeTextStringValueType",
@@ -50,7 +45,7 @@ export class TenantFeatureSettingsDialogComponent {
   modalBusy = false;
 
   constructor(
-    protected service: FeaturesService,
+    private service: IFeaturesService,
     protected configState: IApplicationConfigurationManager,
     protected confirmationService: ConfirmationService,
     public state: PageStateService,
