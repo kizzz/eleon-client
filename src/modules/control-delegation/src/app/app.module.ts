@@ -23,7 +23,7 @@ import {
 } from '@eleon/angular-sdk.lib';
 
 import { ILocalizationService, IVPortalUserMenuService } from '@eleon/angular-sdk.lib';
-import { PROXY_SERVICES } from '@eleon/tenant-management-proxy';
+import { PROXY_SERVICES } from '@eleon/control-delegation-proxy';
 
 export const remoteRoutes: Route[] = [
   {

@@ -1,12 +1,8 @@
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { Component, OnInit } from "@angular/core"
 import { ActivatedRoute } from "@angular/router"
-import {
-  CommonUserDto,
-  CommonUserService,
-  IdentitySettingService,
-  ProfileService,
-} from '@eleon/tenant-management-proxy';
+import { IIdentitySettingService, IProfileService } from '@eleon/angular-sdk.lib';
+import { CommonUserDto, IUserService } from '@eleon/angular-sdk.lib';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib"
 import { ManageProfileStateService } from "../manage-profile.state.service"
 
@@ -80,13 +76,13 @@ export class UserAccountSettingsComponent implements OnInit {
 
   constructor(
     // private extensionService: ExtensionsService,
-    protected profileService: ProfileService,
+    protected profileService: IProfileService,
     protected manageProfileState: ManageProfileStateService,
     protected activatedRoute: ActivatedRoute,
-    protected userService: CommonUserService,
-    protected config: IApplicationConfigurationManager,
-    private identitySettingService: IdentitySettingService,
-    public msgService: LocalizedMessageService,
+    private userService: IUserService,
+    private config: IApplicationConfigurationManager,
+    private identitySettingService: IIdentitySettingService,
+    private msgService: LocalizedMessageService,
   ) {
   }
 
@@ -113,7 +109,7 @@ export class UserAccountSettingsComponent implements OnInit {
 
   loadUserDetails() {
     const currentUserId: string = this.config.getAppConfig().currentUser?.id;
-    this.userService.getByIdById(currentUserId).subscribe((reply) => {
+    this.userService.getById(currentUserId).subscribe((reply) => {
       this.user = reply;
     });
   }

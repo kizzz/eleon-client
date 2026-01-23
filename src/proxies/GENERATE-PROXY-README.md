@@ -6,3 +6,6 @@ apiName
 module is a name that was set into [Area] attribute on server
 
 source and target is an name of project where proxy must be generated
+
+To specify path inside of module to generate proxy:
+--entry-point "./"

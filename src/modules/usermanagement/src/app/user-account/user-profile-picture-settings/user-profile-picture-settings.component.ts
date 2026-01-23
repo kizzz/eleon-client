@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { IApplicationConfigurationManager, ILightweightStorageService } from '@eleon/angular-sdk.lib';
-import { UserProfilePictureService } from '@eleon/tenant-management-proxy';
+import { IProfileService } from '@eleon/angular-sdk.lib';
 import { Observable, finalize, map } from "rxjs";
 import { FileHelperService } from '@eleon/primeng-ui.lib';
 import { ImageCropperResult } from "./user-image-picker/user-image-picker.component";
@@ -29,7 +29,7 @@ export class UserProfilePictureSettingsComponent implements OnInit {
 
   constructor(
     private storageService: ILightweightStorageService,
-    private profilePictureService: UserProfilePictureService,
+    private profilePictureService: IProfileService,
     private config: IApplicationConfigurationManager,
     private fileHelper: FileHelperService,
     private localizationService: ILocalizationService,
@@ -117,7 +117,7 @@ export class UserProfilePictureSettingsComponent implements OnInit {
       : null;
 
     return this.profilePictureService
-      .setUserProfilePictureByRequest({
+      .updateProfilePicture({
         profilePictureBase64: base64,
         profilePictureThumbnailBase64: thumbBase64,
       })

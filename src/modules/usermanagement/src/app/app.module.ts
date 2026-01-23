@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { extractApiBase, provideEcContainerComponentOnInitialization, provideLocalizationOnInitialization, provideMultipleOnInitialization, provideOnInitialization } from '@eleon/angular-sdk.lib';
 import { QuickReloginComponent } from './quick-relogin/quick-relogin.component';
 import { ILocalizationService, IVPortalUserMenuService } from '@eleon/angular-sdk.lib';
-import { PROXY_SERVICES } from '@eleon/tenant-management-proxy';
+import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 
 export const remoteRoutes = [
   {
@@ -52,7 +52,7 @@ export const remoteRoutes = [
       },
       deps: [IVPortalUserMenuService, ILocalizationService],
     }),
-    ...provideMultipleOnInitialization(PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
+    ...provideMultipleOnInitialization(provideIdentityQuerying()),
   ],
 })
 export class AppModule {

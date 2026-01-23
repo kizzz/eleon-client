@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ControlDelegationDto } from '@eleon/tenant-management-proxy';
-import { ControlDelegationService } from '@eleon/tenant-management-proxy';
+import { ControlDelegationDto } from '@eleon/control-delegation-proxy';
+import { ControlDelegationService } from '@eleon/control-delegation-proxy';
 import { TableLazyLoadEvent } from "primeng/table";
 import { Observable, finalize, map, of } from "rxjs";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";

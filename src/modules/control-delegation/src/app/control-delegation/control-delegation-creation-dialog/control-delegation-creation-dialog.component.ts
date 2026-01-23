@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { ControlDelegationService } from '@eleon/tenant-management-proxy';
+import { ControlDelegationService } from '@eleon/control-delegation-proxy';
 import { CommonUserDto } from '@eleon/angular-sdk.lib';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { IIdentitySelectionDialogService } from "@eleon/contracts.lib";

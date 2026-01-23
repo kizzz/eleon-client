@@ -1,8 +1,4 @@
-import {
-  CommonUserService,
-  IdentityUserUpdateDto,
-  IdentityUserCreateDto,
-} from '@eleon/tenant-management-proxy';
+import { ProfileDto, IProfileService } from '@eleon/angular-sdk.lib';
 import { Component, Input, OnInit } from "@angular/core";
 import { IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
@@ -16,8 +12,7 @@ import { ILocalizationService } from '@eleon/angular-sdk.lib';
 })
 export class UserAccountSettingBoxComponent implements OnInit{
   public loading = false;
-  user: IdentityUserUpdateDto;
-  newUser: IdentityUserCreateDto;
+  user: ProfileDto;
   nameInvalid: boolean = false;
   surnameInvalid: boolean = false;
   usernameInvalid: boolean = false;
@@ -32,19 +27,19 @@ export class UserAccountSettingBoxComponent implements OnInit{
   enableUserName: boolean = true;
 
   constructor(
-    public identityUserService: CommonUserService,
-    public msgService: LocalizedMessageService,
-    public localizationService: ILocalizationService,
+    private msgService: LocalizedMessageService,
+    private localizationService: ILocalizationService,
     private config: IApplicationConfigurationManager,
+    private profileService: IProfileService
     ) {}
 
   ngOnInit(): void {
     this.userId = this.config.getAppConfig().currentUser?.id;
     this.title = this.localizationService.instant('TenantManagement::Edit');
-      this.identityUserService.get(this.userId)
-      .subscribe(reply =>{
-        this.user = Object.assign({}, reply) as unknown as IdentityUserUpdateDto;
-      })
+
+    this.profileService.get().subscribe(profile => {
+      this.user = profile;
+    });
   }
 
   save() {
@@ -52,13 +47,12 @@ export class UserAccountSettingBoxComponent implements OnInit{
       const valid = this.validation();
       if (!valid) return;
       this.loading = true;
-      this.identityUserService.update(this.userId, this.user)
-      .subscribe(reply => {
-        if(reply){
-          this.msgService.success('TenantManagement::UserSuccessfullyUpdated');
-          this.user = Object.assign({}, reply) as unknown as IdentityUserUpdateDto;
+      this.profileService.update(this.user).subscribe(reply => {
+        if (reply){
+          this.msgService.success('TenantManagement::ProfileSuccessfullyUpdated');
+          this.user = reply;
         }
-      })
+      });
     } 
     finally {
       this.loading = false;

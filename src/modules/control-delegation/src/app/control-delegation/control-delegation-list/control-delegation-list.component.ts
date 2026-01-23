@@ -9,7 +9,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ControlDelegationDto } from '@eleon/tenant-management-proxy';
+import { ControlDelegationDto } from '@eleon/control-delegation-proxy';
 import { CommonUserDto } from '@eleon/angular-sdk.lib';
 import { TableLazyLoadEvent } from "primeng/table";
 import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";

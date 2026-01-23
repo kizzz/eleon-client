@@ -18,7 +18,6 @@ import { UserAccountSettingBoxComponent } from "./user-account-settings/user-aco
 import { UserImagePickerComponent } from "./user-profile-picture-settings/user-image-picker/user-image-picker.component"
 import { UserProfilePictureSettingsComponent } from "./user-profile-picture-settings/user-profile-picture-settings.component"
 import { CheckboxModule } from 'primeng/checkbox'
-import { NotificationSettingsBoxComponent } from './user-account-settings/notification-settings-box/notification-settings-box.component'
 import { UserSessionsModule } from '@eleon/user-sessions.lib'
 import { PanelModule } from 'primeng/panel'
 
@@ -30,7 +29,6 @@ import { PanelModule } from 'primeng/panel'
     UserProfilePictureSettingsComponent,
     UserImagePickerComponent,
     UserAccountSettingBoxComponent,
-		NotificationSettingsBoxComponent,
   ],
   imports: [
     CommonModule,

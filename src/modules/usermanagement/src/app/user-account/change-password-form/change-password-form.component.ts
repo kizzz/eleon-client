@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ProfileService } from '@eleon/tenant-management-proxy';
+import { IProfileService } from '@eleon/angular-sdk.lib';
 import { finalize } from "rxjs/operators";
 import { ManageProfileStateService } from "../manage-profile.state.service";
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
@@ -21,7 +21,7 @@ export class ChangePasswordFormComponent implements OnInit {
   repeatPasswordIsInvalid: boolean = false;
 
   constructor(
-    private profileService: ProfileService,
+    private profileService: IProfileService,
     private manageProfileState: ManageProfileStateService,
     private msgService: LocalizedMessageService
   ) {}

@@ -11,14 +11,14 @@
             "
           >
             <div class="p-1">
-              <label>{{ setting.displayName }}</label>
+              <label>{{ ("TenantManagement::" + setting.displayName) | abpLocalization}}</label>
               <input
                 pInputText
                 [(ngModel)]="setting.value"
                 (ngModelChange)="state.setDirty()"
                 class="w-100"
               />
-              <small>{{ setting.description }}</small>
+              <small>{{ ("TenantManagement::" + setting.description) | abpLocalization}}</small>
             </div>
           </ng-container>
           <ng-container
@@ -28,7 +28,7 @@
             "
           >
             <div class="p-1">
-              <label>{{ setting.displayName }}</label>
+              <label>{{ ("TenantManagement::" + setting.displayName) | abpLocalization }}</label>
               <p-select
                 [options]="twoFactorAuthOptions"
                 [(ngModel)]="setting.value"
@@ -41,7 +41,7 @@
                 [style]="{ width: '100%' }"
               >
               </p-select>
-              <small>{{ setting.description }}</small>
+              <small>{{ ("TenantManagement::" + setting.description) | abpLocalization}}</small>
             </div>
           </ng-container>
           <ng-container
@@ -51,7 +51,7 @@
             "
           >
             <div class="p-1">
-              <label>{{ setting.displayName }}</label>
+              <label>{{ ("TenantManagement::" + setting.displayName) | abpLocalization }}</label>
               <p-select
                 [options]="smsProviderOptions"
                 [(ngModel)]="setting.value"
@@ -64,16 +64,16 @@
                 [style]="{ width: '100%' }"
               >
               </p-select>
-              <small>{{ setting.description }}</small>
+              <small>{{ ("TenantManagement::" + setting.description) | abpLocalization}}</small>
             </div>
           </ng-container>
           <ng-container *ngIf="setting.type == SettingType.Number">
             <div class="p-1">
               <label *ngIf="!showRequaredMark(setting)">{{
-                setting.displayName
+                ("TenantManagement::" + setting.displayName) | abpLocalization
               }}</label>
               <label *ngIf="showRequaredMark(setting)" appRequired>{{
-                setting.displayName
+                ("TenantManagement::" + setting.displayName) | abpLocalization
               }}</label>
 
               <p-inputNumber
@@ -85,7 +85,7 @@
                 class="w-100"
                 (onInput)="state.setDirty()"
               ></p-inputNumber>
-              <small>{{ setting.description }}</small>
+              <small>{{ ("TenantManagement::" + setting.description) | abpLocalization}}</small>
             </div>
           </ng-container>
           <ng-container *ngIf="setting.type == SettingType.Boolean">
@@ -100,10 +100,11 @@
                 (onChange)="onBooleanChange(setting, $event)"
               >
               </p-checkbox>
-              <span>{{ setting.name }}</span>
+              
+              <span>{{ ("TenantManagement::" + setting.name) | abpLocalization }}</span>
               </div>
               <div>
-                <small>{{ setting.description }}</small>
+                <small>{{ ("TenantManagement::" + setting.description) | abpLocalization}}</small>
               </div>
             </div>
           </ng-container>
@@ -125,7 +126,7 @@
                 </div>
               </div>
               <div>
-                <small>{{ setting.description }}</small>
+                <small>{{ ("TenantManagement::" + setting.description) | abpLocalization}}</small>
               </div>
             </div>
           </ng-container>

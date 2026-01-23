@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { IImpersonationService } from '@eleon/angular-sdk.lib'
-import { ControlDelegationDto } from '@eleon/tenant-management-proxy';
-import { ControlDelegationService } from '@eleon/tenant-management-proxy';
+import { ControlDelegationDto } from '@eleon/control-delegation-proxy';
+import { ControlDelegationService } from '@eleon/control-delegation-proxy';
 import { TableLazyLoadEvent } from "primeng/table";
 import { finalize } from "rxjs";
 

@@ -1,6 +1,6 @@
 import { InternalStore } from '@eleon/angular-sdk.lib';
 import { Injectable } from "@angular/core";
-import { ProfileDto } from '@eleon/tenant-management-proxy';
+import { ProfileDto } from '@eleon/angular-sdk.lib';
 import { Observable } from "rxjs";
 
 export interface ManageProfileState {
