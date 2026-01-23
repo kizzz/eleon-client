@@ -84,6 +84,7 @@ export interface LinkedUserListRequestDto extends PagedAndSortedResultRequestDto
 export interface TenantMemberDto {
   id?: string;
   refTenantId?: string;
+  name?: string;
 }
 
 export interface TenantMemberListRequestDto extends PagedAndSortedResultRequestDto {
@@ -93,6 +94,7 @@ export interface TenantMemberListRequestDto extends PagedAndSortedResultRequestD
 export interface UserMemberDto {
   id?: string;
   userId?: string;
+  name?: string;
 }
 
 export interface UserMemberListRequestDto extends PagedAndSortedResultRequestDto {

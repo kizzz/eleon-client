@@ -38,6 +38,11 @@ import { PackageTemplateCreateDialogComponent } from './package-template/package
 import { TabsModule } from 'primeng/tabs';
 import { AccountPackagesManagementComponent } from './account/account-packages-management/account-packages-management.component';
 import { AccountMembersManagementComponent } from './account/account-members-management/account-members-management.component';
+import { AccountPackageCreateDialogComponent } from './account/account-package-create-dialog/account-package-create-dialog.component';
+import { AccountUserManagementComponent } from './account/account-user-management/account-user-management.component';
+import { AccountTenantManagementComponent } from './account/account-tenant-management/account-tenant-management.component';
+import { UserMemberCreateComponent } from './account/user-member-create/user-member-create.component';
+import { TenantMemberCreateComponent } from './account/tenant-member-create/tenant-member-create.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +59,12 @@ import { AccountMembersManagementComponent } from './account/account-members-man
     AccountCreateDialogComponent,
     PackageTemplateCreateDialogComponent,
     AccountPackagesManagementComponent,
-    AccountMembersManagementComponent
+    AccountMembersManagementComponent,
+    AccountPackageCreateDialogComponent,
+    AccountUserManagementComponent,
+    AccountTenantManagementComponent,
+    UserMemberCreateComponent,
+    TenantMemberCreateComponent
   ],
   imports: [
     AccountingRoutingModule,

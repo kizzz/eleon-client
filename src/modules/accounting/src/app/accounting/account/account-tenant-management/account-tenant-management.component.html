@@ -1,0 +1,111 @@
+<div>
+  <ng-template
+    appResponsiveTable="md"
+    let-scrollable
+    let-breakpoint="breakpoint"
+    let-direction="direction"
+  >
+    <p-table
+      [scrollable]="scrollable"
+      [responsive]="true"
+      responsiveLayout="stack"
+      [breakpoint]="breakpoint"
+      scrollDirection="both"
+      [value]="members"
+      dataKey="id"
+      [loading]="componentLoading || loading"
+      [paginator]="false"
+    >
+      <ng-template pTemplate="header">
+        <tr class="table-header w-full">
+          <th>
+            {{ 'AccountingModule::TenantMember:Name' | abpLocalization }}
+          </th>
+          <th
+            appResponsiveColumn="110"
+            [alignFrozen]="direction"
+            pFrozenColumn
+          >
+            <div class="flex justify-content-end">
+              <p-button
+                icon="fa fa-plus"
+                (click)="addMember()"
+                [disabled]="componentLoading || loading"
+                autoWidth="false"
+                [text]="true"
+                [raised]="true"
+                iconPos="left"
+                styleClass="p-button-info p-button-sm"
+                [label]="'AccountingModule::Add' | abpLocalization"
+              >
+              </p-button>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-member
+        let-rowIndex="rowIndex"
+      >
+        <tr>
+          <td>
+            <span class="non-editing-only p-column-title">{{
+              'AccountingModule::TenantMember:Name' | abpLocalization
+            }}</span>
+            <span class="column-content">
+              {{ getMemberRefTenantId(member) || '-' }}
+            </span>
+          </td>
+          <td
+            class="row-buttons"
+            [alignFrozen]="direction"
+            pFrozenColumn
+          >
+            <div class="flex gap-2 justify-content-end">
+              <i
+                (click)="removeMember(rowIndex)"
+                class="fa fa-trash" style="color: red"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:RemoveMember'
+                    | abpLocalization
+                "
+              ></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td class="w-full" colspan="2">
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header">
+                  {{
+                    'AccountingModule::NoTenantMembers' | abpLocalization
+                  }}
+                </div>
+                <div
+                  class="flex align-item-center justify-content-center"
+                >
+                  <button
+                    (click)="addMember()"
+                    pButton
+                    [pTooltip]="
+                      'AccountingModule::Tooltip:AddMember'
+                        | abpLocalization
+                    "
+                    icon="fa fa-plus" style="color: #22c55e;"
+                    [disabled]="componentLoading || loading"
+                    class="small-width-only p-button-outlined p-button-rounded"
+                    iconPos="left"
+                  ></button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+</div>

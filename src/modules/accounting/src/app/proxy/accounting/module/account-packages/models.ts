@@ -38,10 +38,12 @@ export interface LinkedTenantDto {
   id?: string;
   accountPackageEntityId?: string;
   tenantMemberEntityId?: string;
+  name?: string;
 }
 
 export interface LinkedUserDto {
   id?: string;
   accountPackageEntityId?: string;
   userMemberEntityId?: string;
+  name?: string;
 }

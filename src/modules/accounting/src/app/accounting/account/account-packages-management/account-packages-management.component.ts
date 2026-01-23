@@ -1,13 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import {
   AccountPackageService,
   AccountMemberService,
   AccountPackageDto,
-  CreateAccountPackageDto,
   AccountPackageListRequestDto,
   BillingPeriodType,
-  AccountStatus,
-  PackageTemplateDto,
   LinkedUserDto,
   LinkedTenantDto,
   CreateLinkedUserDto,
@@ -18,19 +15,24 @@ import {
   UserMemberDto,
   TenantMemberDto,
 } from '@eleon/accounting-proxy';
-import { Table } from "primeng/table";
 import { contributeControls, LocalizedMessageService, PAGE_CONTROLS, PageControls } from "@eleon/primeng-ui.lib";
 import { PageStateService } from '@eleon/primeng-ui.lib';
-import { generateTempGuid, viewportBreakpoints } from "@eleon/angular-sdk.lib";
+import { viewportBreakpoints } from "@eleon/angular-sdk.lib";
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { finalize, forkJoin } from "rxjs";
+import { LazyLoadEvent } from 'primeng/api';
 
 interface AccountPackageRow {
   data: AccountPackageDto;
   templateNotSelected: boolean;
-  editing: boolean;
   linkedMembersCount?: number;
-  rowId?: string; // Unique identifier for table row editing
+  rowId?: string;
+  linkedUsers?: LinkedUserDto[];
+  linkedTenants?: LinkedTenantDto[];
+  loadingLinkedUsers?: boolean;
+  loadingLinkedTenants?: boolean;
+  totalLinkedUsers?: number;
+  totalLinkedTenants?: number;
 }
 
 @Component({
@@ -47,22 +49,22 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
   @Output() packagesChange = new EventEmitter<AccountPackageDto[]>();
   @Output() dirtyChange = new EventEmitter<void>();
 
-  @ViewChild("accountPackagesTable") rowTableRef: Table;
-
   viewportBreakpoints = viewportBreakpoints;
   rows: AccountPackageRow[] = [];
   loading: boolean = false;
-  editingSomeRow: boolean = false;
-  addingRowId: string | undefined = undefined;
   currentPackageRow: AccountPackageRow | null = null;
   showMemberSelectionDialog: boolean = false;
   availableMembers: (UserMemberDto | TenantMemberDto)[] = [];
   selectedLinkedMembers: (LinkedUserDto | LinkedTenantDto)[] = [];
   currentPackageType: PackageType | undefined = undefined;
+  showCreateDialog: boolean = false;
+  currentEditingPackageId: string | undefined = undefined;
+  PackageType = PackageType;
 
   @PageControls()
     controls = contributeControls([
       PAGE_CONTROLS.ADD({
+        key: "AccountingModule::AddPackage",
         action: () => this.addRow(),
         disabled: () => this.loading,
         loading: () => this.loading,
@@ -159,150 +161,56 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
   createRow(item: AccountPackageDto): AccountPackageRow {
     return {
       data: item,
-      editing: false,
       templateNotSelected: false,
       linkedMembersCount: 0,
       rowId: item.id || `temp-${Date.now()}-${Math.random()}`,
+      linkedUsers: [],
+      linkedTenants: [],
+      loadingLinkedUsers: false,
+      loadingLinkedTenants: false,
+      totalLinkedUsers: 0,
+      totalLinkedTenants: 0,
     };
   }
 
   addRow(): void {
-    if (this.editingSomeRow) {
-      this.messageService.error("AccountingModule::Error:RowEditingInProcess");
-      return;
-    }
-
     if (!this.accountId) {
       this.messageService.error("AccountingModule::Error:AccountIdRequired");
       return;
     }
 
-    this.pageStateService.setDirty();
-    this.dirtyChange.emit();
-
-    const newPackage: CreateAccountPackageDto = {
-      autoSuspention: false,
-      billingPeriodType: BillingPeriodType.Month,
-      autoRenewal: false,
-      oneTimeDiscount: 0,
-      permanentDiscount: 0,
-    };
-
-    this.loading = true;
-    this.accountPackageService
-      .addAccountPackage(this.accountId, newPackage)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe({
-        next: (createdPackage) => {
-          const newRow = this.createRow(createdPackage);
-          this.addingRowId = createdPackage.id;
-          this.rows.push(newRow);
-          this.startRowEditing(newRow);
-          this.emitPackagesChange();
-        },
-        error: (error) => {
-          this.messageService.error("AccountingModule::Error:AddPackageFailed");
-          console.error("Error adding package:", error);
-        },
-      });
+    this.currentEditingPackageId = undefined;
+    this.showCreateDialog = true;
   }
 
   editRow(row: AccountPackageRow): void {
-    if (this.editingSomeRow) {
-      this.messageService.error("AccountingModule::Error:RowEditingInProcess");
+    if (!row.data.id) {
+      this.messageService.error("AccountingModule::Error:PackageIdRequired");
       return;
     }
-    this.startRowEditing(row);
+
+    this.currentEditingPackageId = row.data.id;
+    this.showCreateDialog = true;
   }
 
-  startRowEditing(row: AccountPackageRow): void {
-    this.pageStateService.setDirty();
-    this.dirtyChange.emit();
-    this.editingSomeRow = true;
-    row.editing = true;
-    this.rowTableRef.initRowEdit(row);
-  }
+  onAccountPackageSaved(packageDto: AccountPackageDto): void {
+    const existingRowIndex = this.rows.findIndex((r) => r.data.id === packageDto.id);
 
-  saveEditedRow(row: AccountPackageRow, element: HTMLTableRowElement): void {
-    const valid = this.validateRow(row);
-    if (!valid) return;
-
-    this.pageStateService.setDirty();
-    this.dirtyChange.emit();
-
-    this.loading = true;
-    this.accountPackageService
-      .updateAccountPackage(row.data)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe({
-        next: (updatedPackage) => {
-          row.data = updatedPackage;
-          row.editing = false;
-          this.rowTableRef.saveRowEdit(row, element);
-          if (this.addingRowId === row.data.id) {
-            this.addingRowId = undefined;
-          }
-          this.editingSomeRow = false;
-          this.emitPackagesChange();
-        },
-        error: (error) => {
-          this.messageService.error("AccountingModule::Error:UpdatePackageFailed");
-          console.error("Error updating package:", error);
-        },
-      });
-  }
-
-  validateRow(row: AccountPackageRow): boolean {
-    let errors: string[] = [];
-
-    if (!row.data.packageTemplateEntityId || row.data.packageTemplateEntityId?.length <= 0) {
-      row.templateNotSelected = true;
-      errors.push("AccountingModule::Error:PackageTemplateNotSelected");
-    }
-
-    if (errors.length === 0) return true;
-    for (const err of errors) {
-      this.messageService.error(err);
-    }
-    return false;
-  }
-
-  cancelRowEditing(row: AccountPackageRow, rowIndex: number): void {
-    if (this.addingRowId === row.data.id) {
-      this.addingRowId = undefined;
-      this.removeRow(rowIndex);
+    if (existingRowIndex >= 0) {
+      // Update existing row
+      const existingRow = this.rows[existingRowIndex];
+      existingRow.data = packageDto;
+      this.loadLinkedMembersForPackage(existingRow);
     } else {
-      this.loading = true;
-      this.accountPackageService
-        .getAccountPackage(row.data.id!)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe({
-          next: (originalPackage) => {
-            row.data = originalPackage;
-            this.rowTableRef.cancelRowEdit(row);
-            row.editing = false;
-            this.editingSomeRow = false;
-          },
-          error: (error) => {
-            console.error("Error loading original package:", error);
-            this.rowTableRef.cancelRowEdit(row);
-            row.editing = false;
-            this.editingSomeRow = false;
-          },
-        });
+      // Add new row
+      const newRow = this.createRow(packageDto);
+      this.rows.push(newRow);
+      this.loadLinkedMembersForPackage(newRow);
     }
+
+    this.pageStateService.setDirty();
+    this.dirtyChange.emit();
+    this.emitPackagesChange();
   }
 
   removeRow(rowIndex: number): void {
@@ -335,35 +243,10 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       });
   }
 
-  resetRowValidators(row: AccountPackageRow): void {
-    row.templateNotSelected = false;
-  }
-
-  ensureRowEditing(): void {
-    const editedRow = this.rows.find((x) => x.editing);
-    if (editedRow) {
-      this.startRowEditing(editedRow);
-    }
-  }
-
-  getRowsLength(): number {
-    return this.rows?.length || 0;
-  }
-
   getBillingPeriodTypeName(type: number): string {
     return this.localizationService.instant(
       "Infrastructure::BillingPeriodType:" + BillingPeriodType[type]
     );
-  }
-
-  onAccountPackageChange(event: PackageTemplateDto, row: AccountPackageRow): void {
-    if (event) {
-      row.data.name = event.packageName;
-      row.data.packageTemplateEntityId = event.id;
-      row.data.billingPeriodType = event.billingPeriodType;
-      // Store package template for later use (includes packageType)
-      row.data.packageTemplate = event;
-    }
   }
 
   openMemberSelectionDialog(row: AccountPackageRow): void {
@@ -543,7 +426,140 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
     if (!row.linkedMembersCount || row.linkedMembersCount === 0) {
       return '-';
     }
-    return row.linkedMembersCount.toString();
+    if (row.data.packageTemplate?.packageType === PackageType.User) {
+      return `${row.totalLinkedUsers?.toString() || '0'}/${row.data.packageTemplate?.maxMembers || '∞'}`;
+    }
+    if (row.data.packageTemplate?.packageType === PackageType.Tenant) {
+      return `${row.totalLinkedTenants?.toString() || '0'}/${row.data.packageTemplate?.maxMembers || '∞'}`;
+    }
+  }
+
+  loadLinkedUsers(event: LazyLoadEvent, row: AccountPackageRow): void {
+    if (!row.data.id) return;
+
+    row.loadingLinkedUsers = true;
+    const request: LinkedUserListRequestDto = {
+      accountPackageId: row.data.id,
+      skipCount: event.first || 0,
+      maxResultCount: event.rows || 10,
+    };
+
+    this.accountMemberService
+      .getLinkedUsers(request)
+      .pipe(
+        finalize(() => {
+          row.loadingLinkedUsers = false;
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          row.linkedUsers = result.items || [];
+          row.totalLinkedUsers = result.totalCount || 0;
+        },
+        error: (error) => {
+          console.error("Error loading linked users:", error);
+          row.linkedUsers = [];
+          row.totalLinkedUsers = 0;
+        },
+      });
+  }
+
+  loadLinkedTenants(event: LazyLoadEvent, row: AccountPackageRow): void {
+    if (!row.data.id) return;
+
+    row.loadingLinkedTenants = true;
+    const request: LinkedTenantListRequestDto = {
+      accountPackageId: row.data.id,
+      skipCount: event.first || 0,
+      maxResultCount: event.rows || 10,
+    };
+
+    this.accountMemberService
+      .getLinkedTenants(request)
+      .pipe(
+        finalize(() => {
+          row.loadingLinkedTenants = false;
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          row.linkedTenants = result.items || [];
+          row.totalLinkedTenants = result.totalCount || 0;
+        },
+        error: (error) => {
+          console.error("Error loading linked tenants:", error);
+          row.linkedTenants = [];
+          row.totalLinkedTenants = 0;
+        },
+      });
+  }
+
+  deleteLinkedUser(linkedUser: LinkedUserDto, row: AccountPackageRow): void {
+    if (!linkedUser.id) {
+      this.messageService.error("AccountingModule::Error:LinkedUserIdRequired");
+      return;
+    }
+
+    this.accountMemberService
+      .deleteLinkedUser(linkedUser.id)
+      .pipe(
+        finalize(() => {
+          // Reload the linked users after deletion
+          // Calculate current page based on total records
+          const currentPage = row.totalLinkedUsers ? Math.floor((row.totalLinkedUsers - 1) / 10) : 0;
+          const event: LazyLoadEvent = {
+            first: currentPage * 10,
+            rows: 10,
+          };
+          this.loadLinkedUsers(event, row);
+          this.loadLinkedMembersForPackage(row);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.pageStateService.setDirty();
+          this.dirtyChange.emit();
+          this.messageService.success("AccountingModule::Success:LinkedUserDeleted");
+        },
+        error: (error) => {
+          this.messageService.error("AccountingModule::Error:DeleteLinkedUserFailed");
+          console.error("Error deleting linked user:", error);
+        },
+      });
+  }
+
+  deleteLinkedTenant(linkedTenant: LinkedTenantDto, row: AccountPackageRow): void {
+    if (!linkedTenant.id) {
+      this.messageService.error("AccountingModule::Error:LinkedTenantIdRequired");
+      return;
+    }
+
+    this.accountMemberService
+      .deleteLinkedTenant(linkedTenant.id)
+      .pipe(
+        finalize(() => {
+          // Reload the linked tenants after deletion
+          // Calculate current page based on total records
+          const currentPage = row.totalLinkedTenants ? Math.floor((row.totalLinkedTenants - 1) / 10) : 0;
+          const event: LazyLoadEvent = {
+            first: currentPage * 10,
+            rows: 10,
+          };
+          this.loadLinkedTenants(event, row);
+          this.loadLinkedMembersForPackage(row);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.pageStateService.setDirty();
+          this.dirtyChange.emit();
+          this.messageService.success("AccountingModule::Success:LinkedTenantDeleted");
+        },
+        error: (error) => {
+          this.messageService.error("AccountingModule::Error:DeleteLinkedTenantFailed");
+          console.error("Error deleting linked tenant:", error);
+        },
+      });
   }
 
   private emitPackagesChange(): void {

@@ -1,0 +1,61 @@
+<p-dialog
+  [resizable]="true"
+  [header]="localizationService.instant('AccountingModule::TenantMember:Edit')"
+  [(visible)]="display"
+  [modal]="true"
+  [draggable]="false"
+  [style]="{ width: '600px' }"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+  <div class="dialog-standard w-full">
+    <div class="grid m-0">
+      <div class="field col-12 p-0">
+        <label appRequired>{{ 'AccountingModule::Header:RefTenantId' | abpLocalization }}</label>
+        <div class="p-inputgroup">
+          <input
+            [value]="selectedEntityName"
+            type="text"
+            pInputText
+            [disabled]="true"
+            [ngClass]="{'ng-invalid ng-dirty': refTenantIdEmpty}"
+            [placeholder]="'AccountingModule::Header:RefTenantId:Placeholder' | abpLocalization"
+          />
+          <button
+            type="button"
+            (click)="openTenantSelectionDialog()"
+            pButton
+            pRipple
+            icon="fa fa-building"
+            [disabled]="loading"
+            styleClass="p-button-info"
+            class="p-button-text"
+            [pTooltip]="'Infrastructure::TenantSelection' | abpLocalization"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2 flex justify-content-end gap-3">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="cancel()"
+        [label]="'Infrastructure::Cancel' | abpLocalization">
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="pi pi-check"
+        [loading]="loading"
+        [disabled]="loading"
+        (onClick)="save()"
+        [label]="'Infrastructure::Save' | abpLocalization">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
