@@ -272,11 +272,11 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: (appConfig: IApplicationConfigurationManager, clientLogService: ClientLogService, sysLogService: SystemLogService) => {
-        return () => sendSystemLogs(appConfig, clientLogService, sysLogService);
+      useFactory: (appConfig: IApplicationConfigurationManager, clientLogService: ClientLogService, sysLogService: SystemLogService, authService: IAuthManager) => {
+        return () => sendSystemLogs(appConfig, authService, clientLogService, sysLogService);
       },
       multi: true,
-      deps: [IApplicationConfigurationManager, ClientLogService, SystemLogService]
+      deps: [IApplicationConfigurationManager, ClientLogService, SystemLogService, IAuthManager]
     }
   ];
 }

@@ -25,28 +25,28 @@ const getSelfDomain = () => {
   return window.location.protocol + '//' + window.location.host;
 };
 
-async function fetchModuleSettings(url: string): Promise<Record<string, any>> {
-  try {
-    const cleanedUrl = url ? url.replace(/\/$/, '') + '/assets/eleoncore-module-settings.json' : 'assets/eleoncore-module-settings.json';
-    const response = await fetch(cleanedUrl);
-    if (!response.ok) throw new Error(`Failed to fetch settings from ${url}`);
-    const parsed = await response.json();
+// async function fetchModuleSettings(url: string): Promise<Record<string, any>> {
+//   try {
+//     const cleanedUrl = url ? url.replace(/\/$/, '') + '/assets/eleoncore-module-settings.json' : 'assets/eleoncore-module-settings.json';
+//     const response = await fetch(cleanedUrl);
+//     if (!response.ok) throw new Error(`Failed to fetch settings from ${url}`);
+//     const parsed = await response.json();
 
-    const settings: Record<string, any> = parsed?.moduleSettings ?? {};
-    if (parsed?.remoteDependencies?.length) {
-      settings['RemoteDependencies'] = {
-        key: 'RemoteDependencies',
-        type: 'array',
-        value: JSON.stringify(parsed.remoteDependencies)
-      };
-    }
+//     const settings: Record<string, any> = parsed?.moduleSettings ?? {};
+//     if (parsed?.remoteDependencies?.length) {
+//       settings['RemoteDependencies'] = {
+//         key: 'RemoteDependencies',
+//         type: 'array',
+//         value: JSON.stringify(parsed.remoteDependencies)
+//       };
+//     }
 
-    return settings;
-  } catch (e) {
-    console.warn(`Could not load settings for module ${url}`, e);
-    return {};
-  }
-}
+//     return settings;
+//   } catch (e) {
+//     console.warn(`Could not load settings for module ${url}`, e);
+//     return {};
+//   }
+// }
 
 export async function getModulesWithSettings(inputModules: ApplicationModuleDto[]): Promise<ApplicationModuleDto[]> {
   const allModules: Record<string, any> = {};
@@ -57,10 +57,10 @@ export async function getModulesWithSettings(inputModules: ApplicationModuleDto[
     const module = queue.shift();
     if (allModules[module.url]) continue;
 
-    const settings = await fetchModuleSettings(module.url);
+    // const settings = await fetchModuleSettings(module.url);
 
     // Merge settings into module.properties
-    const mergedProps: Record<string, any> = { ...settings };
+    const mergedProps: Record<string, any> = {  }; // ...settings
     if (Array.isArray(module.properties)) {
       for (const prop of module.properties) {
         mergedProps[prop.key] = prop;
