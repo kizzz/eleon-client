@@ -4,7 +4,7 @@ import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
 import { MenuItem } from 'primeng/api';
 import { LocalizedConfirmationService } from '@eleon/primeng-ui.lib';
 import { TenantManagementCreateDialogComponent } from '../tenant-management-create-dialog/tenant-management-create-dialog.component';
-import { HostService } from '@eleon/tenant-management-proxy';
+import { HostService } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { Menu } from 'primeng/menu';
 import { SplitButton } from 'primeng/splitbutton';
 import { CreateDatabaseDialogComponent } from '../create-database-dialog/create-database-dialog.component';
@@ -15,7 +15,6 @@ import { TenantHostnameSettingsDialogComponent } from '../tenant-settings/tenant
 import { TenantClientIsolationDialogComponent } from '../tenant-settings/tenant-client-isolation-dialog/tenant-client-isolation-dialog.component';
 import { TenantIpIsolationDialogComponent } from '../tenant-settings/tenant-ip-isolation-dialog/tenant-ip-isolation-dialog.component';
 import { TenantContentSecurityDialogComponent } from '../tenant-settings/tenant-content-security-dialog/tenant-content-security-dialog.component';
-import { TenantStatusService } from '@eleon/tenant-management-proxy';
 import { TenantFeatureSettingsDialogComponent } from '../tenant-settings/tenant-feature-settings-dialog/tenant-feature-settings-dialog.component';
 import { TenantDto } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { TenantService } from '@eleon/eleoncore-multi-tenancy-proxy';
@@ -111,7 +110,6 @@ export class TenantManagementDashboardComponent implements OnInit {
     public localizationService: ILocalizationService,
     public localizedConfirmationService: LocalizedConfirmationService,
     private impersonationService: IImpersonationService,
-    private tenantStatusService: TenantStatusService,
     private configStateService: IApplicationConfigurationManager
   ) {}
 

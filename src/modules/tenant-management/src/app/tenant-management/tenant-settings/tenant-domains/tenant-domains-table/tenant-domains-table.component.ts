@@ -1,5 +1,5 @@
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
-import { DomainSettingsService } from '@eleon/tenant-management-proxy';
+import { TenantHostnameDto, DomainSettingsService } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { Observable, catchError, finalize, map, of, tap, throwError } from "rxjs";
 import { FileHelperService } from '@eleon/primeng-ui.lib';
 import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
@@ -9,8 +9,6 @@ import {
   ValidationService,
   createValidationState,
 } from "@eleon/primeng-ui.lib";
-import { VportalApplicationType } from '@eleon/tenant-management-proxy';
-import { TenantHostnameDto } from '@eleon/tenant-management-proxy';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   PAGE_CONTROLS,

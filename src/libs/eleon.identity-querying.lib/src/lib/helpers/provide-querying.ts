@@ -1,6 +1,7 @@
-import { IIdentitySettingService, IOrganizationUnitService, IProfileService, IRoleService, ITenantService, IUserService, IUserSettingService } from '@eleon/contracts.lib'
-import { IdentitySettingsService, OrganizationUnitService, RoleService, TenantService, UserService, UserSettingService, UserProfileService } from '../services'
+import { IFeaturesService, IIdentitySettingService, IOrganizationUnitService, IProfileService, IRoleService, ITenantService, ITenantSettingService, IUserService, IUserSettingService } from '@eleon/contracts.lib'
+import { IdentitySettingsService, OrganizationUnitService, RoleService, TenantService, UserService, UserSettingService, UserProfileService, FeatureService } from '../services'
 import { PROXY_SERVICES } from '../proxy'
+import { TenantSettingService } from '../services/tenant-setting.service'
 
 export function provideIdentityQuerying() {
   return [
@@ -32,6 +33,14 @@ export function provideIdentityQuerying() {
     {
       provide: IIdentitySettingService,
       useClass: IdentitySettingsService
+    },
+    {
+      provide: ITenantSettingService,
+      useClass: TenantSettingService
+    },
+    {
+      provide: IFeaturesService,
+      useClass: FeatureService
     }
   ]
 }

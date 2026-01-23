@@ -25,11 +25,12 @@
         "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
       ],
 
+      "@eleon/identity-querying.lib": [
+        "src/libs/eleon.identity-querying.lib/src/index.ts"
+      ],
+
       "@eleon/eleoncore-multi-tenancy-proxy": [
         "src/modules/tenant-management/src/app/proxy/index.ts"
-      ],
-      "@eleon/tenant-management-proxy": [
-        "src/shared/proxies/typescript-proxy/tenant-management-proxy/src/index.ts"
       ]
     }
   }

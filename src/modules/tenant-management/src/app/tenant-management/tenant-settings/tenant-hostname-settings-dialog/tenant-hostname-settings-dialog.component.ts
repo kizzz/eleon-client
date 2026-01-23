@@ -9,8 +9,7 @@ import {
   SimpleChanges,
   ViewChildren,
 } from "@angular/core";
-import { DomainSettingsService } from '@eleon/tenant-management-proxy';
-import { TenantSettingsService } from '@eleon/tenant-management-proxy';
+import { TenantHostnameDto, DomainSettingsService } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { Observable, catchError, finalize, map, of, tap, throwError } from "rxjs";
 import { FileHelperService } from '@eleon/primeng-ui.lib';
 import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
@@ -20,8 +19,6 @@ import {
   ValidationService,
   createValidationState,
 } from "@eleon/primeng-ui.lib";
-import { VportalApplicationType } from '@eleon/tenant-management-proxy';
-import { TenantHostnameDto } from '@eleon/tenant-management-proxy';
 
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 type HostnameValidators = {
@@ -112,7 +109,6 @@ export class TenantHostnameSettingsDialogComponent {
     private localizationService: ILocalizationService,
     private msgService: LocalizedMessageService,
     private validationService: ValidationService,
-    private tenantSettingService: TenantSettingsService,
     private fileHelper: FileHelperService,
     private confirmationService: LocalizedConfirmationService,
     private adminDomainSettingsService: DomainSettingsService

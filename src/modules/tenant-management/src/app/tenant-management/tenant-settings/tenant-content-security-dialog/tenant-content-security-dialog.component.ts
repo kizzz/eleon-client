@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { TenantSettingsService } from '@eleon/tenant-management-proxy';
-import { TenantContentSecurityService } from '@eleon/tenant-management-proxy';
-import { TenantContentSecurityHostDto } from '@eleon/tenant-management-proxy';
+import { ITenantSettingService } from '@eleon/angular-sdk.lib';
+import { TenantContentSecurityService } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { Observable, finalize, of, switchMap, tap } from "rxjs";
 import { FileHelperService } from '@eleon/primeng-ui.lib';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
@@ -59,7 +58,7 @@ export class TenantContentSecurityDialogComponent implements OnInit {
 
   constructor(
     private contentSecurityService: TenantContentSecurityService,
-    private tenantSettingsService: TenantSettingsService,
+    private tenantSettingsService: ITenantSettingService,
     private validationService: ValidationService,
     private msgService: LocalizedMessageService,
     private fileHelper: FileHelperService
@@ -74,7 +73,7 @@ export class TenantContentSecurityDialogComponent implements OnInit {
   }
 
   public hostnameFactory = (
-    dto?: TenantContentSecurityHostDto
+    dto?: any
   ): HostnameRow => ({
     id: undefined,
     hostname: dto?.hostname || "",
@@ -145,7 +144,7 @@ export class TenantContentSecurityDialogComponent implements OnInit {
   private loadTenantSettings(): void {
     this.loading = true;
     this.tenantSettingsService
-      .getTenantSettingsByTenantId(this.tenantId)
+      .getSettingsByTenantId(this.tenantId)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((res) => {
         this.data = {

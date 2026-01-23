@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TenantExternalLoginProviderDto } from '@eleon/tenant-management-proxy';
+import { TenantExternalLoginProviderDto } from '@eleon/angular-sdk.lib';
 
 @Component({
   standalone: false,
