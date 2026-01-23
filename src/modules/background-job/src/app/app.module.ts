@@ -29,7 +29,6 @@ import {
   loadEleoncoreRemoteModule,
 } from '@eleon/angular-sdk.lib';
 import { CommonModule } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2'
 
 export const remoteRoutes: Route[] = [
   {
@@ -79,13 +78,6 @@ export const providers = [
     (cultureName: string) =>
       extractApiBase('eleonsoft') +
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=BackgroundJob`,
-  ),
-  provideOnInitialization(
-    importProvidersFrom(
-      MonacoEditorModule.forRoot({
-        baseUrl: '/modules/background-job/assets',
-      })
-    )
   ),
 ];
 

@@ -27,11 +27,6 @@ import {
   loadEleoncoreRemoteModule,
 } from '@eleon/angular-sdk.lib';
 import { CommonModule } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
-import {
-  CHAT_MODULE_CONFIG,
-  DEFAULT_CHAT_MODULE_CONFIG,
-} from '@eleon/angular-sdk.lib';
 import { QueuesManagementComponent } from './system-queue/queues-management/queues-management.component'
 import { PROXY_SERVICES } from '@eleon/event-management-proxy'
 

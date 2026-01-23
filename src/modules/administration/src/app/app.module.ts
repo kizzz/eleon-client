@@ -32,7 +32,6 @@ import {
   loadEleoncoreRemoteModule,
 } from '@eleon/angular-sdk.lib';
 import { CommonModule } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import {
   CHAT_MODULE_CONFIG,
   DEFAULT_CHAT_MODULE_CONFIG,
@@ -194,13 +193,6 @@ export const providers = [
     (cultureName: string) =>
       extractApiBase('eleonsoft') +
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=Infrastructure&localizationResources=Default&localizationResources=BlobStoringDatabase&localizationResources=VPortal&localizationResources=Identity&localizationResources=Otp&localizationResources=StorageModule&localizationResources=ExternalLink&localizationResources=FileManager&localizationResources=NotificatorModule&localizationResources=Auditor&localizationResources=Lifecycle&localizationResources=Google&localizationResources=Collaboration&localizationResources=Cms&localizationResources=TenantManagement&localizationResources=AbpUiMultiTenancy`,
-  ),
-  provideOnInitialization(
-    importProvidersFrom(
-      MonacoEditorModule.forRoot({
-        baseUrl: '/modules/administration/assets',
-      })
-    )
   ),
   provideOnInitialization({
     provide: CHAT_MODULE_CONFIG,

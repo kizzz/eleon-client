@@ -29,7 +29,6 @@ import {
 import { Route, RouterModule } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { AppModule as AppLayoutModule, } from 'src/modules/primeng-layout/src/app/eleonsoft.app.module';
 import { AppLayoutModule as InternalLayoutModule } from 'src/modules/primeng-layout/src/app/layout/app.layout.module';
 import { registerBasicProviders } from '@eleon/angular-hosting.lib';
@@ -79,11 +78,6 @@ export const providers = [
     (cultureName: string) =>
       extractApiBase('eleonsoft') +
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=Infrastructure&localizationResources=Default&localizationResources=BlobStoringDatabase&localizationResources=VPortal&localizationResources=Identity&localizationResources=Otp&localizationResources=StorageModule&localizationResources=ExternalLink&localizationResources=FileManager&localizationResources=BackgroundJob&localizationResources=NotificatorModule&localizationResources=Auditor&localizationResources=Lifecycle&localizationResources=JobScheduler&localizationResources=Google&localizationResources=SystemLog&localizationResources=Collaboration&localizationResources=Cms&localizationResources=TenantManagement&localizationResources=AccountingModule&localizationResources=GatewayManagement&localizationResources=LanguageManagement&localizationResources=EventManagementModule&localizationResources=AbpUiMultiTenancy&localizationResources=HealthCheckModule`
-  ),
-  importProvidersFrom(
-    MonacoEditorModule.forRoot({
-      baseUrl: '/apps/admin/assets',
-    })
   ),
 ];
 

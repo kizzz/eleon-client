@@ -23,7 +23,6 @@ import {
   loadEleoncoreRemoteModule,
 } from '@eleon/angular-sdk.lib';
 import { CommonModule } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { TemplatingDialogService } from './templating/templates-dashboard/services/templating-dialog.service';
 import { PROXY_SERVICES as TEMPLATING_PROXY_SERVICES } from '@eleon/templating-proxy';
 
@@ -69,13 +68,6 @@ export const providers = [
     (cultureName: string) =>
       extractApiBase('eleonsoft') +
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=Templating`,
-  ),
-  provideOnInitialization(
-    importProvidersFrom(
-      MonacoEditorModule.forRoot({
-        baseUrl: '/modules/templating/assets',
-      })
-    )
   ),
   provideOnInitialization({
     provide: ITemplatingDialogService,

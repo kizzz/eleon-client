@@ -5,7 +5,7 @@ import {
 } from '@eleon/accounting-proxy';
 import { ILocalizationService, IIdentitySelectionDialogService } from '@eleon/angular-sdk.lib';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
-import { CommonUserDto } from '@eleon/tenant-management-proxy';
+import { CommonUserDto } from '@eleon/angular-sdk.lib';
 
 interface Account {
   accountName: string;
