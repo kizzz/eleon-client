@@ -1,5 +1,5 @@
 import { CreateSystemLogDto, SystemLogLevel, SystemLogService } from '@eleon/system-services.lib';
-import { ErrorHandlingLevel } from '@eleon/contracts.lib';
+import { ErrorHandlingLevel, IAuthManager } from '@eleon/contracts.lib';
 import { IApplicationConfigurationManager } from '@eleon/contracts.lib';
 import { ClientLogService } from './client-log.service'
 import { finalize } from 'rxjs'
@@ -14,9 +14,7 @@ export class ClientLogSenderService {
 }
 
 
-
-
-export function sendSystemLogs(appConfig: IApplicationConfigurationManager, clientLogService: ClientLogService, sysLogService: SystemLogService){
+export function sendSystemLogs(appConfig: IApplicationConfigurationManager, authService: IAuthManager, clientLogService: ClientLogService, sysLogService: SystemLogService){
   let sendingInProgress = false;
   let logQueue: CreateSystemLogDto[] = [];
   const MAX_QUEUE_SIZE = 5;
@@ -24,12 +22,14 @@ export function sendSystemLogs(appConfig: IApplicationConfigurationManager, clie
   const sendBatch = () => {
     if (logQueue.length > 0 && !sendingInProgress) {
       sendingInProgress = true;
-      sysLogService.writeMany([...logQueue])
+      if (authService.isAuthenticated()){
+        sysLogService.writeMany([...logQueue])
         .pipe(finalize(() => sendingInProgress = false))
         .subscribe(() => {
           // Log sent successfully
         });
-      logQueue = [];
+        logQueue = [];
+      }
     }
   };
 
