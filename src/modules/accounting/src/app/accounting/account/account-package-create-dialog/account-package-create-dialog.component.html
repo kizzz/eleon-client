@@ -1,0 +1,188 @@
+<div>
+  <p-dialog
+    [resizable]="false"
+    [header]="title"
+    [(visible)]="display"
+    [modal]="true"
+    [draggable]="false"
+    (onHide)="closeDialog()"
+  >
+    <div class="grid m-0 account-package-create-new" *ngIf="display">
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'AccountingModule::Row:PackageTemplate' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <div class="p-float-label">
+              <ng-template #beforeAreaButton>
+                <input
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      accountPackage.validators.packageTemplateNotSelected
+                  }"
+                  class="no-select flex-1"
+                  (change)="resetValidators()"
+                  inputId="package-template-input"
+                  [value]="accountPackage.packageTemplate?.packageName ?? '-'"
+                  type="text"
+                  pInputText
+                  [disabled]="true"
+                  placeholder="{{
+                    'AccountingModule::TemplateSelection'
+                      | abpLocalization
+                  }}"
+                />
+              </ng-template>
+              <app-package-template-selection-dialog
+                [style]="{ width: '100%' }"
+                icon="fa fa-list"
+                (selectEvent)="onPackageTemplateSelected($event)"
+                [beforeButton]="beforeAreaButton"
+              >
+              </app-package-template-selection-dialog>
+              <label
+                for="package-template-input"
+              >{{
+                'AccountingModule::Row:PackageTemplate'
+                  | abpLocalization
+              }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'AccountingModule::Row:BillingPeriodType' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-select
+              [options]="localizedBillingPeriodTypes"
+              [(ngModel)]="accountPackage.billingPeriodType"
+              appendTo="body"
+              class="w-full"
+              optionValue="value"
+              optionLabel="name"
+              [filter]="false"
+              autoWidth="false"
+              [style]="{ width: '100%' }"
+              [disabled]="loading"
+            >
+            </p-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span>
+              {{ 'AccountingModule::Row:OneTimeDiscount' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-inputNumber
+              [style]="{ width: '100%' }"
+              [inputStyle]="{ width: '100%' }"
+              [step]="0.1"
+              [min]="0"
+              [max]="1e6"
+              [showButtons]="true"
+              [(ngModel)]="accountPackage.oneTimeDiscount"
+              mode="decimal"
+              [minFractionDigits]="0"
+              [maxFractionDigits]="1"
+              [disabled]="loading"
+            ></p-inputNumber>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span>
+              {{ 'AccountingModule::Row:PermanentDiscount' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-inputNumber
+              [style]="{ width: '100%' }"
+              [inputStyle]="{ width: '100%' }"
+              [step]="0.1"
+              [min]="0"
+              [max]="1e6"
+              [showButtons]="true"
+              [(ngModel)]="accountPackage.permanentDiscount"
+              mode="decimal"
+              [minFractionDigits]="0"
+              [maxFractionDigits]="1"
+              [disabled]="loading"
+            ></p-inputNumber>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span>
+              {{ 'AccountingModule::Row:AutoRenewal' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-checkbox
+              [binary]="true"
+              [(ngModel)]="accountPackage.autoRenewal"
+              [disabled]="loading"
+            >
+            </p-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span>
+              {{ 'AccountingModule::Row:AutoSuspension' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-checkbox
+              [binary]="true"
+              [(ngModel)]="accountPackage.autoSuspention"
+              [disabled]="loading"
+            >
+            </p-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3 justify-content-end">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-secondary"
+          icon="pi pi-times"
+          [disabled]="loading"
+          (onClick)="closeDialog()"
+          [label]="'Infrastructure::Cancel' | abpLocalization"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-primary"
+          icon="fa fa-check"
+          (onClick)="saveAccountPackage()"
+          [label]="(isEditMode ? 'Infrastructure::Save' : 'Infrastructure::Create') | abpLocalization"
+          [disabled]="loading"
+        >
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

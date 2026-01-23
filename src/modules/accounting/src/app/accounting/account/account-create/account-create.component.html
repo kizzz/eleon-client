@@ -340,11 +340,6 @@
         <p-tablist>
           <p-tab [value]="0">
             <span
-              pBadge
-              severity="warning"
-              class="pr-2"
-              [value]="packagesComponent?.getRowsLength() || 0"
-              [badgeDisabled]="(packagesComponent?.getRowsLength() || 0) === 0"
             >
               {{ 'AccountingModule::Subscriptions' | abpLocalization }}
             </span>
@@ -354,10 +349,17 @@
               pBadge
               severity="info"
               class="pr-2"
-              [value]="membersComponent?.getMembersLength() || 0"
-              [badgeDisabled]="(membersComponent?.getMembersLength() || 0) === 0"
             >
-              {{ 'AccountingModule::Members' | abpLocalization }}
+              {{ 'AccountingModule::UserMembers' | abpLocalization }}
+            </span>
+          </p-tab>
+          <p-tab [value]="2">
+            <span
+              pBadge
+              severity="info"
+              class="pr-2"
+            >
+              {{ 'AccountingModule::TenantMembers' | abpLocalization }}
             </span>
           </p-tab>
         </p-tablist>
@@ -372,12 +374,20 @@
             ></app-account-packages-management>
           </p-tabpanel>
           <p-tabpanel [value]="1">
-            <app-account-members-management
-              #membersComponent
+            <app-account-user-management
+              #userMembersComponent
               [accountId]="header.data.id"
               [loading]="loading"
               (dirtyChange)="pageStateService.setDirty()"
-            ></app-account-members-management>
+            ></app-account-user-management>
+          </p-tabpanel>
+          <p-tabpanel [value]="2">
+            <app-account-tenant-management
+              #tenantMembersComponent
+              [accountId]="header.data.id"
+              [loading]="loading"
+              (dirtyChange)="pageStateService.setDirty()"
+            ></app-account-tenant-management>
           </p-tabpanel>
         </p-tabpanels>
       </p-tabs>

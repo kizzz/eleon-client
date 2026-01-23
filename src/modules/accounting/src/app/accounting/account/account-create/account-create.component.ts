@@ -21,7 +21,8 @@ import { BeforeDialogOpenEvent, assertAlert, viewportBreakpoints } from "@eleon/
 
 import { IPermissionService, ILocalizationService, IIdentitySelectionDialogService } from '@eleon/angular-sdk.lib';
 import { AccountPackagesManagementComponent } from '../account-packages-management/account-packages-management.component';
-import { AccountMembersManagementComponent } from '../account-members-management/account-members-management.component';
+import { AccountUserManagementComponent } from '../account-user-management/account-user-management.component';
+import { AccountTenantManagementComponent } from '../account-tenant-management/account-tenant-management.component';
 
 interface AccountHeader {
   data: AccountDto;
@@ -60,7 +61,8 @@ export class AccountCreateComponent implements OnInit {
   attachmentsCount!: number;
 
   @ViewChild('packagesComponent') packagesComponent: AccountPackagesManagementComponent;
-  @ViewChild('membersComponent') membersComponent: AccountMembersManagementComponent;
+  @ViewChild('userMembersComponent') userMembersComponent: AccountUserManagementComponent;
+  @ViewChild('tenantMembersComponent') tenantMembersComponent: AccountTenantManagementComponent;
 
   @PageControls()
   controls = contributeControls([

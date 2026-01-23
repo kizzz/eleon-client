@@ -39,14 +39,14 @@
               <p-accordionTab [header]="'Infrastructure::Filters' | abpLocalization">
                 <div class="small-width-only row">
                   <div class="col-4 flex text-center justify-content-center align-items-center">
-                    {{"PurchaseRequest::Header:OrganizationUnit" | abpLocalization}}</div>
+                    {{"PurchaseRequest::Account:Header:OrganizationUnit" | abpLocalization}}</div>
                   <div class="col-6 flex justify-content-center align-items-center">
                     <p-columnFilter class="w-full" matchMode="in" field="organizationUnit" [showMenu]="false"
                       [showClearButton]="false">
                       <ng-template pTemplate="header">
                         <div class="px-3 pt-3 pb-0">
                           <span class="font-bold">
-                            {{ "PurchaseRequest::Header:OrganizationUnit" | abpLocalization }}
+                            {{ "PurchaseRequest::Account:Header:OrganizationUnit" | abpLocalization }}
                           </span>
                         </div>
                       </ng-template>
@@ -54,7 +54,7 @@
                         <p-multiSelect [options]="organizationUnits" optionLabel="displayName" [filter]="true"
                           appendTo="body" filterBy="displayName" autoWidth="false" [style]="{'width':'100%'}"
                           [showClear]="true" (onClear)="filter()"
-                          placeholder="{{ 'PurchaseRequest::Header:OrganizationUnit' | abpLocalization }}"
+                          placeholder="{{ 'PurchaseRequest::Account:Header:OrganizationUnit' | abpLocalization }}"
                           (onChange)="filter($event.value)">
                         </p-multiSelect>
                       </ng-template>
@@ -74,23 +74,23 @@
         <tr>
           <th appResponsiveColumn="30"
             pSortableColumn="id">
-            {{ "AccountingModule::Header:Id" | abpLocalization }}
+            {{ "AccountingModule::Account:Header:Id" | abpLocalization }}
             <p-sortIcon field="id"></p-sortIcon>
           </th>
           <th pSortableColumn="accountName">
-            {{ "AccountingModule::Header:AccountName" | abpLocalization }}
+            {{ "AccountingModule::Account:Header:AccountName" | abpLocalization }}
             <p-sortIcon field="accountName"></p-sortIcon>
           </th>
           <th appResponsiveColumn="150" pSortableColumn="creationTime">
-            {{ "AccountingModule::Header:CreationDate" | abpLocalization }}
+            {{ "AccountingModule::Account:Header:CreationDate" | abpLocalization }}
             <p-sortIcon field="creationTime"></p-sortIcon>
           </th>
           <th appResponsiveColumn="200" pSortableColumn="accountStatus">
-            {{ "AccountingModule::Header:AccountStatus" | abpLocalization }}
+            {{ "AccountingModule::Account:Header:AccountStatus" | abpLocalization }}
             <p-sortIcon field="accountStatus"></p-sortIcon>
           </th>
           <th appResponsiveColumn="200">
-            {{"AccountingModule::Header:OrganizationUnit" | abpLocalization }}
+            {{"AccountingModule::Account:Header:OrganizationUnit" | abpLocalization }}
           </th>
         </tr>
         <tr>
@@ -104,14 +104,14 @@
               [style]="{'overflow':'visible'}">
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{ "AccountingModule::Header:CreationDate" | abpLocalization }}</span>
+                  <span class="font-bold">{{ "AccountingModule::Account:Header:CreationDate" | abpLocalization }}</span>
                 </div>
               </ng-template>
               <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                 <p-calendar (onSelect)="filter(lastLoadEvent)" [showIcon]="false" inputId="icon" [showClear]="true"
                   (onClear)="filter()" [readonlyInput]="true" [(ngModel)]="creationDateRangeFilter"
                   selectionMode="range" appendTo="body"
-                  placeholder="{{ 'AccountingModule::Header:CreationDate' | abpLocalization }}">
+                  placeholder="{{ 'AccountingModule::Account:Header:CreationDate' | abpLocalization }}">
                 </p-calendar>
               </ng-template>
             </p-columnFilter>
@@ -120,7 +120,7 @@
             <p-columnFilter matchMode="in" field="accountStatus" [showMenu]="false" [showClearButton]="false">
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{ "AccountingModule::Header:AccountStatus" | abpLocalization }}</span>
+                  <span class="font-bold">{{ "AccountingModule::Account:Header:AccountStatus" | abpLocalization }}</span>
                 </div>
               </ng-template>
               <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -136,7 +136,7 @@
             <p-columnFilter matchMode="in" field="organizationUnit" [showMenu]="false" [showClearButton]="false">
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
-                  <span class="font-bold">{{ "AccountingModule::Header:OrganizationUnit" | abpLocalization }}</span>
+                  <span class="font-bold">{{ "AccountingModule::Account:Header:OrganizationUnit" | abpLocalization }}</span>
                 </div>
               </ng-template>
               <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -154,7 +154,7 @@
       <ng-template pTemplate="body" let-row>
         <tr [pSelectableRow]="row">
           <td appResponsiveColumn="30">
-            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Id' |
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Account:Header:Id' |
               abpLocalization}}</span>
             <span class="column-content">
               <i
@@ -168,21 +168,21 @@
             </span>
           </td>
           <td>
-            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountName' |
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Account:Header:AccountName' |
               abpLocalization}}</span>
             <span class="column-content">
-              {{row.data.accountName }}
+              {{row.data.name }}
             </span>
           </td>
           <td appResponsiveColumn="200">
-            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:CreationDate' |
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Account:Header:CreationDate' |
               abpLocalization}}</span>
             <span class="column-content">
               {{row.data.creationTime | date:'shortDate'}}
             </span>
           </td>
           <td appResponsiveColumn="200">
-            <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountStatus' |
+            <span class="non-editing-only p-column-title">{{'AccountingModule::Account:Header:AccountStatus' |
               abpLocalization}}</span>
             <span class="column-content">
               <app-account-status-tag class="mr-3" [value]="row.data.accountStatus"></app-account-status-tag>
@@ -190,7 +190,7 @@
           </td>
           <td appResponsiveColumn="200">
             <span class="non-editing-only p-column-title">
-              {{ 'AccountingModule::Header:OrganizationUnit' | abpLocalization }}
+              {{ 'AccountingModule::Account:Header:OrganizationUnit' | abpLocalization }}
             </span>
             <span class="column-content">
               {{row.data.organizationUnitName}}
