@@ -1,147 +1,362 @@
+<app-page-title [title]="title" icon="fas fa-user-alt"> </app-page-title>
 
-  
-    <app-page-title [title]="title" icon="fas fa-user-alt">
-    </app-page-title>
-  
-  <div class="content">
-    <div #generalDetailsCard class="grid">
-      <div class="sm:col-12 md:col-12 lg:col-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ 'AccountingModule::PackageTemplate:HeaderTitle' | abpLocalization }}</h5>
-            <div class="grid m-0">
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-4'">
-                <label>{{'AccountingModule::Header:Name' | abpLocalization}}</label>
-                <input [(ngModel)]="header.data.packageName" (change)="resetHeaderValidators();" [disabled]="loading"
-                  type="text" pInputText [ngClass]="{'ng-invalid ng-dirty': header.nameEmpty}"
-                  [style]="{'width':'100%'}" maxlength="230" />
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-4'">
-                <label>{{'AccountingModule::Header:BillingPeriodType' | abpLocalization}}</label>
-                <p-select [options]="localizedBillingPeriodTypes" [(ngModel)]="header.data.billingPeriodType"
-                  appendTo="body" class="w-full" optionValue="value" optionLabel="name" [filter]="false"
-                  autoWidth="false" [style]="{'width':'100%'}">
-                </p-select>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-4'">
-                <label>{{'AccountingModule::Header:PackageType' | abpLocalization}}</label>
-                <p-select [options]="localizedPackageTypes" [(ngModel)]="header.data.packageType"
-                  appendTo="body" class="w-full" optionValue="value" optionLabel="name" [filter]="false"
-                  autoWidth="false" [style]="{'width':'100%'}">
-                </p-select>
-              </div>
+<div class="content">
+  <div #generalDetailsCard class="grid">
+    <div class="sm:col-12 md:col-12 lg:col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{
+              'AccountingModule::PackageTemplate:HeaderTitle' | abpLocalization
+            }}
+          </h5>
+          <div class="grid m-0">
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-4'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:Name' | abpLocalization
+              }}</label>
+              <input
+                [(ngModel)]="header.data.packageName"
+                (change)="resetHeaderValidators()"
+                [disabled]="loading"
+                type="text"
+                pInputText
+                [ngClass]="{ 'ng-invalid ng-dirty': header.nameEmpty }"
+                [style]="{ width: '100%' }"
+                maxlength="230"
+              />
             </div>
-            <div class="grid m-0 mt-2">
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-4'">
-                <label>{{'AccountingModule::Header:MaxMembers' | abpLocalization}}</label>
-                <p-inputNumber [(ngModel)]="header.data.maxMembers" [disabled]="loading"
-                  style="width: 100%" [inputStyle]="{ width: '100%', 'text-align': 'center' }" [min]="0" [max]="999999"
-                  class="w-full" [showButtons]="true" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="0">
-                </p-inputNumber>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-4'">
-                <label>{{'AccountingModule::Header:Price' | abpLocalization}}</label>
-                <p-inputNumber [(ngModel)]="header.data.price" [disabled]="loading"
-                  style="width: 100%" [inputStyle]="{ width: '100%', 'text-align': 'center' }" [min]="0" [max]="999999"
-                  class="w-full" [showButtons]="true" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2">
-                </p-inputNumber>
-              </div>
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-4'">
-                <label>{{'AccountingModule::Header:SystemCurrency' | abpLocalization}}</label>
-                <input [(ngModel)]="header.data.systemCurrency" [disabled]="true"
-                  type="text" pInputText [style]="{'width':'100%'}"/>
-              </div>
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-4'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:BillingPeriodType' | abpLocalization
+              }}</label>
+              <p-select
+                [options]="localizedBillingPeriodTypes"
+                [(ngModel)]="header.data.billingPeriodType"
+                appendTo="body"
+                class="w-full"
+                optionValue="value"
+                optionLabel="name"
+                [filter]="false"
+                autoWidth="false"
+                [style]="{ width: '100%' }"
+              >
+              </p-select>
             </div>
-            <div class="grid m-0 mt-2">
-              <div class="field pr-only"
-                [ngClass]="generalDetailsCard.offsetWidth < viewportBreakpoints.md ? 'col-12' : 'col-12'">
-                <label>{{'AccountingModule::Header:Description' | abpLocalization}}</label>
-                <textarea [(ngModel)]="header.data.description" [disabled]="loading"
-                  pInputTextarea [style]="{'width':'100%'}" [rows]="3" [autoResize]="true"
-                  maxlength="1000"></textarea>
-              </div>
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-4'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:PackageType' | abpLocalization
+              }}</label>
+              <p-select
+                [options]="localizedPackageTypes"
+                [(ngModel)]="header.data.packageType"
+                appendTo="body"
+                class="w-full"
+                optionValue="value"
+                optionLabel="name"
+                [filter]="false"
+                autoWidth="false"
+                [style]="{ width: '100%' }"
+              >
+              </p-select>
+            </div>
+          </div>
+          <div class="grid m-0 mt-2">
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-4'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:MaxMembers' | abpLocalization
+              }}</label>
+              <p-inputNumber
+                [(ngModel)]="header.data.maxMembers"
+                [disabled]="loading"
+                style="width: 100%"
+                [inputStyle]="{ width: '100%', 'text-align': 'center' }"
+                [min]="0"
+                [max]="999999"
+                class="w-full"
+                [showButtons]="true"
+                mode="decimal"
+                [minFractionDigits]="0"
+                [maxFractionDigits]="0"
+              >
+              </p-inputNumber>
+            </div>
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-4'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:Price' | abpLocalization
+              }}</label>
+              <p-inputNumber
+                [(ngModel)]="header.data.price"
+                [disabled]="loading"
+                style="width: 100%"
+                [inputStyle]="{ width: '100%', 'text-align': 'center' }"
+                [min]="0"
+                [max]="999999"
+                class="w-full"
+                [showButtons]="true"
+                mode="decimal"
+                [minFractionDigits]="2"
+                [maxFractionDigits]="2"
+              >
+              </p-inputNumber>
+            </div>
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-4'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:SystemCurrency' | abpLocalization
+              }}</label>
+              <input
+                [(ngModel)]="header.data.systemCurrency"
+                [disabled]="true"
+                type="text"
+                pInputText
+                [style]="{ width: '100%' }"
+              />
+            </div>
+          </div>
+          <div class="grid m-0 mt-2">
+            <div
+              class="field pr-only"
+              [ngClass]="
+                generalDetailsCard.offsetWidth < viewportBreakpoints.md
+                  ? 'col-12'
+                  : 'col-12'
+              "
+            >
+              <label>{{
+                'AccountingModule::PackageTemplate:Header:Description' | abpLocalization
+              }}</label>
+              <textarea
+                [(ngModel)]="header.data.description"
+                [disabled]="loading"
+                pInputTextarea
+                [style]="{ width: '100%' }"
+                [rows]="3"
+                [autoResize]="true"
+                maxlength="1000"
+              ></textarea>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div #rowsCard class="card table-card mt-2">
-      <div class="card-body">
-        <div>
-          <p-tabs>
-            <p-tablist>
-              <p-tab>
-               <span pBadge severity="success" class="pr-2" [value]="getRowsLength()">
-                  {{'AccountingModule::PackageTemplateModules' | abpLocalization}}
-                </span>
-              </p-tab>
-            </p-tablist>
-            <p-tabpanels>
-              <p-tabpanel>
-              <ng-template appResponsiveTable="md" let-scrollable let-breakpoint="breakpoint" let-direction="direction" > <!-- (render)="ensureRowEditing()" -->
-                <p-table #packageTemplateModulesTable [scrollable]="scrollable" [responsive]="true"
-                  responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" class="cell-center"
-                  [value]="header.rows" dataKey="rowUniqueId" editMode="row" [loading]="loading" [paginator]="false">
+  </div>
+  <div #rowsCard class="card table-card mt-2">
+    <div class="card-body">
+      <div>
+        <p-tabs>
+          <p-tablist>
+            <p-tab>
+              <span
+                pBadge
+                severity="success"
+                class="pr-2"
+                [value]="getRowsLength()"
+              >
+                {{
+                  'AccountingModule::PackageTemplateModules' | abpLocalization
+                }}
+              </span>
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel>
+              <ng-template
+                appResponsiveTable="md"
+                let-scrollable
+                let-breakpoint="breakpoint"
+                let-direction="direction"
+              >
+                <!-- (render)="ensureRowEditing()" -->
+                <p-table
+                  #packageTemplateModulesTable
+                  [scrollable]="scrollable"
+                  [responsive]="true"
+                  responsiveLayout="stack"
+                  [breakpoint]="breakpoint"
+                  scrollDirection="both"
+                  [value]="header.rows"
+                  dataKey="rowUniqueId"
+                  editMode="row"
+                  [loading]="loading"
+                  [paginator]="false"
+                >
                   <ng-template pTemplate="header">
                     <tr class="table-header w-full">
-                      <th >{{'AccountingModule::Row:Module' | abpLocalization}}</th>
-                      <th appResponsiveColumn="110" [alignFrozen]="direction" pFrozenColumn>
-                        <p-button (click)="addRow()"
-                          [label]="'AccountingModule::Add' | abpLocalization" icon="fa fa-plus" [text]="true" [raised]="true"
-                          styleClass="p-button-text p-button-sm p-button-info" [disabled]="loading">
-                        </p-button>
+                      <th>
+                        {{ 'AccountingModule::Row:Module' | abpLocalization }}
+                      </th>
+                      <th
+                        appResponsiveColumn="110"
+                        [alignFrozen]="direction"
+                        pFrozenColumn
+                      >
+                        <div class="flex align-items-center justify-content-end">
+                          <p-button
+                            (click)="addRow()"
+                            [label]="'AccountingModule::Add' | abpLocalization"
+                            icon="fa fa-plus"
+                            [text]="true"
+                            [raised]="true"
+                            styleClass="p-button-text p-button-sm p-button-info"
+                            [disabled]="loading"
+                          >
+                          </p-button>
+                        </div>
                       </th>
                     </tr>
                   </ng-template>
-                  <ng-template pTemplate="body" let-row let-editing="editing" let-summary let-rowIndex="rowIndex">
-                    <tr #configurationRow [pEditableRow]="row" [ngClass]="{'editing': editing}">
+                  <ng-template
+                    pTemplate="body"
+                    let-row
+                    let-editing="editing"
+                    let-summary
+                    let-rowIndex="rowIndex"
+                  >
+                    <tr
+                      #configurationRow
+                      [pEditableRow]="row"
+                      [ngClass]="{ editing: editing }"
+                    >
                       <td>
-                        <span class="non-editing-only p-column-title">{{'AccountingModule::Row:Module' |
-                          abpLocalization}}</span>
+                        <span class="non-editing-only p-column-title">{{
+                          'AccountingModule::Row:Module' | abpLocalization
+                        }}</span>
                         <p-cellEditor>
                           <ng-template pTemplate="input">
                             <div class="p-float-label">
-                              <input [(ngModel)]="row.data.name" inputId="module-input"
-                                [ngClass]="{'ng-invalid ng-dirty': row.moduleEmpty}"
-                                (ngModelChange)="resetRowValidators(row)" pInputText
-                                [style]="{'width':'100%'}" [disabled]="loading">
-                              <label class="editing-only small-width-only"
-                                for="module-input">{{'AccountingModule::Row:ModuleName' |
-                                abpLocalization}}</label>
+                              <input
+                                [(ngModel)]="row.data.name"
+                                inputId="module-input"
+                                [ngClass]="{
+                                  'ng-invalid ng-dirty': row.moduleEmpty
+                                }"
+                                (ngModelChange)="resetRowValidators(row)"
+                                pInputText
+                                [style]="{ width: '100%' }"
+                                [disabled]="loading"
+                              />
+                              <label
+                                class="editing-only small-width-only"
+                                for="module-input"
+                                >{{
+                                  'AccountingModule::Row:ModuleName'
+                                    | abpLocalization
+                                }}</label
+                              >
                             </div>
                           </ng-template>
                           <ng-template pTemplate="output">
                             <span class="column-content">
-                              {{row.data.name || '-'}}
+                              {{ row.data.name || '-' }}
                             </span>
                           </ng-template>
                         </p-cellEditor>
                       </td>
-                      <td class="row-buttons" [alignFrozen]="direction" pFrozenColumn>
+                      <td
+                        class="row-buttons"
+                        [alignFrozen]="direction"
+                        pFrozenColumn
+                      >
                         <ng-container *ngIf="!editing">
-                          <button (click)="editRow(row)" pButton type="button" icon="fa fa-edit"
-                            [pTooltip]="'AccountingModule::Tooltip:EditPackageTemplateModule' | abpLocalization"
-                            class="p-button-text p-button-rounded p-button-primary"></button>
-                          <button (click)="removeRow(rowIndex)" pButton type="button" icon="fa fa-trash"
-                            [pTooltip]="'AccountingModule::Tooltip:RemovePackageTemplateModule' | abpLocalization"
-                            class="p-button-text p-button-rounded p-button-danger"></button>
-                          <button (click)="addRow()" pButton type="button" icon="fa fa-plus"
-                            [pTooltip]="'AccountingModule::Tooltip:AddPackageTemplateModuleRow' | abpLocalization"
-                            class="small-width-only p-button-outlined button-rounded p-button-success"></button>
+                          <button
+                            (click)="editRow(row)"
+                            pButton
+                            type="button"
+                            icon="fa fa-edit"
+                            [pTooltip]="
+                              'AccountingModule::Tooltip:EditPackageTemplateModule'
+                                | abpLocalization
+                            "
+                            class="p-button-text p-button-rounded p-button-primary"
+                          ></button>
+                          <button
+                            (click)="removeRow(rowIndex)"
+                            pButton
+                            type="button"
+                            icon="fa fa-trash"
+                            [pTooltip]="
+                              'AccountingModule::Tooltip:RemovePackageTemplateModule'
+                                | abpLocalization
+                            "
+                            class="p-button-text p-button-rounded p-button-danger"
+                          ></button>
+                          <button
+                            (click)="addRow()"
+                            pButton
+                            type="button"
+                            icon="fa fa-plus"
+                            [pTooltip]="
+                              'AccountingModule::Tooltip:AddPackageTemplateModuleRow'
+                                | abpLocalization
+                            "
+                            class="small-width-only p-button-outlined button-rounded p-button-success"
+                          ></button>
                         </ng-container>
                         <ng-container *ngIf="editing">
-                          <button (click)="saveEditedRow(row, configurationRow)" pButton type="button"
-                            [pTooltip]="'AccountingModule::Tooltip:SavePackageTemplateModuleRow' | abpLocalization"
-                            icon="fa fa-check" class="p-button-text p-button-rounded p-button-success"></button>
-                          <button (click)="cancelRowEditing(row, rowIndex)" pButton type="button" icon="fa fa-ban"
-                            [pTooltip]="'AccountingModule::Tooltip:CancelPackageTemplateModuleRowEditing' | abpLocalization"
-                            class="p-button-text p-button-rounded p-button-danger"></button>
+                          <button
+                            (click)="saveEditedRow(row, configurationRow)"
+                            pButton
+                            type="button"
+                            [pTooltip]="
+                              'AccountingModule::Tooltip:SavePackageTemplateModuleRow'
+                                | abpLocalization
+                            "
+                            icon="fa fa-check"
+                            class="p-button-text p-button-rounded p-button-success"
+                          ></button>
+                          <button
+                            (click)="cancelRowEditing(row, rowIndex)"
+                            pButton
+                            type="button"
+                            icon="fa fa-ban"
+                            [pTooltip]="
+                              'AccountingModule::Tooltip:CancelPackageTemplateModuleRowEditing'
+                                | abpLocalization
+                            "
+                            class="p-button-text p-button-rounded p-button-danger"
+                          ></button>
                         </ng-container>
                       </td>
                     </tr>
@@ -152,12 +367,26 @@
                         <div class="card w-full">
                           <div class="card-body w-full">
                             <div class="card-header">
-                              {{'AccountingModule::NoPackageTemplateModules' | abpLocalization}}
+                              {{
+                                'AccountingModule::NoPackageTemplateModules'
+                                  | abpLocalization
+                              }}
                             </div>
-                            <div class="flex align-item-center justify-content-center">
-                              <p-button (click)="addRow()"
-                                [label]="'AccountingModule::Add' | abpLocalization" icon="fa fa-plus" [text]="true" [raised]="true"
-                                styleClass="p-button-text p-button-sm p-button-info" [disabled]="loading" class="small-width-only">
+                            <div
+                              class="flex align-item-center justify-content-center"
+                            >
+                              <p-button
+                                (click)="addRow()"
+                                [label]="
+                                  'AccountingModule::Add' | abpLocalization
+                                "
+                                icon="fa fa-plus"
+                                [text]="true"
+                                [raised]="true"
+                                styleClass="p-button-text p-button-sm p-button-info"
+                                [disabled]="loading"
+                                class="small-width-only"
+                              >
                               </p-button>
                             </div>
                           </div>
@@ -167,17 +396,18 @@
                   </ng-template>
                 </p-table>
               </ng-template>
-            </p-tabpanel>  
-            </p-tabpanels>
-          </p-tabs>
-        </div>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
       </div>
     </div>
   </div>
+</div>
 
-  <app-package-template-module-create
-    [(display)]="showModuleDialog"
-    [moduleData]="editingModule"
-    [packageTemplateEntityId]="header.data.id"
-    (saveEvent)="onModuleDialogSave($event)">
-  </app-package-template-module-create>
+<app-package-template-module-create
+  [(display)]="showModuleDialog"
+  [moduleData]="editingModule"
+  [packageTemplateEntityId]="header.data.id"
+  (saveEvent)="onModuleDialogSave($event)"
+>
+</app-package-template-module-create>

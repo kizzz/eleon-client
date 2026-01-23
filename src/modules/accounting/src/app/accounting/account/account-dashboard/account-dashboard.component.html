@@ -12,7 +12,7 @@
   <ng-template #table>
     <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
       [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"
-      class="cell-center" [lazy]="true" (onLazyLoad)="loadAccounts($event)" [rows]="rowsCount" styleClass="pr-table"
+      [lazy]="true" (onLazyLoad)="loadAccounts($event)" [rows]="rowsCount" styleClass="pr-table"
       [totalRecords]="totalRecords" [loading]="loading" [value]="rows" [paginator]="true"
       (onRowSelect)="select($event)" selectionMode="single" sortOrder="-1" sortMode="single"
       sortField="CreationTime">
@@ -72,34 +72,34 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th class="when-big-width-cell-center" style="width:1%; max-width: 100px; min-width: 100px;"
+          <th appResponsiveColumn="30"
             pSortableColumn="id">
             {{ "AccountingModule::Header:Id" | abpLocalization }}
             <p-sortIcon field="id"></p-sortIcon>
           </th>
-          <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="accountName">
+          <th pSortableColumn="accountName">
             {{ "AccountingModule::Header:AccountName" | abpLocalization }}
             <p-sortIcon field="accountName"></p-sortIcon>
           </th>
-          <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="creationTime">
+          <th appResponsiveColumn="150" pSortableColumn="creationTime">
             {{ "AccountingModule::Header:CreationDate" | abpLocalization }}
             <p-sortIcon field="creationTime"></p-sortIcon>
           </th>
-          <th class="when-big-width-cell-center" appResponsiveColumn="200" pSortableColumn="accountStatus">
+          <th appResponsiveColumn="200" pSortableColumn="accountStatus">
             {{ "AccountingModule::Header:AccountStatus" | abpLocalization }}
             <p-sortIcon field="accountStatus"></p-sortIcon>
           </th>
-          <th class="when-big-width-cell-center" appResponsiveColumn="200">
+          <th appResponsiveColumn="200">
             {{"AccountingModule::Header:OrganizationUnit" | abpLocalization }}
           </th>
         </tr>
         <tr>
-          <th style="width:100px">
+          <th appResponsiveColumn="30">
           </th>
-          <th style="width:200px">
+          <th>
             <p-columnFilter type="text" field="accountName" matchMode="in" [showMenu]="false"></p-columnFilter>
           </th>
-          <th style="width:200px">
+          <th appResponsiveColumn="150">
             <p-columnFilter matchMode="in" [showClearButton]="false" field="creationTime" [showMenu]="false"
               [style]="{'overflow':'visible'}">
               <ng-template pTemplate="header">
@@ -116,7 +116,7 @@
               </ng-template>
             </p-columnFilter>
           </th>
-          <th style="width:200px">
+          <th appResponsiveColumn="200">
             <p-columnFilter matchMode="in" field="accountStatus" [showMenu]="false" [showClearButton]="false">
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
@@ -132,7 +132,7 @@
               </ng-template>
             </p-columnFilter>
           </th>
-          <th style="width:200px">
+          <th appResponsiveColumn="200">
             <p-columnFilter matchMode="in" field="organizationUnit" [showMenu]="false" [showClearButton]="false">
               <ng-template pTemplate="header">
                 <div class="px-3 pt-3 pb-0">
@@ -153,7 +153,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-row>
         <tr [pSelectableRow]="row">
-          <td style="width:1%; max-width: 100px; min-width: 100px;">
+          <td appResponsiveColumn="30">
             <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Id' |
               abpLocalization}}</span>
             <span class="column-content">
@@ -167,28 +167,28 @@
             </i>
             </span>
           </td>
-          <td style="width:200px" class="when-big-width-cell-center">
+          <td>
             <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountName' |
               abpLocalization}}</span>
             <span class="column-content">
               {{row.data.accountName }}
             </span>
           </td>
-          <td style="width:200px" class="when-big-width-cell-center">
+          <td appResponsiveColumn="200">
             <span class="non-editing-only p-column-title">{{'AccountingModule::Header:CreationDate' |
               abpLocalization}}</span>
             <span class="column-content">
               {{row.data.creationTime | date:'shortDate'}}
             </span>
           </td>
-          <td style="width:200px" class="when-big-width-cell-center">
+          <td appResponsiveColumn="200">
             <span class="non-editing-only p-column-title">{{'AccountingModule::Header:AccountStatus' |
               abpLocalization}}</span>
             <span class="column-content">
               <app-account-status-tag class="mr-3" [value]="row.data.accountStatus"></app-account-status-tag>
             </span>
           </td>
-          <td style="width:200px" class="when-big-width-cell-center">
+          <td appResponsiveColumn="200">
             <span class="non-editing-only p-column-title">
               {{ 'AccountingModule::Header:OrganizationUnit' | abpLocalization }}
             </span>
@@ -213,3 +213,8 @@
       </ng-template>
     </p-table>
   </ng-template>
+
+  <app-account-create-dialog
+    [(display)]="showAccountCreateDialog"
+    (createdAccount)="onAccountCreated($event)"
+  ></app-account-create-dialog>

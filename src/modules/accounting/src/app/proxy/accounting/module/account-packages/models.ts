@@ -1,6 +1,5 @@
 import type { AccountStatus } from '../../../common/module/constants/account-status.enum';
 import type { BillingPeriodType } from '../../../common/module/constants/billing-period-type.enum';
-import type { MemberDto } from '../accounts/models';
 
 export interface AccountPackageDto {
   id?: string;
@@ -15,5 +14,11 @@ export interface AccountPackageDto {
   billingPeriodType: BillingPeriodType;
   oneTimeDiscount: number;
   permanentDiscount: number;
-  linkedMembers: MemberDto[];
+  linkedMembers: LinkedMemberDto[];
+}
+
+export interface LinkedMemberDto {
+  id?: string;
+  accountPackageEntityId?: string;
+  memberEntityId?: string;
 }

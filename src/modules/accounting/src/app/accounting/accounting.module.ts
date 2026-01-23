@@ -35,6 +35,8 @@ import { PROXY_SERVICES } from '@eleon/accounting-proxy';
 import { PackageTemplateModuleCreateComponent } from './package-template/package-template-module-create/package-template-module-create.component';
 import { MemberCreateComponent } from './account/member-create/member-create.component';
 import { MemberSelectionDialogComponent } from './account/member-selection-dialog/member-selection-dialog.component';
+import { AccountCreateDialogComponent } from './account/account-create-dialog/account-create-dialog.component';
+import { PackageTemplateCreateDialogComponent } from './package-template/package-template-create-dialog/package-template-create-dialog.component';
 import { TabsModule } from 'primeng/tabs';
 
 @NgModule({
@@ -50,7 +52,9 @@ import { TabsModule } from 'primeng/tabs';
     AccountStatusTagComponent,
     PackageTemplateModuleCreateComponent,
     MemberCreateComponent,
-    MemberSelectionDialogComponent
+    MemberSelectionDialogComponent,
+    AccountCreateDialogComponent,
+    PackageTemplateCreateDialogComponent
   ],
   imports: [
     AccountingRoutingModule,

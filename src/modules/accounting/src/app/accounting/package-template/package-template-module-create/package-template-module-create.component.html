@@ -21,7 +21,7 @@
           maxlength="230" />
       </div>
       <div class="field col-12 p-0">
-        <label>{{ 'AccountingModule::Header:ModuleType' | abpLocalization }}</label>
+        <label>{{ 'AccountingModule::PackageTemplateModule:Header:ModuleType' | abpLocalization }}</label>
         <p-select
           [options]="moduleTypeOptions"
           [(ngModel)]="editedModule.moduleType"
@@ -29,11 +29,11 @@
           optionValue="value"
           optionLabel="name"
           [style]="{'width':'100%'}"
-          [placeholder]="'AccountingModule::Header:ModuleType' | abpLocalization">
+          [placeholder]="'AccountingModule::PackageTemplateModule:Header:ModuleType' | abpLocalization">
         </p-select>
       </div>
       <div class="field col-12 p-0">
-        <label>{{ 'AccountingModule::Header:Description' | abpLocalization }}</label>
+        <label>{{ 'AccountingModule::PackageTemplateModule:Header:Description' | abpLocalization }}</label>
         <textarea
           [(ngModel)]="editedModule.description"
           pInputTextarea
@@ -44,7 +44,7 @@
         </textarea>
       </div>
       <!-- <div class="field col-12 p-0">
-        <label>{{ 'AccountingModule::Header:RefId' | abpLocalization }}</label>
+        <label>{{ 'AccountingModule::PackageTemplateModule:Header:RefId' | abpLocalization }}</label>
         <input
           [(ngModel)]="editedModule.refId"
           type="text"
@@ -52,7 +52,7 @@
           [style]="{'width':'100%'}" />
       </div> -->
       <div class="field col-12 p-0" *ngIf="showModuleData()">
-        <label>{{ 'AccountingModule::Header:ModuleData' | abpLocalization }}</label>
+        <label>{{ 'AccountingModule::PackageTemplateModule:Header:ModuleData' | abpLocalization }}</label>
         <textarea
           [(ngModel)]="editedModule.moduleData"
           pInputTextarea

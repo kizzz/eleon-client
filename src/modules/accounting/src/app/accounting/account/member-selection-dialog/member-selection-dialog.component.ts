@@ -1,6 +1,6 @@
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { MemberDto, MemberType } from '@eleon/accounting-proxy';
+import { MemberDto, MemberType, LinkedMemberDto } from '@eleon/accounting-proxy';
 import { viewportBreakpoints } from '@eleon/angular-sdk.lib';
 
 interface MemberTableRow {
@@ -21,13 +21,13 @@ export class MemberSelectionDialogComponent implements OnInit, OnChanges {
   members: MemberDto[] = [];
 
   @Input()
-  selectedMembers: MemberDto[] = [];
+  selectedMembers: LinkedMemberDto[] = [];
 
   @Output()
   displayChange = new EventEmitter<boolean>();
 
   @Output()
-  selectEvent = new EventEmitter<MemberDto[]>();
+  selectEvent = new EventEmitter<LinkedMemberDto[]>();
 
   rows: MemberTableRow[];
   selectedRows: MemberTableRow[] = [];
@@ -57,7 +57,7 @@ export class MemberSelectionDialogComponent implements OnInit, OnChanges {
   initializeSelectedRows(): void {
     if (this.selectedMembers && this.selectedMembers.length > 0) {
       this.selectedRows = this.rows.filter(row =>
-        this.selectedMembers.some(selected => selected.id === row.data.id)
+        this.selectedMembers.some(selected => selected.memberEntityId === row.data.id)
       );
     } else {
       this.selectedRows = [];
@@ -74,8 +74,10 @@ export class MemberSelectionDialogComponent implements OnInit, OnChanges {
   }
 
   onSelect(): void {
-    const selectedMembers = this.selectedRows.map(row => row.data);
-    this.selectEvent.emit(selectedMembers);
+    const selectedLinkedMembers: LinkedMemberDto[] = this.selectedRows.map(row => ({
+      memberEntityId: row.data.id
+    }));
+    this.selectEvent.emit(selectedLinkedMembers);
     this.onDialogHide();
   }
 

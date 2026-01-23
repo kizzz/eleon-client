@@ -1,0 +1,87 @@
+<div>
+  <p-dialog
+    [resizable]="false"
+    [header]="title"
+    [(visible)]="display"
+    [modal]="true"
+    [draggable]="false"
+    (onHide)="closeDialog()"
+  >
+    <div class="grid m-0 package-template-create-new" *ngIf="display">
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'AccountingModule::Header:Name' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <input
+              style="width: 100%"
+              type="text"
+              pInputText
+              [(ngModel)]="packageTemplate.packageName"
+              (change)="resetPackageTemplateValidators()"
+              [disabled]="loading"
+              [ngClass]="{
+                'ng-invalid ng-dirty': packageTemplate.validators.packageNameEmpty
+              }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-0" *ngIf="display">
+        <div class="grid flex align-items-center">
+          <div class="col-4">
+            <span appRequired>
+              {{ 'AccountingModule::Header:BillingPeriodType' | abpLocalization }}
+            </span>
+          </div>
+          <div class="col-8">
+            <p-select
+              [options]="localizedBillingPeriodTypes"
+              [(ngModel)]="packageTemplate.billingPeriodType"
+              appendTo="body"
+              class="w-full"
+              optionValue="value"
+              optionLabel="name"
+              [filter]="false"
+              autoWidth="false"
+              [style]="{ width: '100%' }"
+              [disabled]="loading"
+              [ngClass]="{
+                'ng-invalid ng-dirty': packageTemplate.validators.billingPeriodTypeNotSelected
+              }"
+              (onChange)="resetPackageTemplateValidators()"
+            >
+            </p-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3 justify-content-end">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-secondary"
+          icon="pi pi-times"
+          [disabled]="loading"
+          (onClick)="closeDialog()"
+          [label]="'Infrastructure::Cancel' | abpLocalization"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          [raised]="true"
+          styleClass="p-button-primary"
+          icon="fa fa-check"
+          (onClick)="savePackageTemplate()"
+          [label]="'Infrastructure::Create' | abpLocalization"
+          [disabled]="loading"
+        >
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>
