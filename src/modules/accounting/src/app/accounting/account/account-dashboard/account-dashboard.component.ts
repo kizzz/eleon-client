@@ -192,14 +192,8 @@ export class AccountDashboardComponent implements OnInit {
     const row = event.data;
     if (row?.data?.accountStatus == AccountStatus.New) {
       this.router.navigate(['/account/create', row.data.id]);
-    } else if (
-      row?.data?.accountStatus == AccountStatus.Active &&
-      this.isAccountManager() &&
-      this.isHost()
-    ) {
+    } else{
       this.router.navigate(['/account/details', row.data.id]);
-    } else {
-      this.router.navigate(['/account/readonly-details', row.data.id]);
     }
   }
 

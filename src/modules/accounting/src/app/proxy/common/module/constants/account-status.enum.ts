@@ -30,6 +30,7 @@ export enum AccountStatus {
   Suspended = 3,
   Canceled = 4,
   Deleted = 5,
+  InActive = 6,
 }
 
 export const accountStatusOptions = mapEnumToOptions(AccountStatus);

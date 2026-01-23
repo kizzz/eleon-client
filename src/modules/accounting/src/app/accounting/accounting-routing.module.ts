@@ -6,7 +6,6 @@ import { AccountDashboardComponent } from './account/account-dashboard/account-d
 import { AccountListRequestType } from '@eleon/accounting-proxy';
 import { PackageTemplatesDashboardComponent } from './package-template/package-templates-dashboard/package-templates-dashboard.component';
 import { AccountCreateComponent } from './account/account-create/account-create.component';
-import { AccountReadonlyDetailsComponent } from './account/account-readonly-details/account-readonly-details.component';
 import { PackageTemplateCreateComponent } from './package-template/package-template-create/package-template-create.component';
 
 const routes: Routes = [
@@ -30,18 +29,6 @@ const routes: Routes = [
     data: {
       module: 'Account',
       policyKey: 'Permission.Account.General && VPortal.Dashboard.Host',
-      name: "AccountingModule::Menu:AccountDetails",
-      parentNames: "AccountingModule::Menu:Top",
-      mainParentName: "Infrastructure::Accounting"
-    }
-  },
-  {
-    path: 'readonly-details/:id', component: AccountReadonlyDetailsComponent,
-    canActivate: [EcAuthGuard, PermissionGuard],
-    canDeactivate: [CanDeactivateDirtyGuard],
-    data: {
-      module: 'Account',
-      policyKey: '(Permission.Account.Create || Permission.Account.General) && VPortal.Dashboard.Host',
       name: "AccountingModule::Menu:AccountDetails",
       parentNames: "AccountingModule::Menu:Top",
       mainParentName: "Infrastructure::Accounting"

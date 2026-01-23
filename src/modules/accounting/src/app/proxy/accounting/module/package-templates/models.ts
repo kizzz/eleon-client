@@ -1,7 +1,7 @@
 import type { BillingPeriodType } from '../../../common/module/constants/billing-period-type.enum';
 import type { PackageType } from '../../../common/module/constants/package-type.enum';
-import type { PagedAndSortedResultRequestDto } from '@eleon/proxy-utils.lib';
 import type { PackageModuleType } from '../../../common/module/constants/package-module-type.enum';
+import type { PagedAndSortedResultRequestDto } from '@eleon/proxy-utils.lib';
 
 export interface PackageTemplateDto {
   id?: string;
@@ -17,13 +17,6 @@ export interface PackageTemplateDto {
   systemCurrency?: string;
 }
 
-export interface PackageTemplateListRequestDto extends PagedAndSortedResultRequestDto {
-  searchQuery?: string;
-  dateFilterStart?: string;
-  dateFilterEnd?: string;
-  billingPeriodTypeFilter: BillingPeriodType[];
-}
-
 export interface PackageTemplateModuleDto {
   id?: string;
   packageTemplateEntityId?: string;
@@ -32,4 +25,11 @@ export interface PackageTemplateModuleDto {
   moduleType: PackageModuleType;
   description?: string;
   moduleData?: string;
+}
+
+export interface PackageTemplateListRequestDto extends PagedAndSortedResultRequestDto {
+  searchQuery?: string;
+  dateFilterStart?: string;
+  dateFilterEnd?: string;
+  billingPeriodTypeFilter: BillingPeriodType[];
 }

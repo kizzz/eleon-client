@@ -1,9 +1,21 @@
 import { ILocalizationService, IIdentitySelectionDialogService, CommonUserDto, CommonTenantDto } from '@eleon/angular-sdk.lib';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { MemberDto, MemberType } from '@eleon/accounting-proxy';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
 import { PageStateService } from '@eleon/primeng-ui.lib';
-import { generateTempGuid } from '@eleon/angular-sdk.lib';
+
+export interface MemberCreateData {
+  type: 'user' | 'tenant';
+  userId?: string;
+  refTenantId?: string;
+}
+
+export interface MemberDisplayItem {
+  id?: string;
+  type: 'user' | 'tenant';
+  refId?: string;
+  userMember?: any;
+  tenantMember?: any;
+}
 
 @Component({
   standalone: false,
@@ -16,23 +28,22 @@ export class MemberCreateComponent implements OnInit, OnChanges {
   display: boolean = false;
 
   @Input()
-  memberData: MemberDto | null = null;
+  memberData: MemberDisplayItem | null = null;
 
   @Output()
   displayChange = new EventEmitter<boolean>();
 
   @Output()
-  saveEvent = new EventEmitter<MemberDto>();
+  saveEvent = new EventEmitter<MemberCreateData>();
 
-  editedMember: MemberDto = {
-    id: generateTempGuid(),
+  editedMember: { type: 'user' | 'tenant'; refId: string } = {
+    type: 'user',
     refId: '',
-    type: MemberType.User,
   };
 
   memberTypeOptions = [
-    { value: MemberType.Tenant, name: '' },
-    { value: MemberType.User, name: '' },
+    { value: 'tenant', name: '' },
+    { value: 'user', name: '' },
   ];
 
   refIdEmpty: boolean = false;
@@ -41,8 +52,6 @@ export class MemberCreateComponent implements OnInit, OnChanges {
   selectedUser: CommonUserDto | null = null;
   selectedTenant: CommonTenantDto | null = null;
   selectedEntityName: string = '';
-
-  MemberType = MemberType;
 
   constructor(
     public localizationService: ILocalizationService,
@@ -62,15 +71,15 @@ export class MemberCreateComponent implements OnInit, OnChanges {
   initializeMemberTypes(): void {
     this.memberTypeOptions = [
       {
-        value: MemberType.Tenant,
+        value: 'tenant',
         name: this.localizationService.instant(
-          `AccountingModule::MemberType:${MemberType[MemberType.Tenant]}`
+          `AccountingModule::MemberType:Tenant`
         ),
       },
       {
-        value: MemberType.User,
+        value: 'user',
         name: this.localizationService.instant(
-          `AccountingModule::MemberType:${MemberType[MemberType.User]}`
+          `AccountingModule::MemberType:User`
         ),
       },
     ];
@@ -89,16 +98,16 @@ export class MemberCreateComponent implements OnInit, OnChanges {
     if (this.memberData) {
       // Editing existing member
       this.editedMember = {
-        ...this.memberData,
+        type: this.memberData.type,
+        refId: this.memberData.refId || '',
       };
       // Set selectedEntityName to refId if we don't have the entity details
       this.selectedEntityName = this.memberData.refId || '';
     } else {
       // Creating new member
       this.editedMember = {
-        id: generateTempGuid(),
         refId: '',
-        type: MemberType.User,
+        type: 'user',
       };
     }
     this.refIdEmpty = false;
@@ -118,7 +127,15 @@ export class MemberCreateComponent implements OnInit, OnChanges {
     if (!valid) return;
 
     this.pageStateService.setDirty();
-    this.saveEvent.emit({ ...this.editedMember });
+    const saveData: MemberCreateData = {
+      type: this.editedMember.type,
+    };
+    if (this.editedMember.type === 'user') {
+      saveData.userId = this.editedMember.refId;
+    } else {
+      saveData.refTenantId = this.editedMember.refId;
+    }
+    this.saveEvent.emit(saveData);
     this.onDialogHide();
   }
 
@@ -150,9 +167,9 @@ export class MemberCreateComponent implements OnInit, OnChanges {
   }
 
   openUserOrTenantSelectionDialog(): void {
-    if (this.editedMember.type === MemberType.User) {
+    if (this.editedMember.type === 'user') {
       this.openUserSelectionDialog();
-    } else if (this.editedMember.type === MemberType.Tenant) {
+    } else if (this.editedMember.type === 'tenant') {
       this.openTenantSelectionDialog();
     }
   }

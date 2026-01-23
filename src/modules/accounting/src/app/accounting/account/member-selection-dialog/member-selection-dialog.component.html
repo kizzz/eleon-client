@@ -50,7 +50,7 @@
                 'AccountingModule::Row:MemberType' | abpLocalization
               }}</span>
               <span class="column-content">
-                {{ getMemberTypeName(row.data.type) }}
+                {{ getMemberTypeName(row.data) }}
               </span>
             </td>
             <td class="when-big-width-cell-center">
@@ -58,7 +58,7 @@
                 'AccountingModule::Row:RefId' | abpLocalization
               }}</span>
               <span class="column-content">
-                {{ row.data.refId || '-' }}
+                {{ getMemberRefId(row.data) }}
               </span>
             </td>
           </tr>
