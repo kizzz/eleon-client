@@ -69,12 +69,6 @@ export class AddModuleAutodetectComponent implements OnInit {
 
   async loadExposes() {
     try {
-      // let properties = [];
-      // fetch(this.remoteUrl + '/eleoncore-module-settings.json').json()
-      // .then(r => {
-      //    properties = r["moduleSettings"];
-      // })
-      //
       const { pluginName, exposes, defaultLoadLevel } = await getRemoteInfo(this.remoteUrl);
       this.exposesList = exposes.map((key) => ({
         key,
