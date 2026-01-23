@@ -17,6 +17,7 @@ export interface AccountPackageDto {
   oneTimeDiscount: number;
   permanentDiscount: number;
   packageTemplate: PackageTemplateDto;
+  totalLinkedMembers: number;
 }
 
 export interface AccountPackageListRequestDto extends PagedAndSortedResultRequestDto {

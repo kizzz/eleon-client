@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import {
   AccountMemberService,
+  AccountPackageService,
   TenantMemberDto,
   CreateTenantMemberDto,
   TenantMemberListRequestDto,
+  AccountPackageDto,
+  BillingPeriodType,
 } from '@eleon/accounting-proxy';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { PageStateService } from '@eleon/primeng-ui.lib';
@@ -15,6 +18,8 @@ interface TenantMemberDisplayItem {
   id?: string;
   refTenantId?: string;
   tenantMember?: TenantMemberDto;
+  packages?: AccountPackageDto[];
+  loadingPackages?: boolean;
 }
 
 @Component({
@@ -38,7 +43,8 @@ export class AccountTenantManagementComponent implements OnInit, OnChanges {
     public messageService: LocalizedMessageService,
     public localizationService: ILocalizationService,
     private pageStateService: PageStateService,
-    private accountMemberService: AccountMemberService
+    private accountMemberService: AccountMemberService,
+    private accountPackageService: AccountPackageService
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +82,7 @@ export class AccountTenantManagementComponent implements OnInit, OnChanges {
             id: t.id,
             refTenantId: t.refTenantId,
             tenantMember: t,
+            loadingPackages: false,
           }));
         },
         error: (error) => {
@@ -119,6 +126,7 @@ export class AccountTenantManagementComponent implements OnInit, OnChanges {
             id: createdMember.id,
             refTenantId: createdMember.refTenantId,
             tenantMember: createdMember,
+            loadingPackages: false,
           };
           this.members.push(newItem);
           this.messageService.success("AccountingModule::Success:MemberAdded");
@@ -169,5 +177,46 @@ export class AccountTenantManagementComponent implements OnInit, OnChanges {
 
   getMemberRefTenantId(member: TenantMemberDisplayItem): string {
     return member.tenantMember?.name || '-';
+  }
+
+  loadPackagesForMember(member: TenantMemberDisplayItem): void {
+    if (!member.id) {
+      return;
+    }
+
+    // Don't reload if already loaded or currently loading
+    if (member.loadingPackages || (member.packages !== undefined && member.packages !== null)) {
+      return;
+    }
+
+    member.loadingPackages = true;
+    this.accountPackageService
+      .getListByMemberIdByMemberId(member.id)
+      .pipe(
+        finalize(() => {
+          member.loadingPackages = false;
+        })
+      )
+      .subscribe({
+        next: (packages) => {
+          member.packages = packages || [];
+        },
+        error: (error) => {
+          this.messageService.error("AccountingModule::Error:LoadPackagesFailed");
+          console.error("Error loading packages for member:", error);
+          member.packages = [];
+        },
+      });
+  }
+
+  onRowExpand(event: any): void {
+    const member = event.data as TenantMemberDisplayItem;
+    this.loadPackagesForMember(member);
+  }
+
+  getBillingPeriodTypeName(type: number): string {
+    return this.localizationService.instant(
+      "Infrastructure::BillingPeriodType:" + BillingPeriodType[type]
+    );
   }
 }

@@ -32,7 +32,8 @@ import { DialogModule } from 'primeng/dialog';
 import { PROXY_SERVICES } from '@eleon/accounting-proxy';
 import { PackageTemplateModuleCreateComponent } from './package-template/package-template-module-create/package-template-module-create.component';
 import { MemberCreateComponent } from './account/member-create/member-create.component';
-import { MemberSelectionDialogComponent } from './account/member-selection-dialog/member-selection-dialog.component';
+import { UserMemberSelectionDialogComponent } from './account/user-member-selection-dialog/user-member-selection-dialog.component';
+import { TenantMemberSelectionDialogComponent } from './account/tenant-member-selection-dialog/tenant-member-selection-dialog.component';
 import { AccountCreateDialogComponent } from './account/account-create-dialog/account-create-dialog.component';
 import { PackageTemplateCreateDialogComponent } from './package-template/package-template-create-dialog/package-template-create-dialog.component';
 import { TabsModule } from 'primeng/tabs';
@@ -55,7 +56,8 @@ import { TenantMemberCreateComponent } from './account/tenant-member-create/tena
     AccountStatusTagComponent,
     PackageTemplateModuleCreateComponent,
     MemberCreateComponent,
-    MemberSelectionDialogComponent,
+    UserMemberSelectionDialogComponent,
+    TenantMemberSelectionDialogComponent,
     AccountCreateDialogComponent,
     PackageTemplateCreateDialogComponent,
     AccountPackagesManagementComponent,

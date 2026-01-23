@@ -15,9 +15,12 @@
       dataKey="id"
       [loading]="componentLoading || loading"
       [paginator]="false"
+      rowExpandMode="single"
+      (onRowExpand)="onRowExpand($event)"
     >
       <ng-template pTemplate="header">
         <tr class="table-header w-full">
+          <th style="width: 2rem"></th>
           <th>
             {{ 'AccountingModule::TenantMember:Name' | abpLocalization }}
           </th>
@@ -47,9 +50,15 @@
         pTemplate="body"
         let-member
         let-rowIndex="rowIndex"
+        let-expanded="expanded"
       >
-        <tr>
+        <tr class="cursor-pointer" [pRowToggler]="member">
           <td>
+            <i
+              [class]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            ></i>
+          </td>
+          <td [pRowTogglerDisabled]="true">
             <span class="non-editing-only p-column-title">{{
               'AccountingModule::TenantMember:Name' | abpLocalization
             }}</span>
@@ -61,10 +70,11 @@
             class="row-buttons"
             [alignFrozen]="direction"
             pFrozenColumn
+            [pRowTogglerDisabled]="true"
           >
             <div class="flex gap-2 justify-content-end">
               <i
-                (click)="removeMember(rowIndex)"
+                (click)="removeMember(rowIndex); $event.stopPropagation()"
                 class="fa fa-trash" style="color: red"
                 [pTooltip]="
                   'AccountingModule::Tooltip:RemoveMember'
@@ -75,9 +85,87 @@
           </td>
         </tr>
       </ng-template>
+      <ng-template #expandedrow let-member>
+        <tr>
+          <td [attr.colspan]="3">
+            <div class="card p-0">
+              <div class="card-body p-0">
+                <p-table
+                  [value]="member.packages || []"
+                  dataKey="id"
+                  responsiveLayout="scroll"
+                  [loading]="member.loadingPackages"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>
+                        {{ 'AccountingModule::Row:PackageTemplate' | abpLocalization }}
+                      </th>
+                      <th>
+                        {{ 'AccountingModule::Row:BillingPeriodType' | abpLocalization }}
+                      </th>
+                      <th>
+                        {{ 'AccountingModule::Row:OneTimeDiscount' | abpLocalization }}
+                      </th>
+                      <th>
+                        {{ 'AccountingModule::Row:PermanentDiscount' | abpLocalization }}
+                      </th>
+                      <th>
+                        {{ 'AccountingModule::Row:AutoRenewal' | abpLocalization }}
+                      </th>
+                      <th>
+                        {{ 'AccountingModule::Row:LinkedMembers' | abpLocalization }}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-package>
+                    <tr>
+                      <td>
+                        {{ package.name || package.packageTemplate?.name || '-' }}
+                      </td>
+                      <td>
+                        {{ getBillingPeriodTypeName(package.billingPeriodType) }}
+                      </td>
+                      <td>
+                        {{ package.oneTimeDiscount }}
+                      </td>
+                      <td>
+                        {{ package.permanentDiscount }}
+                      </td>
+                      <td>
+                        <p-checkbox
+                          [binary]="true"
+                          [(ngModel)]="package.autoRenewal"
+                          [disabled]="true"
+                        >
+                        </p-checkbox>
+                      </td>
+                      <td>
+                        {{ package.totalLinkedMembers || 0 }}
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr class="table-emptymessage">
+                      <td colspan="6">
+                        <div class="card w-full">
+                          <div class="card-body w-full">
+                            {{ 'AccountingModule::NoAccountPackages' | abpLocalization }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
       <ng-template pTemplate="emptymessage">
         <tr class="table-emptymessage">
-          <td class="w-full" colspan="2">
+          <td class="w-full" colspan="3">
             <div class="card w-full">
               <div class="card-body w-full">
                 <div class="card-header">
@@ -109,3 +197,9 @@
     </p-table>
   </ng-template>
 </div>
+
+<app-tenant-member-create
+  [(display)]="showMemberDialog"
+  (saveEvent)="onMemberDialogSave($event)"
+>
+</app-tenant-member-create>

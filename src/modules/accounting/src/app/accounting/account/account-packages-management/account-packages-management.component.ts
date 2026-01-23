@@ -7,13 +7,9 @@ import {
   BillingPeriodType,
   LinkedUserDto,
   LinkedTenantDto,
-  CreateLinkedUserDto,
-  CreateLinkedTenantDto,
   LinkedUserListRequestDto,
   LinkedTenantListRequestDto,
   PackageType,
-  UserMemberDto,
-  TenantMemberDto,
 } from '@eleon/accounting-proxy';
 import { contributeControls, LocalizedMessageService, PAGE_CONTROLS, PageControls } from "@eleon/primeng-ui.lib";
 import { PageStateService } from '@eleon/primeng-ui.lib';
@@ -53,10 +49,8 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
   rows: AccountPackageRow[] = [];
   loading: boolean = false;
   currentPackageRow: AccountPackageRow | null = null;
-  showMemberSelectionDialog: boolean = false;
-  availableMembers: (UserMemberDto | TenantMemberDto)[] = [];
-  selectedLinkedMembers: (LinkedUserDto | LinkedTenantDto)[] = [];
-  currentPackageType: PackageType | undefined = undefined;
+  showUserMemberSelectionDialog: boolean = false;
+  showTenantMemberSelectionDialog: boolean = false;
   showCreateDialog: boolean = false;
   currentEditingPackageId: string | undefined = undefined;
   PackageType = PackageType;
@@ -111,51 +105,12 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       .subscribe({
         next: (result) => {
           this.rows = (result.items || []).map((pkg) => this.createRow(pkg));
-          this.loadLinkedMembersForAllPackages();
           this.emitPackagesChange();
         },
         error: (error) => {
           this.messageService.error("AccountingModule::Error:LoadPackagesFailed");
-          console.error("Error loading packages:", error);
         },
       });
-  }
-
-  loadLinkedMembersForAllPackages(): void {
-    this.rows.forEach((row) => {
-      if (row.data.id) {
-        this.loadLinkedMembersForPackage(row);
-      }
-    });
-  }
-
-  loadLinkedMembersForPackage(row: AccountPackageRow): void {
-    if (!row.data.id) return;
-
-    const userRequest: LinkedUserListRequestDto = {
-      accountPackageId: row.data.id,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    const tenantRequest: LinkedTenantListRequestDto = {
-      accountPackageId: row.data.id,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    forkJoin({
-      users: this.accountMemberService.getLinkedUsers(userRequest),
-      tenants: this.accountMemberService.getLinkedTenants(tenantRequest),
-    }).subscribe({
-      next: (result) => {
-        row.linkedMembersCount = (result.users.items?.length || 0) + (result.tenants.items?.length || 0);
-      },
-      error: (error) => {
-        console.error("Error loading linked members:", error);
-        row.linkedMembersCount = 0;
-      },
-    });
   }
 
   createRow(item: AccountPackageDto): AccountPackageRow {
@@ -168,8 +123,8 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       linkedTenants: [],
       loadingLinkedUsers: false,
       loadingLinkedTenants: false,
-      totalLinkedUsers: 0,
-      totalLinkedTenants: 0,
+      totalLinkedUsers: null,
+      totalLinkedTenants: null,
     };
   }
 
@@ -200,12 +155,12 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       // Update existing row
       const existingRow = this.rows[existingRowIndex];
       existingRow.data = packageDto;
-      this.loadLinkedMembersForPackage(existingRow);
+      // this.loadLinkedMembersForPackage(existingRow);
     } else {
       // Add new row
       const newRow = this.createRow(packageDto);
       this.rows.push(newRow);
-      this.loadLinkedMembersForPackage(newRow);
+      // this.loadLinkedMembersForPackage(newRow);
     }
 
     this.pageStateService.setDirty();
@@ -238,7 +193,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
         },
         error: (error) => {
           this.messageService.error("AccountingModule::Error:DeletePackageFailed");
-          console.error("Error deleting package:", error);
         },
       });
   }
@@ -250,188 +204,53 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
   }
 
   openMemberSelectionDialog(row: AccountPackageRow): void {
-    this.currentPackageRow = row;
-    // Get packageType from the package template
-    this.currentPackageType = row.data.packageTemplate?.packageType;
-    this.loadAvailableMembers();
-    this.showMemberSelectionDialog = true;
-  }
-
-  loadAvailableMembers(): void {
-    if (!this.accountId) return;
-
-    const userRequest = {
-      accountId: this.accountId,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    const tenantRequest = {
-      accountId: this.accountId,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    forkJoin({
-      users: this.accountMemberService.getUserMembers(userRequest),
-      tenants: this.accountMemberService.getTenantMembers(tenantRequest),
-    }).subscribe({
-      next: (result) => {
-        // Pass UserMemberDto and TenantMemberDto directly
-        const userMembers: UserMemberDto[] = result.users.items || [];
-        const tenantMembers: TenantMemberDto[] = result.tenants.items || [];
-        this.availableMembers = [...userMembers, ...tenantMembers];
-        this.loadSelectedLinkedMembers();
-      },
-      error: (error) => {
-        console.error("Error loading available members:", error);
-        this.availableMembers = [];
-      },
-    });
-  }
-
-  loadSelectedLinkedMembers(): void {
-    if (!this.currentPackageRow?.data.id) {
-      this.selectedLinkedMembers = [];
+    if (!row.data.id) {
+      this.messageService.error("AccountingModule::Error:PackageIdRequired");
       return;
     }
 
-    const packageId = this.currentPackageRow.data.id;
-    const userRequest: LinkedUserListRequestDto = {
-      accountPackageId: packageId,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
+    this.currentPackageRow = row;
+    const packageType = row.data.packageTemplate?.packageType;
 
-    const tenantRequest: LinkedTenantListRequestDto = {
-      accountPackageId: packageId,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    forkJoin({
-      users: this.accountMemberService.getLinkedUsers(userRequest),
-      tenants: this.accountMemberService.getLinkedTenants(tenantRequest),
-    }).subscribe({
-      next: (result) => {
-        // Pass LinkedUserDto and LinkedTenantDto directly
-        const userLinked: LinkedUserDto[] = result.users.items || [];
-        const tenantLinked: LinkedTenantDto[] = result.tenants.items || [];
-        this.selectedLinkedMembers = [...userLinked, ...tenantLinked];
-      },
-      error: (error) => {
-        console.error("Error loading selected linked members:", error);
-        this.selectedLinkedMembers = [];
-      },
-    });
+    if (packageType === PackageType.User) {
+      this.showUserMemberSelectionDialog = true;
+    } else if (packageType === PackageType.Tenant) {
+      this.showTenantMemberSelectionDialog = true;
+    } else {
+      this.messageService.error("AccountingModule::Error:InvalidPackageType");
+    }
   }
 
-  onMemberSelectionSave(selectedLinkedMembers: (LinkedUserDto | LinkedTenantDto)[]): void {
-    if (!this.currentPackageRow || !this.currentPackageRow.data.id) return;
+  onUserAdded(linkedUser: LinkedUserDto): void {
+    if (this.currentPackageRow) {
+      this.pageStateService.setDirty();
+      this.dirtyChange.emit();
+      // Reload linked users for the current package row
+      const event: LazyLoadEvent = {
+        first: 0,
+        rows: 10,
+      };
+      this.loadLinkedUsers(event, this.currentPackageRow);
+    }
+    this.currentPackageRow = null;
+  }
 
-    this.pageStateService.setDirty();
-    this.dirtyChange.emit();
-
-    const packageId = this.currentPackageRow.data.id;
-
-    // Load current linked members
-    const userRequest: LinkedUserListRequestDto = {
-      accountPackageId: packageId,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    const tenantRequest: LinkedTenantListRequestDto = {
-      accountPackageId: packageId,
-      skipCount: 0,
-      maxResultCount: 1000,
-    };
-
-    forkJoin({
-      currentUsers: this.accountMemberService.getLinkedUsers(userRequest),
-      currentTenants: this.accountMemberService.getLinkedTenants(tenantRequest),
-    }).subscribe({
-      next: (current) => {
-        const currentUserIds = new Set((current.currentUsers.items || []).map((u) => u.userMemberEntityId).filter(Boolean));
-        const currentTenantIds = new Set((current.currentTenants.items || []).map((t) => t.tenantMemberEntityId).filter(Boolean));
-
-        // Separate selected members by type
-        const selectedUserIds = new Set<string>();
-        const selectedTenantIds = new Set<string>();
-
-        selectedLinkedMembers.forEach((member) => {
-          if ('userMemberEntityId' in member && member.userMemberEntityId) {
-            selectedUserIds.add(member.userMemberEntityId);
-          } else if ('tenantMemberEntityId' in member && member.tenantMemberEntityId) {
-            selectedTenantIds.add(member.tenantMemberEntityId);
-          }
-        });
-
-        // Delete unlinked users
-        current.currentUsers.items?.forEach((linkedUser) => {
-          if (linkedUser.id && linkedUser.userMemberEntityId && !selectedUserIds.has(linkedUser.userMemberEntityId)) {
-            this.accountMemberService.deleteLinkedUser(linkedUser.id).subscribe({
-              error: (error) => console.error("Error deleting linked user:", error),
-            });
-          }
-        });
-
-        // Delete unlinked tenants
-        current.currentTenants.items?.forEach((linkedTenant) => {
-          if (linkedTenant.id && linkedTenant.tenantMemberEntityId && !selectedTenantIds.has(linkedTenant.tenantMemberEntityId)) {
-            this.accountMemberService.deleteLinkedTenant(linkedTenant.id).subscribe({
-              error: (error) => console.error("Error deleting linked tenant:", error),
-            });
-          }
-        });
-
-        // Add new linked users
-        selectedUserIds.forEach((userMemberId) => {
-          if (!currentUserIds.has(userMemberId)) {
-            const createDto: CreateLinkedUserDto = { userMemberEntityId: userMemberId };
-            this.accountMemberService.addLinkedUser(packageId, createDto).subscribe({
-              next: () => {
-                this.loadLinkedMembersForPackage(this.currentPackageRow!);
-              },
-              error: (error) => console.error("Error adding linked user:", error),
-            });
-          }
-        });
-
-        // Add new linked tenants
-        selectedTenantIds.forEach((tenantMemberId) => {
-          if (!currentTenantIds.has(tenantMemberId)) {
-            const createDto: CreateLinkedTenantDto = { tenantMemberEntityId: tenantMemberId };
-            this.accountMemberService.addLinkedTenant(packageId, createDto).subscribe({
-              next: () => {
-                this.loadLinkedMembersForPackage(this.currentPackageRow!);
-              },
-              error: (error) => console.error("Error adding linked tenant:", error),
-            });
-          }
-        });
-
-        this.currentPackageRow = null;
-        this.showMemberSelectionDialog = false;
-      },
-      error: (error) => {
-        console.error("Error loading current linked members:", error);
-        this.currentPackageRow = null;
-        this.showMemberSelectionDialog = false;
-      },
-    });
+  onTenantAdded(linkedTenant: LinkedTenantDto): void {
+    if (this.currentPackageRow) {
+      this.pageStateService.setDirty();
+      this.dirtyChange.emit();
+      // Reload linked tenants for the current package row
+      const event: LazyLoadEvent = {
+        first: 0,
+        rows: 10,
+      };
+      this.loadLinkedTenants(event, this.currentPackageRow);
+    }
+    this.currentPackageRow = null;
   }
 
   getLinkedMembersDisplay(row: AccountPackageRow): string {
-    if (!row.linkedMembersCount || row.linkedMembersCount === 0) {
-      return '-';
-    }
-    if (row.data.packageTemplate?.packageType === PackageType.User) {
-      return `${row.totalLinkedUsers?.toString() || '0'}/${row.data.packageTemplate?.maxMembers || '∞'}`;
-    }
-    if (row.data.packageTemplate?.packageType === PackageType.Tenant) {
-      return `${row.totalLinkedTenants?.toString() || '0'}/${row.data.packageTemplate?.maxMembers || '∞'}`;
-    }
+    return `${row.data.totalLinkedMembers?.toString() || '0'}/${row.data.packageTemplate?.maxMembers || '∞'}`;
   }
 
   loadLinkedUsers(event: LazyLoadEvent, row: AccountPackageRow): void {
@@ -457,7 +276,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
           row.totalLinkedUsers = result.totalCount || 0;
         },
         error: (error) => {
-          console.error("Error loading linked users:", error);
           row.linkedUsers = [];
           row.totalLinkedUsers = 0;
         },
@@ -487,7 +305,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
           row.totalLinkedTenants = result.totalCount || 0;
         },
         error: (error) => {
-          console.error("Error loading linked tenants:", error);
           row.linkedTenants = [];
           row.totalLinkedTenants = 0;
         },
@@ -512,7 +329,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
             rows: 10,
           };
           this.loadLinkedUsers(event, row);
-          this.loadLinkedMembersForPackage(row);
         })
       )
       .subscribe({
@@ -523,7 +339,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
         },
         error: (error) => {
           this.messageService.error("AccountingModule::Error:DeleteLinkedUserFailed");
-          console.error("Error deleting linked user:", error);
         },
       });
   }
@@ -546,7 +361,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
             rows: 10,
           };
           this.loadLinkedTenants(event, row);
-          this.loadLinkedMembersForPackage(row);
         })
       )
       .subscribe({
@@ -557,7 +371,6 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
         },
         error: (error) => {
           this.messageService.error("AccountingModule::Error:DeleteLinkedTenantFailed");
-          console.error("Error deleting linked tenant:", error);
         },
       });
   }

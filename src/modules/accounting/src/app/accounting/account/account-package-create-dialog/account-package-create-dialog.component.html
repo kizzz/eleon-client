@@ -89,13 +89,10 @@
               [style]="{ width: '100%' }"
               [inputStyle]="{ width: '100%' }"
               [step]="0.1"
-              [min]="0"
-              [max]="1e6"
-              [showButtons]="true"
               [(ngModel)]="accountPackage.oneTimeDiscount"
               mode="decimal"
-              [minFractionDigits]="0"
-              [maxFractionDigits]="1"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="2"
               [disabled]="loading"
             ></p-inputNumber>
           </div>
@@ -113,13 +110,10 @@
               [style]="{ width: '100%' }"
               [inputStyle]="{ width: '100%' }"
               [step]="0.1"
-              [min]="0"
-              [max]="1e6"
-              [showButtons]="true"
               [(ngModel)]="accountPackage.permanentDiscount"
               mode="decimal"
-              [minFractionDigits]="0"
-              [maxFractionDigits]="1"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="2"
               [disabled]="loading"
             ></p-inputNumber>
           </div>

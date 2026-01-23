@@ -344,6 +344,78 @@ export class AccountPackageService {
   }
 
 
+  getListByMemberIdByMemberId(memberId: string, config?: Partial<any>): Observable<AccountPackageDto[]> {
+    // baseUrl is already a quoted literal
+		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+    const baseUrl = apiBase + '/api/account/account-packages/GetListByMemberId';
+
+    // build ?a=1&b=2…
+    const queryString = (() => {
+      const qp = new URLSearchParams();
+
+      {
+        const raw = memberId;
+        if (
+          raw !== undefined &&
+          raw !== null &&
+          (typeof raw !== 'string' || raw !== '') &&
+					!(Array.isArray(raw) && raw?.length == 0)
+        ) {
+          qp.append('memberId', String(raw));
+        }
+      }
+
+      const s = qp.toString();
+      return s ? `?${s}` : '';
+    })();
+
+    const eleoncoreApiUrl = baseUrl + queryString;
+
+    // headers
+    const headers: HeadersInit = {};
+    if (!config?.skipAddingHeader) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    // options
+    const options: RequestInit = {
+      method: 'GET',
+      headers,
+
+    };
+
+    return new Observable<AccountPackageDto[]>(subscriber => {
+      this.authFetch(eleoncoreApiUrl, options)
+        .then(res => {
+          if (!res.ok) {
+            if (!config?.skipHandleError) {
+              // ← you can hook in your global reporter here
+            }
+            return res.text().then(err => {
+              subscriber.error(new Error(err || res.statusText));
+            });
+          }
+
+
+          const contentType = res.headers.get("Content-Type") || "";
+					if (contentType.includes("application/json")) {
+						return res.json().then(data => {
+							subscriber.next(data as AccountPackageDto[]);
+							subscriber.complete();
+						});
+					} else {
+						return res.text().then(data => {
+							subscriber.next(data as any);
+							subscriber.complete();
+						});
+					}
+
+        })
+        .catch(err => subscriber.error(err));
+    });
+  }
+
+
   updateAccountPackage(input: AccountPackageDto, config?: Partial<any>): Observable<AccountPackageDto> {
     // baseUrl is already a quoted literal
 		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';

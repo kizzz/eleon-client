@@ -1,0 +1,88 @@
+<div>
+  <p-dialog
+    [resizable]="false"
+    [header]="title"
+    [(visible)]="display"
+    [modal]="true"
+    [draggable]="false"
+    [style]="{ width: '800px' }"
+    (onShow)="onDialogShow()"
+    (onHide)="onDialogHide()"
+  >
+    <div #tableCard>
+      <p-table
+        *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
+        [scrollable]="scrollable"
+        [responsive]="true"
+        responsiveLayout="stack"
+        [breakpoint]="breakpoint"
+        scrollDirection="both"
+        class="cell-center"
+        styleClass="pr-table"
+        [value]="rows"
+        [loading]="loading"
+        [paginator]="false"
+        selectionMode="single"
+        [(selection)]="selectedRow"
+        dataKey="data.id"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="when-big-width-cell-center" pSortableColumn="name">
+              {{ 'AccountingModule::Row:Name' | abpLocalization }}
+              <p-sortIcon field="name"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr [pSelectableRow]="row">
+            <td class="when-big-width-cell-center">
+              <span class="non-editing-only p-column-title">{{
+                'AccountingModule::Row:Name' | abpLocalization
+              }}</span>
+              <span class="column-content">
+                {{ row.data.name || '-' }}
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr class="table-emptymessage">
+            <td class="w-full" colspan="1">
+              <div class="card w-full">
+                <div class="card-body w-full">
+                  <div class="card-header">
+                    {{ 'AccountingModule::NoTenantMembers' | abpLocalization }}
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="mt-2 flex justify-content-end">
+        <p-button
+          [text]="true"
+          [raised]="true"
+          (onClick)="cancel()"
+          [label]="'Infrastructure::Cancel' | abpLocalization"
+          icon="fa fa-times"
+          [disabled]="saving"
+        >
+        </p-button>
+        <p-button
+          [text]="true"
+          [raised]="true"
+          (onClick)="onSelect()"
+          icon="fa fa-check"
+          [label]="'Infrastructure::Select' | abpLocalization"
+          [loading]="saving"
+          [disabled]="saving || !selectedRow"
+        >
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

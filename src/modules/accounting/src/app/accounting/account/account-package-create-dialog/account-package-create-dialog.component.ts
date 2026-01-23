@@ -154,6 +154,7 @@ export class AccountPackageCreateDialogComponent implements OnInit, OnChanges {
         status: {} as any, // Will be preserved by backend
         packageTemplate: this.accountPackage.packageTemplate || undefined,
         name: this.accountPackage.packageTemplate?.packageName,
+        totalLinkedMembers: 0
       };
 
       this.accountPackageService

@@ -1690,6 +1690,23 @@
                     "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.AccountPackageDto>",
                     "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.AccountPackageDto>"
                   }
+                },
+                {
+                  "name": "GetListByMemberId",
+                  "parametersOnMethod": [
+                    {
+                      "name": "memberId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<VPortal.Accounting.Module.AccountPackages.AccountPackageDto>",
+                    "typeSimple": "[VPortal.Accounting.Module.AccountPackages.AccountPackageDto]"
+                  }
                 }
               ]
             }
@@ -1936,6 +1953,44 @@
               "returnValue": {
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.AccountPackageDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<VPortal.Accounting.Module.AccountPackages.AccountPackageDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.Accounting.Module.AccountPackages.IAccountPackageAppService",
+              "baseUrl": ""
+            },
+            "GetListByMemberIdByMemberId": {
+              "uniqueName": "GetListByMemberIdByMemberId",
+              "name": "GetListByMemberId",
+              "httpMethod": "GET",
+              "url": "api/account/account-packages/GetListByMemberId",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "memberId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "memberId",
+                  "name": "memberId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<VPortal.Accounting.Module.AccountPackages.AccountPackageDto>",
+                "typeSimple": "[VPortal.Accounting.Module.AccountPackages.AccountPackageDto]"
               },
               "allowAnonymous": null,
               "implementFrom": "VPortal.Accounting.Module.AccountPackages.IAccountPackageAppService",
@@ -54962,6 +55017,18 @@
           "jsonName": null,
           "type": "VPortal.Accounting.Module.PackageTemplates.PackageTemplateDto",
           "typeSimple": "VPortal.Accounting.Module.PackageTemplates.PackageTemplateDto",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TotalLinkedMembers",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
