@@ -7,7 +7,7 @@ This document demonstrates how to use the OpenTelemetry log exporter in the Type
 Initialize telemetry with log exporter enabled:
 
 ```typescript
-import { initializeTelemetry, getLogger } from '@eleon/ts-hosting.lib';
+import { initializeTelemetry, getLogger } from '@eleon/common-services.lib';
 import { SeverityNumber } from '@opentelemetry/api-logs';
 
 // Initialize telemetry with all three signals: traces, metrics, and logs
@@ -104,7 +104,7 @@ The interceptor:
 If needed, you can restore the original console methods:
 
 ```typescript
-import { restoreConsole } from '@eleon/ts-hosting.lib';
+import { restoreConsole } from '@eleon/common-services.lib';
 
 // Restore original console behavior
 restoreConsole();
@@ -115,7 +115,7 @@ restoreConsole();
 After initialization, you can get a logger instance and emit log records:
 
 ```typescript
-import { getLogger } from '@eleon/ts-hosting.lib';
+import { getLogger } from '@eleon/common-services.lib';
 import { SeverityNumber } from '@opentelemetry/api-logs';
 
 // Get a logger for your component/module
@@ -228,7 +228,7 @@ await telemetry.shutdown();
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
-import { getLogger } from '@eleon/ts-hosting.lib';
+import { getLogger } from '@eleon/common-services.lib';
 import { SeverityNumber } from '@opentelemetry/api-logs';
 
 @Component({

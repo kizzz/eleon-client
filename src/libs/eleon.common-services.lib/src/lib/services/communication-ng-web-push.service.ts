@@ -10,18 +10,19 @@ import { firstValueFrom } from "rxjs/internal/firstValueFrom";
   providedIn: "root",
 })
 export class NgWebPushCommunicationService extends ICommunicationManager {
+  private webPushService: WebPushService = new WebPushService();
+
   constructor(
-    @Optional() private webPushService: WebPushService,
     @Optional() private swPush: SwPush,
     private authService: IAuthManager,
     private configManger: IApplicationConfigurationManager
   ) {
     super();
 
-		if  (!this.webPushService || !this.swPush) {
+		if  (!this.swPush) {
 			if (typeof window['addEleoncoreError'] === 'function') {
 				window.addEleoncoreError({
-					message: `${ this.webPushService && this.swPush ? "WebPushService and SwPush are" : !this.webPushService ? "WebPushService is" : "SwPush is" } not provided. Please ensure that Service Worker is enabled in your application.`,
+					message: `SwPush is not provided. Please ensure that Service Worker is enabled in your application.`,
 					level: ErrorHandlingLevel.Debug
 				});
 			}
@@ -29,10 +30,10 @@ export class NgWebPushCommunicationService extends ICommunicationManager {
   }
 
   async init(...params: any[]) {
-		if  (!this.webPushService || !this.swPush) {
+		if  (!this.swPush) {
 			if (typeof window['addEleoncoreError'] === 'function') {
 				window.addEleoncoreError({
-					message: `${ this.webPushService && this.swPush ? "WebPushService and SwPush are" : !this.webPushService ? "WebPushService is" : "SwPush is" } not provided. Please ensure that Service Worker is enabled in your application.`,
+					message: `SwPush is not provided. Please ensure that Service Worker is enabled in your application.`,
 					level: ErrorHandlingLevel.Error
 				});
 			}

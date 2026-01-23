@@ -1,10 +1,11 @@
 import { ActivatedRouteSnapshot, ChildActivationEnd, NavigationEnd, Route, Router, ROUTES, Routes } from "@angular/router";
 import { loadRemoteModule } from "@nx/angular/mf";
 import { ENVIRONMENT_INITIALIZER, Type } from '@angular/core';
-import { computeRemoteDefinitions } from '@eleon/ts-hosting.lib';
+import { computeRemoteDefinitions } from '@eleon/common-services.lib';
 import { FOR_INITIALIZATION, IModuleLoadingObservableService } from '@eleon/angular-sdk.lib';
 import { filter } from "rxjs";
-import { defaultRoutes } from "./default-routes";
+import { SignInComponent } from './signin.component'
+import { ErrorEmptyComponent } from './error-empty-component'
 
 export function isNgModule(moduleType: Type<any>): boolean {
     return moduleType.hasOwnProperty('ɵmod');
@@ -121,6 +122,16 @@ export function extractProvidersFromLoadedModule(loadedModule: any): any[] {
     return collected;
 }
 
+const defaultRoutes = [
+  {
+    path: 'signin-oidc',
+    component: SignInComponent,
+  },
+  {
+    path: 'empty-error',
+    component: ErrorEmptyComponent,
+  },
+];
 
 /**
  * Adds routes dynamically based on the modules provided.

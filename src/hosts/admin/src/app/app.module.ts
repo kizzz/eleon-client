@@ -9,7 +9,7 @@ import {
   Component,
   importProvidersFrom,
 } from '@angular/core';
-import { ecAppInitializer } from '@eleon/angular-hosting.lib';
+import { ecAppInitializer } from '@eleon/module-loader.lib';
 import {
   createAssetsInitializer,
   createLocalizationInitializerUnified,
@@ -31,7 +31,7 @@ import { provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppModule as AppLayoutModule, } from 'src/modules/primeng-layout/src/app/eleonsoft.app.module';
 import { AppLayoutModule as InternalLayoutModule } from 'src/modules/primeng-layout/src/app/layout/app.layout.module';
-import { registerBasicProviders } from '@eleon/angular-hosting.lib';
+import { registerBasicProviders } from '@eleon/module-loader.lib';
 import { AppComponent } from './app.component';
 
 export const remoteRoutes: Route[] = [

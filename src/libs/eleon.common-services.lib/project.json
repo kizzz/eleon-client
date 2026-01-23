@@ -1,0 +1,28 @@
+{
+  "name": "eleon.common-services.lib",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "bin/debug/libs/eleon.common-services.lib",
+        "main": "src/libs/eleon.common-services.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.common-services.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.common-services.lib/webpack.config.ts"
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

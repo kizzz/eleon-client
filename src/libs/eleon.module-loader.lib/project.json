@@ -1,5 +1,5 @@
 {
-  "name": "eleon.ts-hosting.lib",
+  "name": "eleon.module-loader.lib",
   "projectType": "library",
   "targets": {
     "build": {
@@ -10,10 +10,10 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "bin/debug/libs/eleon.ts-hosting.lib",
-        "main": "src/libs/eleon.ts-hosting.lib/src/index.ts",
-        "tsConfig": "src/libs/eleon.ts-hosting.lib/tsconfig.json",
-        "webpackConfig": "src/libs/eleon.ts-hosting.lib/webpack.config.ts"
+        "outputPath": "bin/debug/libs/eleon.module-loader.lib",
+        "main": "src/libs/eleon.module-loader.lib/src/index.ts",
+        "tsConfig": "src/libs/eleon.module-loader.lib/tsconfig.json",
+        "webpackConfig": "src/libs/eleon.module-loader.lib/webpack.config.ts"
       },
       "configurations": {
         "production": {},

@@ -1,17 +1,16 @@
 import {
-  NoopAuthService,
-  ModuleLoadingObservableService,
   hasOidcUserInLocalStorage,
   ClientAuthManager,
   TelemetryService,
   initAccessToken,
-  VPortalUserMenuService,
-  VPortalMenuService,
-  VPortalTopbarService,
   SignalRService,
   SoundsService,
   CurrencyService,
-} from '@eleon/ts-hosting.lib';
+  IdentityHubService, 
+  SystemEventsService, 
+  ImpersonationService,
+  NgWebPushCommunicationService
+} from '@eleon/common-services.lib';
 import { APP_INITIALIZER, Component, importProvidersFrom, Injector, isDevMode, PLATFORM_ID, Provider } from '@angular/core';
 import { SessionService } from '@eleon/system-services.lib';
 import { PROXY_SERVICES as APPLICATION_CONFIGURATION_PROXY_SERVICES, ApplicationConfigurationManager, EleoncoreApplicationConfigurationDto } from '@eleon/app-config.lib';
@@ -23,16 +22,13 @@ import {
   DynamicLocalizationService,
   SessionStateService,
   LocalStorageService,
-  AssetLoaderService,
-  ModuleSettingService,
   registerLocale,
   EcContainerService,
-} from '@eleon/ts-hosting.lib';
-import { NoopConfigStateService, NoopSessionStateService } from '@eleon/ts-hosting.lib';
+} from '@eleon/common-services.lib';
+import { AssetLoaderService, ModuleSettingService, NgModuleLoaderManager, NoopConfigStateService, NoopSessionStateService, NoopAuthService, ModuleLoadingObservableService, } from '../services';
 import { HashLocationStrategy, isPlatformBrowser, LocationStrategy } from '@angular/common';
-import { ServiceWorkerModule } from "@angular/service-worker";
-import { NgModuleLoaderManager, IdentityHubService, SystemEventsService, ImpersonationService } from "../ng-services";
-import { IAssetLoaderService, IBreadcrumbsService, ICurrencyService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
+import { ServiceWorkerModule, SwPush } from "@angular/service-worker";
+import { IAssetLoaderService, IBreadcrumbsService, ICommunicationManager, ICurrencyService, IEcContainerService, IErrorHandlingService, IImpersonationService, ILightweightStorageService, IModuleLoaderManager, IModuleLoadingObservableService, ISignalRService, ISoundsService } from '@eleon/contracts.lib';
 import { ClientLogService, sendSystemLogs, EleoncoreErrorHandlingService } from '@eleon/logging.lib';
 import { EleoncoreError, IAppearanceService, IVPortalMenuService, IVPortalTopbarService } from '@eleon/contracts.lib';
 
@@ -61,6 +57,18 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
     {
         provide: IErrorHandlingService,
         useFactory: () => new EleoncoreErrorHandlingService(),
+    },
+    {
+      provide: ICommunicationManager,
+      useFactory: (
+        appConfig: IApplicationConfigurationManager,
+        authManager: IAuthManager,
+        injector: Injector
+      ) => {
+        const swPush = injector.get(SwPush, null, { optional: true });
+        return new NgWebPushCommunicationService(swPush, authManager, appConfig);
+      },
+      deps: [IApplicationConfigurationManager, IAuthManager, Injector],
     },
     {
         provide: ClientLogService,
@@ -236,26 +244,6 @@ export function registerBasicProviders(appConfiguration?: IApplicationConfigurat
         return service;
       },
       deps: [IApplicationConfigurationManager, IAuthManager, ISignalRService]
-    },
-    {
-      provide: IVPortalUserMenuService,
-      useFactory: () => {
-        return new VPortalUserMenuService();
-      }
-    },
-    {
-      provide: IVPortalMenuService,
-      useFactory: (permissionService: IPermissionService, authManager: IAuthManager) => {
-        return new VPortalMenuService(permissionService, authManager);
-      },
-      deps: [IPermissionService, IAuthManager]
-    },
-    {
-      provide: IVPortalTopbarService,
-      useFactory: (permissionService: IPermissionService) => {
-        return new VPortalTopbarService(permissionService);
-      },
-      deps: [IPermissionService]
     },
     {
       provide: APP_INITIALIZER,
