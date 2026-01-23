@@ -1,16 +1,23 @@
-import type { BillingInformationDto } from '../billing-informations/models';
-import type { AccountPackageDto } from '../account-packages/models';
+import type { PaymentMethod } from '../../../common/module/constants/payment-method.enum';
 import type { InvoiceDto } from '../invoices/models';
 import type { AccountStatus } from '../../../common/module/constants/account-status.enum';
 import type { PagedAndSortedResultRequestDto } from '@eleon/proxy-utils.lib';
 import type { AccountListRequestType } from '../constants/account-list-request-type.enum';
 import type { LifecycleActorTypes } from '../../../common/module/constants/lifecycle-actor-types.enum';
-import type { MemberType } from '../constants/member-type.enum';
 
 export interface AccountDto extends AccountHeaderDto {
-  billingInformation: BillingInformationDto;
-  members: MemberDto[];
-  accountPackages: AccountPackageDto[];
+  billingName?: string;
+  companyCID?: string;
+  billingAddressLine1?: string;
+  billingAddressLine2?: string;
+  city?: string;
+  stateOrProvince?: string;
+  postalCode?: string;
+  country?: string;
+  contactPersonEmail?: string;
+  contactPersonTelephone?: string;
+  paymentMethod: PaymentMethod;
+  description?: string;
   invoices: InvoiceDto[];
 }
 
@@ -23,7 +30,8 @@ export interface AccountHeaderDto {
   organizationUnitId?: string;
   organizationUnitName?: string;
   currentBalance: number;
-  accountName?: string;
+  name?: string;
+  active: boolean;
   accountStatus: AccountStatus;
   creatorId?: string;
   creationTime?: string;
@@ -45,12 +53,48 @@ export interface AccountListRequestDto extends PagedAndSortedResultRequestDto {
 }
 
 export interface CreateAccountDto {
-  accountName?: string;
-  ownerId?: string;
+  name?: string;
+  contactPersonEmail?: string;
 }
 
-export interface MemberDto {
+export interface CreateLinkedTenantDto {
+  tenantMemberEntityId?: string;
+}
+
+export interface CreateLinkedUserDto {
+  userMemberEntityId?: string;
+}
+
+export interface CreateTenantMemberDto {
+  refTenantId?: string;
+}
+
+export interface CreateUserMemberDto {
+  userId?: string;
+}
+
+export interface LinkedTenantListRequestDto extends PagedAndSortedResultRequestDto {
+  accountPackageId?: string;
+}
+
+export interface LinkedUserListRequestDto extends PagedAndSortedResultRequestDto {
+  accountPackageId?: string;
+}
+
+export interface TenantMemberDto {
   id?: string;
-  refId?: string;
-  type: MemberType;
+  refTenantId?: string;
+}
+
+export interface TenantMemberListRequestDto extends PagedAndSortedResultRequestDto {
+  accountId?: string;
+}
+
+export interface UserMemberDto {
+  id?: string;
+  userId?: string;
+}
+
+export interface UserMemberListRequestDto extends PagedAndSortedResultRequestDto {
+  accountId?: string;
 }

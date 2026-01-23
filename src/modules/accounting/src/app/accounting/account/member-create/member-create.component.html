@@ -38,11 +38,11 @@
             (click)="openUserOrTenantSelectionDialog()"
             pButton
             pRipple
-            [icon]="editedMember.type === MemberType.User ? 'fa fa-user' : 'fa fa-building'"
+            [icon]="editedMember.type === 'user' ? 'fa fa-user' : 'fa fa-building'"
             [disabled]="loading || !editedMember.type"
             styleClass="p-button-info"
             class="p-button-text"
-            [pTooltip]="editedMember.type === MemberType.User ? ('Infrastructure::UserSelection' | abpLocalization) : ('Infrastructure::TenantSelection' | abpLocalization)"
+            [pTooltip]="editedMember.type === 'user' ? ('Infrastructure::UserSelection' | abpLocalization) : ('Infrastructure::TenantSelection' | abpLocalization)"
           ></button>
         </div>
       </div>

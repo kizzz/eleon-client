@@ -9,10 +9,10 @@ import { CommonUserDto } from '@eleon/angular-sdk.lib';
 
 interface Account {
   accountName: string;
-  owner: CommonUserDto | null;
+  email: string;
   validators: {
     accountNameEmpty: boolean;
-    ownerNotSelected: boolean;
+    emailEmpty: boolean;
   };
 }
 
@@ -36,8 +36,7 @@ export class AccountCreateDialogComponent implements OnInit {
   constructor(
     public localizationService: ILocalizationService,
     public accountService: AccountService,
-    public messageService: LocalizedMessageService,
-    private identitySelectionService: IIdentitySelectionDialogService
+    public messageService: LocalizedMessageService
   ) {}
 
   ngOnInit(): void {
@@ -53,17 +52,17 @@ export class AccountCreateDialogComponent implements OnInit {
   initAccount(): void {
     this.account = {
       accountName: '',
-      owner: null,
+      email: '',
       validators: {
         accountNameEmpty: false,
-        ownerNotSelected: false,
+        emailEmpty: false,
       },
     };
   }
 
   resetAccountValidators(): void {
     this.account.validators.accountNameEmpty = false;
-    this.account.validators.ownerNotSelected = false;
+    this.account.validators.emailEmpty = false;
   }
 
   async saveAccount(): Promise<void> {
@@ -71,8 +70,8 @@ export class AccountCreateDialogComponent implements OnInit {
     if (!valid) return;
 
     const accountDto: CreateAccountDto = {
-      accountName: this.account.accountName,
-      ownerId: this.account.owner?.id,
+      name: this.account.accountName,
+      contactPersonEmail: this.account.email,
     };
 
     try {
@@ -102,9 +101,9 @@ export class AccountCreateDialogComponent implements OnInit {
       this.account.validators.accountNameEmpty = true;
       errors.push('AccountingModule::Error:NameEmpty');
     }
-    if (!this.account.owner?.id) {
-      this.account.validators.ownerNotSelected = true;
-      errors.push('AccountingModule::Error:OwnerNotSelected');
+    if (!this.account.email) {
+      this.account.validators.emailEmpty = true;
+      errors.push('AccountingModule::Error:EmailEmpty');
     }
     if (errors.length === 0) return true;
     for (const err of errors) {
@@ -115,28 +114,10 @@ export class AccountCreateDialogComponent implements OnInit {
 
   closeDialog() {
     this.account.accountName = '';
-    this.account.owner = null;
+    this.account.email = '';
     this.resetAccountValidators();
     this.display = false;
     this.displayChange.emit(false);
   }
 
-  onOwnerSelected(users: CommonUserDto[]): void {
-    if (users && users.length > 0) {
-      const selectedUser = users[0];
-      this.account.owner = selectedUser;
-      this.resetAccountValidators();
-    }
-  }
-
-  openOwnerSelectionDialog(): void {
-    this.identitySelectionService.openUserSelectionDialog({
-      title: this.localizationService.instant('AccountingModule::Header:Owner'),
-      permissions: [],
-      selectedUsers: this.account.owner?.id ? [this.account.owner] : [],
-      ignoredUsers: [],
-      isMultiple: false,
-      onSelect: (users) => this.onOwnerSelected(users)
-    });
-  }
 }

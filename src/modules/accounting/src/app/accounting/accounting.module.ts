@@ -23,9 +23,7 @@ import { AccountDashboardComponent } from './account/account-dashboard/account-d
 import { AccountCreateComponent } from './account/account-create/account-create.component';
 import { PackageTemplatesDashboardComponent } from './package-template/package-templates-dashboard/package-templates-dashboard.component';
 import { PackageTemplateCreateComponent } from './package-template/package-template-create/package-template-create.component';
-import { PackageTemplateDetailsComponent } from './package-template/package-template-details/package-template-details.component';
 import { CheckboxModule } from 'primeng/checkbox';
-import { AccountReadonlyDetailsComponent } from './account/account-readonly-details/account-readonly-details.component';
 import { PackageTemplateSelectionDialogComponent } from './package-template/package-template-selection-dialog/package-template-selection-dialog.component';
 import { AccountSelectionDialogComponent } from './account/account-selection-dialog/account-selection-dialog.component';
 import { PasswordModule } from 'primeng/password';
@@ -38,6 +36,8 @@ import { MemberSelectionDialogComponent } from './account/member-selection-dialo
 import { AccountCreateDialogComponent } from './account/account-create-dialog/account-create-dialog.component';
 import { PackageTemplateCreateDialogComponent } from './package-template/package-template-create-dialog/package-template-create-dialog.component';
 import { TabsModule } from 'primeng/tabs';
+import { AccountPackagesManagementComponent } from './account/account-packages-management/account-packages-management.component';
+import { AccountMembersManagementComponent } from './account/account-members-management/account-members-management.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +45,6 @@ import { TabsModule } from 'primeng/tabs';
     AccountCreateComponent,
     PackageTemplatesDashboardComponent,
     PackageTemplateCreateComponent,
-    PackageTemplateDetailsComponent,
-    AccountReadonlyDetailsComponent,
     PackageTemplateSelectionDialogComponent,
     AccountSelectionDialogComponent,
     AccountStatusTagComponent,
@@ -54,7 +52,9 @@ import { TabsModule } from 'primeng/tabs';
     MemberCreateComponent,
     MemberSelectionDialogComponent,
     AccountCreateDialogComponent,
-    PackageTemplateCreateDialogComponent
+    PackageTemplateCreateDialogComponent,
+    AccountPackagesManagementComponent,
+    AccountMembersManagementComponent
   ],
   imports: [
     AccountingRoutingModule,

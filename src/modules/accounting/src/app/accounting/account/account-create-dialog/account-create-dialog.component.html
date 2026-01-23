@@ -31,42 +31,26 @@
           </div>
         </div>
       </div>
-      <div class="col-12 p-0" *ngIf="display">
+      <div class="col-12 p-0 mt-3" *ngIf="display">
         <div class="grid flex align-items-center">
           <div class="col-4">
             <span appRequired>
-              {{ 'AccountingModule::Header:Owner' | abpLocalization }}
+              {{ 'AccountingModule::Header:Email' | abpLocalization }}
             </span>
           </div>
           <div class="col-8">
-            <div class="p-inputgroup">
-              <input
-                class="no-select"
-                inputId="owner-input"
-                [value]="account.owner?.name || ''"
-                type="text"
-                pInputText
-                [disabled]="true"
-                placeholder="{{
-                  'AccountingModule::Header:Owner:Placeholder'
-                    | abpLocalization
-                }}"
-                [ngClass]="{
-                  'ng-invalid ng-dirty': account.validators.ownerNotSelected
-                }"
-              />
-              <button
-                type="button"
-                (click)="openOwnerSelectionDialog()"
-                pButton
-                pRipple
-                icon="fa fa-user"
-                [disabled]="loading"
-                styleClass="p-button-info"
-                class="p-button-text"
-                [pTooltip]="'AccountingModule::Header:Owner:Select' | abpLocalization"
-              ></button>
-            </div>
+            <input
+              style="width: 100%"
+              type="email"
+              pInputText
+              [(ngModel)]="account.email"
+              (change)="resetAccountValidators()"
+              [disabled]="loading"
+              [ngClass]="{
+                'ng-invalid ng-dirty': account.validators.emailEmpty
+              }"
+              maxlength="230"
+            />
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AccountStatus } from '@eleon/accounting-proxy';
 
 interface LocalizedAccountStatus {
@@ -23,7 +23,7 @@ const icons: { [key: number]: string } = {
   styleUrls: ['./account-status-tag.component.scss']
 })
 
-export class AccountStatusTagComponent implements OnInit {
+export class AccountStatusTagComponent implements OnInit, OnChanges {
   localizedAccountStatuses: LocalizedAccountStatus[];
   @Input()
   value: AccountStatus;
@@ -38,6 +38,11 @@ export class AccountStatusTagComponent implements OnInit {
   constructor(
     public localizationService: ILocalizationService,
   ) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value']) {
+      this.setValue();
+    }
+  }
 
   get display(): boolean {
     return !isNaN(this.value);

@@ -1,0 +1,431 @@
+<div>
+  <ng-template
+    appResponsiveTable="md"
+    let-scrollable
+    let-breakpoint="breakpoint"
+    let-direction="direction"
+    (render)="ensureRowEditing()"
+  >
+    <p-table
+      #accountPackagesTable
+      [scrollable]="scrollable"
+      [responsive]="true"
+      responsiveLayout="stack"
+      [breakpoint]="breakpoint"
+      scrollDirection="both"
+      [value]="rows"
+      dataKey="rowId"
+      editMode="row"
+      [loading]="loading"
+      [paginator]="false"
+    >
+      <ng-template pTemplate="header">
+        <tr class="table-header w-full">
+          <th>
+            {{
+              'AccountingModule::Row:PackageTemplate'
+                | abpLocalization
+            }}
+          </th>
+          <th appResponsiveColumn="200" *ngIf="isAccountManager">
+            {{
+              'AccountingModule::Row:BillingPeriodType'
+                | abpLocalization
+            }}
+          </th>
+          <th appResponsiveColumn="200" *ngIf="isAccountManager">
+            {{
+              'AccountingModule::Row:OneTimeDiscount'
+                | abpLocalization
+            }}
+          </th>
+          <th appResponsiveColumn="200" *ngIf="isAccountManager">
+            {{
+              'AccountingModule::Row:PermanentDiscount'
+                | abpLocalization
+            }}
+          </th>
+          <th appResponsiveColumn="150" *ngIf="isAccountManager">
+            {{
+              'AccountingModule::Row:AutoRenewal' | abpLocalization
+            }}
+          </th>
+          <th appResponsiveColumn="150">
+            {{
+              'AccountingModule::Row:LinkedMembers' | abpLocalization
+            }}
+          </th>
+          <th
+            appResponsiveColumn="110"
+            [alignFrozen]="direction"
+            pFrozenColumn
+          >
+            <p-button
+              icon="fa fa-plus"
+              (click)="addRow()"
+              [disabled]="loading"
+              autoWidth="false"
+              [text]="true"
+              [raised]="true"
+              iconPos="left"
+              styleClass="p-button-info p-button-sm"
+              [label]="'AccountingModule::Add' | abpLocalization"
+            >
+            </p-button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-row
+        let-editing="editing"
+        let-rowIndex="rowIndex"
+      >
+        <tr
+          #accountPackageRow
+          [pEditableRow]="row"
+          [ngClass]="{ editing: editing }"
+        >
+          <td>
+            <span class="non-editing-only p-column-title"
+              >{{
+                'AccountingModule::Row:PackageTemplate'
+                  | abpLocalization
+              }}
+            </span>
+            <p-cellEditor>
+              <ng-template #input>
+                <div class="p-float-label">
+                  <ng-template #beforeAreaButton>
+                    <input
+                      [ngClass]="{
+                        'ng-invalid ng-dirty':
+                          row.templateNotSelected
+                      }"
+                      class="no-select flex-1"
+                      (change)="resetRowValidators(row)"
+                      inputId="module-input"
+                      [value]="row.data.name ?? '-'"
+                      type="text"
+                      pInputText
+                      [disabled]="true"
+                      placeholder="{{
+                        'AccountingModule::TemplateSelection'
+                          | abpLocalization
+                      }}"
+                    />
+                  </ng-template>
+                  <app-package-template-selection-dialog
+                    [style]="{ width: '100%' }"
+                    icon="fa fa-list"
+                    (selectEvent)="
+                      onAccountPackageChange($event, row)
+                    "
+                    [beforeButton]="beforeAreaButton"
+                  >
+                  </app-package-template-selection-dialog>
+                  <label
+                    class="editing-only small-width-only"
+                    for="module-input"
+                    >{{
+                      'AccountingModule::Row:PackageTemplate'
+                        | abpLocalization
+                    }}</label
+                  >
+                </div>
+              </ng-template>
+              <ng-template #output>
+                <span class="column-content">
+                  {{ row.data.name ?? '-' }}
+                </span>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td appResponsiveColumn="200" *ngIf="isAccountManager">
+            <span class="non-editing-only p-column-title">{{
+              'AccountingModule::Row:BillingPeriodType'
+                | abpLocalization
+            }}</span>
+            <p-cellEditor>
+              <ng-template #input>
+                <div class="p-float-label">
+                  <p-select
+                    [options]="localizedBillingPeriodTypes"
+                    [(ngModel)]="row.data.billingPeriodType"
+                    appendTo="body"
+                    class="w-full"
+                    optionValue="value"
+                    optionLabel="name"
+                    [filter]="false"
+                    autoWidth="false"
+                    [style]="{ width: '100%' }"
+                    id="billingPeriodType-input"
+                  >
+                  </p-select>
+                  <label
+                    class="editing-only small-width-only"
+                    for="billingPeriodType-input"
+                  >
+                    {{
+                      'AccountingModule::Row:BillingPeriodType'
+                        | abpLocalization
+                    }}</label
+                  >
+                </div>
+              </ng-template>
+              <ng-template #output>
+                <span class="column-content">
+                  {{
+                    getBillingPeriodTypeName(
+                      row.data.billingPeriodType
+                    )
+                  }}
+                </span>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td appResponsiveColumn="200" *ngIf="isAccountManager">
+            <span class="non-editing-only p-column-title">{{
+              'AccountingModule::Row:OneTimeDiscount'
+                | abpLocalization
+            }}</span>
+            <p-cellEditor>
+              <ng-template #input>
+                <div class="p-float-label">
+                  <p-inputNumber
+                    id="oneTimeDiscount-input"
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
+                    [step]="0.1"
+                    [min]="0.1"
+                    [max]="1e6"
+                    [showButtons]="true"
+                    [(ngModel)]="row.data.oneTimeDiscount"
+                    mode="decimal"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="1"
+                  ></p-inputNumber>
+                  <label
+                    class="editing-only small-width-only"
+                    for="oneTimeDiscount-input"
+                  >
+                    {{
+                      'AccountingModule::Row:OneTimeDiscount'
+                        | abpLocalization
+                    }}</label
+                  >
+                </div>
+              </ng-template>
+              <ng-template #output>
+                <span class="column-content">
+                  {{ row.data.oneTimeDiscount }}
+                </span>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td appResponsiveColumn="200" *ngIf="isAccountManager">
+            <span class="non-editing-only p-column-title">{{
+              'AccountingModule::Row:PermanentDiscount'
+                | abpLocalization
+            }}</span>
+            <p-cellEditor>
+              <ng-template #input>
+                <div class="p-float-label">
+                  <p-inputNumber
+                    id="permanentDiscount-input"
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
+                    [step]="0.1"
+                    [min]="0.1"
+                    [max]="1e6"
+                    [showButtons]="true"
+                    [(ngModel)]="row.data.permanentDiscount"
+                    mode="decimal"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="1"
+                  ></p-inputNumber>
+                  <label
+                    class="editing-only small-width-only"
+                    for="permanentDiscount-input"
+                  >
+                    {{
+                      'AccountingModule::Row:PermanentDiscount'
+                        | abpLocalization
+                    }}</label
+                  >
+                </div>
+              </ng-template>
+              <ng-template #output>
+                <span class="column-content">
+                  {{ row.data.permanentDiscount }}
+                </span>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td appResponsiveColumn="150" *ngIf="isAccountManager">
+            <span class="non-editing-only p-column-title">{{
+              'AccountingModule::Row:AutoRenewal' | abpLocalization
+            }}</span>
+            <p-cellEditor>
+              <ng-template #input>
+                <div class="text-center">
+                  <p-checkbox
+                    [binary]="true"
+                    [(ngModel)]="row.data.autoRenewal"
+                    [disabled]="loading"
+                    id="autoRenewal-input"
+                  >
+                  </p-checkbox>
+                  <label
+                    class="editing-only small-width-only"
+                    for="autoRenewal-input"
+                  >
+                    {{
+                      'AccountingModule::Row:AutoRenewal'
+                        | abpLocalization
+                    }}</label
+                  >
+                </div>
+              </ng-template>
+              <ng-template #output>
+                <span class="column-content">
+                  <p-checkbox
+                    [binary]="true"
+                    [(ngModel)]="row.data.autoRenewal"
+                    [disabled]="true"
+                    id="autoRenewal-input"
+                  >
+                  </p-checkbox>
+                </span>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td appResponsiveColumn="150">
+            <span class="non-editing-only p-column-title">
+              {{
+                'AccountingModule::Row:LinkedMembers'
+                  | abpLocalization
+              }}
+            </span>
+            <span class="column-content">
+              <div
+                class="flex align-item-center justify-content-center"
+              >
+                <span class="mr-2">{{
+                  getLinkedMembersDisplay(row)
+                }}</span>
+              </div>
+            </span>
+          </td>
+          <td
+            appResponsiveColumn="110"
+            class="grid-buttons"
+            [alignFrozen]="direction"
+            pFrozenColumn
+          >
+            <div *ngIf="!editing"
+              class="flex gap-2">
+              <i
+                (click)="editRow(row)"
+                class="fa fa-edit"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:EditAccountPackage'
+                    | abpLocalization
+                "
+              ></i>
+              <i
+                (click)="removeRow(rowIndex)"
+                class="fa fa-trash" style="color: var(--danger-color)"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:RemoveAccountPackage'
+                    | abpLocalization
+                "
+              ></i>
+              <i
+                (click)="addRow()"
+                class="fa fa-plus" style="color: #22c55e;"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:AddAccountPackageRow'
+                    | abpLocalization
+                "
+              ></i>
+            </div>
+            <div *ngIf="editing"
+              class="flex gap-2">
+              <i
+                (click)="openMemberSelectionDialog(row)"
+                class="fa fa-users"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:SelectLinkedMembers'
+                    | abpLocalization
+                "
+              ></i>
+              <i
+                (click)="saveEditedRow(row, accountPackageRow)"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:SaveAccountPackageRow'
+                    | abpLocalization
+                "
+                style="color: #22c55e;"
+                class="fa fa-check"
+              ></i>
+              <i
+                (click)="cancelRowEditing(row, rowIndex)"
+                class="fa fa-ban"
+                style="color: var(--danger-color)"
+                [pTooltip]="
+                  'AccountingModule::Tooltip:CancelAccountPackageRowEditing'
+                    | abpLocalization
+                "
+              ></i>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr class="table-emptymessage">
+          <td
+            class="w-full"
+            [attr.colspan]="isAccountManager ? 7 : 4"
+          >
+            <div class="card w-full">
+              <div class="card-body w-full">
+                <div class="card-header">
+                  {{
+                    'AccountingModule::NoAccountPackages'
+                      | abpLocalization
+                  }}
+                </div>
+                <div
+                  class="flex align-item-center justify-content-center"
+                >
+                  <button
+                    (click)="addRow()"
+                    pButton
+                    [pTooltip]="
+                      'AccountingModule::Tooltip:AddAccountPackageRow'
+                        | abpLocalization
+                    "
+                    icon="fa fa-plus"
+                    [disabled]="loading"
+                    class="small-width-only p-button-outlined p-button-rounded"
+                    iconPos="left"
+                  ></button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+</div>
+
+<app-member-selection-dialog
+  [(display)]="showMemberSelectionDialog"
+  [members]="availableMembers"
+  [selectedMembers]="selectedLinkedMembers"
+  [packageType]="currentPackageType"
+  (selectEvent)="onMemberSelectionSave($event)"
+>
+</app-member-selection-dialog>
