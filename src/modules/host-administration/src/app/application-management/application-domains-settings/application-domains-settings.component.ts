@@ -19,7 +19,6 @@ import {
   ApplicationType,
   MenuType,
 } from '@eleon/sites-management-proxy';
-import { DomainSettingsService } from '@eleon/tenant-management-proxy';
 import { PipesModule, RequiredMarkModule, SharedModule } from '@eleon/angular-sdk.lib';
 import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
@@ -60,7 +59,6 @@ import { PwaSettingsComponent } from '../../application-settings/pwa-settings.co
 import { ServiceWorkerSettingsComponent } from '../../application-settings/service-worker-settings.component';
 import { TreeModule } from 'primeng/tree';
 import { OnChanges } from '@angular/core';
-import { TenantHostnameDto } from '@eleon/tenant-management-proxy';
 import { SimpleChanges } from '@angular/core';
 import { LocalizedConfirmationService, LocalizedMessageService } from '@eleon/primeng-ui.lib'
 
@@ -96,8 +94,8 @@ import { LocalizedConfirmationService, LocalizedMessageService } from '@eleon/pr
 })
 export class ApplicationDomainsSettingsComponent implements OnInit, OnChanges {
 	loading = false;
-	domains: TenantHostnameDto[] = [];
-	availableDomains: TenantHostnameDto[] = [];
+	domains: any[] = [];
+	availableDomains: any[] = [];
 	addDomainDialogVisible = false;
 
 	@Input()
@@ -127,7 +125,6 @@ export class ApplicationDomainsSettingsComponent implements OnInit, OnChanges {
     public router: Router,
     public activatedRoute: ActivatedRoute,
     public dialogService: DialogService,
-		private domainsService: DomainSettingsService,
   ) {}
 
   ngOnInit() {
@@ -148,44 +145,44 @@ export class ApplicationDomainsSettingsComponent implements OnInit, OnChanges {
 			return;
     }
 
-		this.domainsService.getHostnamesByApplication(null)
-			.pipe(finalize(() => this.loading = false))
-			.subscribe(domains => {
-				this.availableDomains = domains;
-			});
+		// this.domainsService.getHostnamesByApplication(null)
+		// 	.pipe(finalize(() => this.loading = false))
+		// 	.subscribe(domains => {
+		// 		this.availableDomains = domains;
+		// 	});
 
-		this.domainsService.getHostnamesByApplication(this.application.data?.id)
-			.pipe(finalize(() => this.loading = false))
-			.subscribe(domains => {
-				this.domains = domains;
-			});
+		// this.domainsService.getHostnamesByApplication(this.application.data?.id)
+		// 	.pipe(finalize(() => this.loading = false))
+		// 	.subscribe(domains => {
+		// 		this.domains = domains;
+		// 	});
   }
 
-	addApplicationDomain(domain: TenantHostnameDto){
+	addApplicationDomain(domain: any){
 		if (!domain?.id){
 			return;
 		}
 
 		this.loading = true;
-		this.domainsService.updateDomainApplication(domain.id, this.application.data?.id)
-			.pipe(finalize(() => this.loading = false))
-			.subscribe(() => {
-				this.loadDomains();
-			});
+		// this.domainsService.updateDomainApplication(domain.id, this.application.data?.id)
+		// 	.pipe(finalize(() => this.loading = false))
+		// 	.subscribe(() => {
+		// 		this.loadDomains();
+		// 	});
 	}
 
-	removeApplicationDomain(domain: TenantHostnameDto) {
+	removeApplicationDomain(domain: any) {
 		if (!domain?.id){
 			return;
 		}
 
-		this.confirmationService.confirm("TenantManagement::ConfirmDeleteApplicationDomain", () => {
-			this.loading = true;
-			this.domainsService.updateDomainApplication(domain.id, null)
-				.pipe(finalize(() => this.loading = false))
-				.subscribe(() => {
-					this.loadDomains();
-				});
-		})
+		// this.confirmationService.confirm("TenantManagement::ConfirmDeleteApplicationDomain", () => {
+		// 	this.loading = true;
+		// 	this.domainsService.updateDomainApplication(domain.id, null)
+		// 		.pipe(finalize(() => this.loading = false))
+		// 		.subscribe(() => {
+		// 			this.loadDomains();
+		// 		});
+		// })
 	}
 }
