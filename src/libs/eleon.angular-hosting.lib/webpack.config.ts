@@ -9,7 +9,6 @@ export default composePlugins(
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@eleon/ts-hosting.lib': path.resolve(__dirname, '../eleon.ts-hosting.lib/src/index.ts'),
       '@eleon/app-config.lib': path.resolve(__dirname, '../eleon.app-config.lib/src/index.ts'),
       '@eleon/contracts.lib': path.resolve(__dirname, '../../shared/libs/eleon.contracts.lib/src/index.ts'),
       '@eleon/angular-sdk.lib': path.resolve(__dirname, '../../shared/libs/eleon.angular-sdk.lib/src/index.ts'),

@@ -1,10 +1,9 @@
 import { isPlatformBrowser } from "@angular/common";
 import { APP_INITIALIZER, Injector, PLATFORM_ID } from "@angular/core";
 import { Router } from "@angular/router";
-import { IModuleLoaderManager, IModuleLoadingObservableService } from '@eleon/contracts.lib';
+import { ICommunicationManager, IModuleLoaderManager, IModuleLoadingObservableService } from '@eleon/contracts.lib';
 import { IAuthManager, IApplicationConfigurationManager } from '@eleon/contracts.lib';
-import { NgWebPushCommunicationService } from "../ng-services";
-import { logAngularRemoteModulesProvidersUse } from "../ng-helpers/module-loading-helper";
+import { logAngularRemoteModulesProvidersUse } from "./module-loading-helper";
 import { runApplicationInitializers } from '@eleon/angular-sdk.lib';
 import { IPermissionService } from '@eleon/contracts.lib';
 
@@ -15,7 +14,7 @@ function onApplicationInitialize(
     authService: IAuthManager,
     platformId: Object,
     moduleLoadingObservableService: IModuleLoadingObservableService,
-    ngWebPushCommunicationService: NgWebPushCommunicationService,
+    ngWebPushCommunicationService: ICommunicationManager,
     injector: Injector,
     moduleLoader: IModuleLoaderManager,
 		appConfigurationManager: IApplicationConfigurationManager
@@ -50,7 +49,7 @@ export const ecAppInitializer = [{
         IAuthManager,
         PLATFORM_ID,
         IModuleLoadingObservableService,
-        NgWebPushCommunicationService,
+        ICommunicationManager,
         Injector,
         IModuleLoaderManager,
 				IApplicationConfigurationManager,

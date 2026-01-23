@@ -1,12 +1,12 @@
 import { APP_INITIALIZER, ENVIRONMENT_INITIALIZER, EnvironmentProviders, ModuleWithProviders, Provider, Type } from '@angular/core';
 import { Router } from '@angular/router';
-import { extractProvidersFromLoadedModule, activateSubModules, addRoutes, isNgModule, getBaseProviders, getRemoteDefinitionsFromConfig, addBootstrapModuleToConfig, loadRootModules, loadNonRootModules } from '../ng-helpers/module-loading-helper';
-import { computeRemoteDefinitions, getModulesWithSettings } from '@eleon/ts-hosting.lib';
+import { extractProvidersFromLoadedModule, activateSubModules, addRoutes, isNgModule, getBaseProviders, getRemoteDefinitionsFromConfig, addBootstrapModuleToConfig, loadRootModules, loadNonRootModules } from '../helpers/module-loading-helper';
+import { computeRemoteDefinitions, getModulesWithSettings } from '@eleon/common-services.lib';
 import { loadRemoteModule, setRemoteDefinitions } from '@nx/angular/mf';
 import { ErrorHandlingLevel } from '@eleon/contracts.lib';
 import { IApplicationConfigurationManager, IModuleLoadingObservableService } from '@eleon/contracts.lib';
 import { EC_APP_INITIALIZERS } from '@eleon/angular-sdk.lib';
-import { ecAppInitializer, registerBasicProviders } from '../ng-providers';
+import { ecAppInitializer, registerBasicProviders } from '../helpers';
 import { IModuleLoaderManager } from '@eleon/contracts.lib';
 
 export type ModuleLoadingConfigurationOptions = {

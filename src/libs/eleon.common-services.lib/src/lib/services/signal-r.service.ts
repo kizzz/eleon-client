@@ -1,5 +1,5 @@
 import { ISignalRConnector, ISignalRService } from '@eleon/contracts.lib'
-import { SignalRConnector } from '@eleon/ts-hosting.lib';
+import { SignalRConnector } from '@eleon/common-services.lib';
 
 export class SignalRService extends ISignalRService {
   constructor(

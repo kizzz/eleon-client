@@ -8,10 +8,9 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { MenuItem } from "primeng/api";
-import { IAppearanceService, IEcContainerService, IImpersonationService, IVPortalTopbarService } from '@eleon/angular-sdk.lib';
+import { IAppearanceService, IEcContainerService, IImpersonationService, IPwaService, IVPortalTopbarService } from '@eleon/angular-sdk.lib';
 import { IAuthManager, IApplicationConfigurationManager } from '@eleon/angular-sdk.lib';
 import { ProfileService } from "./service/profile.service";
-import { isPWAInstallPromptAvailable, promptPWAInstall } from '@eleon/angular-sdk.lib';
 import { Menu } from "primeng/menu";
 import { AppTopbarMenuComponent } from "./app.topbar-menu.component";
 
@@ -32,7 +31,9 @@ import { ILayoutService, VPortalUserMenuItem } from '@eleon/angular-sdk.lib';
   styleUrl: "./app.toolbar.component.scss",
 })
 export class AppTopBarComponent {
-  public showPwaInstall = isPWAInstallPromptAvailable();
+  public get showPwaInstall(): boolean {
+    return this.pwaService.isPWAInstallPromptAvailable();
+  }
   items!: MenuItem[];
 
   @ViewChild("mobileMenuButton") mobileMenuButton!: ElementRef;
@@ -95,7 +96,8 @@ export class AppTopBarComponent {
     public el: ElementRef,
     public profileService: ProfileService,
     public topbarSettings: IVPortalTopbarService,
-    public ecContainerService: IEcContainerService
+    public ecContainerService: IEcContainerService,
+    private pwaService: IPwaService
   ) {
   }
 

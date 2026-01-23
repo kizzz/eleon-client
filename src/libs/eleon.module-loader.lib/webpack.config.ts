@@ -7,11 +7,6 @@ export default composePlugins(
   (config: Configuration) => {
     // Resolve TypeScript path mappings
     config.resolve = config.resolve || {};
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@eleon/contracts.lib': path.resolve(__dirname, '../../shared/libs/eleon.contracts.lib/src/index.ts'),
-      '@eleon/typescript-sdk.lib': path.resolve(__dirname, '../../shared/libs/eleon.typescript-sdk.lib/src/index.ts'),
-    };
     
     config.resolve.extensions = ['.ts', '.js', '.json'];
     config.resolve.symlinks = false;
@@ -22,7 +17,7 @@ export default composePlugins(
     config.output.library = {
       type: 'module',
     };
-    config.output.path = path.resolve(__dirname, '../../../../bin/debug/libs/eleon.ts-hosting.lib');
+    config.output.path = path.resolve(__dirname, '../../../../bin/debug/libs/eleon.module-loader.lib');
     
     return config;
   }

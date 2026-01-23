@@ -39,8 +39,11 @@
         "src/shared/libs/eleon.typescript-sdk.lib/src/index.ts"
       ],
 
-      "@eleon/ts-hosting.lib": [
-        "src/libs/eleon.ts-hosting.lib/src/index.ts"
+      "@eleon/module-loader.lib": [
+        "src/libs/eleon.module-loader.lib/src/index.ts"
+      ],
+      "@eleon/common-services.lib": [
+        "src/libs/eleon.common-services.lib/src/index.ts"
       ],
       "@eleon/angular-hosting.lib": [
         "src/libs/eleon.angular-hosting.lib/src/index.ts"

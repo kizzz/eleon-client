@@ -24,6 +24,7 @@ import { ILayoutService } from '@eleon/angular-sdk.lib';
 import { AppearanceService, BreadcrumbsService } from '@eleon/primeng-layout.lib';
 import { TenantAppearanceService } from '@eleon/system-services.lib';
 import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
+import { provideVPortalMenu } from '@eleon/primeng-layout.lib';
 
 export const remoteRoutes = [
 	{
@@ -81,6 +82,7 @@ export const providers = [
         },
         deps: [IApplicationConfigurationManager, TenantAppearanceService]
       },
+      ...provideVPortalMenu()
     ]
   )
 ]

@@ -2,12 +2,12 @@ import {
   ConfigureTelemetryHelperService,
   getOidcUserProfile,
   initAccessToken,
-} from '@eleon/ts-hosting.lib';
+} from '@eleon/common-services.lib';
 import { ApplicationConfigurationManager } from '@eleon/app-config.lib';
 import { EnvironmentProviders, ModuleWithProviders, NgModule, Provider, Type } from "@angular/core";
-import { NgModuleLoaderManager, ModuleLoadingConfigurationOptions } from './ng-services';
+import { NgModuleLoaderManager, ModuleLoadingConfigurationOptions } from '@eleon/module-loader.lib';
 import { bootstrapApplication } from "@angular/platform-browser";
-import { EcHostComponent } from "./ng-components";
+import { EcHostComponent } from "./ec-host.component";
 import { provideRouter } from "@angular/router";
 import { EleoncoreApplicationConfigurationDto, ErrorHandlingLevel,} from '@eleon/contracts.lib';
 import { useApiBase } from '@eleon/angular-sdk.lib';

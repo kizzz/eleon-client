@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CommonUserDto } from '@eleon/angular-sdk.lib';
-import {
-  isPWAInstallPromptAvailable,
-  promptPWAInstall,
-} from '@eleon/angular-sdk.lib';
+import { CommonUserDto, IPwaService } from '@eleon/angular-sdk.lib';
 
 import {
   ILayoutService,
@@ -31,7 +27,8 @@ export class ProfileService {
     private auth: IAuthManager,
     private vPortalUserMenuService: IVPortalUserMenuService,
     private permissionService: IPermissionService,
-    private config: IApplicationConfigurationManager
+    private config: IApplicationConfigurationManager,
+    private pwaService: IPwaService
   ) {
     this.canNavigateToApplications = this.permissionService.getGrantedPolicy(
       'Permission.Administration'
@@ -43,7 +40,9 @@ export class ProfileService {
     });
   }
 
-  public showPwaInstall = isPWAInstallPromptAvailable();
+  public get showPwaInstall(): boolean {
+    return this.pwaService.isPWAInstallPromptAvailable();
+  }
 
   fillUserProfileRoutes() {
     this.vPortalUserMenuService.addUserMenuItemRange([
@@ -132,7 +131,6 @@ export class ProfileService {
   }
 
   async installPwa() {
-    await promptPWAInstall();
-    this.showPwaInstall = isPWAInstallPromptAvailable();
+    await this.pwaService.promptPWAInstall();
   }
 }
