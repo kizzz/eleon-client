@@ -34,7 +34,7 @@ const STYLES = `
       right: 0px;
       z-index: 1000000;
       background-color: rgb(99, 102, 241);
-      color: #fff;
+      color: var(--p-text-primary-color);
       border: none;
       border-radius: 6px 0px 0px 6px;
       width: 40px;
@@ -63,7 +63,7 @@ const STYLES = `
       overflow: hidden;
     }
     #error-modal .modal-content {
-      background-color: #fff;
+      background-color: var(--p-dialog-background);
       margin: 10vh auto;
       padding: 20px;
       border-radius: 5px;
@@ -102,7 +102,7 @@ const STYLES = `
     }
     .error-item {
       margin-bottom: 15px;
-      border: 1px solid #e0e0e0;
+      border: 1px solid var(--p-input-border-color);
       border-radius: 6px;
       overflow: hidden;
       cursor: pointer;
@@ -122,15 +122,15 @@ const STYLES = `
       align-items: flex-start;
       gap: 10px;
       padding: 12px;
-      background-color: #ffffff;
+      background-color: var(--p-input-background);
       transition: background-color 0.2s ease;
     }
     .error-item:hover .error-item-header {
-      background-color: #f8f9fa;
+      background-color: var(--p-input-hover-background);
     }
     .error-item.expanded .error-item-header {
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #dee2e6;
+      background-color: var(--p-input-hover-background);
+      border-bottom: 1px solid var(--p-input-border-color);
     }
     .error-icon {
       width: 20px;
@@ -178,8 +178,8 @@ const STYLES = `
       margin-top: 4px;
     }
     .error-details {
-      background-color: #f8f9fa;
-      border-top: 1px solid #dee2e6;
+      background-color: var(--p-input-background);
+      border-top: 1px solid var(--p-input-border-color);
       padding: 0;
       margin: 0;
       max-height: 0;
@@ -204,10 +204,10 @@ const STYLES = `
       white-space: pre-wrap;
       max-height: 200px;
       overflow-y: auto;
-      background-color: #ffffff;
+      background-color: var(--p-input-background);
       padding: 12px;
       border-radius: 4px;
-      border: 1px solid #ced4da;
+      border: 1px solid var(--p-input-border-color);
       line-height: 1.4;
     }
     .error-details-section {
@@ -267,10 +267,10 @@ const STYLES = `
     }
     .filter-select {
       padding: 8px 12px;
-      border: 1px solid #ced4da;
+      border: 1px solid var(--p-select-border-color);
       border-radius: 0 4px 4px 0;
       font-size: 14px;
-      background-color: white;
+      background-color: var(--p-select-background);;
       width: 100%;
       box-sizing: border-box;
     }
