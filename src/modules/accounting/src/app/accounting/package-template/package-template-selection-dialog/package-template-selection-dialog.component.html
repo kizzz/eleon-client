@@ -2,6 +2,8 @@
   [resizable]="false"
   [header]="title"
   [(visible)]="display"
+  appendTo="body"
+  [focusOnShow]="false"
   [modal]="true"
   [draggable]="false"
 >
@@ -60,13 +62,6 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th
-            style="width: 1%; max-width: 100px; min-width: 100px"
-            pSortableColumn="id"
-          >
-            {{ 'AccountingModule::PackageTemplate:Header:Id' | abpLocalization }}
-            <p-sortIcon field="id"></p-sortIcon>
-          </th>
           <th pSortableColumn="name">
             {{ 'AccountingModule::PackageTemplate:Header:Name' | abpLocalization }}
             <p-sortIcon field="name"></p-sortIcon>
@@ -96,14 +91,6 @@
       </ng-template>
       <ng-template pTemplate="body" let-row>
         <tr [pSelectableRow]="row">
-          <td style="width: 1%; max-width: 100px; min-width: 100px">
-            <span class="non-editing-only p-column-title">{{
-              'AccountingModule::PackageTemplate:Header:Id' | abpLocalization
-            }}</span>
-            <span class="column-content">
-              {{ row.data.docEntry | slice : 0 : 8 }}
-            </span>
-          </td>
           <td>
             <span class="non-editing-only p-column-title">{{
               'AccountingModule::PackageTemplate:Header:Name' | abpLocalization

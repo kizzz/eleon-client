@@ -33,6 +33,7 @@ interface AccountHeader {
   accountValidators: {
     nameEmpty: boolean;
     contactEmailEmpty: boolean;
+    contactEmailInvalid: boolean;
   };
 }
 
@@ -168,6 +169,7 @@ export class AccountCreateComponent implements OnInit {
       accountValidators: {
           nameEmpty: false,
           contactEmailEmpty: false,
+          contactEmailInvalid: false,
       },
     };
 
@@ -186,6 +188,7 @@ export class AccountCreateComponent implements OnInit {
   resetValidators() {
     this.header.accountValidators.nameEmpty = false;
     this.header.accountValidators.contactEmailEmpty = false;
+    this.header.accountValidators.contactEmailInvalid = false;
   }
 
   async updateAccount(
@@ -302,6 +305,14 @@ export class AccountCreateComponent implements OnInit {
      if (!this.header.data?.contactPersonEmail?.length) {
       this.header.accountValidators.contactEmailEmpty = true;
       errors.push("AccountingModule::Error:ContactPersonEmailEmpty");
+    }
+
+    if(this.header.data?.contactPersonEmail?.length > 0){
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(this.header.data.contactPersonEmail)) {
+        this.header.accountValidators.contactEmailInvalid = true;
+        errors.push("TenantManagement::User:EmailInvalid");
+      }
     }
 
     if (!errors.length) return true;

@@ -25,7 +25,6 @@ import { PackageTemplatesDashboardComponent } from './package-template/package-t
 import { PackageTemplateCreateComponent } from './package-template/package-template-create/package-template-create.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PackageTemplateSelectionDialogComponent } from './package-template/package-template-selection-dialog/package-template-selection-dialog.component';
-import { AccountSelectionDialogComponent } from './account/account-selection-dialog/account-selection-dialog.component';
 import { PasswordModule } from 'primeng/password';
 import { AccountStatusTagComponent } from './account-status-tag/account-status-tag.component';
 import { DialogModule } from 'primeng/dialog';
@@ -50,7 +49,6 @@ import { TenantMemberCreateComponent } from './account/tenant-member-create/tena
     PackageTemplatesDashboardComponent,
     PackageTemplateCreateComponent,
     PackageTemplateSelectionDialogComponent,
-    AccountSelectionDialogComponent,
     AccountStatusTagComponent,
     PackageTemplateModuleCreateComponent,
     UserMemberSelectionDialogComponent,

@@ -51,7 +51,7 @@
                 (change)="resetValidators()"
                 type="text"
                 pInputText
-                [ngClass]="{ 'ng-invalid ng-dirty': header.accountValidators.contactEmailEmpty }"
+                [ngClass]="{ 'ng-invalid ng-dirty': header.accountValidators.contactEmailEmpty || header.accountValidators.contactEmailInvalid }"
                 [style]="{ width: '100%' }"
               />
             </div>

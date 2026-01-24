@@ -47,7 +47,7 @@
               (change)="resetAccountValidators()"
               [disabled]="loading"
               [ngClass]="{
-                'ng-invalid ng-dirty': account.validators.emailEmpty
+                'ng-invalid ng-dirty': account.validators.emailEmpty || account.validators.emailInvalid
               }"
               maxlength="230"
             />

@@ -5,6 +5,8 @@
     [(visible)]="display"
     [modal]="true"
     [draggable]="false"
+    appendTo="body"
+    [focusOnShow]="false"
     (onHide)="closeDialog()"
   >
     <div class="grid m-0 account-package-create-new" *ngIf="display">
@@ -30,10 +32,7 @@
                   type="text"
                   pInputText
                   [disabled]="true"
-                  placeholder="{{
-                    'AccountingModule::TemplateSelection'
-                      | abpLocalization
-                  }}"
+                  [placeholder]="'AccountingModule::TemplateSelection' | abpLocalization"
                 />
               </ng-template>
               <app-package-template-selection-dialog
@@ -43,12 +42,6 @@
                 [beforeButton]="beforeAreaButton"
               >
               </app-package-template-selection-dialog>
-              <label
-                for="package-template-input"
-              >{{
-                'AccountingModule::Row:PackageTemplate'
-                  | abpLocalization
-              }}</label>
             </div>
           </div>
         </div>

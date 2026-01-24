@@ -13,6 +13,7 @@ interface Account {
   validators: {
     accountNameEmpty: boolean;
     emailEmpty: boolean;
+    emailInvalid: boolean;
   };
 }
 
@@ -56,6 +57,7 @@ export class AccountCreateDialogComponent implements OnInit {
       validators: {
         accountNameEmpty: false,
         emailEmpty: false,
+        emailInvalid: false,
       },
     };
   }
@@ -63,6 +65,7 @@ export class AccountCreateDialogComponent implements OnInit {
   resetAccountValidators(): void {
     this.account.validators.accountNameEmpty = false;
     this.account.validators.emailEmpty = false;
+    this.account.validators.emailInvalid = false;
   }
 
   async saveAccount(): Promise<void> {
@@ -101,10 +104,19 @@ export class AccountCreateDialogComponent implements OnInit {
       this.account.validators.accountNameEmpty = true;
       errors.push('AccountingModule::Error:NameEmpty');
     }
-    if (!this.account.email) {
+    if (!this.account.email?.length) {
       this.account.validators.emailEmpty = true;
       errors.push('AccountingModule::Error:EmailEmpty');
     }
+
+    if(this.account.email?.length > 0){
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(this.account.email)) {
+        this.account.validators.emailInvalid = true;
+        errors.push("TenantManagement::User:EmailInvalid");
+      }
+    }
+
     if (errors.length === 0) return true;
     for (const err of errors) {
       this.messageService.error(err);
