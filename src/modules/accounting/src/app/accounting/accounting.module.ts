@@ -1,3 +1,4 @@
+import { InputMaskModule } from 'primeng/inputmask';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@eleon/angular-sdk.lib';
@@ -63,6 +64,7 @@ import { TenantMemberCreateComponent } from './account/tenant-member-create/tena
     TenantMemberCreateComponent
   ],
   imports: [
+    InputMaskModule,
     AccountingRoutingModule,
     CommonModule,
     SharedModule,

@@ -187,11 +187,10 @@
               <label >{{
                 'AccountingModule::Account:Header:ContactPersonTelephone' | abpLocalization
               }}</label>
-              <input
+              
+              <p-inputMask mask="(999) 999-9999" 
                 [(ngModel)]="header.data.contactPersonTelephone"
                 [disabled]="loading"
-                type="text"
-                pInputText
                 [style]="{ width: '100%' }"
               />
             </div>
