@@ -72,7 +72,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th appResponsiveColumn="30"
+          <th appResponsiveColumn="60"
             pSortableColumn="id">
             {{ "AccountingModule::Account:Header:Id" | abpLocalization }}
             <p-sortIcon field="id"></p-sortIcon>
@@ -153,7 +153,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-row>
         <tr [pSelectableRow]="row">
-          <td appResponsiveColumn="30">
+          <td appResponsiveColumn="60">
             <span class="non-editing-only p-column-title">{{'AccountingModule::Account:Header:Id' |
               abpLocalization}}</span>
             <span class="column-content">

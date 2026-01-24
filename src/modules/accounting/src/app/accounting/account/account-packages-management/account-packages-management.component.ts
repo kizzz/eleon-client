@@ -13,6 +13,7 @@ import {
 } from '@eleon/accounting-proxy';
 import { contributeControls, LocalizedMessageService, PAGE_CONTROLS, PageControls } from "@eleon/primeng-ui.lib";
 import { PageStateService } from '@eleon/primeng-ui.lib';
+import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
 import { viewportBreakpoints } from "@eleon/angular-sdk.lib";
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { finalize, forkJoin } from "rxjs";
@@ -70,7 +71,8 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
     public localizationService: ILocalizationService,
     private pageStateService: PageStateService,
     private accountPackageService: AccountPackageService,
-    private accountMemberService: AccountMemberService
+    private accountMemberService: AccountMemberService,
+    private localizedConfirmationService: LocalizedConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -176,25 +178,27 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.loading = true;
-    this.accountPackageService
-      .deleteAccountPackage(row.data.id)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.pageStateService.setDirty();
-          this.dirtyChange.emit();
-          this.rows.splice(rowIndex, 1);
-          this.emitPackagesChange();
-        },
-        error: (error) => {
-          this.messageService.error("AccountingModule::Error:DeletePackageFailed");
-        },
-      });
+    this.localizedConfirmationService.confirm('AccountingModule::Confirm:DeletePackage', () => {
+      this.loading = true;
+      this.accountPackageService
+        .deleteAccountPackage(row.data.id)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.pageStateService.setDirty();
+            this.dirtyChange.emit();
+            this.rows.splice(rowIndex, 1);
+            this.emitPackagesChange();
+          },
+          error: (error) => {
+            this.messageService.error("AccountingModule::Error:DeletePackageFailed");
+          },
+        });
+    });
   }
 
   getBillingPeriodTypeName(type: number): string {
@@ -317,30 +321,32 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.accountMemberService
-      .deleteLinkedUser(linkedUser.id)
-      .pipe(
-        finalize(() => {
-          // Reload the linked users after deletion
-          // Calculate current page based on total records
-          const currentPage = row.totalLinkedUsers ? Math.floor((row.totalLinkedUsers - 1) / 10) : 0;
-          const event: LazyLoadEvent = {
-            first: currentPage * 10,
-            rows: 10,
-          };
-          this.loadLinkedUsers(event, row);
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.pageStateService.setDirty();
-          this.dirtyChange.emit();
-          this.messageService.success("AccountingModule::Success:LinkedUserDeleted");
-        },
-        error: (error) => {
-          this.messageService.error("AccountingModule::Error:DeleteLinkedUserFailed");
-        },
-      });
+    this.localizedConfirmationService.confirm('AccountingModule::Confirm:DeleteLinkedUser', () => {
+      this.accountMemberService
+        .deleteLinkedUser(linkedUser.id)
+        .pipe(
+          finalize(() => {
+            // Reload the linked users after deletion
+            // Calculate current page based on total records
+            const currentPage = row.totalLinkedUsers ? Math.floor((row.totalLinkedUsers - 1) / 10) : 0;
+            const event: LazyLoadEvent = {
+              first: currentPage * 10,
+              rows: 10,
+            };
+            this.loadLinkedUsers(event, row);
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.pageStateService.setDirty();
+            this.dirtyChange.emit();
+            this.messageService.success("AccountingModule::Success:LinkedUserDeleted");
+          },
+          error: (error) => {
+            this.messageService.error("AccountingModule::Error:DeleteLinkedUserFailed");
+          },
+        });
+    });
   }
 
   deleteLinkedTenant(linkedTenant: LinkedTenantDto, row: AccountPackageRow): void {
@@ -349,30 +355,32 @@ export class AccountPackagesManagementComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.accountMemberService
-      .deleteLinkedTenant(linkedTenant.id)
-      .pipe(
-        finalize(() => {
-          // Reload the linked tenants after deletion
-          // Calculate current page based on total records
-          const currentPage = row.totalLinkedTenants ? Math.floor((row.totalLinkedTenants - 1) / 10) : 0;
-          const event: LazyLoadEvent = {
-            first: currentPage * 10,
-            rows: 10,
-          };
-          this.loadLinkedTenants(event, row);
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.pageStateService.setDirty();
-          this.dirtyChange.emit();
-          this.messageService.success("AccountingModule::Success:LinkedTenantDeleted");
-        },
-        error: (error) => {
-          this.messageService.error("AccountingModule::Error:DeleteLinkedTenantFailed");
-        },
-      });
+    this.localizedConfirmationService.confirm('AccountingModule::Confirm:DeleteLinkedTenant', () => {
+      this.accountMemberService
+        .deleteLinkedTenant(linkedTenant.id)
+        .pipe(
+          finalize(() => {
+            // Reload the linked tenants after deletion
+            // Calculate current page based on total records
+            const currentPage = row.totalLinkedTenants ? Math.floor((row.totalLinkedTenants - 1) / 10) : 0;
+            const event: LazyLoadEvent = {
+              first: currentPage * 10,
+              rows: 10,
+            };
+            this.loadLinkedTenants(event, row);
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.pageStateService.setDirty();
+            this.dirtyChange.emit();
+            this.messageService.success("AccountingModule::Success:LinkedTenantDeleted");
+          },
+          error: (error) => {
+            this.messageService.error("AccountingModule::Error:DeleteLinkedTenantFailed");
+          },
+        });
+    });
   }
 
   private emitPackagesChange(): void {

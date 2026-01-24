@@ -17,6 +17,7 @@ import { AccountStatus } from '@eleon/accounting-proxy';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { PAGE_CONTROLS, PageControls, contributeControls } from "@eleon/primeng-ui.lib";
 import { PageStateService } from '@eleon/primeng-ui.lib';
+import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
 import { BeforeDialogOpenEvent, assertAlert, viewportBreakpoints } from "@eleon/angular-sdk.lib";
 
 import { IPermissionService, ILocalizationService, IIdentitySelectionDialogService } from '@eleon/angular-sdk.lib';
@@ -92,7 +93,8 @@ export class AccountCreateComponent implements OnInit {
     private accountService: AccountService,
     private userService: IUserService,
     private permissionService: IPermissionService,
-    private identitySelectionService: IIdentitySelectionDialogService
+    private identitySelectionService: IIdentitySelectionDialogService,
+    private localizedConfirmationService: LocalizedConfirmationService
   ) {
   }
 
@@ -271,19 +273,21 @@ export class AccountCreateComponent implements OnInit {
   }
 
   deleteAccount() {
-    this.loading = true;
-    this.accountService
-      .cancelAccountById(this.header.data.id)
-      .subscribe((reply) => {
-        this.loading = false;
-        if (reply) {
-          this.messageService.error(reply);
-          return;
-        }
-        this.messageService.success("AccountingModule::Success:AccountRemoved");
-        this.pageStateService.setNotDirty();
-        this.router.navigate(["/account/dashboard"]);
-      });
+    this.localizedConfirmationService.confirm('AccountingModule::Confirm:DeleteAccount', () => {
+      this.loading = true;
+      this.accountService
+        .cancelAccountById(this.header.data.id)
+        .subscribe((reply) => {
+          this.loading = false;
+          if (reply) {
+            this.messageService.error(reply);
+            return;
+          }
+          this.messageService.success("AccountingModule::Success:AccountRemoved");
+          this.pageStateService.setNotDirty();
+          this.router.navigate(["/account/dashboard"]);
+        });
+    });
   }
 
 
@@ -319,7 +323,7 @@ export class AccountCreateComponent implements OnInit {
 
   openOwnerSelectionDialog(): void {
     this.identitySelectionService.openUserSelectionDialog({
-      title: this.localizationService.instant('AccountingModule::Header:Owner'),
+      title: this.localizationService.instant('AccountingModule::Account:Header:Owner'),
       permissions: [],
       selectedUsers: this.header.owner?.id ? [this.header.owner] : [],
       ignoredUsers: [],

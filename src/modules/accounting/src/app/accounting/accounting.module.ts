@@ -31,14 +31,12 @@ import { AccountStatusTagComponent } from './account-status-tag/account-status-t
 import { DialogModule } from 'primeng/dialog';
 import { PROXY_SERVICES } from '@eleon/accounting-proxy';
 import { PackageTemplateModuleCreateComponent } from './package-template/package-template-module-create/package-template-module-create.component';
-import { MemberCreateComponent } from './account/member-create/member-create.component';
 import { UserMemberSelectionDialogComponent } from './account/user-member-selection-dialog/user-member-selection-dialog.component';
 import { TenantMemberSelectionDialogComponent } from './account/tenant-member-selection-dialog/tenant-member-selection-dialog.component';
 import { AccountCreateDialogComponent } from './account/account-create-dialog/account-create-dialog.component';
 import { PackageTemplateCreateDialogComponent } from './package-template/package-template-create-dialog/package-template-create-dialog.component';
 import { TabsModule } from 'primeng/tabs';
 import { AccountPackagesManagementComponent } from './account/account-packages-management/account-packages-management.component';
-import { AccountMembersManagementComponent } from './account/account-members-management/account-members-management.component';
 import { AccountPackageCreateDialogComponent } from './account/account-package-create-dialog/account-package-create-dialog.component';
 import { AccountUserManagementComponent } from './account/account-user-management/account-user-management.component';
 import { AccountTenantManagementComponent } from './account/account-tenant-management/account-tenant-management.component';
@@ -55,13 +53,11 @@ import { TenantMemberCreateComponent } from './account/tenant-member-create/tena
     AccountSelectionDialogComponent,
     AccountStatusTagComponent,
     PackageTemplateModuleCreateComponent,
-    MemberCreateComponent,
     UserMemberSelectionDialogComponent,
     TenantMemberSelectionDialogComponent,
     AccountCreateDialogComponent,
     PackageTemplateCreateDialogComponent,
     AccountPackagesManagementComponent,
-    AccountMembersManagementComponent,
     AccountPackageCreateDialogComponent,
     AccountUserManagementComponent,
     AccountTenantManagementComponent,

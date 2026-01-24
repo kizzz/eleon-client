@@ -10,7 +10,7 @@
   <div class="dialog-standard w-full">
     <div class="grid m-0">
       <div class="field col-12 p-0">
-        <label appRequired>{{ 'AccountingModule::Header:UserId' | abpLocalization }}</label>
+        <label appRequired>{{ 'AccountingModule::UserMember:Header:Name' | abpLocalization }}</label>
         <div class="p-inputgroup">
           <input
             [value]="selectedEntityName"
@@ -18,7 +18,7 @@
             pInputText
             [disabled]="true"
             [ngClass]="{'ng-invalid ng-dirty': userIdEmpty}"
-            [placeholder]="'AccountingModule::Header:UserId:Placeholder' | abpLocalization"
+            [placeholder]="'AccountingModule::UserMember:Header:Name:Placeholder' | abpLocalization"
           />
           <button
             type="button"

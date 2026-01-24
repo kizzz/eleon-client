@@ -123,7 +123,7 @@ export class AccountDashboardComponent implements OnInit {
       .map((name) => ({
         status: AccountStatus[name as keyof typeof AccountStatus],
         name: this.localizationService.instant(
-          `Infrastructure::AccountStatus:${name}`
+          `AccountingModule::AccountStatus:${name}`
         ),
       }));
   }

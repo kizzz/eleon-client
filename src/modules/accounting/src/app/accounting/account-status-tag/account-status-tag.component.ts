@@ -39,7 +39,7 @@ export class AccountStatusTagComponent implements OnInit, OnChanges {
     public localizationService: ILocalizationService,
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['value']) {
+    if (changes['value'] && !changes['value'].isFirstChange()) {
       this.setValue();
     }
   }
@@ -53,13 +53,13 @@ export class AccountStatusTagComponent implements OnInit, OnChanges {
       .filter((v) => isNaN(Number(v)))
       .map((name) => ({
         value: AccountStatus[name as keyof typeof AccountStatus],
-        name: this.localizationService.instant(`Infrastructure::AccountStatus:${name}`),
+        name: this.localizationService.instant(`AccountingModule::AccountStatus:${name}`),
       }));
       this.setValue();
   }
 
   setValue(): void {
-    const localizedValue = this.localizedAccountStatuses.find(x => x.value === this.value)?.name;
+    const localizedValue = this.localizedAccountStatuses?.find(x => x.value === this.value)?.name;
     this.localizedValue = localizedValue ? this.textBefore + localizedValue + this.textAfter : undefined;
   }
 

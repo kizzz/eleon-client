@@ -64,31 +64,31 @@
             style="width: 1%; max-width: 100px; min-width: 100px"
             pSortableColumn="id"
           >
-            {{ 'AccountingModule::Header:Id' | abpLocalization }}
+            {{ 'AccountingModule::PackageTemplate:Header:Id' | abpLocalization }}
             <p-sortIcon field="id"></p-sortIcon>
           </th>
           <th pSortableColumn="name">
-            {{ 'AccountingModule::Header:Name' | abpLocalization }}
+            {{ 'AccountingModule::PackageTemplate:Header:Name' | abpLocalization }}
             <p-sortIcon field="name"></p-sortIcon>
           </th>
           <th
             appResponsiveColumn="200"
             pSortableColumn="billingPeriodType"
           >
-            {{ 'AccountingModule::Header:BillingPeriodType' | abpLocalization }}
+            {{ 'AccountingModule::PackageTemplate:Header:BillingPeriodType' | abpLocalization }}
             <p-sortIcon field="billingPeriodType"></p-sortIcon>
           </th>
           <th
             appResponsiveColumn="200"
             pSortableColumn="creatorName"
           >
-            {{ 'AccountingModule::Header:Initiator' | abpLocalization }}
+            {{ 'AccountingModule::PackageTemplate:Header:Initiator' | abpLocalization }}
           </th>
           <th
             appResponsiveColumn="150"
             pSortableColumn="creationTime"
           >
-            {{ 'AccountingModule::Header:CreationDate' | abpLocalization }}
+            {{ 'AccountingModule::PackageTemplate:Header:CreationDate' | abpLocalization }}
             <p-sortIcon field="creationTime"></p-sortIcon>
           </th>
           <th appResponsiveColumn="40" class="lg:justify-content-end"></th>
@@ -98,7 +98,7 @@
         <tr [pSelectableRow]="row">
           <td style="width: 1%; max-width: 100px; min-width: 100px">
             <span class="non-editing-only p-column-title">{{
-              'AccountingModule::Header:Id' | abpLocalization
+              'AccountingModule::PackageTemplate:Header:Id' | abpLocalization
             }}</span>
             <span class="column-content">
               {{ row.data.docEntry | slice : 0 : 8 }}
@@ -106,7 +106,7 @@
           </td>
           <td>
             <span class="non-editing-only p-column-title">{{
-              'AccountingModule::Header:Name' | abpLocalization
+              'AccountingModule::PackageTemplate:Header:Name' | abpLocalization
             }}</span>
             <span class="column-content">
               {{ row.data.packageName }}
@@ -114,7 +114,7 @@
           </td>
           <td appResponsiveColumn="200">
             <span class="non-editing-only p-column-title">{{
-              'AccountingModule::Header:BillingPeriodType' | abpLocalization
+              'AccountingModule::PackageTemplate:Header:BillingPeriodType' | abpLocalization
             }}</span>
             <span class="column-content">
               {{ getBillingPeriodTypeName(row.data.billingPeriodType) }}
@@ -122,7 +122,7 @@
           </td>
           <td appResponsiveColumn="200">
             <span class="non-editing-only p-column-title">{{
-              'AccountingModule::Header:Initiator' | abpLocalization
+              'AccountingModule::PackageTemplate:Header:Initiator' | abpLocalization
             }}</span>
             <span class="column-content">
               {{ row.data.creatorName }}
@@ -130,7 +130,7 @@
           </td>
           <td appResponsiveColumn="150">
             <span class="non-editing-only p-column-title">{{
-              'AccountingModule::Header:CreationDate' | abpLocalization
+              'AccountingModule::PackageTemplate:Header:CreationDate' | abpLocalization
             }}</span>
             <span class="column-content">
               {{ row.data.creationTime | date : 'shortDate' }}
@@ -156,7 +156,7 @@
             <div class="card w-full">
               <div class="card-body w-full">
                 <div class="card-header">
-                  {{ 'AccountingModule::NoPackageTemplates' | abpLocalization }}
+                  {{ 'AccountingModule::PackageTemplate:NoPackageTemplates' | abpLocalization }}
                 </div>
               </div>
             </div>

@@ -114,7 +114,7 @@ export class PackageTemplateCreateComponent implements OnInit {
       .map((name) => ({
         value: PackageType[name as keyof typeof PackageType],
         name: this.localizationService.instant(
-          `Infrastructure::PackageType:${name}`
+          `AccountingModule::PackageType:${name}`
         ),
       }));
 

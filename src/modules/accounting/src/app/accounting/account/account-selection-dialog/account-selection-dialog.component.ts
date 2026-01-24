@@ -61,7 +61,7 @@ export class AccountSelectionDialogComponent  implements OnInit {
       .filter((v) => isNaN(Number(v)))
       .map((name) => ({
         status: AccountStatus[name as keyof typeof AccountStatus],
-        name: this.localizationService.instant(`Infrastructure::AccountStatus:${name}`),
+        name: this.localizationService.instant(`AccountingModule::AccountStatus:${name}`),
       }));
   }
 

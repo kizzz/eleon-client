@@ -24,16 +24,6 @@
                       (click)="clear($event)"></button>
                   </div>
                 </div>
-                <div class="col-12 md:col-6 py-3 md:py-0 flex align-items-center justify-content-end">
-                  <!-- <p-button [text]="true" [raised]="true" styleClass="p-button-warning p-button-sm mr-3" autoWidth="false"
-                    [label]="'AccountingModule::Reload' | abpLocalization" icon="pi pi-sync"
-                    (click)="reloadPackageTemplates()">
-                  </p-button>
-                  <p-button [text]="true" [raised]="true" styleClass="p-button-info p-button-sm mr-3" autoWidth="false"
-                    [label]="'AccountingModule::Create' | abpLocalization" icon="pi pi-plus"
-                    [routerLink]="['/account/packagetemplate/create/']">
-                  </p-button> -->
-                </div>
               </div>
               <div class="grid small-width-only">
                 <div class="col-12 p-0">
@@ -41,7 +31,7 @@
                     <p-accordionTab [header]="'Infrastructure::Filters' | abpLocalization">
                       <div *ngIf="showActor" class="small-width-only row">
                         <div class="col-4 flex text-center justify-content-center align-items-center">
-                          {{"AccountingModule::Header:Initiator" | abpLocalization}}</div>
+                          {{"AccountingModule::PackageTemplate:Header:Initiator" | abpLocalization}}</div>
                         <div class="col-6 flex justify-content-center align-items-center">
                           <p-columnFilter class="w-full" type="text" field="initiator" matchMode="in" [showMenu]="false"
                             [showClearButton]="false">
@@ -58,30 +48,30 @@
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
-                <th appResponsiveColumn="30" pSortableColumn="id">
-                  {{ "AccountingModule::Header:Id" | abpLocalization }}
+                <th appResponsiveColumn="60" pSortableColumn="id">
+                  {{ "AccountingModule::PackageTemplate:Header:Id" | abpLocalization }}
                   <p-sortIcon field="id"></p-sortIcon>
                 </th>
                 <th pSortableColumn="name">
-                  {{ "AccountingModule::Header:Name" | abpLocalization }}
+                  {{ "AccountingModule::PackageTemplate:Header:Name" | abpLocalization }}
                   <p-sortIcon field="name"></p-sortIcon>
                 </th>
                 <th appResponsiveColumn="160" pSortableColumn="billingPeriodType">
-                  {{ "AccountingModule::Header:BillingPeriodType" | abpLocalization }}
+                  {{ "AccountingModule::PackageTemplate:Header:BillingPeriodType" | abpLocalization }}
                   <p-sortIcon field="billingPeriodType"></p-sortIcon>
                 </th>
                 <th appResponsiveColumn="200" pSortableColumn="creatorName">
-                  {{ "AccountingModule::Header:Initiator" | abpLocalization }}
+                  {{ "AccountingModule::PackageTemplate:Header:Initiator" | abpLocalization }}
                 </th>
                 <th appResponsiveColumn="150" pSortableColumn="creationTime">
-                  {{ "AccountingModule::Header:CreationDate" | abpLocalization }}
+                  {{ "AccountingModule::PackageTemplate:Header:CreationDate" | abpLocalization }}
                   <p-sortIcon field="creationTime"></p-sortIcon>
                 </th>
                 <th appResponsiveColumn="30">
                 </th>
               </tr>
               <tr>
-                <th appResponsiveColumn="30">
+                <th appResponsiveColumn="60">
                 </th>
                 <th>
                   <p-columnFilter type="text" field="packageName" matchMode="in" [showMenu]="false"></p-columnFilter>
@@ -90,12 +80,12 @@
                   <p-columnFilter matchMode="in" field="billingPeriodType" [showMenu]="false" [showClearButton]="false">
                     <ng-template pTemplate="header">
                       <div class="px-3 pt-3 pb-0">
-                        <span class="font-bold">{{ "AccountingModule::Header:BillingPeriodType" | abpLocalization }}</span>
+                        <span class="font-bold">{{ "AccountingModule::PackageTemplate:Header:BillingPeriodType" | abpLocalization }}</span>
                       </div>
                     </ng-template>
                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                       <p-multiSelect [options]="localizedBillingPeriodTypes" optionLabel="name" autoWidth="false"
-                        [style]="{'width':'100%'}" placeholder="{{ 'AccountingModule::Header:BillingPeriodType' | abpLocalization }}"
+                        [style]="{'width':'100%'}" placeholder="{{ 'AccountingModule::PackageTemplate:Header:BillingPeriodType' | abpLocalization }}"
                         appendTo="body" [showClear]="true" (onClear)="filter()" [showHeader]="false"
                         (onChange)="filter($event.value)">
                       </p-multiSelect>
@@ -110,13 +100,13 @@
                     [style]="{'overflow':'visible'}">
                     <ng-template pTemplate="header">
                       <div class="px-3 pt-3 pb-0">
-                        <span class="font-bold">{{ "AccountingModule::Header:CreationDate" | abpLocalization }}</span>
+                        <span class="font-bold">{{ "AccountingModule::PackageTemplate:Header:CreationDate" | abpLocalization }}</span>
                       </div>
                     </ng-template>
                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                       <p-calendar (onSelect)="filter(lastLoadEvent)" [showIcon]="false" inputId="icon" [showClear]="true"
                         (onClear)="filter()" [readonlyInput]="true" [(ngModel)]="creationDateRangeFilter" selectionMode="range"
-                        appendTo="body" placeholder="{{ 'AccountingModule::Header:CreationDate' | abpLocalization }}">
+                        appendTo="body" placeholder="{{ 'AccountingModule::PackageTemplate:Header:CreationDate' | abpLocalization }}">
                       </p-calendar>
                     </ng-template>
                   </p-columnFilter>
@@ -127,36 +117,36 @@
             </ng-template>
             <ng-template pTemplate="body" let-row>
               <tr [pSelectableRow]="row">
-                <td appResponsiveColumn="30">
-                  <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Id' |
+                <td appResponsiveColumn="60">
+                  <span class="non-editing-only p-column-title">{{'AccountingModule::PackageTemplate:Header:Id' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.docEntry | slice:0:8}}
                   </span>
                 </td>
                 <td>
-                  <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Name' |
+                  <span class="non-editing-only p-column-title">{{'AccountingModule::PackageTemplate:Header:Name' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.packageName }}
                   </span>
                 </td>
                 <td appResponsiveColumn="160">
-                  <span class="non-editing-only p-column-title">{{'AccountingModule::Header:BillingPeriodType' |
+                  <span class="non-editing-only p-column-title">{{'AccountingModule::PackageTemplate:Header:BillingPeriodType' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{getBillingPeriodTypeName(row.data.billingPeriodType)}}
                   </span>
                 </td>
                 <td appResponsiveColumn="200">
-                  <span class="non-editing-only p-column-title">{{'AccountingModule::Header:Initiator' |
+                  <span class="non-editing-only p-column-title">{{'AccountingModule::PackageTemplate:Header:Initiator' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.creatorName}}
                   </span>
                 </td>
                 <td appResponsiveColumn="150">
-                  <span class="non-editing-only p-column-title">{{'AccountingModule::Header:CreationDate' |
+                  <span class="non-editing-only p-column-title">{{'AccountingModule::PackageTemplate:Header:CreationDate' |
                     abpLocalization}}</span>
                   <span class="column-content">
                     {{row.data.creationTime | date:'shortDate'}}

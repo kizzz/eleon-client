@@ -10,6 +10,7 @@ import {
 } from '@eleon/accounting-proxy';
 import { LocalizedMessageService } from "@eleon/primeng-ui.lib";
 import { PageStateService } from '@eleon/primeng-ui.lib';
+import { LocalizedConfirmationService } from "@eleon/primeng-ui.lib";
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { finalize } from "rxjs";
 import { viewportBreakpoints } from "@eleon/angular-sdk.lib";
@@ -44,7 +45,8 @@ export class AccountUserManagementComponent implements OnInit, OnChanges {
     public localizationService: ILocalizationService,
     private pageStateService: PageStateService,
     private accountMemberService: AccountMemberService,
-    private accountPackageService: AccountPackageService
+    private accountPackageService: AccountPackageService,
+    private localizedConfirmationService: LocalizedConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -142,8 +144,10 @@ export class AccountUserManagementComponent implements OnInit, OnChanges {
     const member = this.members[memberIndex];
     if (!member) return;
 
-    this.deleteMemberInternal(member, () => {
-      this.members.splice(memberIndex, 1);
+    this.localizedConfirmationService.confirm('AccountingModule::Confirm:DeleteUserMember', () => {
+      this.deleteMemberInternal(member, () => {
+        this.members.splice(memberIndex, 1);
+      });
     });
   }
 
