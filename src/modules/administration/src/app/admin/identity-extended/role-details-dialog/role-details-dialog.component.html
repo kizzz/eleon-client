@@ -1,4 +1,4 @@
-<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" (visibleChange)="displayChange.emit($event)" [modal]="true"
+<p-dialog [resizable]="false" *ngIf="display" [(visible)]="display" (visibleChange)="displayChange.emit($event)" [modal]="true" [focusOnShow]="false"
     (onHide)="cancel()" [header]="'TenantManagement::Role:Edit' | abpLocalization">
     <div class="wrapper">
         <div class="grid">
