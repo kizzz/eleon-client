@@ -26,7 +26,7 @@
               <input
                 [(ngModel)]="header.data.name"
                 (change)="resetValidators()"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [ngClass]="{ 'ng-invalid ng-dirty': header.accountValidators.nameEmpty }"
@@ -47,7 +47,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.contactPersonEmail"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 (change)="resetValidators()"
                 type="text"
                 pInputText
@@ -74,7 +74,7 @@
                 [filter]="false"
                 autoWidth="false"
                 [style]="{ width: '100%' }"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
               >
               </p-select>
             </div>
@@ -96,7 +96,8 @@
                   [value]="header.owner?.name || ''"
                   type="text"
                   pInputText
-                  [disabled]="true"
+                  [disabled]="!editMode && header.data.id"
+                  [readonly]="true"
                   placeholder="{{
                     'AccountingModule::Account:Header:Owner:Placeholder'
                       | abpLocalization
@@ -108,7 +109,7 @@
                   pButton
                   pRipple
                   icon="fa fa-user"
-                  [disabled]="loading"
+                  [disabled]="loading || (!editMode && header.data.id)"
                   styleClass="p-button-info"
                   class="p-button-text"
                   [pTooltip]="'AccountingModule::Account:Header:Owner:Select' | abpLocalization"
@@ -128,7 +129,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.companyCID"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -153,7 +154,7 @@
                 [filter]="false"
                 autoWidth="false"
                 [style]="{ width: '100%' }"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
               >
               </p-select>
             </div>
@@ -170,7 +171,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.billingName"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -190,7 +191,7 @@
               
               <p-inputMask mask="(999) 999-9999" 
                 [(ngModel)]="header.data.contactPersonTelephone"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 [style]="{ width: '100%' }"
               />
             </div>
@@ -207,7 +208,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.billingAddressLine1"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -226,7 +227,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.billingAddressLine2"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -245,7 +246,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.country"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -264,7 +265,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.city"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -283,7 +284,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.stateOrProvince"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -302,7 +303,7 @@
               }}</label>
               <input
                 [(ngModel)]="header.data.postalCode"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 type="text"
                 pInputText
                 [style]="{ width: '100%' }"
@@ -321,7 +322,7 @@
               }}</label>
               <textarea
                 [(ngModel)]="header.data.description"
-                [disabled]="loading"
+                [disabled]="loading || (!editMode && header.data.id)"
                 pInputTextarea
                 [rows]="3"
                 [style]="{ width: '100%' }"

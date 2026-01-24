@@ -56,6 +56,7 @@ export class AccountCreateComponent implements OnInit {
   localizedBillingPeriodTypes: { value: BillingPeriodType; name: string }[] = [];
   isAccountManager: boolean = false;
   activeTabIndex: number = 0;
+  editMode: boolean = true; // Default to true for new accounts, will be set to false for existing accounts
   activeOptions: { value: boolean; label: string }[] = [
     { value: true, label: this.localizationService.instant('Infrastructure::Yes') },
     { value: false, label: this.localizationService.instant('Infrastructure::No') }
@@ -68,16 +69,26 @@ export class AccountCreateComponent implements OnInit {
 
   @PageControls()
   controls = contributeControls([
+    {
+      key: "Infrastructure::Edit",
+      icon: "fa fa-edit",
+      severity: "info",
+      loading: () => this.loading,
+      disabled: () => this.loading,
+      show: () => !this.editMode && !!this.header.data.id,
+      action: () => this.enableEditMode(),
+    },
     PAGE_CONTROLS.SAVE({
       action: () => this.save(),
       disabled: () => this.loading,
       loading: () => this.loading,
+      show: () => this.editMode,
     }),
     {
       key: "Infrastructure::Delete",
       action: () => this.deleteAccount(),
       disabled: () => this.loading,
-      show: () => true,
+      show: () => !this.editMode && !!this.header.data.id,
       loading: () => false,
       icon: "fa fa-trash",
       severity: "danger",
@@ -151,6 +162,8 @@ export class AccountCreateComponent implements OnInit {
   init(dto: AccountDto): void {
     this.originalDraft = dto;
     this.title = this.localizationService.instant("AccountingModule::Account:Details:Title");
+    // Set editMode to false for existing accounts (readonly mode), true for new accounts
+    this.editMode = !dto.id;
     this.resetInputs();
   }
 
@@ -215,6 +228,11 @@ export class AccountCreateComponent implements OnInit {
     this.pageStateService.setNotDirty();
     
     this.messageService.success("AccountingModule::UpdateAccount:Success");
+
+    if (this.header.data.id) {
+      this.editMode = false;
+      this.loadAccountDetails(this.header.data.id);
+    }
     
     const navParams = commands || ["reload"];
     if (action) {
@@ -341,6 +359,11 @@ export class AccountCreateComponent implements OnInit {
       isMultiple: false,
       onSelect: (users) => this.onOwnerSelected(users)
     });
+  }
+
+  enableEditMode(): void {
+    this.editMode = true;
+    this.pageStateService.setDirty();
   }
 
 }
