@@ -21,6 +21,8 @@ export class LogsDialogService extends ILogsDialogService {
   override openSecurityLogs(userId?: string): void {
     this.dialogService.open(UserSecurityLogsComponent, {
       header: this.localizationService.instant('Infrastructure::SecurityLogs'),
+      closable: true,
+      focusOnShow: false,
       data: {
         userId: userId,
         rowsCount: 10,
