@@ -110,7 +110,7 @@
 <p-dialog [resizable]="false" [header]="dialogModel?.dialogTitle" [(visible)]="showDialog" [modal]="true" [draggable]="false" *ngIf="dialogModel?.data">
   <div class="dialog-standard">
     <div class="field grid" *ngIf="!dialogModel?.queue?.isSystem">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'EventManagementModule::Queue:DisplayName'| abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'EventManagementModule::Queue:DisplayName'| abpLocalization}}</label>
       <div class="col-12 md:col-8">
         <input type="text" pInputText [(ngModel)]="dialogModel.data.displayName" class="w-full" (input)="resetValidators()" />
       </div>

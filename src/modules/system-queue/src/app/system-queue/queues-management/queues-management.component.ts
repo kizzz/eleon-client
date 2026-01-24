@@ -267,10 +267,10 @@ export class QueuesManagementComponent implements OnInit {
 
     data.name = data.name.trim();
 
-    if (data.messagesLimit < 0){
+    if (!data.messagesLimit || data.messagesLimit < 100 || data.messagesLimit > 1000000){
       isValid = false;
       this.dialogModel.validators.limitInvalid = true;
-      this.messageService.error("EventManagementModule::Queue:ValidationError:Limit:LessThanZero");
+      this.messageService.error("EventManagementModule::Queue:ValidationError:Limit:OutOfRange");
     }
 
     if (!data.name){
