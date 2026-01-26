@@ -18,7 +18,7 @@ export class ClientAutodetectService {
 
   getDetectedProxyByProxyId(proxyId: string, config?: Partial<any>): Observable<ApplicationModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/Infrastructure/ClientAutodetect/GetDetectedProxy';
 
     // build ?a=1&b=2…
@@ -90,7 +90,7 @@ export class ClientAutodetectService {
 
   getDetectedWebByUrl(url: string, config?: Partial<any>): Observable<ApplicationModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/Infrastructure/ClientAutodetect/GetDetectedWeb';
 
     // build ?a=1&b=2…

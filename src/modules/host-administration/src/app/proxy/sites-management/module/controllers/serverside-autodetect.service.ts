@@ -18,7 +18,7 @@ export class ServersideAutodetectService {
 
   getDetectedModules(config?: Partial<any>): Observable<ApplicationModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/Infrastructure/ServersideAutodetect/GetDetectedModules';
 
     // build ?a=1&b=2…
@@ -78,7 +78,7 @@ export class ServersideAutodetectService {
 
   startDetect(config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/Infrastructure/ServersideAutodetect/StartDetect';
 
     // build ?a=1&b=2…

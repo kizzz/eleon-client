@@ -22,7 +22,7 @@ export class ClientApplicationService {
 
   addBulkModulesToApplicationByModules(modules: ApplicationModuleDto[], config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/AddBulkModulesToApplication';
 
     // build ?a=1&b=2…
@@ -84,7 +84,7 @@ export class ClientApplicationService {
 
   addModuleToApplicationByAddApplicationModuleDto(addApplicationModuleDto: ApplicationModuleDto, config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/AddModuleToApplication';
 
     // build ?a=1&b=2…
@@ -146,7 +146,7 @@ export class ClientApplicationService {
 
   create(input: CreateClientApplicationDto, config?: Partial<any>): Observable<ClientApplicationDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/CreateAsync';
 
     // build ?a=1&b=2…
@@ -208,7 +208,7 @@ export class ClientApplicationService {
 
   delete(id: string, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/ClientApplications/${id}`;
 
     // build ?a=1&b=2…
@@ -268,7 +268,7 @@ export class ClientApplicationService {
 
   get(id: string, config?: Partial<any>): Observable<ClientApplicationDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/ClientApplications/${id}`;
 
     // build ?a=1&b=2…
@@ -328,7 +328,7 @@ export class ClientApplicationService {
 
   getAll(config?: Partial<any>): Observable<FullClientApplicationDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetAllAsync';
 
     // build ?a=1&b=2…
@@ -388,7 +388,7 @@ export class ClientApplicationService {
 
   getAppsSettingsBySiteId(siteId: string, config?: Partial<any>): Observable<ModuleSettingsDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetAppsSettingsBySiteId';
 
     // build ?a=1&b=2…
@@ -460,7 +460,7 @@ export class ClientApplicationService {
 
   getByTenantId(tenantId: string, config?: Partial<any>): Observable<ClientApplicationDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetByTenantIdAsync';
 
     // build ?a=1&b=2…
@@ -532,7 +532,7 @@ export class ClientApplicationService {
 
   getDefaultApplication(config?: Partial<any>): Observable<ClientApplicationDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetDefaultApplication';
 
     // build ?a=1&b=2…
@@ -592,7 +592,7 @@ export class ClientApplicationService {
 
   getEnabledApplications(config?: Partial<any>): Observable<ClientApplicationDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/enabled-applications';
 
     // build ?a=1&b=2…
@@ -652,7 +652,7 @@ export class ClientApplicationService {
 
   getLocations(config?: Partial<any>): Observable<Location[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetLocations';
 
     // build ?a=1&b=2…
@@ -712,7 +712,7 @@ export class ClientApplicationService {
 
   getLocationsBySiteId(siteId: string, config?: Partial<any>): Observable<Location[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetLocationsBySiteId';
 
     // build ?a=1&b=2…
@@ -784,7 +784,7 @@ export class ClientApplicationService {
 
   getSetting(config?: Partial<any>): Observable<ModuleSettingsDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetSetting';
 
     // build ?a=1&b=2…
@@ -844,7 +844,7 @@ export class ClientApplicationService {
 
   getSiteByHostname(hostname: string, config?: Partial<any>): Observable<ClientApplicationDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/GetSiteByHostname';
 
     // build ?a=1&b=2…
@@ -916,7 +916,7 @@ export class ClientApplicationService {
 
   removeModuleFromApplicationByApplicationIdAndModuleId(applicationId: string, moduleId: string, config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ClientApplications/RemoveModuleToApplication';
 
     // build ?a=1&b=2…
@@ -1000,7 +1000,7 @@ export class ClientApplicationService {
 
   update(id: string, input: UpdateClientApplicationDto, config?: Partial<any>): Observable<ClientApplicationDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/ClientApplications/${id}`;
 
     // build ?a=1&b=2…
@@ -1062,7 +1062,7 @@ export class ClientApplicationService {
 
   useDedicatedDatabase(id: string, useDedicatedDb: boolean, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/ClientApplications/${id}/UseDedicatedDatabase`;
 
     // build ?a=1&b=2…

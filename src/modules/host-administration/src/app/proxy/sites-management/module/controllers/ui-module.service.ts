@@ -18,7 +18,7 @@ export class UiModuleService {
 
   create(input: EleoncoreModuleDto, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/UiModules/CreateAsync';
 
     // build ?a=1&b=2…
@@ -80,7 +80,7 @@ export class UiModuleService {
 
   delete(id: string, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/UiModules/${id}`;
 
     // build ?a=1&b=2…
@@ -140,7 +140,7 @@ export class UiModuleService {
 
   get(id: string, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/UiModules/${id}`;
 
     // build ?a=1&b=2…
@@ -200,7 +200,7 @@ export class UiModuleService {
 
   getAll(config?: Partial<any>): Observable<EleoncoreModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/UiModules/GetAllAsync';
 
     // build ?a=1&b=2…
@@ -260,7 +260,7 @@ export class UiModuleService {
 
   getEnabledModules(config?: Partial<any>): Observable<EleoncoreModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/UiModules/enabled-modules';
 
     // build ?a=1&b=2…
@@ -320,7 +320,7 @@ export class UiModuleService {
 
   getModulesByApplication(applicationId: string, config?: Partial<any>): Observable<EleoncoreModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/UiModules/application/${applicationId}`;
 
     // build ?a=1&b=2…
@@ -380,7 +380,7 @@ export class UiModuleService {
 
   update(id: string, input: EleoncoreModuleDto, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + `/api/CoreInfrastructure/UiModules/${id}`;
 
     // build ?a=1&b=2…

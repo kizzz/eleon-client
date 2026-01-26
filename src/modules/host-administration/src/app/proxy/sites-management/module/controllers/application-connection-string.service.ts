@@ -18,7 +18,7 @@ export class ApplicationConnectionStringService {
 
   addConnectionStringByRequest(request: CreateConnectionStringRequestDto, config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/ApplicationConnectionString/AddConnectionString';
 
     // build ?a=1&b=2…
@@ -80,7 +80,7 @@ export class ApplicationConnectionStringService {
 
   get(tenantId: string, applicationName: string, config?: Partial<any>): Observable<ConnectionStringDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/ApplicationConnectionString/Get';
 
     // build ?a=1&b=2…
@@ -164,7 +164,7 @@ export class ApplicationConnectionStringService {
 
   getConnectionStringsByTenantId(tenantId: string, config?: Partial<any>): Observable<ConnectionStringDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/ApplicationConnectionString/GetConnectionStrings';
 
     // build ?a=1&b=2…
@@ -236,7 +236,7 @@ export class ApplicationConnectionStringService {
 
   removeConnectionStringByRequest(request: RemoveConnectionStringRequestDto, config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/ApplicationConnectionString/RemoveConnectionString';
 
     // build ?a=1&b=2…
@@ -298,7 +298,7 @@ export class ApplicationConnectionStringService {
 
   setConnectionString(request: SetConnectionStringRequestDto, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/ApplicationConnectionString/SetConnectionString';
 
     // build ?a=1&b=2…
@@ -360,7 +360,7 @@ export class ApplicationConnectionStringService {
 
   updateConnectionStringByRequest(request: UpdateConnectionStringRequestDto, config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/ApplicationConnectionString/UpdateConnectionString';
 
     // build ?a=1&b=2…

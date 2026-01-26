@@ -20,7 +20,7 @@ export class MicroserviceService {
 
   createByApplicationModuleDto(applicationModuleDto: EleoncoreModuleDto, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/MicroserviceController/Create';
 
     // build ?a=1&b=2…
@@ -82,7 +82,7 @@ export class MicroserviceService {
 
   getMicroserviceList(config?: Partial<any>): Observable<EleoncoreModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/MicroserviceController/GetMicroserviceList';
 
     // build ?a=1&b=2…
@@ -142,7 +142,7 @@ export class MicroserviceService {
 
   initializeMicroserviceByInitializeMicroserviceMsg(initializeMicroserviceMsg: InitializeMicroserviceMsg, config?: Partial<any>): Observable<boolean> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/SitesManagement/MicroserviceController/InitializeMicroservice';
 
     // build ?a=1&b=2…

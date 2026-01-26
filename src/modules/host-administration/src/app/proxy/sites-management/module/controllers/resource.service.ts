@@ -18,7 +18,7 @@ export class ResourceService {
 
   create(applicationModuleDto: EleoncoreModuleDto, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/TenantManagement/ResourcesController/Create';
 
     // build ?a=1&b=2…
@@ -80,7 +80,7 @@ export class ResourceService {
 
   delete(id: string, config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/TenantManagement/ResourcesController/Delete';
 
     // build ?a=1&b=2…
@@ -152,7 +152,7 @@ export class ResourceService {
 
   get(id: string, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/TenantManagement/ResourcesController/Get';
 
     // build ?a=1&b=2…
@@ -224,7 +224,7 @@ export class ResourceService {
 
   getAll(config?: Partial<any>): Observable<EleoncoreModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/TenantManagement/ResourcesController/GetAll';
 
     // build ?a=1&b=2…
@@ -284,7 +284,7 @@ export class ResourceService {
 
   update(input: EleoncoreModuleDto, config?: Partial<any>): Observable<EleoncoreModuleDto> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/TenantManagement/ResourcesController/Update';
 
     // build ?a=1&b=2…

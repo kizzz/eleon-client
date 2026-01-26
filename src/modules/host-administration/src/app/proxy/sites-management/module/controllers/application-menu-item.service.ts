@@ -20,7 +20,7 @@ export class ApplicationMenuItemService {
 
   getListByApplicationId(applicationId: string, config?: Partial<any>): Observable<ApplicationMenuItemDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/GetListByApplicationId';
 
     // build ?a=1&b=2…
@@ -92,7 +92,7 @@ export class ApplicationMenuItemService {
 
   getListByApplicationIdAndMenuType(applicationId: string, menuType: MenuType, config?: Partial<any>): Observable<ApplicationMenuItemDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/GetListByApplicationIdAndMenuType';
 
     // build ?a=1&b=2…
@@ -176,7 +176,7 @@ export class ApplicationMenuItemService {
 
   update(applicationId: string, itemsToUpdate: ApplicationMenuItemDto[], config?: Partial<any>): Observable<ApplicationMenuItemDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleonsoft'] || '';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl = apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/Update';
 
     // build ?a=1&b=2…
