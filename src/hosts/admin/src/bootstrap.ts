@@ -1,5 +1,4 @@
 import { bootstrapApplication } from "@angular/platform-browser";
-import { provideRouter } from "@angular/router";
 import { bootstrapEleoncore } from '@eleon/angular-hosting.lib';
 import { provideInitializationComponent } from '@eleon/angular-sdk.lib';
 import { AppModule } from "./app/app.module";

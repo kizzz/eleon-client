@@ -27,7 +27,6 @@ import {
   LocalizationSchema
 } from '@eleon/angular-sdk.lib';
 import { Route, RouterModule } from '@angular/router';
-import { provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppModule as AppLayoutModule, } from 'src/modules/primeng-layout/src/app/eleonsoft.app.module';
 import { AppLayoutModule as InternalLayoutModule } from 'src/modules/primeng-layout/src/app/layout/app.layout.module';
