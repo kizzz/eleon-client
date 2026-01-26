@@ -1,9 +1,9 @@
 
-import type { TenantSystemHealthSettingsDto } from '../../../../eleonsoft-module-collector/tenant-management/module/tenant-management/module/application/contracts/tenant-settings/models';
+import type { SetTenantProviderSettingsRequestDto, TenantSettingDto } from '../../../../eleon/identity-querying/module/full/eleon/identity-querying/module/application/contracts/tenant-settings/models';
+
+import type { TenantSystemHealthSettingsDto } from '../../../../eleon/identity-querying/module/tenant-settings/models';
 
 import { Observable } from 'rxjs/internal/Observable';
-
-import type { SetTenantProviderSettingsRequestDto, TenantSettingDto } from '../../../../tenant-settings/module/cache/models';
 
 
 export class TenantSettingsService {

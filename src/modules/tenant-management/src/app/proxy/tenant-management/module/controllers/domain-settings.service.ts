@@ -1,9 +1,7 @@
 
-import type { CreateCorporateDomainRequestDto, UpdateCorporateDomainRequestDto } from '../corporate-domains/models';
+import type { CreateCorporateDomainRequestDto, TenantHostnameDto, UpdateCorporateDomainRequestDto } from '../../../eleon/eleoncore-multi-tenancy/module/full/eleon/eleoncore-multi-tenancy/module/application/contracts/corporate-domains/models';
 
 import { Observable } from 'rxjs/internal/Observable';
-
-import type { TenantHostnameDto } from '../../../tenant-settings/module/cache/models';
 
 
 export class DomainSettingsService {

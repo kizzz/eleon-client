@@ -1,4 +1,3 @@
-import { EleoncoreApplicationConfigurationService } from './module-collector/sites-management/module/sites-management/module/http-api/controllers/eleoncore-application-configuration.service';
 import { ApplicationConnectionStringService } from './sites-management/module/controllers/application-connection-string.service';
 import { ApplicationMenuItemService } from './sites-management/module/controllers/application-menu-item.service';
 import { ClientApplicationService } from './sites-management/module/controllers/client-application.service';
@@ -8,4 +7,4 @@ import { ResourceService } from './sites-management/module/controllers/resource.
 import { ServersideAutodetectService } from './sites-management/module/controllers/serverside-autodetect.service';
 import { UiModuleService } from './sites-management/module/controllers/ui-module.service';
 
-export const PROXY_SERVICES = [EleoncoreApplicationConfigurationService, ApplicationConnectionStringService, ApplicationMenuItemService, ClientApplicationService, ClientAutodetectService, MicroserviceService, ResourceService, ServersideAutodetectService, UiModuleService];
+export const PROXY_SERVICES = [ApplicationConnectionStringService, ApplicationMenuItemService, ClientApplicationService, ClientAutodetectService, MicroserviceService, ResourceService, ServersideAutodetectService, UiModuleService];

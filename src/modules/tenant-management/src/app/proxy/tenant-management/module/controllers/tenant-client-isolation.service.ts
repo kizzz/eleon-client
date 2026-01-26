@@ -1,9 +1,7 @@
 
-import type { SetTenantIsolationRequestDto, ValidateClientIsolationDto } from '../client-isolation/models';
+import type { SetIpIsolationRequestDto, SetTenantIsolationRequestDto, ValidateClientIsolationDto } from '../../../eleon/eleoncore-multi-tenancy/module/full/eleon/eleoncore-multi-tenancy/module/application/contracts/client-isolation/models';
 
 import { Observable } from 'rxjs/internal/Observable';
-
-import type { SetIpIsolationRequestDto } from '../tenant-isolation/models';
 
 
 export class TenantClientIsolationService {

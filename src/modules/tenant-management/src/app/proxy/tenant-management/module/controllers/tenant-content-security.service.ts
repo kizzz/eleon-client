@@ -1,5 +1,5 @@
 
-import type { AddTenantContentSecurityHostDto, RemoveTenantContentSecurityHostDto, UpdateTenantContentSecurityHostDto } from '../content-security-hosts/models';
+import type { AddTenantContentSecurityHostDto, RemoveTenantContentSecurityHostDto, UpdateTenantContentSecurityHostDto } from '../../../eleon/eleoncore-multi-tenancy/module/full/eleon/eleoncore-multi-tenancy/module/application/contracts/content-security-hosts/models';
 
 import { Observable } from 'rxjs/internal/Observable';
 

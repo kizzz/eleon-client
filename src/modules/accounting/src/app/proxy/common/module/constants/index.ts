@@ -1,5 +1,7 @@
 export * from './account-status.enum';
 export * from './billing-period-type.enum';
+export * from './invoice-line-type.enum';
+export * from './invoice-status.enum';
 export * from './lifecycle-actor-types.enum';
 export * from './package-module-type.enum';
 export * from './package-type.enum';

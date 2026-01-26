@@ -31,6 +31,7 @@ export enum AccountStatus {
   Canceled = 4,
   Deleted = 5,
   InActive = 6,
+  TenantGenerationFailed = 7,
 }
 
 export const accountStatusOptions = mapEnumToOptions(AccountStatus);

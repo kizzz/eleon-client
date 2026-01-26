@@ -1,7 +1,7 @@
 
-import { Observable } from 'rxjs/internal/Observable';
+import type { IdentitySettingDto } from '../../../eleon/identity-querying/module/full/eleon/identity-querying/module/application/contracts/identity-setting/models';
 
-import type { IdentitySettingDto } from '../settings/models';
+import { Observable } from 'rxjs/internal/Observable';
 
 
 export class IdentitySettingService {

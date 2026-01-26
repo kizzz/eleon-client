@@ -3,7 +3,9 @@ import type { PagedResultDto } from '@eleon/proxy-utils.lib';
 
 import type { SystemLogDto, SystemLogListRequestDto, UnresolvedSystemLogCountDto } from '../doc-message-logs/models';
 
-import type { CreateSystemLogDto, FullSystemLogDto, MarkSystemLogsReadedRequestDto } from '../../../eleonsoft-module-collector/system-log/module/system-log/module/application/contracts/system-log/models';
+import type { CreateSystemLogDto } from '../../../eleon/system-log/module/full/eleon/system-log/module/application/contracts/system-log/models';
+
+import type { FullSystemLogDto, MarkSystemLogsReadedRequestDto } from '../../../eleonsoft-module-collector/system-log/module/system-log/module/application/contracts/system-log/models';
 
 import { Observable } from 'rxjs/internal/Observable';
 
