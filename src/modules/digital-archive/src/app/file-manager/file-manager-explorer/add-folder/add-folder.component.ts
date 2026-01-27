@@ -4,6 +4,7 @@ import { FileManagerType, FileService, EntryKind, CreateEntryDto } from '@eleon/
 import { HierarchyFolderDto, FileSystemEntryDto } from '@eleon/file-manager-proxy';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
+import { ILocalizationService } from '@eleon/angular-sdk.lib';
 
 @Component({
   standalone: false,
@@ -24,6 +25,7 @@ export class AddFolderComponent implements OnInit {
     public dialogRef: DynamicDialogRef,
     private fileService: FileService,
     private messageService: LocalizedMessageService,
+    private localizationService: ILocalizationService
   ) {
   }
 
@@ -51,10 +53,24 @@ export class AddFolderComponent implements OnInit {
       isShared: false
     };
     this.fileService.createEntryByDtoAndArchiveIdAndType(createDto, this.data.archiveId, this.data.fileManagerType)
-      .subscribe((folder: FileSystemEntryDto) => {
-        this.isLoading = false;
-        this.dialogRef.close(folder);
-      }, 
-      () => this.isLoading = false);
+      .subscribe({
+        next: (folder: FileSystemEntryDto) => {
+          this.isLoading = false;
+          this.dialogRef.close(folder);
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+          this.isLoading = false;
+        }
+      });
   }
 }

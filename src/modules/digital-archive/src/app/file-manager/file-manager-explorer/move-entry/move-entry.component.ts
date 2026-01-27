@@ -9,6 +9,7 @@ import { FileSystemEntryDto, HierarchyFolderDto } from '@eleon/file-manager-prox
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FileService } from '@eleon/file-manager-proxy';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
+import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { Folder } from '../../core/folder';
 import { isFile, isFolder } from '../../shared/utils/entry-helpers';
 
@@ -45,7 +46,8 @@ export class MoveEntryComponent implements OnInit {
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig<MoveEntryData>,
     private fileService: FileService,
-    private messageService: LocalizedMessageService) {
+    private messageService: LocalizedMessageService,
+    private localizationService: ILocalizationService) {
   }
 
   get data(): MoveEntryData {
@@ -77,8 +79,22 @@ export class MoveEntryComponent implements OnInit {
 
   getChildFolders(parentId: string) {
     this.fileService.getEntriesByParentIdByParentIdAndArchiveIdAndKindAndFileStatusesAndTypeAndRecursive(parentId, this.archiveId, EntryKind.Folder, null, this.fileManagerType, false)
-      .subscribe((childs: FileSystemEntryDto[]) => {
-        this.selectedFolder.children = structuredClone(childs as unknown as Folder[]);
+      .subscribe({
+        next: (childs: FileSystemEntryDto[]) => {
+          this.selectedFolder.children = structuredClone(childs as unknown as Folder[]);
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        }
       });
   }
   
@@ -110,10 +126,25 @@ export class MoveEntryComponent implements OnInit {
       };
 
       this.fileService.moveAllEntriesByDtoAndArchiveIdAndType(moveAll, this.archiveId, this.fileManagerType)
-        .subscribe(() => {
-          this.isLoading = false;
-          this.dialogRef.close({ flag: true });
-        }, () => this.isLoading = false);
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.dialogRef.close({ flag: true });
+          },
+          error: (err) => {
+            try {
+              const message = JSON.parse(err?.message)?.error?.message;
+              if (message) {
+                this.messageService.error(message);
+              } else {
+                this.messageService.error('FileManager::NoErrorMessage');
+              }
+            } catch {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+            this.isLoading = false;
+          }
+        });
     } else {
       // Single entry
       const moveEntry: MoveEntryDto = {
@@ -121,17 +152,46 @@ export class MoveEntryComponent implements OnInit {
         destinationParentId: this.selectedFolder.id
       };
       this.fileService.moveEntryByDtoAndArchiveIdAndType(moveEntry, this.archiveId, this.fileManagerType)
-        .subscribe(() => {
-          this.isLoading = false;
-          this.dialogRef.close({ flag: true });
-        }, () => this.isLoading = false);
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.dialogRef.close({ flag: true });
+          },
+          error: (err) => {
+            try {
+              const message = JSON.parse(err?.message)?.error?.message;
+              if (message) {
+                this.messageService.error(message);
+              } else {
+                this.messageService.error('FileManager::NoErrorMessage');
+              }
+            } catch {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+            this.isLoading = false;
+          }
+        });
     }
   }
 
   getPath(id: string) {
     this.fileService.getEntryParentsByIdByIdAndArchiveIdAndType(id, this.archiveId, this.fileManagerType)
-      .subscribe((path: HierarchyFolderDto[]) => {
-        this.folderPaths = path;
+      .subscribe({
+        next: (path: HierarchyFolderDto[]) => {
+          this.folderPaths = path;
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        }
       });
   }
 

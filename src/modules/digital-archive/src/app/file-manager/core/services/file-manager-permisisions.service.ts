@@ -6,6 +6,8 @@ import { FileManagerDetailsService } from './file-manager-details.service';
 import { ArchiveManagerService } from './archive-manager.service';
 import { first } from 'rxjs';
 import { FileManagerViewSettingsService } from './file-manager-view-settings.service';
+import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
+import { ILocalizationService } from '@eleon/angular-sdk.lib';
 
 @Injectable()
 export class FileManagerPermissionsService {
@@ -18,6 +20,8 @@ export class FileManagerPermissionsService {
     private filePermissionService: FileArchivePermissionService,
     private fileManagerDetailsService: FileManagerDetailsService,
     private fileManagerViewSettingsService: FileManagerViewSettingsService,
+    private messageService: LocalizedMessageService,
+    private localizationService: ILocalizationService
   ) {
     effect(() => {
     const folderId = this.fileManagerViewSettingsService.readonlyCurrentFolderId();
@@ -40,6 +44,16 @@ export class FileManagerPermissionsService {
       .subscribe(result => { 
         this.currentPermissions.set(result);
       }, err => {
+        try {
+          const message = JSON.parse(err?.message)?.error?.message;
+          if (message) {
+            this.messageService.error(message);
+          } else {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        } catch {
+          this.messageService.error('FileManager::NoErrorMessage');
+        }
         this.currentPermissions.set([]);
       }, () => {
         this.fileManagerViewSettingsService.loadingPermissions = false;

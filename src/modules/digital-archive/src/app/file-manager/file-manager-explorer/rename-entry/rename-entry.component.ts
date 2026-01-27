@@ -90,10 +90,25 @@ export class RenameEntryComponent implements OnInit {
     };
 
     this.fileService.renameEntryByDtoAndArchiveIdAndType(renameDto, this.data.archiveId, this.data.fileManagerType)
-      .subscribe((result: FileSystemEntryDto) => {
-        this.isLoading = false;
-        this.dialogRef.close(newName);
-      }, () => this.isLoading = false);
+      .subscribe({
+        next: (result: FileSystemEntryDto) => {
+          this.isLoading = false;
+          this.dialogRef.close(newName);
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+          this.isLoading = false;
+        }
+      });
   }
 }
 

@@ -77,17 +77,29 @@ export class FileManagerExplorerToolbarComponent {
         archiveId: this.selectedArchive()?.id,
         fileManagerType: this.fileManagerType(),
       })
-      .subscribe((result) => {
-        this.fileHelperService.saveBase64File(
-          result as any,
-          this.selectedFolder()?.name + ".zip"
-        );
-      },
-      () => {},
-      () => {
-        this.fileManagerViewSettingsService.loadingDownloading = false;
-      }
-    );
+      .subscribe({
+        next: (result) => {
+          this.fileHelperService.saveBase64File(
+            result as any,
+            this.selectedFolder()?.name + ".zip"
+          );
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        },
+        complete: () => {
+          this.fileManagerViewSettingsService.loadingDownloading = false;
+        }
+      });
   }
 
   deleteAll() {
@@ -105,18 +117,28 @@ export class FileManagerExplorerToolbarComponent {
         );
       }).filter(op => op !== null);
       
-      forkJoin(deleteEntries).subscribe(
-        (results) => {
+      forkJoin(deleteEntries).subscribe({
+        next: (results) => {
           this.fileManagerSelectedContentService.resetSelectedItems();
           this.fileManagerViewSettingsService.reloadCurrentFolder();
           this.messageService.success("FileManager::SuccesfulyDeleted"); //Selected files or folders deleted.
         },
-        () => {
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
         },
-        () => {
+        complete: () => {
           this.fileManagerViewSettingsService.loadingDownloading = false;
         }
-      );
+      });
     });
   }
   
@@ -134,17 +156,28 @@ export class FileManagerExplorerToolbarComponent {
       );
     }).filter(op => op !== null);
     
-    forkJoin(restoreEntries).subscribe(
-      (results) => {
+    forkJoin(restoreEntries).subscribe({
+      next: (results) => {
         this.fileManagerSelectedContentService.resetSelectedItems();
         this.fileManagerViewSettingsService.reloadCurrentFolder();
         this.messageService.success("FileManager::SuccesfulyRestored");
       },
-      () => {},
-      () => {
+      error: (err) => {
+        try {
+          const message = JSON.parse(err?.message)?.error?.message;
+          if (message) {
+            this.messageService.error(message);
+          } else {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        } catch {
+          this.messageService.error('FileManager::NoErrorMessage');
+        }
+      },
+      complete: () => {
         this.fileManagerViewSettingsService.loadingDownloading = false;
       }
-    );
+    });
   }
 
   onMoved() {
@@ -160,35 +193,49 @@ export class FileManagerExplorerToolbarComponent {
 
     // Get root folder entry for the dialog
     this.fileService.getEntryByIdByIdAndArchiveIdAndType(rootFolder, this.selectedArchive()?.id, this.fileManagerType())
-      .subscribe((rootEntry: FileSystemEntryDto) => {
-        if (!rootEntry || !isFolder(rootEntry)) {
-          return;
-        }
-
-        const moveData: MoveEntryData = {
-          root: rootEntry as unknown as Folder, // Convert to Folder type for compatibility
-          sourceId: selectedEntries[0]?.id ?? '',
-          sourceName: selectedEntries[0]?.name ?? '',
-          sourceParentId: this.selectedFolder()?.id,
-          archiveId: this.selectedArchive()?.id ?? '',
-          fileManagerType: this.fileManagerType(),
-          entries: selectedEntries.length > 1 ? selectedEntries : undefined,
-          entry: selectedEntries.length === 1 ? selectedEntries[0] : undefined,
-        };
-
-        const dialogRef = this.dialogService.open(MoveEntryComponent, {
-          width: '600px',
-          header: this.localizationService.instant('FileManager::Move'),
-          data: moveData,
-        });
-
-        dialogRef.onClose.subscribe((result: { flag?: boolean }) => {
-          if (result?.flag) {
-            this.messageService.success("FileManager::FileMoved:Success");
-            this.fileManagerSelectedContentService.resetSelectedItems();
-            this.fileManagerViewSettingsService.reloadCurrentFolder();
+      .subscribe({
+        next: (rootEntry: FileSystemEntryDto) => {
+          if (!rootEntry || !isFolder(rootEntry)) {
+            return;
           }
-        });
+
+          const moveData: MoveEntryData = {
+            root: rootEntry as unknown as Folder, // Convert to Folder type for compatibility
+            sourceId: selectedEntries[0]?.id ?? '',
+            sourceName: selectedEntries[0]?.name ?? '',
+            sourceParentId: this.selectedFolder()?.id,
+            archiveId: this.selectedArchive()?.id ?? '',
+            fileManagerType: this.fileManagerType(),
+            entries: selectedEntries.length > 1 ? selectedEntries : undefined,
+            entry: selectedEntries.length === 1 ? selectedEntries[0] : undefined,
+          };
+
+          const dialogRef = this.dialogService.open(MoveEntryComponent, {
+            width: '600px',
+            header: this.localizationService.instant('FileManager::Move'),
+            data: moveData,
+          });
+
+          dialogRef.onClose.subscribe((result: { flag?: boolean }) => {
+            if (result?.flag) {
+              this.messageService.success("FileManager::FileMoved:Success");
+              this.fileManagerSelectedContentService.resetSelectedItems();
+              this.fileManagerViewSettingsService.reloadCurrentFolder();
+            }
+          });
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        }
       });
   }
 
@@ -205,35 +252,49 @@ export class FileManagerExplorerToolbarComponent {
 
     // Get root folder entry for the dialog
     this.fileService.getEntryByIdByIdAndArchiveIdAndType(rootFolder, this.selectedArchive()?.id, this.fileManagerType())
-      .subscribe((rootEntry: FileSystemEntryDto) => {
-        if (!rootEntry || !isFolder(rootEntry)) {
-          return;
-        }
-
-        const copyData: CopyEntryData = {
-          root: rootEntry as unknown as Folder, // Convert to Folder type for compatibility
-          sourceId: selectedEntries[0]?.id ?? '',
-          sourceName: selectedEntries[0]?.name ?? '',
-          sourceParentId: this.selectedFolder()?.id,
-          archiveId: this.selectedArchive()?.id ?? '',
-          fileManagerType: this.fileManagerType(),
-          entries: selectedEntries.length > 1 ? selectedEntries : undefined,
-          entry: selectedEntries.length === 1 ? selectedEntries[0] : undefined,
-        };
-
-        const dialogRef = this.dialogService.open(CopyEntryComponent, {
-          width: '600px',
-          header: this.localizationService.instant('FileManager::Copy'),
-          data: copyData,
-        });
-
-        dialogRef.onClose.subscribe((result: { flag?: boolean }) => {
-          if (result?.flag) {
-            this.messageService.success("FileManager::FileCopied:Success");
-            this.fileManagerSelectedContentService.resetSelectedItems();
-            this.fileManagerViewSettingsService.reloadCurrentFolder();
+      .subscribe({
+        next: (rootEntry: FileSystemEntryDto) => {
+          if (!rootEntry || !isFolder(rootEntry)) {
+            return;
           }
-        });
+
+          const copyData: CopyEntryData = {
+            root: rootEntry as unknown as Folder, // Convert to Folder type for compatibility
+            sourceId: selectedEntries[0]?.id ?? '',
+            sourceName: selectedEntries[0]?.name ?? '',
+            sourceParentId: this.selectedFolder()?.id,
+            archiveId: this.selectedArchive()?.id ?? '',
+            fileManagerType: this.fileManagerType(),
+            entries: selectedEntries.length > 1 ? selectedEntries : undefined,
+            entry: selectedEntries.length === 1 ? selectedEntries[0] : undefined,
+          };
+
+          const dialogRef = this.dialogService.open(CopyEntryComponent, {
+            width: '600px',
+            header: this.localizationService.instant('FileManager::Copy'),
+            data: copyData,
+          });
+
+          dialogRef.onClose.subscribe((result: { flag?: boolean }) => {
+            if (result?.flag) {
+              this.messageService.success("FileManager::FileCopied:Success");
+              this.fileManagerSelectedContentService.resetSelectedItems();
+              this.fileManagerViewSettingsService.reloadCurrentFolder();
+            }
+          });
+        },
+        error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
+        }
       });
   }
 

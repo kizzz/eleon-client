@@ -71,7 +71,7 @@ export class FileManagerExplorerComponent implements OnInit, OnDestroy {
         const selectedArchive = computed(
           () => this.selectedArchive()
         )();
-        
+
         if (selectedArchive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Physical) {
           this.fileManagerViewSettingsService.viewMode.set(FileExplorerView.OnlyExplorer);
         }

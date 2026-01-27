@@ -5,6 +5,7 @@ import { first, map, Observable } from 'rxjs';
 import { FileSystemEntryDto, EntryKind, GetFileEntriesByParentPagedInput, FileManagerType } from '@eleon/file-manager-proxy';
 import { FileService } from '@eleon/file-manager-proxy';
 import { LocalizedMessageService } from '@eleon/primeng-ui.lib';
+import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { FileStatus } from '@eleon/file-manager-proxy';
 import { FileManagerTab } from '../file-manager-tab.enum';
 import { isFile, isFolder } from '../../shared/utils/entry-helpers';
@@ -33,6 +34,7 @@ export class FileManagerDetailsService {
     private fileService: FileService,
     private archiveManagerService : ArchiveManagerService,
     private messageService: LocalizedMessageService,
+    private localizationService: ILocalizationService,
     private fileManagerViewSettingsService: FileManagerViewSettingsService,
   ) {
       effect(() => {
@@ -75,6 +77,16 @@ export class FileManagerDetailsService {
             }
           },
           err => {
+            try {
+              const message = JSON.parse(err?.message)?.error?.message;
+              if (message) {
+                this.messageService.error(message);
+              } else {
+                this.messageService.error('FileManager::NoErrorMessage');
+              }
+            } catch {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
             this.currentFolderDetails.set(null);
           },
           () => {

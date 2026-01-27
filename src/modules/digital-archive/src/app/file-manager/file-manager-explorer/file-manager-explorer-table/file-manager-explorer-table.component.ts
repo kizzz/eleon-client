@@ -165,8 +165,6 @@ export class FileManagerExplorerTableComponent implements OnInit {
     if (this.selectedArchiveId) {
       this.archiveManager.setSelectedArchive(this.selectedArchiveId);
     }
-    // Load initial page
-    this.loadPage();
   }
   
   private getFileStatuses(): FileStatus[] {
@@ -190,6 +188,7 @@ export class FileManagerExplorerTableComponent implements OnInit {
   
   loadPage(): void {
     const folderId = this.currentFolderId() || this.archiveManager.readonlySelectedArchive()?.rootFolderId;
+    
     if (!folderId) {
       this._pagedEntries.set([]);
       this.totalCount.set(0);
@@ -229,6 +228,16 @@ export class FileManagerExplorerTableComponent implements OnInit {
           }
         },
         error: (err) => {
+          try {
+            const message = JSON.parse(err?.message)?.error?.message;
+            if (message) {
+              this.messageService.error(message);
+            } else {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          } catch {
+            this.messageService.error('FileManager::NoErrorMessage');
+          }
           this._pagedEntries.set([]);
           this.fileManagerDetailsService.setCurrentPagedEntries([]);
           this.totalCount.set(0);
@@ -335,9 +344,23 @@ export class FileManagerExplorerTableComponent implements OnInit {
             destinationParentId: container.id
           };
           this.fileService.moveEntryByDtoAndArchiveIdAndType(moveEntry, this.selectedArchive().id, this.fileManagerType())
-            .subscribe(() => {
-              this.messageService.success('FileManager::FolderMoved:Success');
-              this.fileManagerViewSettingsService.reloadCurrentFolder();
+            .subscribe({
+              next: () => {
+                this.messageService.success('FileManager::FolderMoved:Success');
+                this.fileManagerViewSettingsService.reloadCurrentFolder();
+              },
+              error: (err) => {
+                try {
+                  const message = JSON.parse(err?.message)?.error?.message;
+                  if (message) {
+                    this.messageService.error(message);
+                  } else {
+                    this.messageService.error('FileManager::NoErrorMessage');
+                  }
+                } catch {
+                  this.messageService.error('FileManager::NoErrorMessage');
+                }
+              }
             });
         });
       }
@@ -351,9 +374,23 @@ export class FileManagerExplorerTableComponent implements OnInit {
         destinationParentId: container.id
       };
       this.fileService.moveEntryByDtoAndArchiveIdAndType(moveDto, this.selectedArchive().id, this.fileManagerType())
-        .subscribe(() => {
-          this.messageService.success('FileManager::FileMoved:Success');
-          this.fileManagerViewSettingsService.reloadCurrentFolder();
+        .subscribe({
+          next: () => {
+            this.messageService.success('FileManager::FileMoved:Success');
+            this.fileManagerViewSettingsService.reloadCurrentFolder();
+          },
+          error: (err) => {
+            try {
+              const message = JSON.parse(err?.message)?.error?.message;
+              if (message) {
+                this.messageService.error(message);
+              } else {
+                this.messageService.error('FileManager::NoErrorMessage');
+              }
+            } catch {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          }
         });
     } else if (isFolder(sourceEntry)) {
       const moveDto: MoveEntryDto = {
@@ -361,9 +398,23 @@ export class FileManagerExplorerTableComponent implements OnInit {
         destinationParentId: container.id
       };
       this.fileService.moveEntryByDtoAndArchiveIdAndType(moveDto, this.selectedArchive().id, this.fileManagerType())
-        .subscribe(() => {
-          this.messageService.success('FileManager::FolderMoved:Success');
-          this.fileManagerViewSettingsService.reloadCurrentFolder();
+        .subscribe({
+          next: () => {
+            this.messageService.success('FileManager::FolderMoved:Success');
+            this.fileManagerViewSettingsService.reloadCurrentFolder();
+          },
+          error: (err) => {
+            try {
+              const message = JSON.parse(err?.message)?.error?.message;
+              if (message) {
+                this.messageService.error(message);
+              } else {
+                this.messageService.error('FileManager::NoErrorMessage');
+              }
+            } catch {
+              this.messageService.error('FileManager::NoErrorMessage');
+            }
+          }
         });
     }
   }
