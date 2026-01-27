@@ -43,6 +43,7 @@ export class PackageTemplateCreateDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.title = this.localizationService.instant('AccountingModule::PackageTemplateCreation');
     this.initBillingPeriodTypes();
     this.initPackageTemplate();
   }
@@ -64,7 +65,6 @@ export class PackageTemplateCreateDialogComponent implements OnInit {
 
   showDialog() {
     this.display = true;
-    this.title = this.localizationService.instant('AccountingModule::PackageTemplateCreation');
     this.initPackageTemplate();
   }
 
