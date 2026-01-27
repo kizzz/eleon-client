@@ -159,7 +159,7 @@ export class PermissionManagementComponent implements OnInit {
     }
     this.identitySelectionService.openRoleSelectionDialog({
       title: this.localizationService.instant(
-        'FileManager::PermissionManagement::SelectRole'
+        'FileManager::PermissionManagement:SelectRole'
       ),
       permissions: [],
       selectedRoles: [],
@@ -182,7 +182,7 @@ export class PermissionManagementComponent implements OnInit {
     }
     this.identitySelectionService.openUserSelectionDialog({
       title: this.localizationService.instant(
-        'FileManager::PermissionManagement::SelectRole'
+        'FileManager::PermissionManagement:SelectUser'
       ),
       permissions: [],
       selectedUsers: [],
@@ -205,7 +205,7 @@ export class PermissionManagementComponent implements OnInit {
     }
     this.identitySelectionService.openOrganizationUnitSelectionDialog({
       title: this.localizationService.instant(
-        'FileManager::PermissionManagement::SelectRole'
+        'FileManager::PermissionManagement:SelectOrganizationUnit'
       ),
       selectionMode: "single",
       onlyUsers: false,

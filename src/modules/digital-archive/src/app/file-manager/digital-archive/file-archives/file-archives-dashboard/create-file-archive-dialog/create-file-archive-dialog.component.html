@@ -40,27 +40,30 @@
 
       <div class="field col-12 p-0">
         <label appRequired>{{ 'FileManager::FileArchive:StorageProvider' | abpLocalization }}</label>
-        <!-- <app-storage-provider-selection
-          class="w-full"
-          [showWithCard]="false"
-          [defaultSelectedId]="model.storageProviderId"
-          [readOnly]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
-          (storageProviderSelectionEvent)="onStorageProviderSelected($event)"
-        >
-        </app-storage-provider-selection> -->
-
-        <p-button
-          class="w-full"
-          [text]="true"
-          [raised]="true"
-          [disabled]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
-          styleClass="p-button-primary"
-          (click)="openProviderSelectionDialog()"
-          icon="fa fa-plus"
-          [label]="'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization"
-        >
-        </p-button>
-
+        <div class="p-inputgroup">
+          <input
+            class="no-select"
+            inputId="storage-provider-input"
+            [value]="selectedStorageProviderName || ''"
+            type="text"
+            pInputText
+            [readonly]="true"
+            [disabled]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
+            [ngClass]="{ 'ng-invalid ng-dirty': model.validators.storageProviderEmpty }"
+            placeholder="{{ 'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization }}"
+          />
+          <button
+            type="button"
+            (click)="openProviderSelectionDialog()"
+            pButton
+            pRipple
+            icon="fa fa-folder"
+            [disabled]="loading || (isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual)"
+            styleClass="p-button-info"
+            class="p-button-text"
+            [pTooltip]="'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization"
+          ></button>
+        </div>
         <small class="error" *ngIf="model.validators.storageProviderEmpty">
           {{ 'FileManager::Error:StorageRequired' | abpLocalization }}
         </small>

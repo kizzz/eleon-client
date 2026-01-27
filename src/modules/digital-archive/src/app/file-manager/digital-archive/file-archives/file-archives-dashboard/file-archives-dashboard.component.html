@@ -168,6 +168,13 @@
           >
             <div class="flex align-items-center justify-content-end gap-2">
               <i
+                (click)="onRowClick(row)"
+                class="fa-solid fa-cog"
+                [pTooltip]="'FileManager::Settings' | abpLocalization"
+                tooltipPosition="top"
+              >
+              </i>
+              <i
                 (click)="openPermissions(row)"
                 class="fa-solid fa-list-check"
                 [pTooltip]="'FileManager::Permissions' | abpLocalization"

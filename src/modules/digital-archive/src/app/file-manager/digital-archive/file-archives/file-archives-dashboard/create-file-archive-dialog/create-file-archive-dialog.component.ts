@@ -50,6 +50,7 @@ export class CreateFileArchiveDialogComponent implements AfterViewInit, OnChange
   isEditMode = false;
   folderDialogVisible = false;
   selectedFolderName: string | null = null;
+  selectedStorageProviderName: string | null = null;
   FileArchiveHierarchyType = FileArchiveHierarchyType;
 
   constructor(
@@ -78,13 +79,14 @@ export class CreateFileArchiveDialogComponent implements AfterViewInit, OnChange
     this.model.validators.hierarchyTypeEmpty = false;
 
     if (!this.model.rootFolderId) {
-      this.model.rootFolderId = './';
+      this.model.rootFolderId = '/';
     }
   }
 
   onStorageProviderSelected(dto: StorageProviderDto): void {
     this.model.storageProviderId = dto?.id ?? null;
-    this.model.rootFolderId = './';
+    this.selectedStorageProviderName = dto?.name ?? null;
+    this.model.rootFolderId = '/';
     this.model.validators.storageProviderEmpty = false;
     this.selectedFolderName = null;
   }
@@ -149,6 +151,7 @@ export class CreateFileArchiveDialogComponent implements AfterViewInit, OnChange
   private resetModel(): void {
     this.model = this.createDefaultModel();
     this.selectedFolderName = null;
+    this.selectedStorageProviderName = null;
   }
 
   private createDefaultModel(): FileArchiveModel {
@@ -184,6 +187,7 @@ export class CreateFileArchiveDialogComponent implements AfterViewInit, OnChange
       },
     };
     this.selectedFolderName = archive.rootFolderId ?? '/';
+    this.selectedStorageProviderName = archive.storageProviderName ?? null;
   }
 
   private validate(): boolean {
