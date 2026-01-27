@@ -218,6 +218,7 @@ export class FileManagerExplorerTableComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this._pagedEntries.set(result.items);
+          this.fileManagerDetailsService.setCurrentPagedEntries(result.items);
           this.totalCount.set(result.totalCount);
           this.loading.set(false);
           
@@ -229,6 +230,7 @@ export class FileManagerExplorerTableComponent implements OnInit {
         },
         error: (err) => {
           this._pagedEntries.set([]);
+          this.fileManagerDetailsService.setCurrentPagedEntries([]);
           this.totalCount.set(0);
           this.loading.set(false);
         }

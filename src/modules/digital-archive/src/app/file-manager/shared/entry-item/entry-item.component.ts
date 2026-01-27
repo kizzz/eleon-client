@@ -123,9 +123,9 @@ export class EntryItemComponent implements OnInit {
 
     const isFileEntry = isFile(this.entry);
     this.checkboxValue =
-      this.fileManagerSelectedContentService.selectedItemsIds.filter(
-        (item) => item.id == this.entry?.id && item.isFile === isFileEntry
-      ).length > 0;
+      this.fileManagerSelectedContentService.selectedItemsIds.some(
+        (item) => item.id === this.entry?.id && isFile(item) === isFileEntry
+      );
   }
 
   ngAfterViewInit() {}

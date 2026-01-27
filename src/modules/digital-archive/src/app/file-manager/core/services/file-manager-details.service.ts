@@ -9,6 +9,7 @@ import { FileStatus } from '@eleon/file-manager-proxy';
 import { FileManagerTab } from '../file-manager-tab.enum';
 import { isFile, isFolder } from '../../shared/utils/entry-helpers';
 import { PagedResultDto } from '@eleon/proxy-utils.lib';
+import { FileExplorerView } from '../file-explorer-view.enum';
 
 export interface PagedResult<T> {
   items: T[];
@@ -19,13 +20,7 @@ export interface PagedResult<T> {
 export class FileManagerDetailsService {
   
   public readonly currentFolderDetails = signal<FileSystemEntryDto>(null);
-  public readonly currentFolderContentEntries = signal<FileSystemEntryDto[]>(null);
-  public readonly currentFolderContentFiles = computed<FileSystemEntryDto[]>(() => 
-    this.currentFolderContentEntries()?.filter(isFile) ?? []
-  );
-  public readonly currentFolderContentFolders = computed<FileSystemEntryDto[]>(() => 
-    this.currentFolderContentEntries()?.filter(isFolder) ?? []
-  );
+  public readonly currentPagedEntries = signal<FileSystemEntryDto[]>([]);
   public readonly readonlyCurrentFolderDetails = computed<FileSystemEntryDto>(() => this.currentFolderDetails());
 
   public readonly readonlyCurrentFolderFilenames = computed<string[]>(() => 
@@ -43,6 +38,10 @@ export class FileManagerDetailsService {
       effect(() => {
         const folderId = this.fileManagerViewSettingsService.readonlyCurrentFolderId() || this.archiveManagerService.readonlySelectedArchive()?.rootFolderId;
         if (!folderId) {
+          return;
+        }
+        const viewMode = this.fileManagerViewSettingsService.readonlyViewMode();
+        if (viewMode ===  FileExplorerView.OnlyExplorer) {
           return;
         }
 
@@ -63,8 +62,6 @@ export class FileManagerDetailsService {
         }
 
         this.fileManagerViewSettingsService.loadingDetails = true;
-        this.fileManagerViewSettingsService.loadingFolderFilesContent = true;
-        this.fileManagerViewSettingsService.loadingFolderFoldersContent = true;
         
         this.fileService
           .getEntryByIdByIdAndArchiveIdAndType(folderId, this.archiveManagerService.readonlySelectedArchiveId(), this.fileManagerType())
@@ -84,20 +81,6 @@ export class FileManagerDetailsService {
             this.fileManagerViewSettingsService.loadingDetails = false;
           }
         );
-        // Single merged call to get both files and folders
-        this.fileService
-          .getEntriesByParentIdByParentIdAndArchiveIdAndKindAndFileStatusesAndTypeAndRecursive(folderId, this.archiveManagerService.readonlySelectedArchiveId(), null, fileStatuses, this.fileManagerType(), false)
-          .pipe(first())
-          .subscribe((entries: FileSystemEntryDto[]) => {
-            this.currentFolderContentEntries.set(entries);
-          },
-          err => {
-            this.currentFolderContentEntries.set([]);
-          },
-          () => {
-            this.fileManagerViewSettingsService.loadingFolderFilesContent = false;
-            this.fileManagerViewSettingsService.loadingFolderFoldersContent = false;
-          });
     });
   }
 
@@ -105,9 +88,6 @@ export class FileManagerDetailsService {
     if (!id || !value) {
       return;
     }
-    this.currentFolderContentEntries.update(entries => 
-      entries.map(entry => entry.id != id ? entry : {...entry, name: value})
-    );
     // Also update in current folder details if it's the renamed folder
     this.currentFolderDetails.update(folder => {
       if (folder?.id === id) {
@@ -115,15 +95,14 @@ export class FileManagerDetailsService {
       }
       return folder;
     });
+    this.fileManagerViewSettingsService.reloadCurrentFolder();
   }
 
   public renameFile(id: string, value: string) {
     if (!id || !value) {
       return;
     }
-    this.currentFolderContentEntries.update(entries => 
-      entries.map(entry => entry.id != id ? entry : {...entry, name: value})
-    );
+    this.fileManagerViewSettingsService.reloadCurrentFolder();
   }
 
   public renameEntry(entry: FileSystemEntryDto, newName: string) {
@@ -149,6 +128,10 @@ export class FileManagerDetailsService {
     this.currentFolderDetails.update(folder => {
       return {...folder, children: value};
     });
+  }
+
+  public setCurrentPagedEntries(entries: FileSystemEntryDto[]) {
+    this.currentPagedEntries.set(entries);
   }
 
   public getEntriesByParentIdPaged(
@@ -185,16 +168,5 @@ export class FileManagerDetailsService {
           totalCount: result.totalCount ?? 0
         }))
       );
-  }
-
-  public getEntriesByParentId(
-    parentId: string,
-    archiveId: string,
-    kind: EntryKind | null,
-    fileStatuses: FileStatus[],
-    type: FileManagerType
-  ): Observable<FileSystemEntryDto[]> {
-    return this.getEntriesByParentIdPaged(parentId, archiveId, kind, fileStatuses, type, 0, 1000)
-      .pipe(map(result => result.items));
   }
 }

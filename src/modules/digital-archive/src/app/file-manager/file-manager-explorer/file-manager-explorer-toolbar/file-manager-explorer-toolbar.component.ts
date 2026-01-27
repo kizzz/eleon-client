@@ -40,9 +40,6 @@ export class FileManagerExplorerToolbarComponent {
     return this.fileManagerViewSettingsService.readonlyCurrentTab() === FileManagerTab.Trash;
   }
 
-  folders = computed(() => this.fileManagerDetailsService.currentFolderContentFolders());
-  files = computed(() => this.fileManagerDetailsService.currentFolderContentFiles());
-
   selectedArchive = this.archiveManager.readonlySelectedArchive;
   selectedFolder = this.fileManagerDetailsService.readonlyCurrentFolderDetails;
   fileManagerType = this.fileManagerViewSettingsService.fileManagerType;

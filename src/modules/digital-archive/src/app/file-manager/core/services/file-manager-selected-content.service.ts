@@ -4,15 +4,10 @@ import { FileManagerDetailsService } from './file-manager-details.service';
 import { FileSystemEntryDto } from '@eleon/file-manager-proxy';
 import { isFile } from '../../shared/utils/entry-helpers';
 
-interface ContentItemId {
-  id: string,
-  isFile: boolean,
-}
-
 @Injectable()
 export class FileManagerSelectedContentService {
   
-  public selectedItemsIds : ContentItemId[] = [];
+  public selectedItemsIds : FileSystemEntryDto[] = [];
 
   constructor(
     private fileManagerDetailsService: FileManagerDetailsService,
@@ -27,11 +22,8 @@ export class FileManagerSelectedContentService {
     effect(() => {
       const checkAll = FileManagerViewSettingsService.checkAll();
       if (checkAll === true) {
-        const allEntries: FileSystemEntryDto[] = this.fileManagerDetailsService.currentFolderContentEntries() ?? [];
-        this.selectedItemsIds = allEntries.map<ContentItemId>(entry => ({
-          id: entry.id ?? '',
-          isFile: isFile(entry)
-        }));
+        const allEntries: FileSystemEntryDto[] = this.fileManagerDetailsService.currentPagedEntries() ?? [];
+        this.selectedItemsIds = [...allEntries];
       } else if (checkAll === false) {
         this.selectedItemsIds = [];
       }
@@ -46,20 +38,29 @@ export class FileManagerSelectedContentService {
     if (!entry?.id) {
       return;
     }
-    const isFileEntry = isFile(entry);
-    this.addOrRemoveSelectedItem(entry.id, isFileEntry);
+    const existingIndex = this.selectedItemsIds.findIndex(item => item.id === entry.id && isFile(item) === isFile(entry));
+    if (existingIndex >= 0) {
+      this.selectedItemsIds = this.selectedItemsIds.filter((_, index) => index !== existingIndex);
+    } else {
+      this.selectedItemsIds = [...this.selectedItemsIds, entry];
+    }
   }
 
   /**
    * Add or remove a selected item by id and type
    * @param id The entry id
-   * @param isFile Whether the entry is a file
+   * @param isFileEntry Whether the entry is a file
    */
-  public addOrRemoveSelectedItem(id: string, isFile: boolean) {
-    if (this.selectedItemsIds.find(item => item.id == id && item.isFile == isFile)) {
-      this.selectedItemsIds = this.selectedItemsIds.filter(item => !(item.id == id && item.isFile == isFile));
+  public addOrRemoveSelectedItem(id: string, isFileEntry: boolean) {
+    // Try to find the entry in current paged entries
+    const pagedEntries = this.fileManagerDetailsService.currentPagedEntries();
+    const entry = pagedEntries.find(e => e.id === id && isFile(e) === isFileEntry);
+    
+    if (entry) {
+      this.addOrRemoveSelectedEntry(entry);
     } else {
-      this.selectedItemsIds.push(({id: id, isFile: isFile}));
+      // If entry not found in current page, remove by id if it exists
+      this.selectedItemsIds = this.selectedItemsIds.filter(item => !(item.id === id && isFile(item) === isFileEntry));
     }
   }
 
@@ -67,10 +68,7 @@ export class FileManagerSelectedContentService {
    * Get all selected entries as FileSystemEntryDto array
    */
   public getSelectedEntries(): FileSystemEntryDto[] {
-    const allEntries: FileSystemEntryDto[] = this.fileManagerDetailsService.currentFolderContentEntries() ?? [];
-    return allEntries.filter(entry => 
-      this.selectedItemsIds.some(item => item.id == entry.id && item.isFile === isFile(entry))
-    );
+    return this.selectedItemsIds;
   }
 
   /**
