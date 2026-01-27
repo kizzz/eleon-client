@@ -1,9 +1,5 @@
-<div
-  class="dialog-overlay"
-  [style.display]="showDialog ? 'block' : 'none'"
-></div>
 <p-dialog
-  [style]="{ width: '550px', height: '600px' }"
+  [contentStyle]="{ width: '550px', height: '400px' }"
   [resizable]="false"
   [(visible)]="showDialog"
   [draggable]="false"
@@ -11,7 +7,7 @@
   [closable]="false"
   (visibleChange)="showDialogChange.emit($event)"
 >
-  <ng-template pTemplate="header">
+  <ng-template #header>
     <div class="flex w-full align-items-center justify-content-between">
       <div>
         <span style="font-size: 1.25rem; font-weight: 700">
@@ -27,21 +23,21 @@
   <div *ngIf="showDialog" class="wrapper">
     <p-tabs [(value)]="activeTabIndex">
       <p-tablist>
-        <p-tab value="0">
+        <p-tab [value]="0">
           {{ 'TenantManagement::TenantSettings:ContentSecuritySettings' | abpLocalization }}
         </p-tab>
-        <p-tab value="1">
+        <p-tab [value]="1">
           {{ 'TenantManagement::TenantSettings:IpIsolationSettings' | abpLocalization }}
         </p-tab>
-        <p-tab value="2">
+        <p-tab [value]="2">
           {{ 'TenantManagement::TenantSettings:HostnameSettings' | abpLocalization }}
         </p-tab>
-        <p-tab value="3">
+        <p-tab [value]="3">
           {{ 'TenantManagement::TenantSettings:ExternalLogin:Title' | abpLocalization }}
         </p-tab>
       </p-tablist>
       <p-tabpanels>
-      <p-tabpanel value="0">
+      <p-tabpanel [value]="0">
         <div
           class="flex flex-column align-items-start gap-5 w-100"
           *ngIf="contentSecurityData"
@@ -51,6 +47,7 @@
             [value]="contentSecurityData.hostnames"
             rowsEditor
             [(editableRows)]="contentSecurityData.hostnames"
+            [rowFactory]="hostnameFactory"
             style="width: 100%; min-height: 200px"
             [rowAdded]="onHostnameAdded"
             [rowRemoved]="onHostnameRemoved"
@@ -58,7 +55,7 @@
             class="cell-center"
             dataKey="id"
           >
-            <ng-template pTemplate="header">
+            <ng-template #header>
               <tr>
                 <th>
                   {{
@@ -69,11 +66,11 @@
                 <app-table-header-controls></app-table-header-controls>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-row>
+            <ng-template #body let-row>
               <tr [pEditableRow]="row">
                 <td>
                   <p-cellEditor>
-                    <ng-template pTemplate="input">
+                    <ng-template #input>
                       <input
                         [(ngModel)]="row.hostname"
                         [pKeyFilter]="HostnameKeyFilter"
@@ -86,7 +83,7 @@
                         [style]="{ width: '100%' }"
                       />
                     </ng-template>
-                    <ng-template pTemplate="output">
+                    <ng-template #output>
                       {{ row.hostname }}
                     </ng-template>
                   </p-cellEditor>
@@ -98,7 +95,7 @@
         </div>
       </p-tabpanel>
 
-      <p-tabpanel value="1">
+      <p-tabpanel [value]="1">
         <div
           *ngIf="ipIsolationData"
           class="flex flex-column align-items-start gap-5 w-100"
@@ -127,6 +124,7 @@
             [loading]="loadingIpIsolation"
             [value]="ipIsolationData.whitelistedIps"
             rowsEditor
+            [rowFactory]="whitelistedIpFactory"
             [(editableRows)]="ipIsolationData.whitelistedIps"
             style="width: 100%; min-height: 200px"
             [rowAdded]="onIpAdded"
@@ -134,7 +132,7 @@
             class="cell-center"
             [dataKey]="ip"
           >
-            <ng-template pTemplate="header">
+            <ng-template #header>
               <tr>
                 <th>
                   {{
@@ -151,11 +149,11 @@
                 <app-table-header-controls></app-table-header-controls>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-row>
+            <ng-template #body let-row>
               <tr [pEditableRow]="row">
                 <td>
                   <p-cellEditor>
-                    <ng-template pTemplate="input">
+                    <ng-template #input>
                       <input
                         [(ngModel)]="row.ip"
                         [pKeyFilter]="row.enabled"
@@ -167,7 +165,7 @@
                         [style]="{ width: '100%' }"
                       />
                     </ng-template>
-                    <ng-template pTemplate="output">
+                    <ng-template #output>
                       {{ row.ip }}
                     </ng-template>
                   </p-cellEditor>
@@ -192,7 +190,7 @@
         </div>
       </p-tabpanel>
 
-      <p-tabpanel value="2">
+      <p-tabpanel [value]="2">
         <div class="flex flex-column gap-3" *ngIf="hostnames">
           <p-table
             [loading]="loadingHostnames"
@@ -202,12 +200,13 @@
             [rowAdded]="addHostname"
             [rowEdited]="editHostname"
             [rowRemoved]="deleteHostname"
+            [rowFactory]="hostnameRowFactory"
             dataKey="data.id"
             [paginator]="true"
             [rows]="rowsCount"
             [totalRecords]="totalRecords"
           >
-            <ng-template pTemplate="header">
+            <ng-template #header>
               <tr>
                 <th>
                   {{
@@ -218,11 +217,11 @@
                 <app-table-header-controls></app-table-header-controls>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-hostname let-editing="editing">
+            <ng-template #body let-hostname let-editing="editing">
               <tr [pEditableRow]="hostname">
                 <td>
                   <p-cellEditor>
-                    <ng-template pTemplate="input">
+                    <ng-template #input>
                       <div class="flex w-100 gap-2">
                         <div class="field grid w-full mb-0 gap-3">
                           <p-select
@@ -252,7 +251,7 @@
                         </div>
                       </div>
                     </ng-template>
-                    <ng-template pTemplate="output">
+                    <ng-template #output>
                       {{ hostname.data.url }}
                     </ng-template>
                   </p-cellEditor>
@@ -267,7 +266,7 @@
         </div>
       </p-tabpanel>
 
-      <p-tabpanel value="3">
+      <p-tabpanel [value]="3">
         <div class="wrapper">
           <app-tenant-external-login-settings-box
             *ngIf="showDialog"
@@ -282,7 +281,7 @@
     </p-tabs>
   </div>
 
-  <ng-template pTemplate="footer">
+  <ng-template #footer>
     <div class="flex align-items-center justify-content-end gap-3 mt-2">
       <p-button
         (click)="close()"
