@@ -42,33 +42,9 @@ const routes: Routes = [
       requestType: AccountListRequestType.EnRoute,
       module: 'Account',
       policyKey: 'Permission.Account.General && VPortal.Dashboard.Host',
-      name: "AccountingModule::Menu:Dashboard",
+      name: "AccountingModule::Account:Menu:Dashboard",
       parentNames: "AccountingModule::Menu:Top",
       mainParentName: "Infrastructure::Accounting"
-    }
-  },
-  {
-    path: 'approval', component: AccountDashboardComponent,
-    canActivate: [EcAuthGuard, PermissionGuard],
-    data: {
-      requestType: AccountListRequestType.ActionRequired,
-      module: 'Account',
-      policyKey: 'Permission.Account.Default',
-      name: "AccountingModule::Menu:ApprovalList",
-      parentNames: "AccountingModule::Menu:Top",
-      mainParentName: "Infrastructure::Accounting"
-    }
-  },
-  {
-    path: 'archive', component: AccountDashboardComponent,
-    canActivate: [EcAuthGuard, PermissionGuard],
-    data: {
-      requestType: AccountListRequestType.Archive,
-      module: 'Account',
-      policyKey: 'Permission.Account.Default',
-      name: "AccountingModule::Menu:Archive",
-      mainParentName: "Infrastructure::Accounting",
-      parentNames: "AccountingModule::Menu:Top",
     }
   },
   {
@@ -80,10 +56,12 @@ const routes: Routes = [
         data: {
           name: "AccountingModule::Menu:PackageTemplates",
           mainParentName: "Infrastructure::Accounting",
-          parentNames: "AccountingModule::Menu:Top;AccountingModule::Menu:Management",
+          parentNames: "AccountingModule::Menu:Top",
         }
       },
-      {path: 'create', redirectTo: 'create/', pathMatch: 'full'},
+      {
+        path: 'create', redirectTo: 'create/', pathMatch: 'full'
+      },
       {
         path: 'create/:id', component: PackageTemplateCreateComponent,
         canActivate: [EcAuthGuard, PermissionGuard],

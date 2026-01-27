@@ -5,7 +5,10 @@ import { AccountListRequestType } from '@eleon/accounting-proxy';
 import { AccountService } from '@eleon/accounting-proxy';
 import { AccountHeaderDto } from '@eleon/accounting-proxy';
 import { LazyLoadEvent } from 'primeng/api';
-import { CommonOrganizationUnitDto, IOrganizationUnitService } from '@eleon/angular-sdk.lib';
+import {
+  CommonOrganizationUnitDto,
+  IOrganizationUnitService,
+} from '@eleon/angular-sdk.lib';
 import { viewportBreakpoints } from '@eleon/angular-sdk.lib';
 import {
   contributeControls,
@@ -43,7 +46,6 @@ export class AccountDashboardComponent implements OnInit {
   title: string;
   organizationUnits: CommonOrganizationUnitDto[];
   moduleType: string = 'Account';
-  activeIndex: number = 0;
   showAccountCreateDialog: boolean = false;
 
   @PageControls()
@@ -73,59 +75,27 @@ export class AccountDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data) => {
-      this.moduleType = data['module'];
-      this.requestType = data['requestType'];
+    this.title = this.localizationService.instant(
+      'AccountingModule::Account:Dashboard:Title'
+    );
+    this.orgUnitService
+      .getAvailableForUser()
+      .subscribe(
+        (res) => (this.organizationUnits = res.map((x) => x.organizationUnit))
+      );
 
-      if (this.moduleType == 'Account') {
-        switch (this.requestType) {
-          case AccountListRequestType.Archive:
-            this.activeIndex = 2;
-            this.cdr.detectChanges();
-            break;
-          case AccountListRequestType.ActionRequired:
-            this.activeIndex = 1;
-            this.cdr.detectChanges();
-            break;
-          default:
-            this.activeIndex = 0;
-            this.cdr.detectChanges();
-            break;
-        }
-      }
-
-      switch (this.requestType) {
-        case AccountListRequestType.Archive:
-          this.title = this.localizationService.instant(
-            'AccountingModule::Archive:Title'
-          );
-          break;
-        case AccountListRequestType.ActionRequired:
-          this.title = this.localizationService.instant(
-            'AccountingModule::ApprovalList:Title'
-          );
-          break;
-        default:
-          this.title = this.localizationService.instant(
-            'AccountingModule::Dashboard:Title'
-          );
-          break;
-      }
-      this.orgUnitService
-        .getAvailableForUser()
-        .subscribe(
-          (res) => (this.organizationUnits = res.map((x) => x.organizationUnit))
-        );
-    });
-
-    this.localizedAccountStatuses = Object.keys(AccountStatus)
-      .filter((v) => isNaN(Number(v)))
-      .map((name) => ({
-        status: AccountStatus[name as keyof typeof AccountStatus],
+    this.localizedAccountStatuses = [
+      {
+        status: AccountStatus.Active,
         name: this.localizationService.instant(
-          `AccountingModule::AccountStatus:${name}`
-        ),
-      }));
+          `AccountingModule::AccountStatus:Active`),
+      },
+      {
+        status: AccountStatus.InActive,
+        name: this.localizationService.instant(
+          `AccountingModule::AccountStatus:InActive`),
+      }
+    ]
   }
 
   onChange({ index }: { index: number }) {
@@ -192,7 +162,7 @@ export class AccountDashboardComponent implements OnInit {
     const row = event.data;
     if (row?.data?.accountStatus == AccountStatus.New) {
       this.router.navigate(['/account/create', row.data.id]);
-    } else{
+    } else {
       this.router.navigate(['/account/details', row.data.id]);
     }
   }
@@ -247,7 +217,7 @@ export class AccountDashboardComponent implements OnInit {
     this.showAccountCreateDialog = false;
     this.router.navigate(['/account/create', accountId]);
   }
-  
+
   async copyId(id: string, event: MouseEvent) {
     if (!id) return;
 

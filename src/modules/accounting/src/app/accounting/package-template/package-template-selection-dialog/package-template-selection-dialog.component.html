@@ -7,7 +7,7 @@
   [modal]="true"
   [draggable]="false"
 >
-  <div #tableCard>
+  <div #tableCard class="mt-2">
     <p-table
       *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint"
       [scrollable]="scrollable"
@@ -28,7 +28,7 @@
       sortMode="single"
       sortField="CreationTime"
     >
-      <ng-template pTemplate="caption">
+      <ng-template #caption>
         <div class="grid pb-4 md:pb-0">
           <div class="col-12 p-0 flex align-items-center justify-content-end">
             <div class="p-inputgroup">
@@ -60,7 +60,7 @@
           </div>
         </div>
       </ng-template>
-      <ng-template pTemplate="header">
+      <ng-template #header>
         <tr>
           <th pSortableColumn="name">
             {{ 'AccountingModule::PackageTemplate:Header:Name' | abpLocalization }}
@@ -89,7 +89,7 @@
           <th appResponsiveColumn="40" class="lg:justify-content-end"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-row>
+      <ng-template #body let-row>
         <tr [pSelectableRow]="row">
           <td>
             <span class="non-editing-only p-column-title">{{
@@ -137,7 +137,7 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="emptymessage">
+      <ng-template  #emptymessage>
         <tr class="table-emptymessage">
           <td class="w-full" colspan="8">
             <div class="card w-full">

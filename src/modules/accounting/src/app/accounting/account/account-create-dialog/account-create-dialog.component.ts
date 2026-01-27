@@ -42,11 +42,11 @@ export class AccountCreateDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.initAccount();
+    this.title = this.localizationService.instant('AccountingModule::AccountCreation');
   }
 
   showDialog() {
     this.display = true;
-    this.title = this.localizationService.instant('AccountingModule::AccountCreation');
     this.initAccount();
   }
 

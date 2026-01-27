@@ -68,6 +68,10 @@ export class TenantMemberCreateComponent implements OnInit, OnChanges {
 
   onDialogHide(): void {
     this.displayChange.emit(false);
+    this.selectedTenant = null;
+    this.selectedEntityName = '';
+    this.refTenantId = '';
+    this.resetRefTenantIdValidator();
   }
 
   save(): void {
@@ -111,7 +115,7 @@ export class TenantMemberCreateComponent implements OnInit, OnChanges {
 
   openTenantSelectionDialog(): void {
     this.identitySelectionService.openTenantSelectionDialog({
-      title: this.localizationService.instant('Infrastructure::TenantSelection'),
+      title: this.localizationService.instant('AccountingModule::TenantSelection'),
       isMultiple: false,
       selectedTenants: this.selectedTenant ? [this.selectedTenant] : [],
       ignoredTenants: [],

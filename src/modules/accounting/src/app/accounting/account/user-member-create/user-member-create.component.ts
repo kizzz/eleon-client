@@ -68,6 +68,10 @@ export class UserMemberCreateComponent implements OnInit, OnChanges {
 
   onDialogHide(): void {
     this.displayChange.emit(false);
+    this.selectedUser = null;
+    this.selectedEntityName = '';
+    this.userId = '';
+    this.resetUserIdValidator();
   }
 
   save(): void {
@@ -111,7 +115,7 @@ export class UserMemberCreateComponent implements OnInit, OnChanges {
 
   openUserSelectionDialog(): void {
     this.identitySelectionService.openUserSelectionDialog({
-      title: this.localizationService.instant('Infrastructure::UserSelection'),
+      title: this.localizationService.instant('AccountingModule::UserSelection'),
       permissions: [],
       selectedUsers: this.selectedUser ? [this.selectedUser] : [],
       ignoredUsers: [],
