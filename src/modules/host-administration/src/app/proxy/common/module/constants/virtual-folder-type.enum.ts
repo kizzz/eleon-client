@@ -20,14 +20,10 @@ function mapEnumToOptions<T>(_enum: T): Option<T>[] {
   return options;
 }
 
-export enum ClientApplicationFrameworkType {
+export enum VirtualFolderType {
   None = 0,
-  Angular = 1,
-  React = 2,
-  CustomAngular = 3,
-  VirtualDirectory = 4,
+  Url = 1,
+  Provider = 2,
 }
 
-export const clientApplicationFrameworkTypeOptions = mapEnumToOptions(
-  ClientApplicationFrameworkType
-);
+export const virtualFolderTypeOptions = mapEnumToOptions(VirtualFolderType);

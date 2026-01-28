@@ -1,0 +1,350 @@
+<p-dialog
+  [resizable]="false"
+  [header]="dialogHeader"
+  [visible]="visible"
+  (visibleChange)="visibleChange.emit($event)"
+  [modal]="true"
+  [contentStyle]="{height: '400px'}"
+  (onHide)="onDialogHide()"
+>
+  <div class="settings-dialog">
+    <div class="w-full">
+      <div class="dialog-standard">
+  <div class="grid">
+    <div class="col-4 flex align-items-center gap-3">
+      <span appRequired>{{ 'TenantManagement::Name' | abpLocalization }}</span>
+    </div>
+    <div class="col-8 flex align-items-center gap-3">
+      <input
+        [ngClass]="{ 'ng-invalid ng-dirty': nameEmpty }"
+        (input)="onInput()"
+        class="w-full"
+        id="loc-name"
+        type="text"
+        pInputText
+        [(ngModel)]="model.name"
+      />
+    </div>
+  </div>
+  <div *ngIf="model.locationType === LocationType.Site"
+   class="grid">
+    <div class="col-4 flex align-items-center gap-3">
+      <span appRequired>{{
+        'TenantManagement::Path' | abpLocalization
+      }}</span>
+    </div>
+    <div class="col-8 flex align-items-center gap-3">
+      <input
+        [ngClass]="{ 'ng-invalid ng-dirty': pathEmpty }"
+        (input)="onInput()"
+        class="w-full"
+        id="loc-path"
+        type="text"
+        pInputText
+        [(ngModel)]="model.path"
+      />
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-4 flex align-items-center gap-3">
+      <span>{{ 'TenantManagement::Hostname' | abpLocalization }}</span>
+    </div>
+    <div class="col-8 flex align-items-center gap-3">
+      <input
+        class="w-full"
+        (input)="onInput()"
+        id="loc-hostname"
+        type="text"
+        pInputText
+        [(ngModel)]="model.hostname"
+      />
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-4 flex align-items-center gap-3">
+      <span>{{ 'TenantManagement::IsEnabled' | abpLocalization }}</span>
+    </div>
+    <div class="col-8 flex align-items-center gap-3">
+      <p-toggleSwitch
+        [(ngModel)]="model.isEnabled"
+        (ngModelChange)="onInput()"
+      ></p-toggleSwitch>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-4 flex align-items-center gap-3">
+      <span appRequired>{{
+        'TenantManagement::SiteType' | abpLocalization
+      }}</span>
+    </div>
+    <div class="col-8">
+      <p-select
+        id="loc-siteType"
+        [options]="siteTypes"
+        [(ngModel)]="model.siteType"
+        optionLabel="label"
+        optionValue="value"
+        (ngModelChange)="onInput()"
+        [style]="{ width: '100%' }"
+      ></p-select>
+    </div>
+  </div>
+  <div class="grid" *ngIf="isEdit">
+    <div class="col-4 flex align-items-center gap-3">
+      <span>{{ 'TenantManagement::IsDefault' | abpLocalization }}</span>
+    </div>
+    <div class="col-8 flex align-items-center gap-3">
+      <p-toggleSwitch
+        [(ngModel)]="model.isDefault"
+        (ngModelChange)="onInput()"
+      ></p-toggleSwitch>
+    </div>
+  </div>
+
+  <!-- Redirect -->
+  <ng-container *ngIf="model.siteType === SiteType.Redirect">
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{ 'TenantManagement::DestinationPath' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <input
+          class="w-full"
+          (input)="onInput()"
+          id="loc-destinationPath"
+          type="text"
+          pInputText
+          [(ngModel)]="model.destinationPath"
+        />
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- VirtualFolder -->
+  <ng-container *ngIf="model.siteType === SiteType.VirtualFolder">
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{ 'TenantManagement::Source' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <input
+          class="w-full"
+          (input)="onInput()"
+          id="loc-source"
+          type="text"
+          pInputText
+          [(ngModel)]="model.source"
+        />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{ 'TenantManagement::SourceId' | abpLocalization }}</span>
+      </div>
+      <div class="col-8 flex align-items-center gap-3">
+        <input
+          class="w-full"
+          (input)="onInput()"
+          id="loc-sourceId"
+          type="text"
+          pInputText
+          [(ngModel)]="model.sourceId"
+        />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{
+          'TenantManagement::VirtualFolderType' | abpLocalization
+        }}</span>
+      </div>
+      <div class="col-8">
+        <p-select
+          id="loc-virtualFolderType"
+          [options]="virtualFolderTypes"
+          [(ngModel)]="model.virtualFolderType"
+          optionLabel="label"
+          optionValue="value"
+          (ngModelChange)="onInput()"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Angular -->
+  <ng-container *ngIf="model.siteType === SiteType.Angular">
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{ 'TenantManagement::Framework' | abpLocalization }}</span>
+      </div>
+      <div class="col-8">
+        <p-select
+          id="loc-frameworkType"
+          [options]="frameworkTypes"
+          [(ngModel)]="model.frameworkType"
+          optionLabel="label"
+          optionValue="value"
+          (ngModelChange)="onInput()"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-4 flex align-items-center gap-3">
+        <span>{{ 'TenantManagement::Style' | abpLocalization }}</span>
+      </div>
+      <div class="col-8">
+        <p-select
+          id="loc-styleType"
+          [options]="styleTypes"
+          [(ngModel)]="model.styleType"
+          optionLabel="label"
+          optionValue="value"
+          (ngModelChange)="onInput()"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12">
+        <span>{{ 'TenantManagement::Properties' | abpLocalization }}</span>
+        <p-button
+          icon="pi pi-plus"
+          [label]="'Infrastructure::Add' | abpLocalization"
+          [text]="true"
+          [raised]="true"
+          (click)="addProperty()"
+          class="ml-2"
+        ></p-button>
+      </div>
+      <div class="col-12" *ngIf="model.properties?.length">
+        <div
+          class="flex gap-2 align-items-center mb-2"
+          *ngFor="let p of model.properties; let i = index"
+        >
+          <input
+            class="flex-1"
+            type="text"
+            pInputText
+            [(ngModel)]="p.key"
+            (ngModelChange)="onInput()"
+            placeholder="Key"
+          />
+          <input
+            class="flex-1"
+            type="text"
+            pInputText
+            [(ngModel)]="p.value"
+            (ngModelChange)="onInput()"
+            placeholder="Value"
+          />
+          <p-button
+            icon="pi pi-trash"
+            [text]="true"
+            [rounded]="true"
+            severity="danger"
+            (click)="removeProperty(i)"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="!isEdit">
+      <div class="grid">
+        <div class="col-12">
+          <span>{{ 'TenantManagement::Modules' | abpLocalization }}</span>
+          <p-button
+            icon="pi pi-plus"
+            [label]="'Infrastructure::Add' | abpLocalization"
+            [text]="true"
+            [raised]="true"
+            (click)="addModule()"
+            class="ml-2"
+          ></p-button>
+        </div>
+        <div class="col-12" *ngIf="model.modules?.length">
+          <div
+            class="flex gap-2 align-items-center mb-2 flex-wrap"
+            *ngFor="let m of model.modules; let i = index"
+          >
+            <input
+              class="flex-1 min-w-10rem"
+              type="text"
+              pInputText
+              [(ngModel)]="m.url"
+              (ngModelChange)="onInput()"
+              placeholder="Url"
+            />
+            <input
+              class="flex-1 min-w-10rem"
+              type="text"
+              pInputText
+              [(ngModel)]="m.pluginName"
+              (ngModelChange)="onInput()"
+              placeholder="PluginName"
+            />
+            <input
+              class="w-6rem"
+              type="text"
+              pInputText
+              [(ngModel)]="m.loadLevel"
+              (ngModelChange)="onInput()"
+              placeholder="LoadLevel"
+            />
+            <input
+              class="w-6rem"
+              type="number"
+              pInputText
+              [(ngModel)]="m.orderIndex"
+              (ngModelChange)="onInput()"
+              placeholder="Order"
+            />
+            <input
+              class="flex-1 min-w-8rem"
+              type="text"
+              pInputText
+              [(ngModel)]="m.expose"
+              (ngModelChange)="onInput()"
+              placeholder="Expose"
+            />
+            <p-button
+              icon="pi pi-trash"
+              [text]="true"
+              [rounded]="true"
+              severity="danger"
+              (click)="removeModule(i)"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+      </div>
+    </div>
+  </div>
+  <ng-template #footer>
+    <p-button
+      icon="pi pi-times"
+      [label]="'Infrastructure::Cancel' | abpLocalization"
+      (click)="emitCancel()"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-secondary"
+    >
+    </p-button>
+    <p-button
+      [icon]="isEdit ? 'pi pi-check' : 'fa fa-plus'"
+      [label]="
+        isEdit
+          ? ('Infrastructure::Save' | abpLocalization)
+          : ('Infrastructure::Create' | abpLocalization)
+      "
+      (click)="emitSave()"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-primary"
+    >
+    </p-button>
+  </ng-template>
+</p-dialog>

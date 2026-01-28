@@ -1,0 +1,17 @@
+::ng-deep .p-progressbar-value {
+  background-color: cornflowerblue;
+}
+
+.location-row {
+  background: var(--blue-50) !important;
+}
+
+:host ::ng-deep .invalid {
+  border: 0.5px solid #eb3d3d !important;
+  border-radius: 7px;
+}
+
+.settings-dialog {
+  min-width: max(400px, 45vw);
+  max-width: min(900px, 90vw);
+}

@@ -1,12 +1,13 @@
-
 import type { ApplicationModuleDto } from '../microservices/models';
 
 import { Observable } from 'rxjs/internal/Observable';
 
-
 export class ServersideAutodetectService {
   // each service gets its own authFetch helper
-  private authFetch(input: RequestInfo, init: RequestInit = {}): Promise<Response> {
+  private authFetch(
+    input: RequestInfo,
+    init: RequestInit = {}
+  ): Promise<Response> {
     const token = window['getUserToken']();
     const headers = new Headers(init.headers);
     if (token) {
@@ -15,11 +16,13 @@ export class ServersideAutodetectService {
     return fetch(input, { ...init, headers });
   }
 
-
-  getDetectedModules(config?: Partial<any>): Observable<ApplicationModuleDto[]> {
+  getDetectedModules(
+    config?: Partial<any>
+  ): Observable<ApplicationModuleDto[]> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl = apiBase + '/api/Infrastructure/ServersideAutodetect/GetDetectedModules';
+    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
+    const baseUrl =
+      apiBase + '/api/Infrastructure/ServersideAutodetect/GetDetectedModules';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -41,45 +44,42 @@ export class ServersideAutodetectService {
     const options: RequestInit = {
       method: 'GET',
       headers,
-
     };
 
-    return new Observable<ApplicationModuleDto[]>(subscriber => {
+    return new Observable<ApplicationModuleDto[]>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
             if (!config?.skipHandleError) {
               // ← you can hook in your global reporter here
             }
-            return res.text().then(err => {
+            return res.text().then((err) => {
               subscriber.error(new Error(err || res.statusText));
             });
           }
 
-
-          const contentType = res.headers.get("Content-Type") || "";
-					if (contentType.includes("application/json")) {
-						return res.json().then(data => {
-							subscriber.next(data as ApplicationModuleDto[]);
-							subscriber.complete();
-						});
-					} else {
-						return res.text().then(data => {
-							subscriber.next(data as any);
-							subscriber.complete();
-						});
-					}
-
+          const contentType = res.headers.get('Content-Type') || '';
+          if (contentType.includes('application/json')) {
+            return res.json().then((data) => {
+              subscriber.next(data as ApplicationModuleDto[]);
+              subscriber.complete();
+            });
+          } else {
+            return res.text().then((data) => {
+              subscriber.next(data as any);
+              subscriber.complete();
+            });
+          }
         })
-        .catch(err => subscriber.error(err));
+        .catch((err) => subscriber.error(err));
     });
   }
-
 
   startDetect(config?: Partial<any>): Observable<void> {
     // baseUrl is already a quoted literal
-		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl = apiBase + '/api/Infrastructure/ServersideAutodetect/StartDetect';
+    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
+    const baseUrl =
+      apiBase + '/api/Infrastructure/ServersideAutodetect/StartDetect';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -101,39 +101,34 @@ export class ServersideAutodetectService {
     const options: RequestInit = {
       method: 'GET',
       headers,
-
     };
 
-    return new Observable<void>(subscriber => {
+    return new Observable<void>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
             if (!config?.skipHandleError) {
               // ← you can hook in your global reporter here
             }
-            return res.text().then(err => {
+            return res.text().then((err) => {
               subscriber.error(new Error(err || res.statusText));
             });
           }
 
-
-          const contentType = res.headers.get("Content-Type") || "";
-					if (contentType.includes("application/json")) {
-						return res.json().then(data => {
-							subscriber.next(data as void);
-							subscriber.complete();
-						});
-					} else {
-						return res.text().then(data => {
-							subscriber.next(data as any);
-							subscriber.complete();
-						});
-					}
-
+          const contentType = res.headers.get('Content-Type') || '';
+          if (contentType.includes('application/json')) {
+            return res.json().then((data) => {
+              subscriber.next(data as void);
+              subscriber.complete();
+            });
+          } else {
+            return res.text().then((data) => {
+              subscriber.next(data as any);
+              subscriber.complete();
+            });
+          }
         })
-        .catch(err => subscriber.error(err));
+        .catch((err) => subscriber.error(err));
     });
   }
-
-
 }

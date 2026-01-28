@@ -1,4 +1,3 @@
-
 interface Option<T> {
   key: Extract<keyof T, string>;
   value: T[Extract<keyof T, string>];
@@ -7,7 +6,6 @@ interface Option<T> {
 function isNumber(value: string | number): boolean {
   return value == Number(value);
 }
-
 
 function mapEnumToOptions<T>(_enum: T): Option<T>[] {
   const options: Option<T>[] = [];
@@ -22,11 +20,10 @@ function mapEnumToOptions<T>(_enum: T): Option<T>[] {
   return options;
 }
 
-
 export enum LocationType {
-  Virtual = 0,
-  Angular = 1,
-  Other = 2,
+  Proxy = 0,
+  Site = 1,
+  Location = 2,
 }
 
 export const locationTypeOptions = mapEnumToOptions(LocationType);

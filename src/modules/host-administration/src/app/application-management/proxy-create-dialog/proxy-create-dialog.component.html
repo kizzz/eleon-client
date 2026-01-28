@@ -1,0 +1,71 @@
+<p-dialog
+  [resizable]="false"
+  [header]="dialogHeader"
+  [visible]="visible"
+  (visibleChange)="visibleChange.emit($event)"
+  [modal]="true"
+  [contentStyle]="{height: '200px'}"
+  (onHide)="onDialogHide()"
+>
+  <div class="settings-dialog">
+    <div class="w-full">
+      <div class="dialog-standard">
+        <div class="grid">
+          <div class="col-4 flex align-items-center gap-3">
+            <span appRequired>{{ 'TenantManagement::Name' | abpLocalization }}</span>
+          </div>
+          <div class="col-8 flex align-items-center gap-3">
+            <input
+              [ngClass]="{ 'ng-invalid ng-dirty': nameEmpty }"
+              (input)="onInput()"
+              class="w-full"
+              id="proxy-name"
+              type="text"
+              pInputText
+              [(ngModel)]="model.name"
+            />
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-4 flex align-items-center gap-3">
+            <span>{{ 'TenantManagement::ApiKeyId' | abpLocalization }}</span>
+          </div>
+          <div class="col-8 flex align-items-center gap-3">
+            <input
+              class="w-full"
+              (input)="onInput()"
+              id="proxy-apiKeyId"
+              type="text"
+              pInputText
+              [(ngModel)]="model.apiKeyId"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #footer>
+    <p-button
+      icon="pi pi-times"
+      [label]="'Infrastructure::Cancel' | abpLocalization"
+      (click)="emitCancel()"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-secondary"
+    >
+    </p-button>
+    <p-button
+      [icon]="isEdit ? 'pi pi-check' : 'fa fa-plus'"
+      [label]="
+        isEdit
+          ? ('Infrastructure::Save' | abpLocalization)
+          : ('Infrastructure::Create' | abpLocalization)
+      "
+      (click)="emitSave()"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-primary"
+    >
+    </p-button>
+  </ng-template>
+</p-dialog>

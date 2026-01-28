@@ -1,0 +1,92 @@
+<app-page-title
+  [title]="'TenantManagement::Locations' | abpLocalization"
+  icon="fa-solid fa-project-diagram"
+>
+</app-page-title>
+
+<div class="content">
+  <div class="grid m-0">
+    <div class="col-12 md:col-3 lg:col-3">
+      <p-tree
+        class="w-full"
+        [value]="locationsTree"
+        [(selection)]="selectedLocation"
+        selectionMode="single"
+        [loading]="loading"
+        (onNodeSelect)="nodeSelect()"
+        scrollHeight="80vh"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="40"
+      >
+        <ng-template pTemplate="root" let-root>
+          <div class="flex align-items-center justify-content-between">
+            <span class="flex align-items-center gap-2">
+              <i
+                *ngIf="root?.data?.locationType === LocationType.Proxy"
+                class="fa-solid fa-project-diagram"
+              ></i>
+              <i
+                *ngIf="root?.data?.locationType === LocationType.Location"
+                class="fa-solid fa-globe"
+              ></i>
+              <i
+                *ngIf="root?.data?.locationType === LocationType.Site"
+                class="fa-solid fa-folder"
+              ></i>
+              <b>{{ root?.data?.name }}</b>
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="location" let-location>
+          <div class="flex align-items-center justify-content-between">
+            <span class="flex align-items-center gap-2">
+              <i
+                *ngIf="location?.data?.locationType === LocationType.Proxy"
+                class="fa-solid fa-project-diagram"
+              ></i>
+              <i
+                *ngIf="location?.data?.locationType === LocationType.Location"
+                class="fa-solid fa-globe"
+              ></i>
+              <i
+                *ngIf="location?.data?.locationType === LocationType.Site"
+                class="fa-solid fa-folder"
+              ></i>
+              {{ location?.data?.name }}
+            </span>
+          </div>
+        </ng-template>
+      </p-tree>
+    </div>
+    <div class="col-12 md:col-9 lg:col-9">
+      <app-location-details-panel
+        [location]="selectedLocation"
+        (edit)="editLocation($event)"
+        (delete)="deleteLocation($event)"
+      >
+      </app-location-details-panel>
+    </div>
+  </div>
+</div>
+
+<app-proxy-create-dialog
+  *ngIf="editProxyModel || newProxyModel"
+  [(visible)]="displayProxyDialog"
+  [model]="(editProxyModel || newProxyModel)!"
+  [isEdit]="!!editProxyModel"
+  [allLocations]="locations"
+  (save)="onProxyFormSave($event)"
+  (cancel)="onProxyFormCancel()"
+>
+</app-proxy-create-dialog>
+
+<app-location-create-dialog
+  *ngIf="editLocationModel || newLocationModel"
+  [(visible)]="displayLocationDialog"
+  [model]="(editLocationModel || newLocationModel)!"
+  [isEdit]="!!editLocationModel"
+  [allLocations]="locations"
+  (save)="onLocationFormSave($event)"
+  (cancel)="onLocationFormCancel()"
+>
+</app-location-create-dialog>

@@ -1,8 +1,8 @@
-import type { LocationType } from './location-type.enum';
+import type { SiteType } from './site-type.enum';
 
 export interface Location {
   path?: string;
-  type: LocationType;
+  type: SiteType;
   sourceUrl?: string;
   defaultRedirect?: string;
   resourceId?: string;

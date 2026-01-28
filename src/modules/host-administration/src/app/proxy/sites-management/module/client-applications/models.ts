@@ -3,7 +3,10 @@ import type { ClientApplicationStyleType } from '../../../common/module/constant
 import type { ClientApplicationType } from '../../../common/module/constants/client-application-type.enum';
 import type { ErrorHandlingLevel } from '../../../module-collector/commons/module/proxy/constants/error-handling-level.enum';
 import type { ApplicationType } from '../../../module-collector/commons/module/proxy/constants/application-type.enum';
-import type { ApplicationModuleDto, EleoncoreModuleDto } from '../microservices/models';
+import type {
+  ApplicationModuleDto,
+  EleoncoreModuleDto,
+} from '../microservices/models';
 
 export interface ClientApplicationDto {
   id?: string;

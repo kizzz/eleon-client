@@ -1,0 +1,81 @@
+<div class="location-details-panel w-full h-full">
+  <ng-container *ngIf="!location || !data">
+    <div
+      class="flex flex-column align-items-center justify-content-center gap-3 p-4 text-color-secondary"
+    >
+      <i class="fa-solid fa-globe text-4xl"></i>
+      <span>{{
+        'TenantManagement::Locations:SelectLocation' | abpLocalization
+      }}</span>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="location && data">
+    <div class="flex flex-column gap-3 p-3">
+      <div class="flex align-items-center justify-content-between gap-2">
+        <h3 class="m-0 font-semibold">{{ data.name ?? '—' }}</h3>
+        <span class="flex gap-2">
+          <p-button
+            icon="pi pi-pencil"
+            [label]="'Infrastructure::Edit' | abpLocalization"
+            [text]="true"
+            [raised]="true"
+            (click)="onEdit()"
+          ></p-button>
+          <p-button
+            icon="pi pi-trash"
+            [label]="'Infrastructure::Delete' | abpLocalization"
+            [text]="true"
+            [raised]="true"
+            severity="danger"
+            [disabled]="data.isSystem"
+            (click)="onDelete()"
+          ></p-button>
+        </span>
+      </div>
+
+      <div class="grid">
+        <div class="col-4 font-medium text-color-secondary">
+          {{ 'TenantManagement::LocationType' | abpLocalization }}
+        </div>
+        <div class="col-8">{{ locationTypeLabel(data.locationType) }}</div>
+      </div>
+      <div class="grid" *ngIf="data.locationType !== LocationType.Proxy">
+        <div class="col-4 font-medium text-color-secondary">
+          {{ 'TenantManagement::SiteType' | abpLocalization }}
+        </div>
+        <div class="col-8">{{ siteTypeLabel(data.siteType) }}</div>
+      </div>
+      <div class="grid" *ngIf="data.path">
+        <div class="col-4 font-medium text-color-secondary">
+          {{ 'TenantManagement::Path' | abpLocalization }}
+        </div>
+        <div class="col-8">{{ data.path }}</div>
+      </div>
+      <div class="grid" *ngIf="data.hostname">
+        <div class="col-4 font-medium text-color-secondary">
+          {{ 'TenantManagement::Hostname' | abpLocalization }}
+        </div>
+        <div class="col-8">{{ data.hostname }}</div>
+      </div>
+      <div class="grid" *ngIf="data.locationType !== LocationType.Proxy">
+        <div class="col-4 font-medium text-color-secondary">
+          {{ 'TenantManagement::IsEnabled' | abpLocalization }}
+        </div>
+        <div class="col-8">
+          {{
+            data.isEnabled
+              ? ('Infrastructure::Yes' | abpLocalization)
+              : ('Infrastructure::No' | abpLocalization)
+          }}
+        </div>
+      </div>
+      <div class="grid" *ngIf="data.isDefault">
+        <div class="col-4 font-medium text-color-secondary">
+          {{ 'TenantManagement::IsDefault' | abpLocalization }}
+        </div>
+        <div class="col-8">{{ 'Infrastructure::Yes' | abpLocalization }}</div>
+      </div>
+    </div>
+  </ng-container>
+</div>

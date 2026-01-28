@@ -1,7 +1,5 @@
 {
-  "generated": [
-    "SitesManagement"
-  ],
+  "generated": ["SitesManagement"],
   "modules": {
     "abp": {
       "rootPath": "abp",
@@ -28881,6 +28879,859 @@
             }
           }
         },
+        "VPortal.SitesManagement.Module.Controllers.LocationController": {
+          "controllerName": "Location",
+          "controllerGroupName": "Location",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "VPortal.SitesManagement.Module.Controllers.LocationController",
+          "interfaces": [
+            {
+              "type": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "name": "ILocationAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                    "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+                  }
+                },
+                {
+                  "name": "GetListAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                    "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+                  }
+                },
+                {
+                  "name": "GetRootsAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                    "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+                  }
+                },
+                {
+                  "name": "GetChildrenAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "parentId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                    "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+                  }
+                },
+                {
+                  "name": "CreateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.SitesManagement.Module.Locations.LocationDto, Eleon.SitesManagement.Module.Full",
+                      "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                      "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                    "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "VPortal.SitesManagement.Module.Locations.LocationDto, Eleon.SitesManagement.Module.Full",
+                      "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                      "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                    "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "GetByTenantIdAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "tenantId",
+                      "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                      "type": "System.Guid?",
+                      "typeSimple": "string?",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                    "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+                  }
+                },
+                {
+                  "name": "GetEnabledApplicationsAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                    "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+                  }
+                },
+                {
+                  "name": "GetDefaultApplicationAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                    "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+                  }
+                },
+                {
+                  "name": "AddModuleToApplication",
+                  "parametersOnMethod": [
+                    {
+                      "name": "addApplicationModuleDto",
+                      "typeAsString": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto, Eleon.InternalCommons.Lib.Full",
+                      "type": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto",
+                      "typeSimple": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "RemoveModuleFromApplication",
+                  "parametersOnMethod": [
+                    {
+                      "name": "applicationId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "moduleId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "AddBulkModulesToApplication",
+                  "parametersOnMethod": [
+                    {
+                      "name": "modules",
+                      "typeAsString": "System.Collections.Generic.List`1[[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto, Eleon.InternalCommons.Lib.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
+                      "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto>",
+                      "typeSimple": "[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto]",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "cancellationToken",
+                      "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                      "type": "System.Threading.CancellationToken",
+                      "typeSimple": "System.Threading.CancellationToken",
+                      "isOptional": true,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsyncByIdAndCancellationToken": {
+              "uniqueName": "GetAsyncByIdAndCancellationToken",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/Get",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "GetListAsyncByCancellationToken": {
+              "uniqueName": "GetListAsyncByCancellationToken",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/GetAllAsync",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "GetRootsAsyncByCancellationToken": {
+              "uniqueName": "GetRootsAsyncByCancellationToken",
+              "name": "GetRootsAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/roots",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "GetChildrenAsyncByParentIdAndCancellationToken": {
+              "uniqueName": "GetChildrenAsyncByParentIdAndCancellationToken",
+              "name": "GetChildrenAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/children",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "parentId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "parentId",
+                  "name": "parentId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "CreateAsyncByInputAndCancellationToken": {
+              "uniqueName": "CreateAsyncByInputAndCancellationToken",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/CoreInfrastructure/Locations/CreateAsync",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.SitesManagement.Module.Locations.LocationDto, Eleon.SitesManagement.Module.Full",
+                  "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "UpdateAsyncByInputAndCancellationToken": {
+              "uniqueName": "UpdateAsyncByInputAndCancellationToken",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/CoreInfrastructure/Locations/Update",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "VPortal.SitesManagement.Module.Locations.LocationDto, Eleon.SitesManagement.Module.Full",
+                  "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "DeleteAsyncByIdAndCancellationToken": {
+              "uniqueName": "DeleteAsyncByIdAndCancellationToken",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/CoreInfrastructure/Locations/Delete",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "GetByTenantIdAsyncByTenantIdAndCancellationToken": {
+              "uniqueName": "GetByTenantIdAsyncByTenantIdAndCancellationToken",
+              "name": "GetByTenantIdAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/GetByTenantIdAsync",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "tenantId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "tenantId",
+                  "name": "tenantId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "GetEnabledApplicationsAsyncByCancellationToken": {
+              "uniqueName": "GetEnabledApplicationsAsyncByCancellationToken",
+              "name": "GetEnabledApplicationsAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/enabled-applications",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Locations.LocationDto>",
+                "typeSimple": "[VPortal.SitesManagement.Module.Locations.LocationDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "GetDefaultApplicationAsyncByCancellationToken": {
+              "uniqueName": "GetDefaultApplicationAsyncByCancellationToken",
+              "name": "GetDefaultApplicationAsync",
+              "httpMethod": "GET",
+              "url": "api/CoreInfrastructure/Locations/GetDefaultApplication",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [],
+              "returnValue": {
+                "type": "VPortal.SitesManagement.Module.Locations.LocationDto",
+                "typeSimple": "VPortal.SitesManagement.Module.Locations.LocationDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "AddModuleToApplicationByAddApplicationModuleDtoAndCancellationToken": {
+              "uniqueName": "AddModuleToApplicationByAddApplicationModuleDtoAndCancellationToken",
+              "name": "AddModuleToApplication",
+              "httpMethod": "POST",
+              "url": "api/CoreInfrastructure/Locations/AddModuleToApplication",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "addApplicationModuleDto",
+                  "typeAsString": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto, Eleon.InternalCommons.Lib.Full",
+                  "type": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto",
+                  "typeSimple": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "addApplicationModuleDto",
+                  "name": "addApplicationModuleDto",
+                  "jsonName": null,
+                  "type": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto",
+                  "typeSimple": "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "RemoveModuleFromApplicationByApplicationIdAndModuleIdAndCancellationToken": {
+              "uniqueName": "RemoveModuleFromApplicationByApplicationIdAndModuleIdAndCancellationToken",
+              "name": "RemoveModuleFromApplication",
+              "httpMethod": "DELETE",
+              "url": "api/CoreInfrastructure/Locations/RemoveModuleToApplication",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "applicationId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "moduleId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "applicationId",
+                  "name": "applicationId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "moduleId",
+                  "name": "moduleId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            },
+            "AddBulkModulesToApplicationByModulesAndCancellationToken": {
+              "uniqueName": "AddBulkModulesToApplicationByModulesAndCancellationToken",
+              "name": "AddBulkModulesToApplication",
+              "httpMethod": "POST",
+              "url": "api/CoreInfrastructure/Locations/AddBulkModulesToApplication",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "modules",
+                  "typeAsString": "System.Collections.Generic.List`1[[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto, Eleon.InternalCommons.Lib.Full, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib",
+                  "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto>",
+                  "typeSimple": "[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto]",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "cancellationToken",
+                  "typeAsString": "System.Threading.CancellationToken, System.Private.CoreLib",
+                  "type": "System.Threading.CancellationToken",
+                  "typeSimple": "System.Threading.CancellationToken",
+                  "isOptional": true,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "modules",
+                  "name": "modules",
+                  "jsonName": null,
+                  "type": "System.Collections.Generic.List<VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto>",
+                  "typeSimple": "[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto]",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "VPortal.SitesManagement.Module.Locations.ILocationAppService",
+              "baseUrl": ""
+            }
+          }
+        },
         "VPortal.SitesManagement.Module.Controllers.MicroserviceController": {
           "controllerName": "Microservice",
           "controllerGroupName": "Microservice",
@@ -41116,72 +41967,31 @@
         "InActive",
         "TenantGenerationFailed"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5, 6, 7],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ApiKeyType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Undefined",
-        "Custom",
-        "Gateway",
-        "SDK",
-        "External"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Undefined", "Custom", "Gateway", "SDK", "External"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.BackgroundJobExecutionStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Starting",
-        "Started",
-        "Completed",
-        "Errored",
-        "Cancelled"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Starting", "Started", "Completed", "Errored", "Cancelled"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.BackgroundJobMessageType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Info",
-        "Error",
-        "Warn"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Info", "Error", "Warn"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -41196,34 +42006,15 @@
         "Retring",
         "Cancelled"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.BillingPeriodType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Month",
-        "Year",
-        "Weekly",
-        "Quarterly",
-        "None"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Month", "Year", "Weekly", "Quarterly", "None"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
@@ -41237,81 +42028,39 @@
         "CustomAngular",
         "VirtualDirectory"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ClientApplicationStyleType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "PrimeNg",
-        "SakaiNg",
-        "Bootstrap",
-        "Material"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["None", "PrimeNg", "SakaiNg", "Bootstrap", "Material"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ClientApplicationType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Portal",
-        "ShoppingCart"
-      ],
-      "enumValues": [
-        1,
-        2
-      ],
+      "enumNames": ["Portal", "ShoppingCart"],
+      "enumValues": [1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.DocumentTemplateElementMapFunctionType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "XQuery",
-        "XSLT"
-      ],
-      "enumValues": [
-        1,
-        2
-      ],
+      "enumNames": ["XQuery", "XSLT"],
+      "enumValues": [1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.EventBusProvider": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Undefined",
-        "NATS",
-        "RabbitMQ",
-        "MassTransit",
-        "InMemory"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Undefined", "NATS", "RabbitMQ", "MassTransit", "InMemory"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
@@ -41325,113 +42074,55 @@
         "Error",
         "Disconnected"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ExternalLinkLoginType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "Sms",
-        "Email",
-        "Password"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["None", "Sms", "Email", "Password"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ExternalLoginProviderType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "AzureEntra",
-        "Local"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["None", "AzureEntra", "Local"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.FileArchiveHierarchyType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Physical",
-        "Virtual"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["Physical", "Virtual"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.FileManagerPermissionType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Read",
-        "Write",
-        "Modify"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["Read", "Write", "Modify"],
+      "enumValues": [1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.FileReviewerType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "User",
-        "Role",
-        "OrganizationUnit",
-        "External"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["User", "Role", "OrganizationUnit", "External"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.FileShareStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "Readonly",
-        "Comment",
-        "Modify"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["None", "Readonly", "Comment", "Modify"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
@@ -41446,44 +42137,23 @@
         "Active",
         "Archived"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.GatewayProtocol": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "HTTPS",
-        "WSS"
-      ],
-      "enumValues": [
-        1,
-        2
-      ],
+      "enumNames": ["HTTPS", "WSS"],
+      "enumValues": [1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.GatewayRegistrationKeyStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "NotUsed",
-        "Failed",
-        "Succeeded"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["NotUsed", "Failed", "Succeeded"],
+      "enumValues": [1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
@@ -41498,14 +42168,7 @@
         "WaitingForAccept",
         "Rejected"
       ],
-      "enumValues": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
+      "enumValues": [1, 2, 3, 4, 5, 6],
       "genericArguments": null,
       "properties": null
     },
@@ -41522,36 +42185,15 @@
         "Discount",
         "Adjustment"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5, 6, 7],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.InvoiceStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Draft",
-        "Open",
-        "Paid",
-        "Uncollectible",
-        "Void"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Draft", "Open", "Paid", "Uncollectible", "Void"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
@@ -41565,13 +42207,7 @@
         "Completed",
         "Cancelled"
       ],
-      "enumValues": [
-        1,
-        3,
-        4,
-        5,
-        6
-      ],
+      "enumValues": [1, 3, 4, 5, 6],
       "genericArguments": null,
       "properties": null
     },
@@ -41585,179 +42221,87 @@
         "Completed",
         "Cancelled"
       ],
-      "enumValues": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.JobSchedulerTaskStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Inactive",
-        "Ready",
-        "Running"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["Inactive", "Ready", "Running"],
+      "enumValues": [1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LifecycleActorStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Enroute",
-        "Reviewed",
-        "Approved",
-        "Rejected",
-        "Canceled"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Enroute", "Reviewed", "Approved", "Rejected", "Canceled"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LifecycleActorTypes": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Initiator",
-        "User",
-        "Role",
-        "Beneficiary"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["Initiator", "User", "Role", "Beneficiary"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LifecycleApprovalType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Regular",
-        "Parallel",
-        "AtLeast"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Regular", "Parallel", "AtLeast"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LifecycleConditionTargetType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "State",
-        "Actor"
-      ],
-      "enumValues": [
-        1,
-        2
-      ],
+      "enumNames": ["State", "Actor"],
+      "enumValues": [1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LifecycleFinishedStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "Rejected",
-        "Approved"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["None", "Rejected", "Approved"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LifecycleStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "New",
-        "Enroute",
-        "Complete",
-        "Canceled"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["New", "Enroute", "Complete", "Canceled"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.LinkShareStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Active",
-        "Suspended",
-        "Canceled"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Active", "Suspended", "Canceled"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ModuleType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Client",
-        "Server",
-        "Resource"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["Client", "Server", "Resource"],
+      "enumValues": [1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.NotificationSourceType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Undefined",
-        "Chat",
-        "Notification"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Undefined", "Chat", "Notification"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -41773,83 +42317,39 @@
         "Sms",
         "TwoFactor"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5, 6],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.NotificatorRecepientType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "User",
-        "Role",
-        "Direct",
-        "OrganizationUnit"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["User", "Role", "Direct", "OrganizationUnit"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.PackageModuleType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "User",
-        "Role",
-        "OrgUnit",
-        "Feature",
-        "Service"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["User", "Role", "OrgUnit", "Feature", "Service"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.PackageType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "User",
-        "Tenant"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["User", "Tenant"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.PaymentMethod": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "CreditCard",
-        "PayPal",
-        "BankTransfer"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["CreditCard", "PayPal", "BankTransfer"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -41864,118 +42364,63 @@
         "Cash",
         "Advance"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.ServiceHealthStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Unknown",
-        "Healthy",
-        "Unhealthy"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Unknown", "Healthy", "Unhealthy"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.TenantStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Active",
-        "Suspended",
-        "Terminated"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["Active", "Suspended", "Terminated"],
+      "enumValues": [1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.TextFormat": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Plaintext",
-        "Scriban",
-        "Json"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Plaintext", "Scriban", "Json"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.TimePeriodType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "OneTime",
-        "Daily",
-        "Weekly",
-        "Monthly"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["OneTime", "Daily", "Weekly", "Monthly"],
+      "enumValues": [1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.TimeUnit": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Minutes",
-        "Hours",
-        "Days",
-        "Weeks",
-        "Months"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["Minutes", "Hours", "Days", "Weeks", "Months"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
     "Common.Module.Constants.UserOtpType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "Email",
-        "Sms",
-        "Mixed"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["None", "Email", "Sms", "Mixed"],
+      "enumValues": [0, 1, 2, 3],
+      "genericArguments": null,
+      "properties": null
+    },
+    "Common.Module.Constants.VirtualFolderType": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": ["None", "Url", "Provider"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -41990,14 +42435,7 @@
         "DriverClient",
         "ProxyClient"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null
     },
@@ -42142,16 +42580,8 @@
     "Common.Module.Permissions.FeatureValueType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Toggle",
-        "Text",
-        "Number"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Toggle", "Text", "Number"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -44845,16 +45275,8 @@
     "Eleon.Logging.Lib.SystemLog.Contracts.SystemLogLevel": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Info",
-        "Warning",
-        "Critical"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Info", "Warning", "Critical"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -44869,14 +45291,7 @@
         "Decimal",
         "Boolean"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null
     },
@@ -45636,14 +46051,8 @@
     "Eleon.Templating.Module.Templates.TemplateType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Action",
-        "Notification"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["Action", "Notification"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
@@ -45932,32 +46341,16 @@
     "EleonsoftModuleCollector.Commons.Module.Constants.IdentitySettings.IdentitySettingType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "String",
-        "Boolean",
-        "Number",
-        "Template"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["String", "Boolean", "Number", "Template"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
     "EleonsoftModuleCollector.FileManager.Module.FileManager.Module.Domain.Shared.Constants.FileManagerType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "FileArchive",
-        "Provider"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["FileArchive", "Provider"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
@@ -46561,16 +46954,8 @@
     "EleonsoftModuleCollector.HealthCheckModule.HealthCheckModule.Module.Domain.Shared.Constants.HealthCheckStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "OK",
-        "InProgress",
-        "Failed"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["OK", "InProgress", "Failed"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -47438,30 +47823,16 @@
     "EleonsoftSdk.modules.Messaging.Module.SystemMessages.HealthCheck.ReportInformationSeverity": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Info",
-        "Warning",
-        "Error"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Info", "Warning", "Error"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "EleonsoftSdk.modules.Messaging.Module.SystemMessages.Notificator.NotificationPriority": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Normal",
-        "High"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["Normal", "High"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
@@ -49337,12 +49708,7 @@
         "InSameVehicleAtPickupTime",
         "InSameVehicleAtDeliveryTime"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
@@ -50123,68 +50489,32 @@
     "ModuleCollector.CollaborationModule.Collaboration.Feature.Module.Domain.Shared.Constants.ChatMemberRole": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Regular",
-        "Administrator",
-        "Owner"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Regular", "Administrator", "Owner"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.CollaborationModule.Collaboration.Feature.Module.Domain.Shared.Constants.ChatMemberType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Undefined",
-        "User",
-        "Role"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Undefined", "User", "Role"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.CollaborationModule.Collaboration.Feature.Module.Domain.Shared.Constants.ChatMessageSenderType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "User",
-        "System"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["None", "User", "System"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.CollaborationModule.Collaboration.Feature.Module.Domain.Shared.Constants.ChatMessageSeverity": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "Info",
-        "Success",
-        "Warning",
-        "Error"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
+      "enumNames": ["None", "Info", "Success", "Warning", "Error"],
+      "enumValues": [0, 1, 2, 3, 4],
       "genericArguments": null,
       "properties": null
     },
@@ -50204,81 +50534,39 @@
         "LocalizedText",
         "MemberJoined"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.CollaborationModule.Collaboration.Feature.Module.Domain.Shared.Constants.ChatRoomStatus": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "None",
-        "Opened",
-        "Closed"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["None", "Opened", "Closed"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.CollaborationModule.Collaboration.Feature.Module.Domain.Shared.Constants.ChatRoomType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Private",
-        "Group",
-        "SupportTicket"
-      ],
-      "enumValues": [
-        1,
-        2,
-        4
-      ],
+      "enumNames": ["Private", "Group", "SupportTicket"],
+      "enumValues": [1, 2, 4],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.Commons.Module.Proxy.Constants.ApplicationType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Application",
-        "Module"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["Application", "Module"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
     "ModuleCollector.Commons.Module.Proxy.Constants.ErrorHandlingLevel": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Debug",
-        "Error",
-        "Critical"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Debug", "Error", "Critical"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -50314,16 +50602,8 @@
     "ModuleCollector.FileManager.Module.FileManager.Module.Domain.Shared.Constants.PermissionActorType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "OrganizationUnit",
-        "Role",
-        "User"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["OrganizationUnit", "Role", "User"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -51258,7 +51538,7 @@
         {
           "name": "Type",
           "jsonName": null,
-          "type": "ModuleCollector.SitesManagement.Module.SitesManagement.Module.Domain.Managers.Locations.LocationType",
+          "type": "ModuleCollector.SitesManagement.Module.SitesManagement.Module.Domain.Managers.Locations.SiteType",
           "typeSimple": "enum",
           "isRequired": false,
           "minLength": null,
@@ -51344,16 +51624,16 @@
     "ModuleCollector.SitesManagement.Module.SitesManagement.Module.Domain.Managers.Locations.LocationType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Virtual",
-        "Angular",
-        "Other"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Proxy", "Site", "Location"],
+      "enumValues": [0, 1, 2],
+      "genericArguments": null,
+      "properties": null
+    },
+    "ModuleCollector.SitesManagement.Module.SitesManagement.Module.Domain.Managers.Locations.SiteType": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": ["None", "Redirect", "Angular", "VirtualFolder"],
+      "enumValues": [0, 1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
@@ -51987,73 +52267,11 @@
         "NetworkAuthenticationRequired"
       ],
       "enumValues": [
-        100,
-        101,
-        102,
-        103,
-        200,
-        201,
-        202,
-        203,
-        204,
-        205,
-        206,
-        207,
-        208,
-        226,
-        300,
-        300,
-        301,
-        301,
-        302,
-        302,
-        303,
-        303,
-        304,
-        305,
-        306,
-        307,
-        307,
-        308,
-        400,
-        401,
-        402,
-        403,
-        404,
-        405,
-        406,
-        407,
-        408,
-        409,
-        410,
-        411,
-        412,
-        413,
-        414,
-        415,
-        416,
-        417,
-        421,
-        422,
-        422,
-        423,
-        424,
-        426,
-        428,
-        429,
-        431,
-        451,
-        500,
-        501,
-        502,
-        503,
-        504,
-        505,
-        506,
-        507,
-        508,
-        510,
-        511
+        100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 207, 208, 226,
+        300, 300, 301, 301, 302, 302, 303, 303, 304, 305, 306, 307, 307, 308,
+        400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413,
+        414, 415, 416, 417, 421, 422, 422, 423, 424, 426, 428, 429, 431, 451,
+        500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511
       ],
       "genericArguments": null,
       "properties": null
@@ -52063,9 +52281,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "HasValue",
@@ -52910,9 +53126,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "LastModificationTime",
@@ -52945,9 +53159,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "CreationTime",
@@ -52988,9 +53200,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TKey"
-      ],
+      "genericArguments": ["TKey"],
       "properties": [
         {
           "name": "Id",
@@ -53011,9 +53221,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "LastModificationTime",
@@ -53046,9 +53254,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "CreationTime",
@@ -53081,9 +53287,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TKey"
-      ],
+      "genericArguments": ["TKey"],
       "properties": [
         {
           "name": "Id",
@@ -53104,9 +53308,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "IsDeleted",
@@ -53151,9 +53353,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "IsDeleted",
@@ -53219,9 +53419,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "Items",
@@ -53263,9 +53461,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "TotalCount",
@@ -55186,16 +55382,8 @@
     "Volo.Abp.Auditing.EntityChangeType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Created",
-        "Updated",
-        "Deleted"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["Created", "Updated", "Deleted"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
     },
@@ -56962,16 +57150,8 @@
     "Volo.Abp.MultiTenancy.MultiTenancySides": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Tenant",
-        "Host",
-        "Both"
-      ],
-      "enumValues": [
-        1,
-        2,
-        3
-      ],
+      "enumNames": ["Tenant", "Host", "Both"],
+      "enumValues": [1, 2, 3],
       "genericArguments": null,
       "properties": null
     },
@@ -56988,9 +57168,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "Name",
@@ -58802,17 +58980,7 @@
         "ActionRequiredAccountManager",
         "ArchiveAccountManager"
       ],
-      "enumValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
+      "enumValues": [0, 1, 2, 3, 4, 5, 6, 7, 8],
       "genericArguments": null,
       "properties": null
     },
@@ -61399,14 +61567,8 @@
     "VPortal.FileManager.Module.Constants.EntryKind": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "File",
-        "Folder"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["File", "Folder"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
@@ -65021,9 +65183,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "Value",
@@ -70375,32 +70535,255 @@
     "VPortal.SitesManagement.Module.Consts.ItemType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Category",
-        "MenuItem"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["Category", "MenuItem"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null
     },
     "VPortal.SitesManagement.Module.Consts.MenuType": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "General",
-        "User",
-        "Top"
-      ],
-      "enumValues": [
-        0,
-        1,
-        2
-      ],
+      "enumNames": ["General", "User", "Top"],
+      "enumValues": [0, 1, 2],
       "genericArguments": null,
       "properties": null
+    },
+    "VPortal.SitesManagement.Module.Locations.LocationDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LocationType",
+          "jsonName": null,
+          "type": "ModuleCollector.SitesManagement.Module.SitesManagement.Module.Domain.Managers.Locations.LocationType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SiteType",
+          "jsonName": null,
+          "type": "ModuleCollector.SitesManagement.Module.SitesManagement.Module.Domain.Managers.Locations.SiteType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Hostname",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Path",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ParentId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsEnabled",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ApiKeyId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DestinationPath",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Source",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SourceId",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "VirtualFolderType",
+          "jsonName": null,
+          "type": "Common.Module.Constants.VirtualFolderType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FrameworkType",
+          "jsonName": null,
+          "type": "Common.Module.Constants.ClientApplicationFrameworkType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "StyleType",
+          "jsonName": null,
+          "type": "Common.Module.Constants.ClientApplicationStyleType",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Modules",
+          "jsonName": null,
+          "type": "[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto]",
+          "typeSimple": "[VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Properties",
+          "jsonName": null,
+          "type": "[VPortal.SitesManagement.Module.ClientApplications.ClientApplicationPropertyDto]",
+          "typeSimple": "[VPortal.SitesManagement.Module.ClientApplications.ClientApplicationPropertyDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsDefault",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsSystem",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
     },
     "VPortal.SitesManagement.Module.Microservices.ApplicationModuleDto": {
       "baseType": null,

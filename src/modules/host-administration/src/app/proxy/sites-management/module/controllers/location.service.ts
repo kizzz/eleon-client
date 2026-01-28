@@ -1,18 +1,10 @@
-import type {
-  ClientApplicationDto,
-  CreateClientApplicationDto,
-  FullClientApplicationDto,
-  ModuleSettingsDto,
-  UpdateClientApplicationDto,
-} from '../client-applications/models';
+import type { LocationDto } from '../locations/models';
 
 import type { ApplicationModuleDto } from '../microservices/models';
 
-import type { Location } from '../../../module-collector/sites-management/module/sites-management/module/domain/managers/locations/models';
-
 import { Observable } from 'rxjs/internal/Observable';
 
-export class ClientApplicationService {
+export class LocationService {
   // each service gets its own authFetch helper
   private authFetch(
     input: RequestInfo,
@@ -26,15 +18,15 @@ export class ClientApplicationService {
     return fetch(input, { ...init, headers });
   }
 
-  addBulkModulesToApplicationByModules(
+  addBulkModulesToApplicationByModulesAndCancellationToken(
     modules: ApplicationModuleDto[],
+    cancellationToken?: any,
     config?: Partial<any>
   ): Observable<boolean> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/AddBulkModulesToApplication';
+      apiBase + '/api/CoreInfrastructure/Locations/AddBulkModulesToApplication';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -89,15 +81,15 @@ export class ClientApplicationService {
     });
   }
 
-  addModuleToApplicationByAddApplicationModuleDto(
+  addModuleToApplicationByAddApplicationModuleDtoAndCancellationToken(
     addApplicationModuleDto: ApplicationModuleDto,
+    cancellationToken?: any,
     config?: Partial<any>
   ): Observable<boolean> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/AddModuleToApplication';
+      apiBase + '/api/CoreInfrastructure/Locations/AddModuleToApplication';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -153,13 +145,13 @@ export class ClientApplicationService {
   }
 
   create(
-    input: CreateClientApplicationDto,
+    input: LocationDto,
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ClientApplicationDto> {
+  ): Observable<LocationDto> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ClientApplications/CreateAsync';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/CreateAsync';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -185,7 +177,7 @@ export class ClientApplicationService {
       body: JSON.stringify(input),
     };
 
-    return new Observable<ClientApplicationDto>((subscriber) => {
+    return new Observable<LocationDto>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -200,7 +192,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto);
+              subscriber.next(data as LocationDto);
               subscriber.complete();
             });
           } else {
@@ -214,15 +206,30 @@ export class ClientApplicationService {
     });
   }
 
-  delete(id: string, config?: Partial<any>): Observable<void> {
+  delete(
+    id: string,
+    cancellationToken?: any,
+    config?: Partial<any>
+  ): Observable<void> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + `/api/CoreInfrastructure/ClientApplications/${id}`;
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/Delete';
 
     // build ?a=1&b=2…
     const queryString = (() => {
       const qp = new URLSearchParams();
+
+      {
+        const raw = id;
+        if (
+          raw !== undefined &&
+          raw !== null &&
+          (typeof raw !== 'string' || raw !== '') &&
+          !(Array.isArray(raw) && raw?.length == 0)
+        ) {
+          qp.append('id', String(raw));
+        }
+      }
 
       const s = qp.toString();
       return s ? `?${s}` : '';
@@ -271,143 +278,28 @@ export class ClientApplicationService {
     });
   }
 
-  get(id: string, config?: Partial<any>): Observable<ClientApplicationDto> {
-    // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + `/api/CoreInfrastructure/ClientApplications/${id}`;
-
-    // build ?a=1&b=2…
-    const queryString = (() => {
-      const qp = new URLSearchParams();
-
-      const s = qp.toString();
-      return s ? `?${s}` : '';
-    })();
-
-    const eleoncoreApiUrl = baseUrl + queryString;
-
-    // headers
-    const headers: HeadersInit = {};
-    if (!config?.skipAddingHeader) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // options
-    const options: RequestInit = {
-      method: 'GET',
-      headers,
-    };
-
-    return new Observable<ClientApplicationDto>((subscriber) => {
-      this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
-          if (!res.ok) {
-            if (!config?.skipHandleError) {
-              // ← you can hook in your global reporter here
-            }
-            return res.text().then((err) => {
-              subscriber.error(new Error(err || res.statusText));
-            });
-          }
-
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
-        })
-        .catch((err) => subscriber.error(err));
-    });
-  }
-
-  getAll(config?: Partial<any>): Observable<FullClientApplicationDto[]> {
-    // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ClientApplications/GetAllAsync';
-
-    // build ?a=1&b=2…
-    const queryString = (() => {
-      const qp = new URLSearchParams();
-
-      const s = qp.toString();
-      return s ? `?${s}` : '';
-    })();
-
-    const eleoncoreApiUrl = baseUrl + queryString;
-
-    // headers
-    const headers: HeadersInit = {};
-    if (!config?.skipAddingHeader) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // options
-    const options: RequestInit = {
-      method: 'GET',
-      headers,
-    };
-
-    return new Observable<FullClientApplicationDto[]>((subscriber) => {
-      this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
-          if (!res.ok) {
-            if (!config?.skipHandleError) {
-              // ← you can hook in your global reporter here
-            }
-            return res.text().then((err) => {
-              subscriber.error(new Error(err || res.statusText));
-            });
-          }
-
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as FullClientApplicationDto[]);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
-        })
-        .catch((err) => subscriber.error(err));
-    });
-  }
-
-  getAppsSettingsBySiteId(
-    siteId: string,
+  get(
+    id: string,
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ModuleSettingsDto> {
+  ): Observable<LocationDto> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/GetAppsSettingsBySiteId';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/Get';
 
     // build ?a=1&b=2…
     const queryString = (() => {
       const qp = new URLSearchParams();
 
       {
-        const raw = siteId;
+        const raw = id;
         if (
           raw !== undefined &&
           raw !== null &&
           (typeof raw !== 'string' || raw !== '') &&
           !(Array.isArray(raw) && raw?.length == 0)
         ) {
-          qp.append('siteId', String(raw));
+          qp.append('id', String(raw));
         }
       }
 
@@ -429,7 +321,7 @@ export class ClientApplicationService {
       headers,
     };
 
-    return new Observable<ModuleSettingsDto>((subscriber) => {
+    return new Observable<LocationDto>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -444,7 +336,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ModuleSettingsDto);
+              subscriber.next(data as LocationDto);
               subscriber.complete();
             });
           } else {
@@ -460,12 +352,13 @@ export class ClientApplicationService {
 
   getByTenantId(
     tenantId: string,
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ClientApplicationDto[]> {
+  ): Observable<LocationDto[]> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ClientApplications/GetByTenantIdAsync';
+      apiBase + '/api/CoreInfrastructure/Locations/GetByTenantIdAsync';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -501,7 +394,7 @@ export class ClientApplicationService {
       headers,
     };
 
-    return new Observable<ClientApplicationDto[]>((subscriber) => {
+    return new Observable<LocationDto[]>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -516,7 +409,79 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto[]);
+              subscriber.next(data as LocationDto[]);
+              subscriber.complete();
+            });
+          } else {
+            return res.text().then((data) => {
+              subscriber.next(data as any);
+              subscriber.complete();
+            });
+          }
+        })
+        .catch((err) => subscriber.error(err));
+    });
+  }
+
+  getChildren(
+    parentId: string,
+    cancellationToken?: any,
+    config?: Partial<any>
+  ): Observable<LocationDto[]> {
+    // baseUrl is already a quoted literal
+    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/children';
+
+    // build ?a=1&b=2…
+    const queryString = (() => {
+      const qp = new URLSearchParams();
+
+      {
+        const raw = parentId;
+        if (
+          raw !== undefined &&
+          raw !== null &&
+          (typeof raw !== 'string' || raw !== '') &&
+          !(Array.isArray(raw) && raw?.length == 0)
+        ) {
+          qp.append('parentId', String(raw));
+        }
+      }
+
+      const s = qp.toString();
+      return s ? `?${s}` : '';
+    })();
+
+    const eleoncoreApiUrl = baseUrl + queryString;
+
+    // headers
+    const headers: HeadersInit = {};
+    if (!config?.skipAddingHeader) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    // options
+    const options: RequestInit = {
+      method: 'GET',
+      headers,
+    };
+
+    return new Observable<LocationDto[]>((subscriber) => {
+      this.authFetch(eleoncoreApiUrl, options)
+        .then((res) => {
+          if (!res.ok) {
+            if (!config?.skipHandleError) {
+              // ← you can hook in your global reporter here
+            }
+            return res.text().then((err) => {
+              subscriber.error(new Error(err || res.statusText));
+            });
+          }
+
+          const contentType = res.headers.get('Content-Type') || '';
+          if (contentType.includes('application/json')) {
+            return res.json().then((data) => {
+              subscriber.next(data as LocationDto[]);
               subscriber.complete();
             });
           } else {
@@ -531,13 +496,13 @@ export class ClientApplicationService {
   }
 
   getDefaultApplication(
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ClientApplicationDto> {
+  ): Observable<LocationDto> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/GetDefaultApplication';
+      apiBase + '/api/CoreInfrastructure/Locations/GetDefaultApplication';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -561,7 +526,7 @@ export class ClientApplicationService {
       headers,
     };
 
-    return new Observable<ClientApplicationDto>((subscriber) => {
+    return new Observable<LocationDto>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -576,7 +541,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto);
+              subscriber.next(data as LocationDto);
               subscriber.complete();
             });
           } else {
@@ -591,13 +556,13 @@ export class ClientApplicationService {
   }
 
   getEnabledApplications(
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ClientApplicationDto[]> {
+  ): Observable<LocationDto[]> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/enabled-applications';
+      apiBase + '/api/CoreInfrastructure/Locations/enabled-applications';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -621,7 +586,7 @@ export class ClientApplicationService {
       headers,
     };
 
-    return new Observable<ClientApplicationDto[]>((subscriber) => {
+    return new Observable<LocationDto[]>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -636,7 +601,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto[]);
+              subscriber.next(data as LocationDto[]);
               subscriber.complete();
             });
           } else {
@@ -650,141 +615,13 @@ export class ClientApplicationService {
     });
   }
 
-  getLocations(config?: Partial<any>): Observable<Location[]> {
-    // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ClientApplications/GetLocations';
-
-    // build ?a=1&b=2…
-    const queryString = (() => {
-      const qp = new URLSearchParams();
-
-      const s = qp.toString();
-      return s ? `?${s}` : '';
-    })();
-
-    const eleoncoreApiUrl = baseUrl + queryString;
-
-    // headers
-    const headers: HeadersInit = {};
-    if (!config?.skipAddingHeader) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // options
-    const options: RequestInit = {
-      method: 'GET',
-      headers,
-    };
-
-    return new Observable<Location[]>((subscriber) => {
-      this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
-          if (!res.ok) {
-            if (!config?.skipHandleError) {
-              // ← you can hook in your global reporter here
-            }
-            return res.text().then((err) => {
-              subscriber.error(new Error(err || res.statusText));
-            });
-          }
-
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as Location[]);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
-        })
-        .catch((err) => subscriber.error(err));
-    });
-  }
-
-  getLocationsBySiteId(
-    siteId: string,
+  getList(
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<Location[]> {
+  ): Observable<LocationDto[]> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/GetLocationsBySiteId';
-
-    // build ?a=1&b=2…
-    const queryString = (() => {
-      const qp = new URLSearchParams();
-
-      {
-        const raw = siteId;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('siteId', String(raw));
-        }
-      }
-
-      const s = qp.toString();
-      return s ? `?${s}` : '';
-    })();
-
-    const eleoncoreApiUrl = baseUrl + queryString;
-
-    // headers
-    const headers: HeadersInit = {};
-    if (!config?.skipAddingHeader) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // options
-    const options: RequestInit = {
-      method: 'GET',
-      headers,
-    };
-
-    return new Observable<Location[]>((subscriber) => {
-      this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
-          if (!res.ok) {
-            if (!config?.skipHandleError) {
-              // ← you can hook in your global reporter here
-            }
-            return res.text().then((err) => {
-              subscriber.error(new Error(err || res.statusText));
-            });
-          }
-
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as Location[]);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
-        })
-        .catch((err) => subscriber.error(err));
-    });
-  }
-
-  getSetting(config?: Partial<any>): Observable<ModuleSettingsDto> {
-    // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ClientApplications/GetSetting';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/GetAllAsync';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -808,7 +645,7 @@ export class ClientApplicationService {
       headers,
     };
 
-    return new Observable<ModuleSettingsDto>((subscriber) => {
+    return new Observable<LocationDto[]>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -823,7 +660,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ModuleSettingsDto);
+              subscriber.next(data as LocationDto[]);
               subscriber.complete();
             });
           } else {
@@ -837,30 +674,17 @@ export class ClientApplicationService {
     });
   }
 
-  getSiteByHostname(
-    hostname: string,
+  getRoots(
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ClientApplicationDto> {
+  ): Observable<LocationDto[]> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ClientApplications/GetSiteByHostname';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/roots';
 
     // build ?a=1&b=2…
     const queryString = (() => {
       const qp = new URLSearchParams();
-
-      {
-        const raw = hostname;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('hostname', String(raw));
-        }
-      }
 
       const s = qp.toString();
       return s ? `?${s}` : '';
@@ -880,7 +704,7 @@ export class ClientApplicationService {
       headers,
     };
 
-    return new Observable<ClientApplicationDto>((subscriber) => {
+    return new Observable<LocationDto[]>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -895,7 +719,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto);
+              subscriber.next(data as LocationDto[]);
               subscriber.complete();
             });
           } else {
@@ -909,16 +733,16 @@ export class ClientApplicationService {
     });
   }
 
-  removeModuleFromApplicationByApplicationIdAndModuleId(
+  removeModuleFromApplicationByApplicationIdAndModuleIdAndCancellationToken(
     applicationId: string,
     moduleId: string,
+    cancellationToken?: any,
     config?: Partial<any>
   ): Observable<boolean> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
     const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ClientApplications/RemoveModuleToApplication';
+      apiBase + '/api/CoreInfrastructure/Locations/RemoveModuleToApplication';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -996,14 +820,13 @@ export class ClientApplicationService {
   }
 
   update(
-    id: string,
-    input: UpdateClientApplicationDto,
+    input: LocationDto,
+    cancellationToken?: any,
     config?: Partial<any>
-  ): Observable<ClientApplicationDto> {
+  ): Observable<LocationDto> {
     // baseUrl is already a quoted literal
     const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + `/api/CoreInfrastructure/ClientApplications/${id}`;
+    const baseUrl = apiBase + '/api/CoreInfrastructure/Locations/Update';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -1029,7 +852,7 @@ export class ClientApplicationService {
       body: JSON.stringify(input),
     };
 
-    return new Observable<ClientApplicationDto>((subscriber) => {
+    return new Observable<LocationDto>((subscriber) => {
       this.authFetch(eleoncoreApiUrl, options)
         .then((res) => {
           if (!res.ok) {
@@ -1044,81 +867,7 @@ export class ClientApplicationService {
           const contentType = res.headers.get('Content-Type') || '';
           if (contentType.includes('application/json')) {
             return res.json().then((data) => {
-              subscriber.next(data as ClientApplicationDto);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
-        })
-        .catch((err) => subscriber.error(err));
-    });
-  }
-
-  useDedicatedDatabase(
-    id: string,
-    useDedicatedDb: boolean,
-    config?: Partial<any>
-  ): Observable<void> {
-    // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase +
-      `/api/CoreInfrastructure/ClientApplications/${id}/UseDedicatedDatabase`;
-
-    // build ?a=1&b=2…
-    const queryString = (() => {
-      const qp = new URLSearchParams();
-
-      {
-        const raw = useDedicatedDb;
-        if (
-          raw !== undefined &&
-          raw !== null &&
-          (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
-        ) {
-          qp.append('useDedicatedDb', String(raw));
-        }
-      }
-
-      const s = qp.toString();
-      return s ? `?${s}` : '';
-    })();
-
-    const eleoncoreApiUrl = baseUrl + queryString;
-
-    // headers
-    const headers: HeadersInit = {};
-    if (!config?.skipAddingHeader) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // options
-    const options: RequestInit = {
-      method: 'PUT',
-      headers,
-    };
-
-    return new Observable<void>((subscriber) => {
-      this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
-          if (!res.ok) {
-            if (!config?.skipHandleError) {
-              // ← you can hook in your global reporter here
-            }
-            return res.text().then((err) => {
-              subscriber.error(new Error(err || res.statusText));
-            });
-          }
-
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as void);
+              subscriber.next(data as LocationDto);
               subscriber.complete();
             });
           } else {
