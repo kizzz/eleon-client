@@ -26,6 +26,20 @@
       />
     </div>
   </div>
+  <div class="grid">
+    <div class="col-4 flex align-items-center gap-3">
+      <span>{{ 'TenantManagement::Gateway' | abpLocalization }}</span>
+    </div>
+    <div class="col-8 flex align-items-center gap-3">
+      <input
+        class="w-full"
+        [value]="gatewayName"
+        type="text"
+        pInputText
+        [readonly]="true"
+      />
+    </div>
+  </div>
   <div *ngIf="model.locationType === LocationType.Site"
    class="grid">
     <div class="col-4 flex align-items-center gap-3">
@@ -34,15 +48,25 @@
       }}</span>
     </div>
     <div class="col-8 flex align-items-center gap-3">
-      <input
-        [ngClass]="{ 'ng-invalid ng-dirty': pathEmpty }"
-        (input)="onInput()"
-        class="w-full"
-        id="loc-path"
-        type="text"
-        pInputText
-        [(ngModel)]="model.path"
-      />
+      <div
+        class="p-inputgroup"
+        [ngClass]="{ 'ng-invalid ng-dirty invalid': pathEmpty }"
+      >
+        <span
+          class="p-inputgroup-addon small"
+          [pTooltip]="'TenantManagement::Path:Tooltip' | abpLocalization"
+          tooltipPosition="top"
+          >{{ pathPrefix }}</span
+        >
+        <input
+          class="w-full"
+          id="loc-path"
+          type="text"
+          pInputText
+          [(ngModel)]="model.path"
+          (input)="onInput()"
+        />
+      </div>
     </div>
   </div>
   <div class="grid">
@@ -222,118 +246,6 @@
         ></p-select>
       </div>
     </div>
-    <div class="grid">
-      <div class="col-12">
-        <span>{{ 'TenantManagement::Properties' | abpLocalization }}</span>
-        <p-button
-          icon="pi pi-plus"
-          [label]="'Infrastructure::Add' | abpLocalization"
-          [text]="true"
-          [raised]="true"
-          (click)="addProperty()"
-          class="ml-2"
-        ></p-button>
-      </div>
-      <div class="col-12" *ngIf="model.properties?.length">
-        <div
-          class="flex gap-2 align-items-center mb-2"
-          *ngFor="let p of model.properties; let i = index"
-        >
-          <input
-            class="flex-1"
-            type="text"
-            pInputText
-            [(ngModel)]="p.key"
-            (ngModelChange)="onInput()"
-            placeholder="Key"
-          />
-          <input
-            class="flex-1"
-            type="text"
-            pInputText
-            [(ngModel)]="p.value"
-            (ngModelChange)="onInput()"
-            placeholder="Value"
-          />
-          <p-button
-            icon="pi pi-trash"
-            [text]="true"
-            [rounded]="true"
-            severity="danger"
-            (click)="removeProperty(i)"
-          ></p-button>
-        </div>
-      </div>
-    </div>
-    <ng-container *ngIf="!isEdit">
-      <div class="grid">
-        <div class="col-12">
-          <span>{{ 'TenantManagement::Modules' | abpLocalization }}</span>
-          <p-button
-            icon="pi pi-plus"
-            [label]="'Infrastructure::Add' | abpLocalization"
-            [text]="true"
-            [raised]="true"
-            (click)="addModule()"
-            class="ml-2"
-          ></p-button>
-        </div>
-        <div class="col-12" *ngIf="model.modules?.length">
-          <div
-            class="flex gap-2 align-items-center mb-2 flex-wrap"
-            *ngFor="let m of model.modules; let i = index"
-          >
-            <input
-              class="flex-1 min-w-10rem"
-              type="text"
-              pInputText
-              [(ngModel)]="m.url"
-              (ngModelChange)="onInput()"
-              placeholder="Url"
-            />
-            <input
-              class="flex-1 min-w-10rem"
-              type="text"
-              pInputText
-              [(ngModel)]="m.pluginName"
-              (ngModelChange)="onInput()"
-              placeholder="PluginName"
-            />
-            <input
-              class="w-6rem"
-              type="text"
-              pInputText
-              [(ngModel)]="m.loadLevel"
-              (ngModelChange)="onInput()"
-              placeholder="LoadLevel"
-            />
-            <input
-              class="w-6rem"
-              type="number"
-              pInputText
-              [(ngModel)]="m.orderIndex"
-              (ngModelChange)="onInput()"
-              placeholder="Order"
-            />
-            <input
-              class="flex-1 min-w-8rem"
-              type="text"
-              pInputText
-              [(ngModel)]="m.expose"
-              (ngModelChange)="onInput()"
-              placeholder="Expose"
-            />
-            <p-button
-              icon="pi pi-trash"
-              [text]="true"
-              [rounded]="true"
-              severity="danger"
-              (click)="removeModule(i)"
-            ></p-button>
-          </div>
-        </div>
-      </div>
-    </ng-container>
   </ng-container>
       </div>
     </div>

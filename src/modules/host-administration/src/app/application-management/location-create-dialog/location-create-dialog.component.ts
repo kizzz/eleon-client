@@ -134,32 +134,6 @@ export class LocationCreateDialogComponent {
           'TenantManagement::CreateLocation'
         ) as string);
   }
-
-  addProperty(): void {
-    this.model.properties = this.model.properties ?? [];
-    this.model.properties.push({ key: '', value: '' });
-    this.valueChange.emit(this.model);
-  }
-
-  removeProperty(idx: number): void {
-    this.model.properties?.splice(idx, 1);
-    this.valueChange.emit(this.model);
-  }
-
-  addModule(): void {
-    this.model.modules = this.model.modules ?? [];
-    this.model.modules.push({
-      orderIndex: this.model.modules.length,
-      properties: [],
-    });
-    this.valueChange.emit(this.model);
-  }
-
-  removeModule(idx: number): void {
-    this.model.modules?.splice(idx, 1);
-    this.valueChange.emit(this.model);
-  }
-
   emitSave(): void {
     const name = this.model.name?.trim() ?? '';
     const path = this.model.path?.trim() ?? '';
@@ -247,5 +221,95 @@ export class LocationCreateDialogComponent {
       this.model.hostname = undefined;
       this.onInput();
     }
+  }
+
+  private findNodeById(id: string | undefined, nodes: TreeNode<LocationDto>[]): TreeNode<LocationDto> | null {
+    if (!id) return null;
+    for (const node of nodes) {
+      if (node.data?.id === id) {
+        return node;
+      }
+      if (node.children) {
+        const found = this.findNodeById(id, node.children);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
+  private getRootProxy(): LocationDto | null {
+    if (!this.model?.parentId || !this.allLocations?.length) {
+      return null;
+    }
+
+    let currentParentId: string | undefined = this.model.parentId;
+    const visited = new Set<string>();
+
+    while (currentParentId) {
+      if (visited.has(currentParentId)) {
+        break; // Prevent infinite loop
+      }
+      visited.add(currentParentId);
+
+      const parentNode = this.findNodeById(currentParentId, this.allLocations);
+      if (!parentNode?.data) {
+        break;
+      }
+
+      const parentData = parentNode.data;
+      if (parentData.locationType === LocationType.Proxy && !parentData.parentId) {
+        return parentData;
+      }
+
+      currentParentId = parentData.parentId;
+    }
+
+    return null;
+  }
+
+  get gatewayName(): string {
+    const rootProxy = this.getRootProxy();
+    return rootProxy?.name || '';
+  }
+
+  get pathPrefix(): string {
+    const rootProxy = this.getRootProxy();
+    if (!rootProxy) {
+      return '/';
+    }
+
+    const parentPaths: string[] = [];
+    let currentParentId: string | undefined = this.model?.parentId;
+    const visited = new Set<string>();
+
+    while (currentParentId) {
+      if (visited.has(currentParentId)) {
+        break; // Prevent infinite loop
+      }
+      visited.add(currentParentId);
+
+      const parentNode = this.findNodeById(currentParentId, this.allLocations);
+      if (!parentNode?.data) {
+        break;
+      }
+
+      const parentData = parentNode.data;
+      
+      // Stop at root proxy
+      if (parentData.locationType === LocationType.Proxy && !parentData.parentId) {
+        break;
+      }
+
+      // Collect path if it exists and is not the root proxy
+      if (parentData.path) {
+        parentPaths.unshift(parentData.path);
+      }
+
+      currentParentId = parentData.parentId;
+    }
+
+    const proxyName = rootProxy.name || '';
+    const parentPathStr = parentPaths.length > 0 ? parentPaths.join('/') + '/' : '';
+    return `/${proxyName}/${parentPathStr}`;
   }
 }

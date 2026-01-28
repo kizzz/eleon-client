@@ -15,6 +15,8 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ILocalizationService, IApiKeySelectionDialogService, IdentityApiKeyDto } from '@eleon/contracts.lib';
 
 @Component({
@@ -32,6 +34,8 @@ import { ILocalizationService, IApiKeySelectionDialogService, IdentityApiKeyDto 
     InputGroupAddonModule,
     RippleModule,
     TooltipModule,
+    ToggleSwitchModule,
+    CheckboxModule,
   ],
   templateUrl: './proxy-create-dialog.component.html',
   styleUrls: ['./proxy-create-dialog.component.scss'],
@@ -50,6 +54,7 @@ export class ProxyCreateDialogComponent {
   nameEmpty = false;
   selectedApiKey: IdentityApiKeyDto | null = null;
   loading = false;
+  createApiKey = false;
 
   constructor(
     private messageService: MessageService,
@@ -118,6 +123,9 @@ export class ProxyCreateDialogComponent {
     if (!isValid) return;
 
     this.model.name = name;
+    if (this.createApiKey) {
+      this.model.apiKeyId = null;
+    }
     this.resetValidators();
     this.visible = false;
     this.visibleChange.emit(false);

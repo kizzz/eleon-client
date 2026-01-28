@@ -1,3 +1,4 @@
+
 interface Option<T> {
   key: Extract<keyof T, string>;
   value: T[Extract<keyof T, string>];
@@ -6,6 +7,7 @@ interface Option<T> {
 function isNumber(value: string | number): boolean {
   return value == Number(value);
 }
+
 
 function mapEnumToOptions<T>(_enum: T): Option<T>[] {
   const options: Option<T>[] = [];
@@ -20,6 +22,7 @@ function mapEnumToOptions<T>(_enum: T): Option<T>[] {
   return options;
 }
 
+
 export enum ClientApplicationFrameworkType {
   None = 0,
   Angular = 1,
@@ -28,6 +31,4 @@ export enum ClientApplicationFrameworkType {
   VirtualDirectory = 4,
 }
 
-export const clientApplicationFrameworkTypeOptions = mapEnumToOptions(
-  ClientApplicationFrameworkType
-);
+export const clientApplicationFrameworkTypeOptions = mapEnumToOptions(ClientApplicationFrameworkType);

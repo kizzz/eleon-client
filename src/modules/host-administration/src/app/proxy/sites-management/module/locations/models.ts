@@ -1,10 +1,15 @@
+import type { ApplicationModuleDto } from '../microservices/models';
+import type { ClientApplicationPropertyDto } from '../client-applications/models';
 import type { LocationType } from '../../../module-collector/sites-management/module/sites-management/module/domain/managers/locations/location-type.enum';
 import type { SiteType } from '../../../module-collector/sites-management/module/sites-management/module/domain/managers/locations/site-type.enum';
 import type { VirtualFolderType } from '../../../common/module/constants/virtual-folder-type.enum';
 import type { ClientApplicationFrameworkType } from '../../../common/module/constants/client-application-framework-type.enum';
 import type { ClientApplicationStyleType } from '../../../common/module/constants/client-application-style-type.enum';
-import type { ApplicationModuleDto } from '../microservices/models';
-import type { ClientApplicationPropertyDto } from '../client-applications/models';
+
+export interface FullLocationDto extends LocationDto {
+  modules: ApplicationModuleDto[];
+  properties: ClientApplicationPropertyDto[];
+}
 
 export interface LocationDto {
   id?: string;
@@ -22,8 +27,6 @@ export interface LocationDto {
   virtualFolderType: VirtualFolderType;
   frameworkType: ClientApplicationFrameworkType;
   styleType: ClientApplicationStyleType;
-  modules: ApplicationModuleDto[];
-  properties: ClientApplicationPropertyDto[];
   isDefault: boolean;
   isSystem: boolean;
 }

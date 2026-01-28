@@ -1,3 +1,4 @@
+
 export interface ConnectionStringDto {
   applicationName?: string;
   status?: string;

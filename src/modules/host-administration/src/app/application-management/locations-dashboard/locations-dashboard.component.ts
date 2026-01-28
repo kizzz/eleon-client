@@ -138,8 +138,6 @@ export class LocationsDashboardComponent implements OnInit {
       virtualFolderType: VirtualFolderType.None,
       frameworkType: ClientApplicationFrameworkType.None,
       styleType: ClientApplicationStyleType.None,
-      modules: [],
-      properties: [],
       isDefault: false,
       isSystem: false,
     };
@@ -156,15 +154,13 @@ export class LocationsDashboardComponent implements OnInit {
 
     this.newLocationModel = {
       locationType: preselectedType,
-      siteType: SiteType.None,
+      siteType: SiteType.Angular,
       name: '',
       path: '',
       isEnabled: true,
       virtualFolderType: VirtualFolderType.None,
       frameworkType: ClientApplicationFrameworkType.None,
       styleType: ClientApplicationStyleType.None,
-      modules: [],
-      properties: [],
       isDefault: false,
       isSystem: false,
       parentId: this.selectedLocation.data?.id,

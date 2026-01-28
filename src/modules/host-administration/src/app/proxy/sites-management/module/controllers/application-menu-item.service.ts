@@ -1,15 +1,14 @@
+
 import type { ApplicationMenuItemDto } from '../application-menu-items/models';
 
 import type { MenuType } from '../consts/menu-type.enum';
 
 import { Observable } from 'rxjs/internal/Observable';
 
+
 export class ApplicationMenuItemService {
   // each service gets its own authFetch helper
-  private authFetch(
-    input: RequestInfo,
-    init: RequestInit = {}
-  ): Promise<Response> {
+  private authFetch(input: RequestInfo, init: RequestInit = {}): Promise<Response> {
     const token = window['getUserToken']();
     const headers = new Headers(init.headers);
     if (token) {
@@ -18,15 +17,11 @@ export class ApplicationMenuItemService {
     return fetch(input, { ...init, headers });
   }
 
-  getListByApplicationId(
-    applicationId: string,
-    config?: Partial<any>
-  ): Observable<ApplicationMenuItemDto[]> {
+
+  getListByApplicationId(applicationId: string, config?: Partial<any>): Observable<ApplicationMenuItemDto[]> {
     // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ApplicationMenuItems/GetListByApplicationId';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/GetListByApplicationId';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -38,7 +33,7 @@ export class ApplicationMenuItemService {
           raw !== undefined &&
           raw !== null &&
           (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
+					!(Array.isArray(raw) && raw?.length == 0)
         ) {
           qp.append('applicationId', String(raw));
         }
@@ -60,47 +55,45 @@ export class ApplicationMenuItemService {
     const options: RequestInit = {
       method: 'GET',
       headers,
+
     };
 
-    return new Observable<ApplicationMenuItemDto[]>((subscriber) => {
+    return new Observable<ApplicationMenuItemDto[]>(subscriber => {
       this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
+        .then(res => {
           if (!res.ok) {
             if (!config?.skipHandleError) {
               // ← you can hook in your global reporter here
             }
-            return res.text().then((err) => {
+            return res.text().then(err => {
               subscriber.error(new Error(err || res.statusText));
             });
           }
 
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as ApplicationMenuItemDto[]);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
+
+          const contentType = res.headers.get("Content-Type") || "";
+					if (contentType.includes("application/json")) {
+						return res.json().then(data => {
+							subscriber.next(data as ApplicationMenuItemDto[]);
+							subscriber.complete();
+						});
+					} else {
+						return res.text().then(data => {
+							subscriber.next(data as any);
+							subscriber.complete();
+						});
+					}
+
         })
-        .catch((err) => subscriber.error(err));
+        .catch(err => subscriber.error(err));
     });
   }
 
-  getListByApplicationIdAndMenuType(
-    applicationId: string,
-    menuType: MenuType,
-    config?: Partial<any>
-  ): Observable<ApplicationMenuItemDto[]> {
+
+  getListByApplicationIdAndMenuType(applicationId: string, menuType: MenuType, config?: Partial<any>): Observable<ApplicationMenuItemDto[]> {
     // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase +
-      '/api/CoreInfrastructure/ApplicationMenuItems/GetListByApplicationIdAndMenuType';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/GetListByApplicationIdAndMenuType';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -112,7 +105,7 @@ export class ApplicationMenuItemService {
           raw !== undefined &&
           raw !== null &&
           (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
+					!(Array.isArray(raw) && raw?.length == 0)
         ) {
           qp.append('applicationId', String(raw));
         }
@@ -124,7 +117,7 @@ export class ApplicationMenuItemService {
           raw !== undefined &&
           raw !== null &&
           (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
+					!(Array.isArray(raw) && raw?.length == 0)
         ) {
           qp.append('menuType', String(raw));
         }
@@ -146,46 +139,45 @@ export class ApplicationMenuItemService {
     const options: RequestInit = {
       method: 'POST',
       headers,
+
     };
 
-    return new Observable<ApplicationMenuItemDto[]>((subscriber) => {
+    return new Observable<ApplicationMenuItemDto[]>(subscriber => {
       this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
+        .then(res => {
           if (!res.ok) {
             if (!config?.skipHandleError) {
               // ← you can hook in your global reporter here
             }
-            return res.text().then((err) => {
+            return res.text().then(err => {
               subscriber.error(new Error(err || res.statusText));
             });
           }
 
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as ApplicationMenuItemDto[]);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
+
+          const contentType = res.headers.get("Content-Type") || "";
+					if (contentType.includes("application/json")) {
+						return res.json().then(data => {
+							subscriber.next(data as ApplicationMenuItemDto[]);
+							subscriber.complete();
+						});
+					} else {
+						return res.text().then(data => {
+							subscriber.next(data as any);
+							subscriber.complete();
+						});
+					}
+
         })
-        .catch((err) => subscriber.error(err));
+        .catch(err => subscriber.error(err));
     });
   }
 
-  update(
-    applicationId: string,
-    itemsToUpdate: ApplicationMenuItemDto[],
-    config?: Partial<any>
-  ): Observable<ApplicationMenuItemDto[]> {
+
+  update(applicationId: string, itemsToUpdate: ApplicationMenuItemDto[], config?: Partial<any>): Observable<ApplicationMenuItemDto[]> {
     // baseUrl is already a quoted literal
-    const apiBase = window?.['apiBase']?.['eleoncore'] || '';
-    const baseUrl =
-      apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/Update';
+		const apiBase = window?.['apiBase']?.['eleoncore'] || '';
+    const baseUrl = apiBase + '/api/CoreInfrastructure/ApplicationMenuItems/Update';
 
     // build ?a=1&b=2…
     const queryString = (() => {
@@ -197,7 +189,7 @@ export class ApplicationMenuItemService {
           raw !== undefined &&
           raw !== null &&
           (typeof raw !== 'string' || raw !== '') &&
-          !(Array.isArray(raw) && raw?.length == 0)
+					!(Array.isArray(raw) && raw?.length == 0)
         ) {
           qp.append('applicationId', String(raw));
         }
@@ -221,34 +213,39 @@ export class ApplicationMenuItemService {
       headers,
 
       body: JSON.stringify(itemsToUpdate),
+
     };
 
-    return new Observable<ApplicationMenuItemDto[]>((subscriber) => {
+    return new Observable<ApplicationMenuItemDto[]>(subscriber => {
       this.authFetch(eleoncoreApiUrl, options)
-        .then((res) => {
+        .then(res => {
           if (!res.ok) {
             if (!config?.skipHandleError) {
               // ← you can hook in your global reporter here
             }
-            return res.text().then((err) => {
+            return res.text().then(err => {
               subscriber.error(new Error(err || res.statusText));
             });
           }
 
-          const contentType = res.headers.get('Content-Type') || '';
-          if (contentType.includes('application/json')) {
-            return res.json().then((data) => {
-              subscriber.next(data as ApplicationMenuItemDto[]);
-              subscriber.complete();
-            });
-          } else {
-            return res.text().then((data) => {
-              subscriber.next(data as any);
-              subscriber.complete();
-            });
-          }
+
+          const contentType = res.headers.get("Content-Type") || "";
+					if (contentType.includes("application/json")) {
+						return res.json().then(data => {
+							subscriber.next(data as ApplicationMenuItemDto[]);
+							subscriber.complete();
+						});
+					} else {
+						return res.text().then(data => {
+							subscriber.next(data as any);
+							subscriber.complete();
+						});
+					}
+
         })
-        .catch((err) => subscriber.error(err));
+        .catch(err => subscriber.error(err));
     });
   }
+
+
 }
