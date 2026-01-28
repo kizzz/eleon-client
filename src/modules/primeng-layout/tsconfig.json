@@ -37,6 +37,10 @@
       "@eleon/primeng-layout.lib": [
         "src/libs/eleon.primeng-layout.lib/src/index.ts"
       ],
+
+      "@eleon/logo/*": [
+        "src/modules/logo/src/app/*"
+      ]
     }
   }
 }

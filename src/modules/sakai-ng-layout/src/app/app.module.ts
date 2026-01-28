@@ -13,6 +13,7 @@ import { AppearanceService, BreadcrumbsService } from '@eleon/primeng-layout.lib
 import { TenantAppearanceService } from '@eleon/system-services.lib';
 import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
 import { provideVPortalMenu } from '@eleon/primeng-layout.lib';
+import { providers as logoProviders } from '@eleon/logo/app.module';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { provideVPortalMenu } from '@eleon/primeng-layout.lib';
           },
           ...provideVPortalMenu()
         ]),
+        ...logoProviders
     ],
     bootstrap: [AppComponent]
 })
