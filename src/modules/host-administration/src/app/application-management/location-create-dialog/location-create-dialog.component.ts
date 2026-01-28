@@ -18,7 +18,11 @@ import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { ILocalizationService } from '@eleon/angular-sdk.lib';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { RippleModule } from 'primeng/ripple';
+import { TooltipModule } from 'primeng/tooltip';
+import { ILocalizationService, ITenantDomainsSelectionDialogService, TenantHostnameDto } from '@eleon/contracts.lib';
 
 @Component({
   selector: 'app-location-create-dialog',
@@ -33,6 +37,10 @@ import { ILocalizationService } from '@eleon/angular-sdk.lib';
     ToggleSwitchModule,
     ButtonModule,
     DialogModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    RippleModule,
+    TooltipModule,
   ],
   templateUrl: './location-create-dialog.component.html',
   styleUrls: ['./location-create-dialog.component.scss'],
@@ -53,45 +61,45 @@ export class LocationCreateDialogComponent {
 
   nameEmpty = false;
   pathEmpty = false;
+  loading = false;
+  selectedTenantDomain: TenantHostnameDto | null = null;
 
   siteTypes = [
-    { label: 'None', value: SiteType.None },
-    { label: 'Redirect', value: SiteType.Redirect },
-    { label: 'Angular', value: SiteType.Angular },
-    { label: 'VirtualFolder', value: SiteType.VirtualFolder },
+    { label: this.localizationService.instant('TenantManagement::SiteType:Redirect'), value: SiteType.Redirect },
+    { label: this.localizationService.instant('TenantManagement::SiteType:Angular'), value: SiteType.Angular },
+    { label: this.localizationService.instant('TenantManagement::SiteType:VirtualFolder'), value: SiteType.VirtualFolder },
   ];
 
   frameworkTypes = [
-    { label: 'None', value: ClientApplicationFrameworkType.None },
-    { label: 'Angular', value: ClientApplicationFrameworkType.Angular },
-    { label: 'React', value: ClientApplicationFrameworkType.React },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationFrameworkType:None'), value: ClientApplicationFrameworkType.None },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationFrameworkType:Angular'), value: ClientApplicationFrameworkType.Angular },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationFrameworkType:React'), value: ClientApplicationFrameworkType.React },
     {
-      label: 'Custom Angular',
+      label: this.localizationService.instant('TenantManagement::ClientApplicationFrameworkType:CustomAngular'),
       value: ClientApplicationFrameworkType.CustomAngular,
     },
     {
-      label: 'Virtual Directory',
+      label: this.localizationService.instant('TenantManagement::ClientApplicationFrameworkType:VirtualDirectory'),
       value: ClientApplicationFrameworkType.VirtualDirectory,
     },
   ];
 
   styleTypes = [
-    { label: 'None', value: ClientApplicationStyleType.None },
-    { label: 'PrimeNg', value: ClientApplicationStyleType.PrimeNg },
-    { label: 'SakaiNg', value: ClientApplicationStyleType.SakaiNg },
-    { label: 'Bootstrap', value: ClientApplicationStyleType.Bootstrap },
-    { label: 'Material', value: ClientApplicationStyleType.Material },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationStyleType:PrimeNg'), value: ClientApplicationStyleType.PrimeNg },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationStyleType:SakaiNg'), value: ClientApplicationStyleType.SakaiNg },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationStyleType:Bootstrap'), value: ClientApplicationStyleType.Bootstrap },
+    { label: this.localizationService.instant('TenantManagement::ClientApplicationStyleType:Material'), value: ClientApplicationStyleType.Material },
   ];
 
   virtualFolderTypes = [
-    { label: 'None', value: VirtualFolderType.None },
-    { label: 'Url', value: VirtualFolderType.Url },
-    { label: 'Provider', value: VirtualFolderType.Provider },
+    { label: this.localizationService.instant('TenantManagement::VirtualFolderType:Url'), value: VirtualFolderType.Url },
+    { label: this.localizationService.instant('TenantManagement::VirtualFolderType:Provider'), value: VirtualFolderType.Provider },
   ];
 
   constructor(
     private messageService: MessageService,
-    private localizationService: ILocalizationService
+    private localizationService: ILocalizationService,
+    private tenantDomainsSelectionService: ITenantDomainsSelectionDialogService
   ) {}
 
   resetValidators(): void {
@@ -216,5 +224,28 @@ export class LocationCreateDialogComponent {
       return node.children.some((c) => this.hasName(c, name));
     }
     return false;
+  }
+
+  openTenantDomainSelectionDialog(): void {
+    this.tenantDomainsSelectionService.openTenantDomainsSelection({
+      title: this.localizationService.instant('TenantManagement::Hostname'),
+      selectedTenantDomains: this.selectedTenantDomain ? [this.selectedTenantDomain] : [],
+      ignoredTenantDomains: [],
+      isMultiple: false,
+      onSelect: (domains) => this.onTenantDomainSelected(domains)
+    });
+  }
+
+  onTenantDomainSelected(domains: TenantHostnameDto[] | null): void {
+    if (domains && domains.length > 0) {
+      const selectedDomain = domains[0];
+      this.selectedTenantDomain = selectedDomain;
+      this.model.hostname = selectedDomain.domain || selectedDomain.url || '';
+      this.onInput();
+    } else {
+      this.selectedTenantDomain = null;
+      this.model.hostname = undefined;
+      this.onInput();
+    }
   }
 }

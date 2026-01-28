@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {
   extractApiBase,
+  IApiKeySelectionDialogService,
   provideEcContainerComponentOnInitialization,
 } from '@eleon/angular-sdk.lib';
 import {   
@@ -37,6 +38,7 @@ import {
   DEFAULT_CHAT_MODULE_CONFIG,
 } from '@eleon/angular-sdk.lib';
 import { PROXY_SERVICES as TENANT_MANAGEMENT_PROXY_SERVICES } from '@eleon/tenant-management-proxy';
+import { ApiKeySelectionDialogService } from './admin/api-key/api-key-selection-dialog.service';
 
 export const remoteRoutes: Route[] = [
   {
@@ -194,6 +196,10 @@ export const providers = [
       extractApiBase('eleonsoft') +
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=Infrastructure&localizationResources=Default&localizationResources=BlobStoringDatabase&localizationResources=VPortal&localizationResources=Identity&localizationResources=Otp&localizationResources=StorageModule&localizationResources=ExternalLink&localizationResources=FileManager&localizationResources=NotificatorModule&localizationResources=Auditor&localizationResources=Lifecycle&localizationResources=Google&localizationResources=Collaboration&localizationResources=Cms&localizationResources=TenantManagement&localizationResources=AbpUiMultiTenancy`,
   ),
+  provideOnInitialization({
+      provide: IApiKeySelectionDialogService,
+      useClass: ApiKeySelectionDialogService,
+    }),
   provideOnInitialization({
     provide: CHAT_MODULE_CONFIG,
     useFactory: () => {

@@ -1,0 +1,66 @@
+<div class="text-center api-key-table-box wrapper">
+  <p-table #selectionBox [value]="apiKeys" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+  [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"  rows="5" [lazy]="true"
+    (onLazyLoad)="onLoadApiKeys($event)" [paginator]="true" [totalRecords]="totalRecords" [loading]="loading"
+    [selectionMode]="currentSelectionMode" [metaKeySelection]="!isMultiple" [(selection)]="selectedApiKeys"
+    class="data-table">
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-search pr-1 pl-1"></i>
+          {{"Infrastructure::Search" | abpLocalization}}
+        </span>
+        <input type="text" pInputText #searchField
+          placeholder="{{'Infrastructure::Search' | abpLocalization}}" (ngModel)="filter"
+          (input)="selectionBox.filterGlobal($event.target.value, 'contains')" style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 200px" class="text-center">{{"TenantManagement::ApiKeys:Name"| abpLocalization}}</th>
+            <th style="width: 150px;" class="text-center">{{"TenantManagement::ApiKeys:Type"| abpLocalization}}</th>
+            <th style="width: 100px;" class="text-center">{{"TenantManagement::ApiKeys:Status"| abpLocalization}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-apiKey>
+      <tr [pSelectableRow]="apiKey">
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"TenantManagement::ApiKeys:Name"| abpLocalization}}
+          </span>
+          <div class="column-content">
+            <app-ellipsis [text]="apiKey.name || ''" style="width: 200px; max-width: 200px;"></app-ellipsis>
+          </div>
+        </td>
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"TenantManagement::ApiKeys:Type"| abpLocalization}}
+          </span>
+          <div class="column-content">
+            <app-ellipsis [text]="getApiKeyTypeName(apiKey.type)" style="width: 150px; max-width: 150px;"></app-ellipsis>
+          </div>
+        </td>
+        <td>
+          <span class="non-editing-only p-column-title">
+            {{"TenantManagement::ApiKeys:Status"| abpLocalization}}
+          </span>
+          <div class="column-content">
+            <p-tag [value]="(apiKey.invalidated ? localizationService.instant('TenantManagement::ApiKeys:Invalidated') : localizationService.instant('TenantManagement::ApiKeys:Active')) | abpLocalization"
+              [severity]="apiKey.invalidated ? 'danger' : 'success'">
+            </p-tag>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <p>
+        {{ "TenantManagement::ApiKeys:EmptyMessage" | abpLocalization}}
+      </p>
+    </ng-template>
+  </p-table>
+  <div class="mt-2 flex justify-content-end">
+    <p-button [text]="true" [raised]="true" (onClick)="selectApiKeys($event)" icon="fa fa-check"
+      [label]="'Infrastructure::Select' | abpLocalization">
+    </p-button>
+  </div>
+</div>

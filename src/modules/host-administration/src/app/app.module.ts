@@ -99,7 +99,7 @@ export const hostAdministrationRoutes: VPortalMenuItem[] = [
     label: 'TenantManagement::Locations',
     routerLink: '/sites/location-management',
     parentName: 'TenantManagement::Sites',
-    icon: 'fa-regular fa-newspaper',
+    icon: 'fa-solid fa-project-diagram',
     order: 12,
   },
   {

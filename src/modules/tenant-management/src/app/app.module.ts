@@ -12,6 +12,7 @@ import {
 import {
   EcAuthGuard,
   extractApiBase,
+  ITenantDomainsSelectionDialogService,
   PermissionGuard,
   provideEcContainerComponentOnInitialization,
 } from '@eleon/angular-sdk.lib';
@@ -40,6 +41,7 @@ import {
 } from '@eleon/angular-sdk.lib';
 import { PROXY_SERVICES as ELEONCORE_MULTI_TENANCY_PROXY_SERVICES } from '@eleon/eleoncore-multi-tenancy-proxy';
 import { provideIdentityQuerying } from '@eleon/identity-querying.lib';
+import { TenantDomainsSelectionDialogService } from './tenant-management/tenant-domains-selection-dialog.service';
 
 export const remoteRoutes: Route[] = [
   {
@@ -77,6 +79,10 @@ export const providers = [
       extractApiBase('eleonsoft') +
       `/api/LanguageManagement/LocalizationOverride/GetLocalization?culture=${cultureName}&localizationResources=Infrastructure&localizationResources=TenantManagement&localizationResources=AbpUiMultiTenancy`,
   ),
+  provideOnInitialization({
+      provide: ITenantDomainsSelectionDialogService,
+      useClass: TenantDomainsSelectionDialogService,
+    }),
   ...provideMultipleOnInitialization(provideIdentityQuerying()),
   ...provideMultipleOnInitialization(ELEONCORE_MULTI_TENANCY_PROXY_SERVICES.map(s => ({ provide: s, useClass: s }))),
 ];

@@ -50,14 +50,29 @@
       <span>{{ 'TenantManagement::Hostname' | abpLocalization }}</span>
     </div>
     <div class="col-8 flex align-items-center gap-3">
-      <input
-        class="w-full"
-        (input)="onInput()"
-        id="loc-hostname"
-        type="text"
-        pInputText
-        [(ngModel)]="model.hostname"
-      />
+      <div class="p-inputgroup">
+        <input
+          class="no-select w-full"
+          inputId="hostname-input"
+          [value]="selectedTenantDomain?.domain || selectedTenantDomain?.url || ''"
+          type="text"
+          pInputText
+          [disabled]="!isEdit && model.id"
+          [readonly]="true"
+          placeholder="{{ 'TenantManagement::Hostname:Placeholder' | abpLocalization }}"
+        />
+        <button
+          type="button"
+          (click)="openTenantDomainSelectionDialog()"
+          pButton
+          pRipple
+          icon="fa fa-globe"
+          [disabled]="loading || (!isEdit && model.id)"
+          styleClass="p-button-info"
+          class="p-button-text"
+          [pTooltip]="'TenantManagement::Hostname:Select' | abpLocalization"
+        ></button>
+      </div>
     </div>
   </div>
   <div class="grid">

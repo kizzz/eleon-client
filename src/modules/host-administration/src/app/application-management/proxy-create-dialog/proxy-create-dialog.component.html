@@ -31,14 +31,29 @@
             <span>{{ 'TenantManagement::ApiKeyId' | abpLocalization }}</span>
           </div>
           <div class="col-8 flex align-items-center gap-3">
-            <input
-              class="w-full"
-              (input)="onInput()"
-              id="proxy-apiKeyId"
-              type="text"
-              pInputText
-              [(ngModel)]="model.apiKeyId"
-            />
+            <div class="p-inputgroup">
+              <input
+                class="no-select w-full"
+                inputId="apiKey-input"
+                [value]="selectedApiKey?.name || ''"
+                type="text"
+                pInputText
+                [disabled]="!isEdit && model.id"
+                [readonly]="true"
+                placeholder="{{ 'TenantManagement::ApiKeyId:Placeholder' | abpLocalization }}"
+              />
+              <button
+                type="button"
+                (click)="openApiKeySelectionDialog()"
+                pButton
+                pRipple
+                icon="fa fa-key"
+                [disabled]="loading || (!isEdit && model.id)"
+                styleClass="p-button-info"
+                class="p-button-text"
+                [pTooltip]="'TenantManagement::ApiKeyId:Select' | abpLocalization"
+              ></button>
+            </div>
           </div>
         </div>
       </div>

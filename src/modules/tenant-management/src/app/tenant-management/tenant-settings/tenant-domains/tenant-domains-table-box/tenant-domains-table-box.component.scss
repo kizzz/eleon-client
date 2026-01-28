@@ -1,0 +1,31 @@
+@import "primeflex/core/variables.scss";
+
+*[dir='rtl'] :host ::ng-deep .textAlign {
+    text-align: right !important;
+  }
+  
+  :host ::ng-deep .textAlign {
+    text-align: left;
+  }
+  
+  :host ::ng-deep {
+    .w-100 .p-inputnumber {
+      width: 100%;
+    }
+  }
+  
+  :host ::ng-deep{
+    .data-table .p-datatable .p-datatable-tbody>tr{
+      height: 49.44px !important;
+    }
+  }
+
+  .wrapper {
+    min-width: 85vw;
+    width: 100%;
+  
+    @media screen and (min-width: $lg) {
+      min-width: 500px;
+      width: 100%;
+    }
+  }

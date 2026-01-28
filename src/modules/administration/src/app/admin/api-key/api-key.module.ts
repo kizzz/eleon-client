@@ -25,6 +25,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ApiKeyManagementComponent } from './api-key-management/api-key-management.component'
 import { IdentityExtendedModule } from '../identity-extended/identity-extended.module'
 import { CheckboxModule } from 'primeng/checkbox'
+import { ApiKeySelectionModule } from './api-key-selection/api-key-selection.module'
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { CheckboxModule } from 'primeng/checkbox'
     InputGroupAddonModule,
 		CheckboxModule,
 		DatePickerModule,
-		IdentityExtendedModule
+		IdentityExtendedModule,
+		ApiKeySelectionModule
   ]
 })
 export class ApiKeyModule { }

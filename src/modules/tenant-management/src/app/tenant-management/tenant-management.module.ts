@@ -40,6 +40,7 @@ import { TooltipModule } from 'primeng/tooltip'
 import { TextareaModule } from 'primeng/textarea'
 import { ChipModule } from 'primeng/chip'
 import { AutoCompleteModule } from 'primeng/autocomplete'
+import { TenantDomainsSelectionModule } from './tenant-settings/tenant-domains/tenant-domains-selection/tenant-domains-selection.module'
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete'
     MessageModule,
     ListboxModule,
     RawEditorModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    TenantDomainsSelectionModule
   ],
 })
 export class TenantManagementModule {}

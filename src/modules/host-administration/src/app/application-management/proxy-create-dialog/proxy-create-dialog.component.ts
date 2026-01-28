@@ -11,7 +11,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { ILocalizationService } from '@eleon/angular-sdk.lib';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { RippleModule } from 'primeng/ripple';
+import { TooltipModule } from 'primeng/tooltip';
+import { ILocalizationService, IApiKeySelectionDialogService, IdentityApiKeyDto } from '@eleon/contracts.lib';
 
 @Component({
   selector: 'app-proxy-create-dialog',
@@ -24,6 +28,10 @@ import { ILocalizationService } from '@eleon/angular-sdk.lib';
     FormsModule,
     ButtonModule,
     DialogModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    RippleModule,
+    TooltipModule,
   ],
   templateUrl: './proxy-create-dialog.component.html',
   styleUrls: ['./proxy-create-dialog.component.scss'],
@@ -40,10 +48,13 @@ export class ProxyCreateDialogComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
 
   nameEmpty = false;
+  selectedApiKey: IdentityApiKeyDto | null = null;
+  loading = false;
 
   constructor(
     private messageService: MessageService,
-    private localizationService: ILocalizationService
+    private localizationService: ILocalizationService,
+    private apiKeySelectionService: IApiKeySelectionDialogService
   ) {}
 
   resetValidators(): void {
@@ -123,5 +134,28 @@ export class ProxyCreateDialogComponent {
       return node.children.some((c) => this.hasName(c, name));
     }
     return false;
+  }
+
+  openApiKeySelectionDialog(): void {
+    this.apiKeySelectionService.openApiKeySelection({
+      title: this.localizationService.instant('TenantManagement::ApiKeyId'),
+      selectedApiKeys: this.selectedApiKey ? [this.selectedApiKey] : [],
+      ignoredApiKeys: [],
+      isMultiple: false,
+      onSelect: (apiKeys) => this.onApiKeySelected(apiKeys)
+    });
+  }
+
+  onApiKeySelected(apiKeys: IdentityApiKeyDto[] | null): void {
+    if (apiKeys && apiKeys.length > 0) {
+      const selectedApiKey = apiKeys[0];
+      this.selectedApiKey = selectedApiKey;
+      this.model.apiKeyId = selectedApiKey.id;
+      this.onInput();
+    } else {
+      this.selectedApiKey = null;
+      this.model.apiKeyId = undefined;
+      this.onInput();
+    }
   }
 }

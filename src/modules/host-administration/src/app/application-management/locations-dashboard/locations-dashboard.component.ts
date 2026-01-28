@@ -15,7 +15,7 @@ import {
 import { TreeModule } from 'primeng/tree';
 import { ButtonModule } from 'primeng/button';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
-import { PageTitleModule } from '@eleon/primeng-ui.lib';
+import { PAGE_CONTROLS, PageTitleModule } from '@eleon/primeng-ui.lib';
 import { PageControls, contributeControls } from '@eleon/primeng-ui.lib';
 import { ProxyCreateDialogComponent } from '../proxy-create-dialog/proxy-create-dialog.component';
 import { LocationCreateDialogComponent } from '../location-create-dialog/location-create-dialog.component';
@@ -54,33 +54,28 @@ export class LocationsDashboardComponent implements OnInit {
 
   @PageControls()
   controls = contributeControls([
-    {
+    PAGE_CONTROLS.ADD({
       key: 'TenantManagement::AddProxy',
-      icon: 'fa fa-plus',
-      severity: 'info',
       loading: () => this.loading,
       disabled: () => this.loading,
       show: () => true,
       action: () => this.addProxy(),
-    },
-    {
+    }),
+    PAGE_CONTROLS.ADD({
       key: 'TenantManagement::AddLocation',
-      icon: 'fa fa-plus',
-      severity: 'info',
       loading: () => this.loading,
       disabled: () => this.loading || !this.selectedLocation,
       show: () => this.selectedLocation !== null,
       action: () => this.addLocation(),
-    },
-    {
+    }),
+    PAGE_CONTROLS.RELOAD({
+    
       key: 'Infrastructure::Reload',
-      icon: 'fa fa-refresh',
-      severity: 'secondary',
       loading: () => this.loading,
       disabled: () => this.loading,
       show: () => true,
       action: () => this.reloadLocations(),
-    },
+    })
   ]);
 
   constructor(
