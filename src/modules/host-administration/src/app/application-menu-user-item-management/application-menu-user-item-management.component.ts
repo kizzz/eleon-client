@@ -6,7 +6,12 @@ import {
   ItemType,
   MenuType,
 } from '@eleon/sites-management-proxy';
-import { generateTempGuid, PipesModule, RequiredMarkModule, SharedModule } from '@eleon/angular-sdk.lib';
+import {
+  generateTempGuid,
+  PipesModule,
+  RequiredMarkModule,
+  SharedModule,
+} from '@eleon/angular-sdk.lib';
 import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -18,7 +23,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ILocalizationService } from '@eleon/angular-sdk.lib';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ResponsiveTableModule, SharedTableModule } from '@eleon/primeng-ui.lib';
+import {
+  ResponsiveTableModule,
+  SharedTableModule,
+} from '@eleon/primeng-ui.lib';
 import { finalize, Observable, tap } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
 import { TextareaModule } from 'primeng/textarea';
@@ -39,7 +47,7 @@ interface MenuItemModel {
     orderEmpty: boolean;
     policyEmpty: boolean;
     pathEmpty: boolean;
-  },
+  };
 }
 
 @Component({
@@ -62,19 +70,17 @@ interface MenuItemModel {
     ResponsiveTableModule,
     InputNumberModule,
     DialogModule,
-    TextareaModule],
+    TextareaModule,
+  ],
   templateUrl: './application-menu-user-item-management.component.html',
   styleUrls: ['./application-menu-user-item-management.component.css'],
-  providers:[
-    TableModule,
-  ]
+  providers: [TableModule],
 })
-
 export class ApplicationMenuUserItemManagementComponent implements OnInit {
   isUserMenu: boolean = true;
   menuItems: ApplicationMenuItemDto[] = [];
   menuItemsTree: ItemsTreeNode[] = [];
-  loading= false;
+  loading = false;
   ItemType = ItemType;
   selectedNode: ItemsTreeNode | null = null;
   createNodeDialogShow: boolean = false;
@@ -86,7 +92,7 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
   pathTooltip: string = '';
   showPermissionDialog: boolean = false;
   selectedPermissionPolicies: string[] = [];
-  
+
   @Input()
   type: MenuType;
 
@@ -103,18 +109,21 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const baseURI = document.baseURI; 
-    const appsIndex = baseURI.includes('apps/') 
-    ? baseURI.indexOf('apps/') + 'apps/'.length 
-    : (baseURI.includes('ec/') 
-        ? baseURI.indexOf('ec/') + 'ec/'.length 
-        : 0);
+    const baseURI = document.baseURI;
+    const appsIndex = baseURI.includes('apps/')
+      ? baseURI.indexOf('apps/') + 'apps/'.length
+      : baseURI.includes('ec/')
+      ? baseURI.indexOf('ec/') + 'ec/'.length
+      : 0;
 
-  if (appsIndex > 0) {
-    this.pathTooltip = baseURI.substring(0, appsIndex);
-  } else {
-    this.pathTooltip = baseURI;
-  }    this.title = this.localizationService.instant('TenantManagement::ApplicationMenuItem:AddMenuItem');
+    if (appsIndex > 0) {
+      this.pathTooltip = baseURI.substring(0, appsIndex);
+    } else {
+      this.pathTooltip = baseURI;
+    }
+    this.title = this.localizationService.instant(
+      'TenantManagement::ApplicationMenuItem:AddMenuItem'
+    );
     this.loadApplicationMenuItems();
     this.initMenuItemModel();
   }
@@ -127,7 +136,6 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
     return this.type === MenuType.Top;
   }
 
-
   initMenuItemModel() {
     this.menuItemModel = {
       name: '',
@@ -139,8 +147,8 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
         nameEmpty: false,
         orderEmpty: false,
         policyEmpty: false,
-        pathEmpty: false
-      }
+        pathEmpty: false,
+      },
     };
   }
 
@@ -152,9 +160,9 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
       .subscribe((result) => {
         this.menuItemsTree = [];
         this.menuItems = result;
-  
+
         const menuItemsMap: { [key: string]: ItemsTreeNode } = {};
-    
+
         this.menuItems.forEach((item) => {
           menuItemsMap[item.id] = {
             data: item,
@@ -165,44 +173,53 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
             rowUniqueId: generateTempGuid(),
           };
         });
-  
+
         const findParentNodeByLabel = (label: string): ItemsTreeNode | null => {
-          const parentItem = this.menuItems.find((item) => item.label === label);
+          const parentItem = this.menuItems.find(
+            (item) => item.label === label
+          );
           return parentItem ? menuItemsMap[parentItem.id] : null;
         };
-  
+
         this.menuItems.forEach((item) => {
           const node = menuItemsMap[item.id];
-          let parentNode = item.parentName ? findParentNodeByLabel(item.parentName) : null;
-  
+          let parentNode = item.parentName
+            ? findParentNodeByLabel(item.parentName)
+            : null;
+
           if (parentNode) {
             parentNode.children.push(node);
           } else if (!item.parentName) {
             this.menuItemsTree.push(node);
           }
         });
-  
+
         this.refreshTable();
         this.loading = false;
       });
   }
-  
 
   resetValidators() {
     this.menuItemModel.validators = {
       nameEmpty: false,
       orderEmpty: false,
       policyEmpty: false,
-      pathEmpty: false
-    }
+      pathEmpty: false,
+    };
   }
 
   checkLabelUnique(nodeList: ItemsTreeNode[], labelToCheck: string): boolean {
     for (const node of nodeList) {
-      if (node.label === labelToCheck && node.rowUniqueId !== this.selectedNode?.rowUniqueId) {
+      if (
+        node.label === labelToCheck &&
+        node.rowUniqueId !== this.selectedNode?.rowUniqueId
+      ) {
         return false;
       }
-      if (node.children && !this.checkLabelUnique(node.children as ItemsTreeNode[], labelToCheck)) {
+      if (
+        node.children &&
+        !this.checkLabelUnique(node.children as ItemsTreeNode[], labelToCheck)
+      ) {
         return false;
       }
     }
@@ -210,42 +227,63 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
   }
 
   validateLabelUnique() {
-    const isLabelUnique = this.checkLabelUnique(this.menuItemsTree, this.menuItemModel.name);
+    const isLabelUnique = this.checkLabelUnique(
+      this.menuItemsTree,
+      this.menuItemModel.name
+    );
 
     if (!isLabelUnique) {
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::ApplicationMenuItem:NameNotUnique'),
+        summary: this.localizationService.instant(
+          'TenantManagement::ApplicationMenuItem:NameNotUnique'
+        ),
       });
       return false;
     }
 
-  return true;
+    return true;
   }
-  
 
-  validate(): boolean{
+  validate(): boolean {
     this.menuItemModel.name = this.menuItemModel?.name?.trim();
     let isValid = false;
-    if(!this.menuItemModel.name){
+    if (!this.menuItemModel.name) {
       this.menuItemModel.validators.nameEmpty = true;
-      this.messageService.add({severity:'error', summary: this.localizationService.instant('TenantManagement::ApplicationMenuItem:NameEmpty')});
-    } else if(this.menuItemModel?.name?.length > 0 && !this.validateLabelUnique()){
+      this.messageService.add({
+        severity: 'error',
+        summary: this.localizationService.instant(
+          'TenantManagement::ApplicationMenuItem:NameEmpty'
+        ),
+      });
+    } else if (
+      this.menuItemModel?.name?.length > 0 &&
+      !this.validateLabelUnique()
+    ) {
       this.menuItemModel.validators.nameEmpty = true;
-    } else if(this.menuItemModel.order < 0){
+    } else if (this.menuItemModel.order < 0) {
       this.menuItemModel.validators.orderEmpty = true;
-      this.messageService.add({severity:'error', summary: this.localizationService.instant('TenantManagement::ApplicationMenuItem:OrderEmpty')});
-    } else if(!this.menuItemModel.requiredPolicy){
+      this.messageService.add({
+        severity: 'error',
+        summary: this.localizationService.instant(
+          'TenantManagement::ApplicationMenuItem:OrderEmpty'
+        ),
+      });
+    } else if (!this.menuItemModel.requiredPolicy) {
       this.menuItemModel.validators.policyEmpty = true;
-      this.messageService.add({severity:'error', summary: this.localizationService.instant('TenantManagement::ApplicationMenuItem:PolicyEmpty')});
-    }
-     else{
+      this.messageService.add({
+        severity: 'error',
+        summary: this.localizationService.instant(
+          'TenantManagement::ApplicationMenuItem:PolicyEmpty'
+        ),
+      });
+    } else {
       isValid = true;
     }
     return isValid;
   }
 
-  //#region Add 
+  //#region Add
 
   addMenuItem() {
     this.createNodeDialogShow = true;
@@ -268,50 +306,49 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
     this.createNodeDialogShow = false;
   }
 
-  submit(){
-    if(this.isEditing){
+  submit() {
+    if (this.isEditing) {
       this.saveEditedNode();
     } else {
       this.onAdd();
     }
-  } 
+  }
 
-  onAdd(){
-    if(!this.validate()) return;
+  onAdd() {
+    if (!this.validate()) return;
     this.onRowAdd();
     this.initMenuItemModel();
     this.createNodeDialogShow = false;
   }
-  
+
   onRowAdd() {
     const newChildNode: ItemsTreeNode = {
-      data: { 
+      data: {
         label: this.menuItemModel.name,
         itemType: ItemType.MenuItem,
-        menuType:  this.type,
+        menuType: this.type,
         order: this.menuItemModel.order,
         applicationId: this.applicationId,
         icon: this.menuItemModel.icon,
         parentName: this.selectedNode?.data?.label || this.selectedNode?.label,
         path: this.menuItemModel.path,
         requiredPolicy: this.menuItemModel.requiredPolicy,
-        display: true
-       } as ApplicationMenuItemDto,
+        display: true,
+      } as ApplicationMenuItemDto,
       label: this.menuItemModel.name,
       children: [],
       expanded: true,
-      rowUniqueId: generateTempGuid()
+      rowUniqueId: generateTempGuid(),
     };
 
-    if(this.selectedNode){
+    if (this.selectedNode) {
       if (this.selectedNode?.children) {
         this.selectedNode.children.push(newChildNode);
       } else {
         this.selectedNode.children = [newChildNode];
       }
-    } else{
+    } else {
       this.menuItemsTree.push(newChildNode);
-
     }
 
     this.refreshTable();
@@ -324,12 +361,14 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
         .sort((a, b) => {
           return (a.data?.order || 0) - (b.data?.order || 0);
         })
-        .map(node => ({
+        .map((node) => ({
           ...node,
-          children: node.children ? sortNodes(node.children as ItemsTreeNode[]) : []
+          children: node.children
+            ? sortNodes(node.children as ItemsTreeNode[])
+            : [],
         }));
     };
-  
+
     this.menuItemsTree = sortNodes(this.menuItemsTree);
   }
 
@@ -339,26 +378,28 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
 
   editRow(node: ItemsTreeNode) {
     this.isEditing = true;
-      this.selectedNode = node;
-      this.title = this.localizationService.instant('TenantManagement::ApplicationMenuItem:EditMenuItem');
-      this.createNodeDialogShow = true;
-      this.menuItemModel = {
-        icon: node.data.icon,
-        name: node.data.label,
-        order: node.data.order,
-        requiredPolicy: node.data.requiredPolicy,
-        path: node.data.path,
-        validators: {
-          nameEmpty: false,
-          orderEmpty: false,
-          policyEmpty: false,
-          pathEmpty: false
-        }
-      }
+    this.selectedNode = node;
+    this.title = this.localizationService.instant(
+      'TenantManagement::ApplicationMenuItem:EditMenuItem'
+    );
+    this.createNodeDialogShow = true;
+    this.menuItemModel = {
+      icon: node.data.icon,
+      name: node.data.label,
+      order: node.data.order,
+      requiredPolicy: node.data.requiredPolicy,
+      path: node.data.path,
+      validators: {
+        nameEmpty: false,
+        orderEmpty: false,
+        policyEmpty: false,
+        pathEmpty: false,
+      },
+    };
   }
 
   saveEditedNode() {
-    if(!this.validate()) return;
+    if (!this.validate()) return;
     this.selectedNode.data.label = this.menuItemModel.name;
     this.selectedNode.data.order = this.menuItemModel.order;
     this.selectedNode.data.icon = this.menuItemModel.icon;
@@ -374,59 +415,64 @@ export class ApplicationMenuUserItemManagementComponent implements OnInit {
   //#endregion
 
   deleteRow(nodeToDelete: ItemsTreeNode) {
-    const deleteNode = (nodes: ItemsTreeNode[], targetNode: ItemsTreeNode): ItemsTreeNode[] => {
+    const deleteNode = (
+      nodes: ItemsTreeNode[],
+      targetNode: ItemsTreeNode
+    ): ItemsTreeNode[] => {
       return nodes
-        .filter(currentNode => currentNode !== targetNode)
-        .map(currentNode => ({
+        .filter((currentNode) => currentNode !== targetNode)
+        .map((currentNode) => ({
           ...currentNode,
-          children: currentNode.children ? deleteNode(currentNode.children as ItemsTreeNode[], targetNode) : []
+          children: currentNode.children
+            ? deleteNode(currentNode.children as ItemsTreeNode[], targetNode)
+            : [],
         }));
     };
-  
+
     this.menuItemsTree = deleteNode(this.menuItemsTree, nodeToDelete);
   }
-  
-  
 
   update(): Observable<void | ApplicationMenuItemDto[]> {
     this.loading = true;
     const list: ApplicationMenuItemDto[] = [];
 
-    this.menuItemsTree.forEach(node => {
-        const addData = (currentNode: ItemsTreeNode) => {
-            list.push(currentNode.data);
-            currentNode.children?.forEach(child => addData(child as ItemsTreeNode));
-        };
-        addData(node);
+    this.menuItemsTree.forEach((node) => {
+      const addData = (currentNode: ItemsTreeNode) => {
+        list.push(currentNode.data);
+        currentNode.children?.forEach((child) =>
+          addData(child as ItemsTreeNode)
+        );
+      };
+      addData(node);
     });
 
     return this.applicationMenuItemService
-        .update(
-            this.applicationId,
-            list,
-        )
-        .pipe(
-            finalize(() => (this.loading = false)),
-            tap(() => this.loadApplicationMenuItems())
-        );
+      .update(this.applicationId, list)
+      .pipe(
+        finalize(() => (this.loading = false)),
+        tap(() => this.loadApplicationMenuItems())
+      );
   }
 
-    permissionVisibleChangeHandler(event){
-      this.showPermissionDialog = event;
-      if(!event){
-        this.selectedPermissionPolicies = [];
-      }
+  permissionVisibleChangeHandler(event) {
+    this.showPermissionDialog = event;
+    if (!event) {
+      this.selectedPermissionPolicies = [];
     }
-  
-    displayPermissionDialog(){
-      this.selectedPermissionPolicies = this.menuItemModel?.requiredPolicy.split(',');
-      this.showPermissionDialog = true;
+  }
+
+  displayPermissionDialog() {
+    this.selectedPermissionPolicies =
+      this.menuItemModel?.requiredPolicy.split(',');
+    this.showPermissionDialog = true;
+  }
+
+  selectedPermissionHandler(event: any[]) {
+    if (event.length > 0) {
+      this.menuItemModel.requiredPolicy = event
+        .map((permission) => permission.name)
+        .join(',');
     }
-  
-    selectedPermissionHandler(event: any[]){
-      if(event.length > 0){
-        this.menuItemModel.requiredPolicy = event.map(permission => permission.name).join(',');
-      }
-      this.showPermissionDialog = false;
-    }
+    this.showPermissionDialog = false;
+  }
 }

@@ -1,128 +1,233 @@
 <!-- <app-page-title [title]="'TenantManagement::Resources' | abpLocalization" icon="fa-solid fa-database">
 </app-page-title> -->
-<p-table #dt1 [loading]="loading" [value]="modules" [paginator]="false" style="min-height: 200px;"
-    dataKey="id">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>{{'TenantManagement::Name' | abpLocalization}}</th>
-            <th> {{'TenantManagement::Path' | abpLocalization}}</th>
-            <th>{{ 'TenantManagement::Source' | abpLocalization}}</th>
-            <th></th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-module>
-        <tr>
-            <td>
-              <div class="flex align-items-center gap-2">
-                <span>
-                  <i class="fa-solid fa-database"></i>
-                </span>
-                <span>
-                  {{ module.displayName }}
-                </span>
-              </div>
-            <td>
-                {{ module.path }}
-            </td>
-            <td>
-              {{ module.source }}
-            </td>
-            <td>
-                <div class="flex gap-1 justify-content-end align-items-center" *ngIf="!module.isSystem">
-                    <p-button type="button" icon="fa fa-gear" (click)="editSettings(module)" [text]="true"
-                        [pTooltip]="'TenantManagement::Settings' | abpLocalization" tooltipPosition="top">
-                    </p-button>
-                    <p-button type="button"
-                      icon="fa fa-trash" (click)="delete(module)" [text]="true" severity="danger"
-                      [pTooltip]="'Infrastructure::Delete' | abpLocalization" tooltipPosition="top">
-                    </p-button>
-                </div>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr class="table-emptymessage">
-        <td class="w-full" colspan="4">
-          <div class="card w-full">
-            <div class="card-body w-full text-center">
-              {{ 'TenantManagement::Resources:List:Empty' | abpLocalization }}
-            </div>
+<p-table
+  #dt1
+  [loading]="loading"
+  [value]="modules"
+  [paginator]="false"
+  style="min-height: 200px"
+  dataKey="id"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{ 'TenantManagement::Name' | abpLocalization }}</th>
+      <th>{{ 'TenantManagement::Path' | abpLocalization }}</th>
+      <th>{{ 'TenantManagement::Source' | abpLocalization }}</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-module>
+    <tr>
+      <td>
+        <div class="flex align-items-center gap-2">
+          <span>
+            <i class="fa-solid fa-database"></i>
+          </span>
+          <span>
+            {{ module.displayName }}
+          </span>
+        </div>
+      </td>
+
+      <td>
+        {{ module.path }}
+      </td>
+      <td>
+        {{ module.source }}
+      </td>
+      <td>
+        <div
+          class="flex gap-1 justify-content-end align-items-center"
+          *ngIf="!module.isSystem"
+        >
+          <p-button
+            type="button"
+            icon="fa fa-gear"
+            (click)="editSettings(module)"
+            [text]="true"
+            [pTooltip]="'TenantManagement::Settings' | abpLocalization"
+            tooltipPosition="top"
+          >
+          </p-button>
+          <p-button
+            type="button"
+            icon="fa fa-trash"
+            (click)="delete(module)"
+            [text]="true"
+            severity="danger"
+            [pTooltip]="'Infrastructure::Delete' | abpLocalization"
+            tooltipPosition="top"
+          >
+          </p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr class="table-emptymessage">
+      <td class="w-full" colspan="4">
+        <div class="card w-full">
+          <div class="card-body w-full text-center">
+            {{ 'TenantManagement::Resources:List:Empty' | abpLocalization }}
           </div>
-        </td>
-      </tr>
-    </ng-template>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
 
-
-<p-dialog [resizable]="false" [header]="'TenantManagement::Resource:Add:Title' | abpLocalization" [(visible)]="displayDiscoverDialog" modal="modal"
-(visibleChange)="clear()"
-  *ngIf="displayDiscoverDialog">
+<p-dialog
+  [resizable]="false"
+  [header]="'TenantManagement::Resource:Add:Title' | abpLocalization"
+  [(visible)]="displayDiscoverDialog"
+  modal="modal"
+  (visibleChange)="clear()"
+  *ngIf="displayDiscoverDialog"
+>
   <div class="dialog-standard">
-    
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{ 'TenantManagement::DisplayName' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'TenantManagement::DisplayName' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <input class="w-full" pInputText [(ngModel)]="newModule.displayName" [ngClass]="{'ng-invalid ng-dirty': nameEmpty}" (input)="resetValidators()"/>
+        <input
+          class="w-full"
+          pInputText
+          [(ngModel)]="newModule.displayName"
+          [ngClass]="{ 'ng-invalid ng-dirty': nameEmpty }"
+          (input)="resetValidators()"
+        />
       </div>
     </div>
-    
+
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{ 'TenantManagement::Path' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'TenantManagement::Path' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <div class="p-inputgroup" [ngClass]="{'ng-invalid ng-dirty invalid': pathEmpty }">
-          <span class="p-inputgroup-addon small" [pTooltip]="tooltip" tooltipPosition="top">/res/</span>
-          <input class="w-full"
-          id="name" type="text" pInputText [(ngModel)]="newModule.path" (input)="resetValidators()"/>
+        <div
+          class="p-inputgroup"
+          [ngClass]="{ 'ng-invalid ng-dirty invalid': pathEmpty }"
+        >
+          <span
+            class="p-inputgroup-addon small"
+            [pTooltip]="tooltip"
+            tooltipPosition="top"
+            >/res/</span
+          >
+          <input
+            class="w-full"
+            id="name"
+            type="text"
+            pInputText
+            [(ngModel)]="newModule.path"
+            (input)="resetValidators()"
+          />
         </div>
       </div>
     </div>
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{ 'TenantManagement::Type' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'TenantManagement::Type' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <p-select id="resourceType" [options]="resourceTypes"  class="w-full" 
-          [(ngModel)]="newModule.type" optionLabel="label" optionValue="value"
-          appendTo="body" [style]="{'width':'100%'}">
+        <p-select
+          id="resourceType"
+          [options]="resourceTypes"
+          class="w-full"
+          [(ngModel)]="newModule.type"
+          optionLabel="label"
+          optionValue="value"
+          appendTo="body"
+          [style]="{ width: '100%' }"
+        >
         </p-select>
       </div>
     </div>
 
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{ 'TenantManagement::Source' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'TenantManagement::Source' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
         <input class="w-full" pInputText [(ngModel)]="newModule.source" />
       </div>
     </div>
   </div>
   <ng-template #footer>
-    <p-button icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="displayDiscoverDialog = false" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
-    <p-button icon="fa fa-plus" [label]="'Infrastructure::Add' | abpLocalization" (click)="create()" [text]="true" [raised]="true" [disabled]="loading"></p-button>
+    <p-button
+      icon="pi pi-times"
+      [label]="'Infrastructure::Cancel' | abpLocalization"
+      (click)="displayDiscoverDialog = false"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-secondary"
+    ></p-button>
+    <p-button
+      icon="fa fa-plus"
+      [label]="'Infrastructure::Add' | abpLocalization"
+      (click)="create()"
+      [text]="true"
+      [raised]="true"
+      [disabled]="loading"
+    ></p-button>
   </ng-template>
 </p-dialog>
 
-
-<p-dialog [resizable]="false" [header]="'TenantManagement::Resource:Edit:Title' | abpLocalization" [(visible)]="displaySettingsDialog" modal="modal"
-  *ngIf="displaySettingsDialog && selectedModule">
+<p-dialog
+  [resizable]="false"
+  [header]="'TenantManagement::Resource:Edit:Title' | abpLocalization"
+  [(visible)]="displaySettingsDialog"
+  modal="modal"
+  *ngIf="displaySettingsDialog && selectedModule"
+>
   <div class="dialog-standard">
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{ 'TenantManagement::DisplayName' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'TenantManagement::DisplayName' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <input class="w-full" pInputText [(ngModel)]="selectedModule.displayName" [ngClass]="{'ng-invalid ng-dirty': nameEmpty}" (input)="resetValidators()"/>
+        <input
+          class="w-full"
+          pInputText
+          [(ngModel)]="selectedModule.displayName"
+          [ngClass]="{ 'ng-invalid ng-dirty': nameEmpty }"
+          (input)="resetValidators()"
+        />
       </div>
     </div>
-    
+
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{ 'TenantManagement::Path' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'TenantManagement::Path' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <div class="p-inputgroup" [ngClass]="{'ng-invalid ng-dirty invalid': pathEmpty }">
-          <span class="p-inputgroup-addon small" [pTooltip]="tooltip" tooltipPosition="top">/res/</span>
-          <input class="w-full" (input)="resetValidators()"
-          id="name" type="text" pInputText [(ngModel)]="selectedModule.path" />
+        <div
+          class="p-inputgroup"
+          [ngClass]="{ 'ng-invalid ng-dirty invalid': pathEmpty }"
+        >
+          <span
+            class="p-inputgroup-addon small"
+            [pTooltip]="tooltip"
+            tooltipPosition="top"
+            >/res/</span
+          >
+          <input
+            class="w-full"
+            (input)="resetValidators()"
+            id="name"
+            type="text"
+            pInputText
+            [(ngModel)]="selectedModule.path"
+          />
         </div>
       </div>
     </div>
 
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{ 'TenantManagement::Source' | abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'TenantManagement::Source' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
         <input class="w-full" pInputText [(ngModel)]="selectedModule.source" />
       </div>
@@ -130,18 +235,40 @@
   </div>
 
   <div class="field grid">
-    <label class="col-12 mb-2 md:col-4 md:mb-0">{{ 'TenantManagement::Type' | abpLocalization}}</label>
+    <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+      'TenantManagement::Type' | abpLocalization
+    }}</label>
     <div class="col-12 md:col-8">
-      <p-select id="resourceType" [options]="resourceTypes"  class="w-full" 
-        [(ngModel)]="selectedModule.type" optionLabel="label" optionValue="value"
-        appendTo="body" [style]="{'width':'100%'}">
+      <p-select
+        id="resourceType"
+        [options]="resourceTypes"
+        class="w-full"
+        [(ngModel)]="selectedModule.type"
+        optionLabel="label"
+        optionValue="value"
+        appendTo="body"
+        [style]="{ width: '100%' }"
+      >
       </p-select>
     </div>
   </div>
 
   <ng-template #footer>
-    <p-button icon="pi pi-times"  [label]="'Infrastructure::Cancel' | abpLocalization" (click)="displaySettingsDialog = false" [text]="true" [raised]="true" styleClass="p-button-secondary"></p-button>
-      <p-button icon="fa fa-check" [label]="'Infrastructure::Save' | abpLocalization" (click)="edit()" [text]="true" [raised]="true" [disabled]="loading"></p-button>
+    <p-button
+      icon="pi pi-times"
+      [label]="'Infrastructure::Cancel' | abpLocalization"
+      (click)="displaySettingsDialog = false"
+      [text]="true"
+      [raised]="true"
+      styleClass="p-button-secondary"
+    ></p-button>
+    <p-button
+      icon="fa fa-check"
+      [label]="'Infrastructure::Save' | abpLocalization"
+      (click)="edit()"
+      [text]="true"
+      [raised]="true"
+      [disabled]="loading"
+    ></p-button>
   </ng-template>
 </p-dialog>
-

@@ -1,4 +1,7 @@
-import { ClientApplicationDto, ClientApplicationPropertyDto } from '@eleon/sites-management-proxy';
+import {
+  ClientApplicationDto,
+  ClientApplicationPropertyDto,
+} from '@eleon/sites-management-proxy';
 
 /**
  * Gets a string property value by key from the application.
@@ -7,7 +10,7 @@ export function getStringProperty(
   app: ClientApplicationDto,
   key: string
 ): string | undefined {
-  return app.properties?.find(p => p.key === key)?.value;
+  return app.properties?.find((p) => p.key === key)?.value;
 }
 
 /**
@@ -22,7 +25,7 @@ export function setStringProperty(
     app.properties = [];
   }
 
-  const existing = app.properties.find(p => p.key === key);
+  const existing = app.properties.find((p) => p.key === key);
 
   if (existing) {
     existing.value = value;
@@ -38,7 +41,7 @@ export function getBooleanProperty(
   app: ClientApplicationDto,
   key: string
 ): boolean {
-  const prop = app.properties?.find(p => p.key === key);
+  const prop = app.properties?.find((p) => p.key === key);
   return prop?.value === 'true';
 }
 
@@ -55,7 +58,7 @@ export function setBooleanProperty(
   }
 
   const stringValue = value.toString();
-  const existing = app.properties.find(p => p.key === key);
+  const existing = app.properties.find((p) => p.key === key);
 
   if (existing) {
     existing.value = stringValue;

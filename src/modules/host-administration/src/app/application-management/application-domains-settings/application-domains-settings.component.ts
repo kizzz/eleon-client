@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ConfirmationService, MessageService, TreeNode } from 'primeng/api';
 import {
   ClientApplicationDto,
@@ -19,7 +25,11 @@ import {
   ApplicationType,
   MenuType,
 } from '@eleon/sites-management-proxy';
-import { PipesModule, RequiredMarkModule, SharedModule } from '@eleon/angular-sdk.lib';
+import {
+  PipesModule,
+  RequiredMarkModule,
+  SharedModule,
+} from '@eleon/angular-sdk.lib';
 import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -43,14 +53,14 @@ import {
   PageControls,
   contributeControls,
   PAGE_CONTROLS,
-} from "@eleon/primeng-ui.lib";
+} from '@eleon/primeng-ui.lib';
 import { ApplicationMenuItemManagementComponent } from '../../application-menu-item-management/application-menu-item-management.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesManagementComponent } from '../../modules-management/modules-management.component';
 import { ResourceManagementComponent } from '../../resource-management/resource-management.component';
-import { MultiTenancyManagementComponent } from '../../multi-tenancy-management/multi-tenancy-management.component'
+import { MultiTenancyManagementComponent } from '../../multi-tenancy-management/multi-tenancy-management.component';
 import { CheckboxModule } from 'primeng/checkbox';
-import { TextareaModule } from "primeng/textarea";
+import { TextareaModule } from 'primeng/textarea';
 import { ModulesSettingsComponent } from '../../application-settings/modules-settings.component';
 import { GeneralSettingsComponent } from '../../application-settings/general-settings.component';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -60,7 +70,10 @@ import { ServiceWorkerSettingsComponent } from '../../application-settings/servi
 import { TreeModule } from 'primeng/tree';
 import { OnChanges } from '@angular/core';
 import { SimpleChanges } from '@angular/core';
-import { LocalizedConfirmationService, LocalizedMessageService } from '@eleon/primeng-ui.lib'
+import {
+  LocalizedConfirmationService,
+  LocalizedMessageService,
+} from '@eleon/primeng-ui.lib';
 
 @Component({
   selector: 'app-application-domains-settings',
@@ -87,33 +100,33 @@ import { LocalizedConfirmationService, LocalizedMessageService } from '@eleon/pr
     ResponsiveTableModule,
     CheckboxModule,
     TextareaModule,
-		TreeModule,
+    TreeModule,
   ],
   templateUrl: './application-domains-settings.component.html',
   styleUrls: ['./application-domains-settings.component.css'],
 })
 export class ApplicationDomainsSettingsComponent implements OnInit, OnChanges {
-	loading = false;
-	domains: any[] = [];
-	availableDomains: any[] = [];
-	addDomainDialogVisible = false;
+  loading = false;
+  domains: any[] = [];
+  availableDomains: any[] = [];
+  addDomainDialogVisible = false;
 
-	@Input()
-	application: TreeNode<FullClientApplicationDto>;
+  @Input()
+  application: TreeNode<FullClientApplicationDto>;
 
-	@PageControls()
+  @PageControls()
   controls = contributeControls([
     {
-      key: "TenantManagement::AddDomain",
-      icon: "fa fa-plus",
-      severity: "info",
+      key: 'TenantManagement::AddDomain',
+      icon: 'fa fa-plus',
+      severity: 'info',
       loading: () => this.loading,
       disabled: () => this.loading,
       show: () => !!this.application?.data?.id,
-      action: () => this.addDomainDialogVisible = true,
-    }
+      action: () => (this.addDomainDialogVisible = true),
+    },
   ]);
-	
+
   constructor(
     private clientApplicationService: ClientApplicationService,
     private clientDetector: ClientAutodetectService,
@@ -124,65 +137,62 @@ export class ApplicationDomainsSettingsComponent implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef,
     public router: Router,
     public activatedRoute: ActivatedRoute,
-    public dialogService: DialogService,
+    public dialogService: DialogService
   ) {}
 
-  ngOnInit() {
-    
+  ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['application'] && this.application) {
+      this.loading = true;
+      this.loadDomains();
+    }
   }
-
-	ngOnChanges(changes: SimpleChanges) {
-		if (changes['application'] && this.application) {
-			this.loading = true;
-			this.loadDomains();
-		}
-
-	}
 
   loadDomains() {
     if (!this.application) {
       this.domains = [];
-			return;
+      return;
     }
 
-		// this.domainsService.getHostnamesByApplication(null)
-		// 	.pipe(finalize(() => this.loading = false))
-		// 	.subscribe(domains => {
-		// 		this.availableDomains = domains;
-		// 	});
+    // this.domainsService.getHostnamesByApplication(null)
+    // 	.pipe(finalize(() => this.loading = false))
+    // 	.subscribe(domains => {
+    // 		this.availableDomains = domains;
+    // 	});
 
-		// this.domainsService.getHostnamesByApplication(this.application.data?.id)
-		// 	.pipe(finalize(() => this.loading = false))
-		// 	.subscribe(domains => {
-		// 		this.domains = domains;
-		// 	});
+    // this.domainsService.getHostnamesByApplication(this.application.data?.id)
+    // 	.pipe(finalize(() => this.loading = false))
+    // 	.subscribe(domains => {
+    // 		this.domains = domains;
+    // 	});
   }
 
-	addApplicationDomain(domain: any){
-		if (!domain?.id){
-			return;
-		}
+  addApplicationDomain(domain: any) {
+    if (!domain?.id) {
+      return;
+    }
 
-		this.loading = true;
-		// this.domainsService.updateDomainApplication(domain.id, this.application.data?.id)
-		// 	.pipe(finalize(() => this.loading = false))
-		// 	.subscribe(() => {
-		// 		this.loadDomains();
-		// 	});
-	}
+    this.loading = true;
+    // this.domainsService.updateDomainApplication(domain.id, this.application.data?.id)
+    // 	.pipe(finalize(() => this.loading = false))
+    // 	.subscribe(() => {
+    // 		this.loadDomains();
+    // 	});
+  }
 
-	removeApplicationDomain(domain: any) {
-		if (!domain?.id){
-			return;
-		}
+  removeApplicationDomain(domain: any) {
+    if (!domain?.id) {
+      return;
+    }
 
-		// this.confirmationService.confirm("TenantManagement::ConfirmDeleteApplicationDomain", () => {
-		// 	this.loading = true;
-		// 	this.domainsService.updateDomainApplication(domain.id, null)
-		// 		.pipe(finalize(() => this.loading = false))
-		// 		.subscribe(() => {
-		// 			this.loadDomains();
-		// 		});
-		// })
-	}
+    // this.confirmationService.confirm("TenantManagement::ConfirmDeleteApplicationDomain", () => {
+    // 	this.loading = true;
+    // 	this.domainsService.updateDomainApplication(domain.id, null)
+    // 		.pipe(finalize(() => this.loading = false))
+    // 		.subscribe(() => {
+    // 			this.loadDomains();
+    // 		});
+    // })
+  }
 }

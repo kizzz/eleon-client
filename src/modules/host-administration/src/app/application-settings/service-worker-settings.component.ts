@@ -7,8 +7,16 @@ import { SharedModule } from '@eleon/angular-sdk.lib';
 import { TooltipModule } from 'primeng/tooltip';
 import { ClientApplicationDto } from '@eleon/sites-management-proxy';
 import { RawEditorModule } from '@eleon/primeng-ui.lib';
-import { getDefaultSwConfig, validateSwConfigJson } from './service-worker-settings.helper';
-import { getBooleanProperty, getStringProperty, setBooleanProperty, setStringProperty } from './application-properties.helper';
+import {
+  getDefaultSwConfig,
+  validateSwConfigJson,
+} from './service-worker-settings.helper';
+import {
+  getBooleanProperty,
+  getStringProperty,
+  setBooleanProperty,
+  setStringProperty,
+} from './application-properties.helper';
 
 @Component({
   selector: 'app-service-worker-settings',
@@ -19,18 +27,21 @@ import { getBooleanProperty, getStringProperty, setBooleanProperty, setStringPro
     CheckboxModule,
     TooltipModule,
     TextareaModule,
-    RawEditorModule
+    RawEditorModule,
   ],
   template: `
     <div class="grid align-items-center">
-      <div class="col-4" appRequired>{{ 'TenantManagement::EnableServiceWorker' | abpLocalization }}</div>
+      <div class="col-4" appRequired>
+        {{ 'TenantManagement::EnableServiceWorker' | abpLocalization }}
+      </div>
       <div class="col-8">
         <p-checkbox
           [binary]="true"
           [(ngModel)]="isSwEnabled"
           (onChange)="onSwToggle()"
           [disabled]="loading"
-          id="enable-sw-checkbox">
+          id="enable-sw-checkbox"
+        >
         </p-checkbox>
       </div>
     </div>
@@ -42,10 +53,11 @@ import { getBooleanProperty, getStringProperty, setBooleanProperty, setStringPro
         [readOnly]="readOnly"
         [loading]="loading"
         [(content)]="swConfigJson"
-        (contentChange)="onSwConfigChanged()">
+        (contentChange)="onSwConfigChanged()"
+      >
       </app-raw-editor>
     </div>
-  `
+  `,
 })
 export class ServiceWorkerSettingsComponent {
   @Input() node: TreeNode<ClientApplicationDto>;
@@ -64,11 +76,18 @@ export class ServiceWorkerSettingsComponent {
 
   ngOnInit(): void {
     this.isSwEnabled = getBooleanProperty(this.node.data, 'UseServiceWorker');
-    this.swConfigJson = getStringProperty(this.node.data, 'ServiceWorkerConfig');
+    this.swConfigJson = getStringProperty(
+      this.node.data,
+      'ServiceWorkerConfig'
+    );
 
     if (!this.swConfigJson?.length) {
       this.swConfigJson = getDefaultSwConfig();
-      setStringProperty(this.node.data, 'ServiceWorkerConfig', this.swConfigJson);
+      setStringProperty(
+        this.node.data,
+        'ServiceWorkerConfig',
+        this.swConfigJson
+      );
     }
   }
 

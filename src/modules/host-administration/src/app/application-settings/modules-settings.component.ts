@@ -18,27 +18,60 @@ import { TooltipModule } from 'primeng/tooltip';
     InputTextModule,
     FormsModule,
     ResponsiveTableModule,
-    TooltipModule
+    TooltipModule,
   ],
   template: `
-    <p-table #modulesTable [value]="modules" [paginator]="true" [rows]="5" [totalRecords]="modules?.length" [rowHover]="true"
-      [(first)]="firstModulesRowIx"  [globalFilterFields]="['displayName', 'path', 'source']"
-      [(selection)]="selectedModules" dataKey="id" [loading]="loading">
+    <p-table
+      #modulesTable
+      [value]="modules"
+      [paginator]="true"
+      [rows]="5"
+      [totalRecords]="modules?.length"
+      [rowHover]="true"
+      [(first)]="firstModulesRowIx"
+      [globalFilterFields]="['displayName', 'path', 'source']"
+      [(selection)]="selectedModules"
+      dataKey="id"
+      [loading]="loading"
+    >
       <ng-template pTemplate="caption">
         <div class="grid mt-0">
-          <div class="col-10 md:pl-4 p-0 flex align-items-center justify-content-end">
+          <div
+            class="col-10 md:pl-4 p-0 flex align-items-center justify-content-end"
+          >
             <div class="p-inputgroup">
-              <input type="text" pInputText  [(ngModel)]="searchQueryText" (input)="onSearch($event)"
-                placeholder="{{'Infrastructure::Search' | abpLocalization}}" autofocus>
-              <button type="button" pButton pRipple icon="pi pi-times-circle" class="p-button-danger p-button-text"
-                (click)="onClearSearch()">
-              </button>
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="searchQueryText"
+                (input)="onSearch($event)"
+                placeholder="{{ 'Infrastructure::Search' | abpLocalization }}"
+                autofocus
+              />
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-times-circle"
+                class="p-button-danger p-button-text"
+                (click)="onClearSearch()"
+              ></button>
             </div>
           </div>
-          <div class="col-2 py-3 md:py-0 flex align-items-center justify-content-center lg:justify-content-end">
+          <div
+            class="col-2 py-3 md:py-0 flex align-items-center justify-content-center lg:justify-content-end"
+          >
             <div class="flex align-items-center">
-              <p-button type="button" icon="pi pi-sync" (click)="reload.emit()" [text]="true" [raised]="true"
-                [label]="'TenantManagement::Reload' | abpLocalization" styleClass="p-button-warning" class="p-button-text">
+              <p-button
+                type="button"
+                icon="pi pi-sync"
+                (click)="reload.emit()"
+                [text]="true"
+                [raised]="true"
+                [label]="'TenantManagement::Reload' | abpLocalization"
+                styleClass="p-button-warning"
+                class="p-button-text"
+              >
               </p-button>
             </div>
           </div>
@@ -47,10 +80,16 @@ import { TooltipModule } from 'primeng/tooltip';
       <ng-template pTemplate="header">
         <tr>
           <th appResponsiveColumn="30"><p-tableHeaderCheckbox /></th>
-          <th>{{ 'TenantManagement::DisplayName' | abpLocalization}}</th>
-          <th appResponsiveColumn="260"> {{ 'TenantManagement::Path' | abpLocalization}}</th>
-          <th appResponsiveColumn="260">{{ 'TenantManagement::Source' | abpLocalization}}</th>
-          <th appResponsiveColumn="100">{{ 'TenantManagement::LoadLevel' | abpLocalization}}</th>
+          <th>{{ 'TenantManagement::DisplayName' | abpLocalization }}</th>
+          <th appResponsiveColumn="260">
+            {{ 'TenantManagement::Path' | abpLocalization }}
+          </th>
+          <th appResponsiveColumn="260">
+            {{ 'TenantManagement::Source' | abpLocalization }}
+          </th>
+          <th appResponsiveColumn="100">
+            {{ 'TenantManagement::LoadLevel' | abpLocalization }}
+          </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-row>
@@ -78,13 +117,13 @@ import { TooltipModule } from 'primeng/tooltip';
         </tr>
       </ng-template>
     </p-table>
-  `
+  `,
 })
 export class ModulesSettingsComponent {
   @Input() modules: any[] = [];
   @Input() loading: boolean = false;
   @Input() loadLevels: any[];
-  
+
   @Output() reload = new EventEmitter<void>();
   @Output() search = new EventEmitter<string>();
   @Output() clearSearch = new EventEmitter<void>();
@@ -94,7 +133,7 @@ export class ModulesSettingsComponent {
   selectedModules: any[] = [];
 
   formatLoadLevel(loadLevel: string) {
-    return this.loadLevels.find(result => result.value == loadLevel)?.label;
+    return this.loadLevels.find((result) => result.value == loadLevel)?.label;
   }
 
   onSearch(event: any) {
@@ -107,4 +146,4 @@ export class ModulesSettingsComponent {
     this.clearSearch.emit();
     this.firstModulesRowIx = 0;
   }
-} 
+}

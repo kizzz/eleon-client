@@ -20,7 +20,11 @@ import {
   MenuType,
   ErrorHandlingLevel,
 } from '@eleon/sites-management-proxy';
-import { PipesModule, RequiredMarkModule, SharedModule } from '@eleon/angular-sdk.lib';
+import {
+  PipesModule,
+  RequiredMarkModule,
+  SharedModule,
+} from '@eleon/angular-sdk.lib';
 import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -44,14 +48,14 @@ import {
   PageControls,
   contributeControls,
   PAGE_CONTROLS,
-} from "@eleon/primeng-ui.lib";
+} from '@eleon/primeng-ui.lib';
 import { ApplicationMenuItemManagementComponent } from '../../application-menu-item-management/application-menu-item-management.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModulesManagementComponent } from '../../modules-management/modules-management.component';
 import { ResourceManagementComponent } from '../../resource-management/resource-management.component';
-import { MultiTenancyManagementComponent } from '../../multi-tenancy-management/multi-tenancy-management.component'
+import { MultiTenancyManagementComponent } from '../../multi-tenancy-management/multi-tenancy-management.component';
 import { CheckboxModule } from 'primeng/checkbox';
-import { TextareaModule } from "primeng/textarea";
+import { TextareaModule } from 'primeng/textarea';
 import { ModulesSettingsComponent } from '../../application-settings/modules-settings.component';
 import { GeneralSettingsComponent } from '../../application-settings/general-settings.component';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -62,7 +66,7 @@ import { TreeModule } from 'primeng/tree';
 import { ApplicationSettingsComponent } from '../application-settings/application-settings.component';
 import { ApplicationDomainsSettingsComponent } from '../application-domains-settings/application-domains-settings.component';
 import { SubapplicationsTableComponent } from '../subapplications-table/subapplications-table.component';
-import e from 'express'
+import e from 'express';
 
 @Component({
   selector: 'app-applications-dashboard',
@@ -98,11 +102,10 @@ import e from 'express'
     GeneralSettingsComponent,
     PwaSettingsComponent,
     ServiceWorkerSettingsComponent,
-		TreeModule,
-		ApplicationSettingsComponent,
-		SubapplicationsTableComponent,
-		ApplicationDomainsSettingsComponent,
-
+    TreeModule,
+    ApplicationSettingsComponent,
+    SubapplicationsTableComponent,
+    ApplicationDomainsSettingsComponent,
   ],
   templateUrl: './applications-dashboard.component.html',
   styleUrls: ['./applications-dashboard.component.css'],
@@ -116,27 +119,31 @@ export class ApplicationsDashboardComponent implements OnInit {
   displayCreateDialog: boolean = false;
   displayImportDialog: boolean = false;
   moduleTypeOptions = moduleTypeOptions;
-  @ViewChild('generalMenuItem') generalMenuItem: ApplicationMenuItemManagementComponent;
-	@ViewChild('topMenuItem') topMenuItem: ApplicationMenuItemManagementComponent;
-	@ViewChild('userMenuItem') userMenuItem: ApplicationMenuItemManagementComponent;
-  
-  @ViewChild('multiTenancyItem') multiTenancyManagement: MultiTenancyManagementComponent;
-  
+  @ViewChild('generalMenuItem')
+  generalMenuItem: ApplicationMenuItemManagementComponent;
+  @ViewChild('topMenuItem') topMenuItem: ApplicationMenuItemManagementComponent;
+  @ViewChild('userMenuItem')
+  userMenuItem: ApplicationMenuItemManagementComponent;
+
+  @ViewChild('multiTenancyItem')
+  multiTenancyManagement: MultiTenancyManagementComponent;
+
   @ViewChild('resourcesTable') resourcesTableRef: Table;
   @ViewChild('modulesTable') modulesTableRef: Table;
   @ViewChild('pwaSettings') pwaSettings: PwaSettingsComponent;
   @ViewChild('swSettings') swSettings: ServiceWorkerSettingsComponent;
   resourceSearchQueryText: string = '';
   moduleSearchQueryText: string = '';
-  loadingInDialog= false;
+  loadingInDialog = false;
 
   tooltip: string = '';
   loading = false;
   MenuType = MenuType;
 
-  @ViewChild('modulesManagement') modulesManagementComponent: ModulesManagementComponent;
-  @ViewChild('resourceManagement') resourceManagementComponent: ResourceManagementComponent;
-
+  @ViewChild('modulesManagement')
+  modulesManagementComponent: ModulesManagementComponent;
+  @ViewChild('resourceManagement')
+  resourceManagementComponent: ResourceManagementComponent;
 
   newApplication: ClientApplicationDto = {
     isAuthenticationRequired: false,
@@ -153,20 +160,25 @@ export class ApplicationsDashboardComponent implements OnInit {
     properties: [],
     useDedicatedDatabase: false,
     appType: ApplicationType.Application,
-		orderIndex: 0,
-		errorHandlingLevel: ErrorHandlingLevel.Error,
+    orderIndex: 0,
+    errorHandlingLevel: ErrorHandlingLevel.Error,
   };
   newModules: ApplicationModuleDto[] = [];
 
   detectType: 'Autodetect' | 'Manual' = 'Autodetect';
 
-
   frameworkTypes = [
     { label: 'None', value: ClientApplicationFrameworkType.None },
     { label: 'Angular', value: ClientApplicationFrameworkType.Angular },
-    { label: 'Custom Angular', value: ClientApplicationFrameworkType.CustomAngular },
+    {
+      label: 'Custom Angular',
+      value: ClientApplicationFrameworkType.CustomAngular,
+    },
     { label: 'React', value: ClientApplicationFrameworkType.React },
-		{ label: 'Virtual Directory', value: ClientApplicationFrameworkType.VirtualDirectory }
+    {
+      label: 'Virtual Directory',
+      value: ClientApplicationFrameworkType.VirtualDirectory,
+    },
   ];
 
   styleTypes = [
@@ -177,27 +189,27 @@ export class ApplicationsDashboardComponent implements OnInit {
 
   applicationTypes = [
     { label: 'Portal', value: ClientApplicationType.Portal },
-    { label: 'ShoppingCart', value: ClientApplicationType.ShoppingCart }
+    { label: 'ShoppingCart', value: ClientApplicationType.ShoppingCart },
   ];
 
   proxyWebOptions = [
     { label: 'Proxy', value: 'Proxy' },
-    { label: 'Web', value: 'Web' }
+    { label: 'Web', value: 'Web' },
   ];
 
   proxies = [
     { label: 'Proxy 1', value: 'Proxy1' },
-    { label: 'Proxy 2', value: 'Proxy2' }
+    { label: 'Proxy 2', value: 'Proxy2' },
   ];
 
   proxyWebType = 'Proxy';
   proxy = this.proxies[0].value;
 
-  getLabelByValue(types: {label: string, value: any}[], _value: any) {
-    return types.find(({value}) => value == _value)?.label;
+  getLabelByValue(types: { label: string; value: any }[], _value: any) {
+    return types.find(({ value }) => value == _value)?.label;
   }
-  getKeyByValue(types: {key: string, value: any}[], _value: any) {
-    return types.find(({value}) => value == _value)?.key;
+  getKeyByValue(types: { key: string; value: any }[], _value: any) {
+    return types.find(({ value }) => value == _value)?.key;
   }
 
   firstResourceRowIx: number = 0;
@@ -207,39 +219,49 @@ export class ApplicationsDashboardComponent implements OnInit {
 
   @PageControls()
   controls = contributeControls([
-		{
-			key: "TenantManagement::AddSite",
-      icon: "fa fa-plus",
-      severity: "info",
+    {
+      key: 'TenantManagement::AddSite',
+      icon: 'fa fa-plus',
+      severity: 'info',
       loading: () => this.loading,
       disabled: () => this.loading,
       show: () => true,
-      action: () => {this.addType = "Site"; this.addApplication()},
-		},
-    {
-      key: "TenantManagement::AddApplication",
-      icon: "fa fa-plus",
-      severity: "info",
-      loading: () => this.loading,
-      disabled: () => this.loading,
-      show: () => !!this.selectedApplication?.data?.id,
-      action: () => {this.addType = "App"; this.addApplication()},
+      action: () => {
+        this.addType = 'Site';
+        this.addApplication();
+      },
     },
-		{
-      key: "TenantManagement::AddModule",
-      icon: "fa fa-plus",
-      severity: "info",
+    {
+      key: 'TenantManagement::AddApplication',
+      icon: 'fa fa-plus',
+      severity: 'info',
       loading: () => this.loading,
       disabled: () => this.loading,
       show: () => !!this.selectedApplication?.data?.id,
-      action: () => { this.addType = "Module"; this.addUimodule(this.selectedApplication?.data as FullClientApplicationDto); },
-    }
+      action: () => {
+        this.addType = 'App';
+        this.addApplication();
+      },
+    },
+    {
+      key: 'TenantManagement::AddModule',
+      icon: 'fa fa-plus',
+      severity: 'info',
+      loading: () => this.loading,
+      disabled: () => this.loading,
+      show: () => !!this.selectedApplication?.data?.id,
+      action: () => {
+        this.addType = 'Module';
+        this.addUimodule(
+          this.selectedApplication?.data as FullClientApplicationDto
+        );
+      },
+    },
   ]);
 
-  
   loadLevels = [
-    { label: 'Root', value: "1" },
-    { label: 'SubModule', value: "2" }
+    { label: 'Root', value: '1' },
+    { label: 'SubModule', value: '2' },
   ];
   nameEmpty = false;
   pathEmpty = false;
@@ -257,26 +279,26 @@ export class ApplicationsDashboardComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     public router: Router,
     public activatedRoute: ActivatedRoute,
-    public dialogService: DialogService,
+    public dialogService: DialogService
   ) {}
 
   ngOnInit() {
-    const baseURI = document.baseURI; 
+    const baseURI = document.baseURI;
     const appsIndex = baseURI.indexOf('apps/');
     if (appsIndex !== -1) {
-      this.tooltip = baseURI.substring(0, appsIndex + 5); 
+      this.tooltip = baseURI.substring(0, appsIndex + 5);
     } else {
       this.tooltip = baseURI;
     }
 
     this.activatedRoute.data.subscribe((data) => {
-      let type = data["type"];
+      let type = data['type'];
       if (type) {
-        if (type == "application-management") {
+        if (type == 'application-management') {
           this.activeIndex = 0;
-        } else if (type == "modules-management") {
+        } else if (type == 'modules-management') {
           this.activeIndex = 1;
-        } else if (type == "resources-management") {
+        } else if (type == 'resources-management') {
           this.activeIndex = 2;
         }
       }
@@ -285,134 +307,168 @@ export class ApplicationsDashboardComponent implements OnInit {
     this.loadApplications();
   }
 
-  onChange({ index }: { index: number } ) {
-    this.router.navigate(['sites/', {
-      [0]: "application-management",
-      [1]: "modules-management",
-      [2]: "resources-management",
-    }[index]]);
+  onChange({ index }: { index: number }) {
+    this.router.navigate([
+      'sites/',
+      {
+        [0]: 'application-management',
+        [1]: 'modules-management',
+        [2]: 'resources-management',
+      }[index],
+    ]);
   }
 
-
   formatLoadLevel(loadLevel: string) {
-    return this.loadLevels.find(result => result.value == loadLevel)?.label;
+    return this.loadLevels.find((result) => result.value == loadLevel)?.label;
   }
 
   getIcon(row) {
-    if (row.nodeType === 'client-app' && row?.icon)
-    {
+    if (row.nodeType === 'client-app' && row?.icon) {
       return row.icon;
-    }
-    else if (row.nodeType === 'client-module') {
-      return row.type === ModuleType.Client ? 'fa-solid fa-puzzle-piece' : 'fa-solid fa-database';
+    } else if (row.nodeType === 'client-module') {
+      return row.type === ModuleType.Client
+        ? 'fa-solid fa-puzzle-piece'
+        : 'fa-solid fa-database';
     }
 
-    return 'fa-regular fa-newspaper'
+    return 'fa-regular fa-newspaper';
   }
 
-  getType(row){
-    if (row.nodeType === 'client-app')
-    {
-      return this.localizationService.instant("TenantManagement::Type:Application");
-    }
-    else if (row.nodeType === 'client-module') {
+  getType(row) {
+    if (row.nodeType === 'client-app') {
+      return this.localizationService.instant(
+        'TenantManagement::Type:Application'
+      );
+    } else if (row.nodeType === 'client-module') {
       return this.localizationService.instant(`TenantManagement::Type:Client`);
     }
 
-    return this.localizationService.instant("TenantManagement::Type:Unknown");
+    return this.localizationService.instant('TenantManagement::Type:Unknown');
   }
 
   editClient(node: TreeNode) {
     this.selectedNode = structuredClone(node);
-    if(this.selectedNode.data?.path?.length && this.selectedNode.data.path.startsWith('/apps/')) {
-      this.selectedNode.data.path = this.selectedNode.data.path.replace('/apps/', '');
+    if (
+      this.selectedNode.data?.path?.length &&
+      this.selectedNode.data.path.startsWith('/apps/')
+    ) {
+      this.selectedNode.data.path = this.selectedNode.data.path.replace(
+        '/apps/',
+        ''
+      );
     }
-    if(this.selectedNode.children.length > 0) {
-      this.selectedModules = this.selectedNode.children.map(n => n.data);
+    if (this.selectedNode.children.length > 0) {
+      this.selectedModules = this.selectedNode.children.map((n) => n.data);
     }
-
 
     this.displayDialog = true;
   }
 
   deleteClient(node: TreeNode) {
     this.confirmationService.confirm({
-      message: this.localizationService.instant("TenantManagement::AreYouSureDelete"),
+      message: this.localizationService.instant(
+        'TenantManagement::AreYouSureDelete'
+      ),
       accept: () => {
-            if (node.data.nodeType == 'client-app') {
-              this.clientApplicationService.delete(node.data.id).subscribe(result => {      
-                if (node.parent) {
-                  node.parent.children = node.parent.children.filter(n => n !== node);
-                } else {
-                  this.clients = this.clients.filter(n => n !== node);
-                }
-                this.clients = [...this.clients];
-              });
-              return;
-            }
-            // if (node.parent) {
-            //   node.parent.children = node.parent.children.filter(n => n !== node);
-            // } else {
-            //   this.clients = this.clients.filter(n => n !== node);
-            // }
-            this.clientApplicationService.removeModuleFromApplicationByApplicationIdAndModuleId(node.parent.data?.id, node.data.id).subscribe(result => {
-              this.loadApplications();
+        if (node.data.nodeType == 'client-app') {
+          this.clientApplicationService
+            .delete(node.data.id)
+            .subscribe((result) => {
+              if (node.parent) {
+                node.parent.children = node.parent.children.filter(
+                  (n) => n !== node
+                );
+              } else {
+                this.clients = this.clients.filter((n) => n !== node);
+              }
+              this.clients = [...this.clients];
             });
+          return;
+        }
+        // if (node.parent) {
+        //   node.parent.children = node.parent.children.filter(n => n !== node);
+        // } else {
+        //   this.clients = this.clients.filter(n => n !== node);
+        // }
+        this.clientApplicationService
+          .removeModuleFromApplicationByApplicationIdAndModuleId(
+            node.parent.data?.id,
+            node.data.id
+          )
+          .subscribe((result) => {
+            this.loadApplications();
+          });
       },
-      acceptLabel: this.localizationService.instant("Infrastructure::Yes"),
-      rejectLabel: this.localizationService.instant("Infrastructure::Cancel"),
-      acceptButtonStyleClass: "p-button-md p-button-raised p-button-text p-button-info",
-      acceptIcon: "pi pi-check",
-      rejectButtonStyleClass: "p-button-md p-button-raised p-button-text p-button-danger",
-      rejectIcon: "pi pi-times",
+      acceptLabel: this.localizationService.instant('Infrastructure::Yes'),
+      rejectLabel: this.localizationService.instant('Infrastructure::Cancel'),
+      acceptButtonStyleClass:
+        'p-button-md p-button-raised p-button-text p-button-info',
+      acceptIcon: 'pi pi-check',
+      rejectButtonStyleClass:
+        'p-button-md p-button-raised p-button-text p-button-danger',
+      rejectIcon: 'pi pi-times',
     });
   }
 
   saveSettings() {
-    this.uiModuleService.update(this.selectedNode.data.id, this.selectedNode.data).subscribe(() => {
-      this.displayDialog = false;
-      this.loadApplications();
-    });
+    this.uiModuleService
+      .update(this.selectedNode.data.id, this.selectedNode.data)
+      .subscribe(() => {
+        this.displayDialog = false;
+        this.loadApplications();
+      });
   }
 
-  resetValidators(){
+  resetValidators() {
     this.nameEmpty = false;
     this.pathEmpty = false;
   }
 
-  cancelEditAppSettings = () => 
-  {
+  cancelEditAppSettings = () => {
     this.displayDialog = false;
-  }
+  };
 
   saveAppSettings() {
     let isValid = true;
-    if(!this.selectedNode.data.name?.length) {
+    if (!this.selectedNode.data.name?.length) {
       this.nameEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:NameIsEmpty')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:NameIsEmpty'
+        ),
       });
       isValid = false;
     }
-    if(!!this.selectedNode.data?.name?.length &&
-      this.clients?.find(m => m.data?.name?.toLowerCase() == this.selectedNode.data.name?.toLowerCase() && m.data.id != this.selectedNode.data.id)) {
+    if (
+      !!this.selectedNode.data?.name?.length &&
+      this.clients?.find(
+        (m) =>
+          m.data?.name?.toLowerCase() ==
+            this.selectedNode.data.name?.toLowerCase() &&
+          m.data.id != this.selectedNode.data.id
+      )
+    ) {
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:NameIsNotUnique')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:NameIsNotUnique'
+        ),
       });
       this.nameEmpty = true;
       isValid = false;
     }
-    if(!this.selectedNode.data?.path?.length) {
+    if (!this.selectedNode.data?.path?.length) {
       this.pathEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:PathIsEmpty')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:PathIsEmpty'
+        ),
       });
       isValid = false;
     }
-    
+
     const pwaSettingValidation = this.pwaSettings.validate();
     if (!pwaSettingValidation.valid) {
       for (let error of pwaSettingValidation.errors) {
@@ -433,131 +489,143 @@ export class ApplicationsDashboardComponent implements OnInit {
       }
       isValid = false;
     }
-    
 
-    if(!isValid) return;
+    if (!isValid) return;
 
     let appToUpdate = { ...this.selectedNode.data };
-    
-    if(appToUpdate?.path?.length && !appToUpdate?.path.startsWith('/apps/')) {
+
+    if (appToUpdate?.path?.length && !appToUpdate?.path.startsWith('/apps/')) {
       appToUpdate.path = '/apps/' + appToUpdate.path;
     }
     forkJoin([
-      this.clientApplicationService.update(this.selectedNode.data.id, appToUpdate),
+      this.clientApplicationService.update(
+        this.selectedNode.data.id,
+        appToUpdate
+      ),
       this.generalMenuItem.update(),
-			this.topMenuItem.update(),
-			this.userMenuItem.update(),
+      this.topMenuItem.update(),
+      this.userMenuItem.update(),
       this.multiTenancyManagement.update(),
 
       // this.select()
-    ]).subscribe(() => {
-      this.displayDialog = false;
-      this.loadApplications();
-    }, (err) => {
-      console.log(err);
-    });
+    ]).subscribe(
+      () => {
+        this.displayDialog = false;
+        this.loadApplications();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   isModule(data: ClientApplicationDto): boolean {
-    return ![ ClientApplicationType.Portal,  ClientApplicationType.ShoppingCart].includes(data.clientApplicationType);
+    return ![
+      ClientApplicationType.Portal,
+      ClientApplicationType.ShoppingCart,
+    ].includes(data.clientApplicationType);
   }
 
-  select(){
-    if(!this.selectedModules?.length) return of();
+  select() {
+    if (!this.selectedModules?.length) return of();
     this.loadingInDialog = true;
     return this.clientApplicationService
       .addBulkModulesToApplicationByModules(this.selectedModules)
-      .subscribe(result => {
-      if(result){
-        this.messageService.add({
-          severity: 'success',
-          summary: this.localizationService.instant('TenantManagement::ModulesAddedSuccessfully')
-        });
-      }
-      else{
-        this.messageService.add({
-          severity: 'error',
-          summary: this.localizationService.instant('TenantManagement::Error:ModulesNotAdded')
-        });
-      }
-      this.displayImportDialog = false;
-      this.loadApplications();
-      this.loadingInDialog = false;
-    })
+      .subscribe((result) => {
+        if (result) {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.localizationService.instant(
+              'TenantManagement::ModulesAddedSuccessfully'
+            ),
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.localizationService.instant(
+              'TenantManagement::Error:ModulesNotAdded'
+            ),
+          });
+        }
+        this.displayImportDialog = false;
+        this.loadApplications();
+        this.loadingInDialog = false;
+      });
   }
 
-  navigateToApp(node: TreeNode){
+  navigateToApp(node: TreeNode) {
     const path = node.data.path;
-    window.open(path, "_blank");
+    window.open(path, '_blank');
   }
 
+  // new UI
 
-	// new UI
+  activeSettingsTabIndex: number = 0;
 
-	activeSettingsTabIndex: number = 0;
+  addType: 'Site' | 'App' | 'Module' = 'Site';
 
-	addType: "Site" | "App" | "Module" = "Site";
+  get applicationsTree(): TreeNode[] {
+    return this.clients;
+  }
 
-	get applicationsTree(): TreeNode[] {
-		return this.clients;
-	}
+  selectedApplication: TreeNode<ClientApplicationDto> | null = null;
 
-	selectedApplication: TreeNode<ClientApplicationDto> | null = null;
+  nodeSelect() {
+    console.log('Selected node:', this.selectedApplication);
+  }
 
-	nodeSelect(){
-		console.log('Selected node:', this.selectedApplication);
-	}
-
-	loadApplications() {
+  loadApplications() {
     this.loadingInDialog = true;
-    this.clientApplicationService.getAll()
-		.subscribe((clients: FullClientApplicationDto[]) => {
-			// Build a map of id -> node
-			const nodeMap = new Map<string, TreeNode<FullClientApplicationDto>>();
-			clients.forEach(app => {
-				nodeMap.set(app.id, {
-					data: app,
-					expanded: true,
-					type: app?.parentId ? "app" : "site",
-					children: [],
-				});
-			});
+    this.clientApplicationService
+      .getAll()
+      .subscribe((clients: FullClientApplicationDto[]) => {
+        // Build a map of id -> node
+        const nodeMap = new Map<string, TreeNode<FullClientApplicationDto>>();
+        clients.forEach((app) => {
+          nodeMap.set(app.id, {
+            data: app,
+            expanded: true,
+            type: app?.parentId ? 'app' : 'site',
+            children: [],
+          });
+        });
 
-			// Build the tree structure using parentId
-			const roots: TreeNode<FullClientApplicationDto>[] = [];
-			nodeMap.forEach((node, id) => {
-				const parentId = node.data.parentId;
-				if (parentId && nodeMap.has(parentId)) {
-					nodeMap.get(parentId)!.children!.push(node);
-				} else {
-					roots.push(node);
-				}
-			});
+        // Build the tree structure using parentId
+        const roots: TreeNode<FullClientApplicationDto>[] = [];
+        nodeMap.forEach((node, id) => {
+          const parentId = node.data.parentId;
+          if (parentId && nodeMap.has(parentId)) {
+            nodeMap.get(parentId)!.children!.push(node);
+          } else {
+            roots.push(node);
+          }
+        });
 
-			this.clients = roots;
-      this.clients = [...this.clients];
-      this.loadingInDialog = false;
-      this.cdr.detectChanges();
-    });
+        this.clients = roots;
+        this.clients = [...this.clients];
+        this.loadingInDialog = false;
+        this.cdr.detectChanges();
+      });
   }
 
-	addUimodule(application: FullClientApplicationDto) {
+  addUimodule(application: FullClientApplicationDto) {
     const dialogRef = this.dialogService.open(AddModuleAutodetectComponent, {
-      data: { applicationId: application.id, existingModules: application.modules },
+      data: {
+        applicationId: application.id,
+        existingModules: application.modules,
+      },
       header: this.localizationService.instant('TenantManagement::AddModule'),
     });
-    dialogRef.onClose.pipe(first())
-    .subscribe(() => {
+    dialogRef.onClose.pipe(first()).subscribe(() => {
       this.loadApplications();
-    })
+    });
   }
-
 
   addApplication() {
     this.displayCreateDialog = true;
   }
 
-	createApplicationDialogClear(){
+  createApplicationDialogClear() {
     this.resetValidators();
     this.newApplication = {
       name: '',
@@ -574,21 +642,21 @@ export class ApplicationsDashboardComponent implements OnInit {
       isSystem: false,
       properties: [],
       appType: ApplicationType.Application,
-			orderIndex: 0,
-			errorHandlingLevel: ErrorHandlingLevel.Error,
+      orderIndex: 0,
+      errorHandlingLevel: ErrorHandlingLevel.Error,
     };
   }
 
-  cancelCreateApplication(){
+  cancelCreateApplication() {
     this.createApplicationDialogClear();
     this.displayCreateDialog = false;
   }
 
   createApplication() {
-    if (this.newApplication.name){
+    if (this.newApplication.name) {
       this.newApplication.name = this.newApplication.name.trim();
     }
-    if (this.newApplication.path){
+    if (this.newApplication.path) {
       this.newApplication.path = this.newApplication.path.trim();
     }
 
@@ -597,101 +665,124 @@ export class ApplicationsDashboardComponent implements OnInit {
       this.nameEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:NameIsEmpty')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:NameIsEmpty'
+        ),
       });
       isValid = false;
     }
-    if(!!this.newApplication?.name?.length &&
-      this.clients?.find(m => m.data?.name?.toLowerCase() == this.newApplication.name?.toLowerCase())) {
+    if (
+      !!this.newApplication?.name?.length &&
+      this.clients?.find(
+        (m) =>
+          m.data?.name?.toLowerCase() == this.newApplication.name?.toLowerCase()
+      )
+    ) {
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:NameIsNotUnique')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:NameIsNotUnique'
+        ),
       });
       this.nameEmpty = true;
       isValid = false;
     }
-    if(!this.newApplication?.path?.length) {
+    if (!this.newApplication?.path?.length) {
       this.pathEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:PathIsEmpty')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:PathIsEmpty'
+        ),
       });
       isValid = false;
     }
-    
+
     let newPath = this.newApplication.path;
-    if(this.newApplication?.path?.length && !this.newApplication.path.startsWith('/apps/')) {
+    if (
+      this.newApplication?.path?.length &&
+      !this.newApplication.path.startsWith('/apps/')
+    ) {
       newPath = '/apps/' + this.newApplication.path;
     }
 
-    if(!!this.newApplication?.path?.length &&
-      this.clients?.find(m => m.data?.path?.toLowerCase() == newPath?.toLowerCase())) {
+    if (
+      !!this.newApplication?.path?.length &&
+      this.clients?.find(
+        (m) => m.data?.path?.toLowerCase() == newPath?.toLowerCase()
+      )
+    ) {
       this.pathEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:PathIsNotUnique')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:PathIsNotUnique'
+        ),
       });
       isValid = false;
     }
 
-    if(!isValid) return;
+    if (!isValid) return;
 
     this.newApplication.path = newPath;
 
-		if (this.addType == "Site") {
-			this.newApplication.parentId = null;
-		}
+    if (this.addType == 'Site') {
+      this.newApplication.parentId = null;
+    } else if (this.addType == 'App') {
+      if (!this.selectedApplication) {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.localizationService.instant(
+            'TenantManagement::Error:NoApplicationSelected'
+          ),
+        });
+        return;
+      }
+      this.newApplication.parentId = this.selectedApplication.data.id;
+    } else if (this.addType == 'Module') {
+      if (!this.selectedApplication) {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.localizationService.instant(
+            'TenantManagement::Error:NoApplicationSelected'
+          ),
+        });
+        return;
+      }
+      this.newApplication.parentId = this.selectedApplication.data.id;
+      this.newApplication.appType = ApplicationType.Module;
+    }
 
-		else if (this.addType == "App") {
-			if (!this.selectedApplication) {
-				this.messageService.add({
-					severity: 'error',
-					summary: this.localizationService.instant('TenantManagement::Error:NoApplicationSelected')
-				});
-				return;
-			}
-			this.newApplication.parentId = this.selectedApplication.data.id;
-		}
-		else if (this.addType == "Module") {
-			if (!this.selectedApplication) {
-				this.messageService.add({
-					severity: 'error',
-					summary: this.localizationService.instant('TenantManagement::Error:NoApplicationSelected')
-				});
-				return;
-			}
-			this.newApplication.parentId = this.selectedApplication.data.id;
-			this.newApplication.appType = ApplicationType.Module;
-		}
-  
-    this.clientApplicationService.create(this.newApplication).subscribe((app: ClientApplicationDto) => {
-      this.clients = [
-        ...this.clients,
-        {
-          data: { ...app, nodeType: 'client-app' },
-          expanded: true,
-          children: [],
-        }
-      ];
-      this.newApplication = {
-        name: '',
-        isEnabled: true,
-        isAuthenticationRequired: false,
-        frameworkType: ClientApplicationFrameworkType.Angular,
-        styleType: ClientApplicationStyleType.PrimeNg,
-        clientApplicationType: ClientApplicationType.Portal,
-        path: '',
-        source: '',
-        useDedicatedDatabase: false,
-        isDefault: false,
-        isSystem: false,
-        properties: [],
-				appType: ApplicationType.Application,
-				orderIndex: 0,
-				errorHandlingLevel: ErrorHandlingLevel.Error
-      };
-      this.displayCreateDialog = false;
-			this.loadApplications();
-    });
+    this.clientApplicationService
+      .create(this.newApplication)
+      .subscribe((app: ClientApplicationDto) => {
+        this.clients = [
+          ...this.clients,
+          {
+            data: { ...app, nodeType: 'client-app' },
+            expanded: true,
+            children: [],
+          },
+        ];
+        this.newApplication = {
+          name: '',
+          isEnabled: true,
+          isAuthenticationRequired: false,
+          frameworkType: ClientApplicationFrameworkType.Angular,
+          styleType: ClientApplicationStyleType.PrimeNg,
+          clientApplicationType: ClientApplicationType.Portal,
+          path: '',
+          source: '',
+          useDedicatedDatabase: false,
+          isDefault: false,
+          isSystem: false,
+          properties: [],
+          appType: ApplicationType.Application,
+          orderIndex: 0,
+          errorHandlingLevel: ErrorHandlingLevel.Error,
+        };
+        this.displayCreateDialog = false;
+        this.loadApplications();
+      });
   }
 }

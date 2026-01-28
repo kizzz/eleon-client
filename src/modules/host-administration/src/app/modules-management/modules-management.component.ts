@@ -17,7 +17,11 @@ import {
   ResourceService,
   ServiceHealthStatus,
 } from '@eleon/sites-management-proxy';
-import { PipesModule, RequiredMarkModule, SharedModule } from '@eleon/angular-sdk.lib';
+import {
+  PipesModule,
+  RequiredMarkModule,
+  SharedModule,
+} from '@eleon/angular-sdk.lib';
 import { TreeTableModule } from 'primeng/treetable';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -41,7 +45,7 @@ import {
   PageControls,
   contributeControls,
   PAGE_CONTROLS,
-} from "@eleon/primeng-ui.lib";
+} from '@eleon/primeng-ui.lib';
 import { LocalizedConfirmationService } from '@eleon/primeng-ui.lib';
 
 @Component({
@@ -65,12 +69,12 @@ import { LocalizedConfirmationService } from '@eleon/primeng-ui.lib';
     ToggleSwitchModule,
     TooltipModule,
     FormsModule,
-    ResponsiveTableModule],
+    ResponsiveTableModule,
+  ],
   templateUrl: './modules-management.component.html',
   styleUrl: './modules-management.component.css',
 })
 export class ModulesManagementComponent implements OnInit {
-
   loading = true;
   modules: EleoncoreModuleDto[] = [];
 
@@ -80,8 +84,8 @@ export class ModulesManagementComponent implements OnInit {
   displaySettingsDialog = false;
 
   loadLevels = [
-    { label: 'Root', value: "1" },
-    { label: 'SubModule', value: "2" }
+    { label: 'Root', value: '1' },
+    { label: 'SubModule', value: '2' },
   ];
   nameEmpty = false;
   pathEmpty = false;
@@ -100,28 +104,24 @@ export class ModulesManagementComponent implements OnInit {
   //   },
   // ]);
 
-
-  constructor(private uiModuleService: UiModuleService,
+  constructor(
+    private uiModuleService: UiModuleService,
     private confirmationService: LocalizedConfirmationService,
     private messageService: MessageService,
-    private localizationService: ILocalizationService,
-  ) {
+    private localizationService: ILocalizationService
+  ) {}
 
-  }
-  
   ngOnInit(): void {
     this.loadModules();
     this.resetNewModule();
   }
 
-
   loadModules() {
-    this.uiModuleService.getAll()
-      .subscribe(result => {
-        result = result.filter(r => !r.isHidden);
-        this.modules = result;
-        this.loading = false;
-      })
+    this.uiModuleService.getAll().subscribe((result) => {
+      result = result.filter((r) => !r.isHidden);
+      this.modules = result;
+      this.loading = false;
+    });
   }
 
   add() {
@@ -130,7 +130,7 @@ export class ModulesManagementComponent implements OnInit {
   }
 
   formatLoadLevel(loadLevel: string) {
-    return this.loadLevels.find(result => result.value == loadLevel)?.label;
+    return this.loadLevels.find((result) => result.value == loadLevel)?.label;
   }
 
   resetNewModule() {
@@ -140,19 +140,19 @@ export class ModulesManagementComponent implements OnInit {
       isHealthCheckEnabled: false,
       healthCheckStatus: ServiceHealthStatus.Unknown,
       source: '',
-      isDefault: false, 
+      isDefault: false,
       isSystem: false,
       isHidden: false,
-    }
+    };
   }
 
-  resetValidators(){
+  resetValidators() {
     this.nameEmpty = false;
     this.pathEmpty = false;
   }
 
   async create() {
-    if (this.validate(this.newModule)){
+    if (this.validate(this.newModule)) {
       await this.uiModuleService.create(this.newModule).toPromise();
       this.resetNewModule();
       this.displayDiscoverDialog = false;
@@ -167,62 +167,88 @@ export class ModulesManagementComponent implements OnInit {
 
   editSettings(module: EleoncoreModuleDto) {
     this.selectedModule = JSON.parse(JSON.stringify(module));
-    if (this.selectedModule?.path?.length > 0 && this.selectedModule?.path.startsWith('/modules/')) {
-      this.selectedModule.path = this.selectedModule.path.replace('/modules/', '');
-    }    
+    if (
+      this.selectedModule?.path?.length > 0 &&
+      this.selectedModule?.path.startsWith('/modules/')
+    ) {
+      this.selectedModule.path = this.selectedModule.path.replace(
+        '/modules/',
+        ''
+      );
+    }
     this.displaySettingsDialog = true;
   }
 
-  validate(module){
-    if (module.displayName){
+  validate(module) {
+    if (module.displayName) {
       module.displayName = module.displayName.trim();
     }
-    if (module.path){
+    if (module.path) {
       module.path = module.path.trim();
     }
 
     let isValid = true;
-    if(!module.displayName?.length) {
+    if (!module.displayName?.length) {
       this.nameEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:NameIsEmpty')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:NameIsEmpty'
+        ),
       });
       isValid = false;
     }
-    if(!!module.displayName?.length && this.modules?.find(m => m.displayName?.toLowerCase() == module.displayName?.toLowerCase() && m.id != module?.id)) {
+    if (
+      !!module.displayName?.length &&
+      this.modules?.find(
+        (m) =>
+          m.displayName?.toLowerCase() == module.displayName?.toLowerCase() &&
+          m.id != module?.id
+      )
+    ) {
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:NameIsNotUnique')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:NameIsNotUnique'
+        ),
       });
       this.nameEmpty = true;
       isValid = false;
     }
 
-    if(!module.path?.length) {
+    if (!module.path?.length) {
       this.pathEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:PathIsEmpty')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:PathIsEmpty'
+        ),
       });
       isValid = false;
     }
 
     let newPath = module.path;
-    if(module.path?.length > 0) {
+    if (module.path?.length > 0) {
       newPath = '/modules/' + module.path;
     }
-    if(!!module.path?.length &&
-      this.modules?.find(m => m.path?.toLowerCase() == newPath?.toLowerCase() && m.id != module?.id)) {
+    if (
+      !!module.path?.length &&
+      this.modules?.find(
+        (m) =>
+          m.path?.toLowerCase() == newPath?.toLowerCase() && m.id != module?.id
+      )
+    ) {
       this.pathEmpty = true;
       this.messageService.add({
         severity: 'error',
-        summary: this.localizationService.instant('TenantManagement::Error:PathIsNotUnique')
+        summary: this.localizationService.instant(
+          'TenantManagement::Error:PathIsNotUnique'
+        ),
       });
       isValid = false;
     }
 
-    if(!isValid) {
+    if (!isValid) {
       return isValid;
     }
 
@@ -232,26 +258,33 @@ export class ModulesManagementComponent implements OnInit {
   }
 
   edit() {
-    if (this.selectedModule){
-      if (this.validate(this.selectedModule)){
-        if(this.selectedModule?.path?.length > 0 && this.selectedModule?.path.startsWith('/modules/') == false) {
+    if (this.selectedModule) {
+      if (this.validate(this.selectedModule)) {
+        if (
+          this.selectedModule?.path?.length > 0 &&
+          this.selectedModule?.path.startsWith('/modules/') == false
+        ) {
           this.selectedModule.path = '/modules/' + this.selectedModule.path;
         }
-        this.uiModuleService.update(this.selectedModule?.id, this.selectedModule)
-        .subscribe(result => {
-          this.selectedModule = null;
-          this.displaySettingsDialog = false;
-          this.loadModules();
-        });
+        this.uiModuleService
+          .update(this.selectedModule?.id, this.selectedModule)
+          .subscribe((result) => {
+            this.selectedModule = null;
+            this.displaySettingsDialog = false;
+            this.loadModules();
+          });
       }
     }
   }
 
   delete(module: EleoncoreModuleDto) {
-    this.confirmationService.confirm('TenantManagement::Module:DeleteConfirmation', () => {
-        this.uiModuleService.delete(module.id).subscribe(result => {
+    this.confirmationService.confirm(
+      'TenantManagement::Module:DeleteConfirmation',
+      () => {
+        this.uiModuleService.delete(module.id).subscribe((result) => {
           this.loadModules();
-        })
-    })
+        });
+      }
+    );
   }
 }

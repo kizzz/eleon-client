@@ -8,25 +8,17 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "bin/debug/modules/{projectName}",
         "ngswConfigPath": "{workspaceRoot}/src/shared/ngsw-config.json",
         "index": "{workspaceRoot}/src/shared/index.html",
         "main": "{projectRoot}/src/main.ts",
         "tsConfig": "{projectRoot}/tsconfig.json",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "{projectRoot}/src/assets"
-        ],
-        "styles": [
-          "{workspaceRoot}/src/shared/index.css"
-        ],
+        "assets": ["{projectRoot}/src/assets"],
+        "styles": ["{workspaceRoot}/src/shared/index.css"],
         "scripts": [],
         "customWebpackConfig": {
           "path": "{projectRoot}/webpack.config.ts"

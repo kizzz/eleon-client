@@ -1,14 +1,14 @@
-:host ::ng-deep .p-dialog .p-dialog-content{
-    padding-bottom: 0px !important;
-  }
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding-bottom: 0px !important;
+}
 
-  /* :host ::ng-deep .p-datatable-table {
+/* :host ::ng-deep .p-datatable-table {
     border-top-width: 1px;
     border-top-style: solid;
     border-top-color: var(--container-border-color);
   } */
 
-  :host ::ng-deep .invalid{
-    border: 0.5px solid #eb3d3d !important;
-    border-radius:7px;
-  }
+:host ::ng-deep .invalid {
+  border: 0.5px solid #eb3d3d !important;
+  border-radius: 7px;
+}

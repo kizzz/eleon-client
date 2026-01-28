@@ -57,19 +57,23 @@ export class AddModuleAutodetectComponent implements OnInit {
     private uiModuleService: UiModuleService,
     private clientApplicationService: ClientApplicationService,
     private dynamicDialogRef: DynamicDialogRef,
-    private dynamicDialogConfig: DynamicDialogConfig<{ applicationId: string, existingModules: ApplicationModuleDto[] }>,
-    private localizedMessageService: LocalizedMessageService,
+    private dynamicDialogConfig: DynamicDialogConfig<{
+      applicationId: string;
+      existingModules: ApplicationModuleDto[];
+    }>,
+    private localizedMessageService: LocalizedMessageService
   ) {
     this.applicationId = dynamicDialogConfig.data.applicationId;
     this.existingModules = dynamicDialogConfig.data.existingModules;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async loadExposes() {
     try {
-      const { pluginName, exposes, defaultLoadLevel } = await getRemoteInfo(this.remoteUrl);
+      const { pluginName, exposes, defaultLoadLevel } = await getRemoteInfo(
+        this.remoteUrl
+      );
       this.exposesList = exposes.map((key) => ({
         key,
         pluginName: pluginName,

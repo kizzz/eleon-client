@@ -15,7 +15,7 @@
     <ng-template pTemplate="body" let-domain>
       <tr>
         <td>{{ domain.hostname }}</td>
-        <td style="width: 60px; text-align: center;">
+        <td style="width: 60px; text-align: center">
           <button
             pButton
             type="button"
@@ -31,7 +31,9 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="2">{{ 'TenantManagement::NoDomains' | abpLocalization }}</td>
+        <td colspan="2">
+          {{ 'TenantManagement::NoDomains' | abpLocalization }}
+        </td>
       </tr>
     </ng-template>
   </p-table>
@@ -50,8 +52,8 @@
     [loading]="loading"
     dataKey="id"
     responsiveLayout="scroll"
-		[paginator]="true"
-		[rows]="5"
+    [paginator]="true"
+    [rows]="5"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -62,7 +64,7 @@
     <ng-template pTemplate="body" let-domain>
       <tr>
         <td>{{ domain.hostname }}</td>
-        <td style="width: 60px; text-align: center;">
+        <td style="width: 60px; text-align: center">
           <button
             pButton
             type="button"
@@ -78,7 +80,9 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="2">{{ 'TenantManagement::NoAvailableDomains' | abpLocalization }}</td>
+        <td colspan="2">
+          {{ 'TenantManagement::NoAvailableDomains' | abpLocalization }}
+        </td>
       </tr>
     </ng-template>
   </p-table>

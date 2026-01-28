@@ -1,173 +1,326 @@
 <div class="grid m-0">
   <div class="col-12 md:col-3 lg:col-3 px-0">
-    <div *ngIf="applicationId?.length >0" style="margin-bottom: 3.1rem;">
-    </div>
+    <div *ngIf="applicationId?.length > 0" style="margin-bottom: 3.1rem"></div>
     <hr class="my-2" />
     <p-tree
       [value]="categoriesTree"
       selectionMode="single"
       (onNodeSelect)="categorySelect($event)"
-      [(selection)]="selectedCategory">
+      [(selection)]="selectedCategory"
+    >
       <ng-template pTemplate="default" let-node>
         <div class="flex align-items-center justify-content-between">
           <b> {{ node.label }}</b>
-         <div class="flex gap-2">
-            <span class="buttons" (click)="editCategory(node)" *ngIf="!node?.isDefault">
+          <div class="flex gap-2">
+            <span
+              class="buttons"
+              (click)="editCategory(node)"
+              *ngIf="!node?.isDefault"
+            >
               <i class="fa fa-edit text-primary"></i>
             </span>
-            <span class="buttons" (click)="deleteCategory(node)" *ngIf="!node?.isDefault">
-              <i class="fa fa-trash" style="color: var(--danger-color);"></i>
-          </span>
-         </div>
+            <span
+              class="buttons"
+              (click)="deleteCategory(node)"
+              *ngIf="!node?.isDefault"
+            >
+              <i class="fa fa-trash" style="color: var(--danger-color)"></i>
+            </span>
+          </div>
         </div>
       </ng-template>
     </p-tree>
   </div>
 
   <div class="col-12 md:col-9 lg:col-9">
-    <div *ngIf="applicationId?.length >0" class="flex gap-3 justify-content-end">
-      <p-button icon="fa fa-plus" [label]="'TenantManagement::ApplicationMenuItem:AddCategory' | abpLocalization"
-        (click)="addCategory()" [text]="true" [raised]="true" styleClass="p-button-info p-button-sm" autoWidth="false">
+    <div
+      *ngIf="applicationId?.length > 0"
+      class="flex gap-3 justify-content-end"
+    >
+      <p-button
+        icon="fa fa-plus"
+        [label]="
+          'TenantManagement::ApplicationMenuItem:AddCategory' | abpLocalization
+        "
+        (click)="addCategory()"
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-info p-button-sm"
+        autoWidth="false"
+      >
       </p-button>
-      <p-button icon="fa fa-plus" [label]="'TenantManagement::ApplicationMenuItem:AddMenuItem' | abpLocalization"
-        (click)="addMenuItem()" [text]="true" [raised]="true" styleClass="p-button-info p-button-sm" autoWidth="false">
+      <p-button
+        icon="fa fa-plus"
+        [label]="
+          'TenantManagement::ApplicationMenuItem:AddMenuItem' | abpLocalization
+        "
+        (click)="addMenuItem()"
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-info p-button-sm"
+        autoWidth="false"
+      >
       </p-button>
     </div>
     <hr class="my-2" />
     <div class="treeTableContainer">
-      <p-treeTable [value]="menuItemsTree" [loading]="loading" #treeTable selectionMode="single" 
-      [(selection)]="selectedNode" >
+      <p-treeTable
+        [value]="menuItemsTree"
+        [loading]="loading"
+        #treeTable
+        selectionMode="single"
+        [(selection)]="selectedNode"
+      >
         <ng-template pTemplate="header">
           <tr>
-            <th style="width:50px;" class="text-center">{{'TenantManagement::ApplicationMenuItem:Order' | abpLocalization}}</th>
-            <th style="width:130px;" class="text-center">{{'TenantManagement::ApplicationMenuItem:Path' | abpLocalization}}</th>
-            <th class="text-center">{{'TenantManagement::ApplicationMenuItem:Name' | abpLocalization}}</th>
-            <th style="width:130px;" class="text-center">{{'TenantManagement::ApplicationMenuItem:RequiredPolicy' | abpLocalization}}</th>
-            <th style="width:30px" class="px-0"></th>
-            <th style="width:30px" class="px-0"></th>
-            <th style="width:30px" class="px-0"></th>
+            <th style="width: 50px" class="text-center">
+              {{
+                'TenantManagement::ApplicationMenuItem:Order' | abpLocalization
+              }}
+            </th>
+            <th style="width: 130px" class="text-center">
+              {{
+                'TenantManagement::ApplicationMenuItem:Path' | abpLocalization
+              }}
+            </th>
+            <th class="text-center">
+              {{
+                'TenantManagement::ApplicationMenuItem:Name' | abpLocalization
+              }}
+            </th>
+            <th style="width: 130px" class="text-center">
+              {{
+                'TenantManagement::ApplicationMenuItem:RequiredPolicy'
+                  | abpLocalization
+              }}
+            </th>
+            <th style="width: 30px" class="px-0"></th>
+            <th style="width: 30px" class="px-0"></th>
+            <th style="width: 30px" class="px-0"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
           <tr [ttRow]="rowNode">
             <td>
               <div class="text-center">
-               <span>
-                 {{ rowData?.order }}
-               </span>
-              </div>
-           </td>
-           <td>
-            <div class="flex gap-2 align-items-center justify-content-start">
-              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-              <app-ellipsis [text]=" '/'+ applicationName + '/' + rowData?.path"></app-ellipsis>
-            </div>
-          </td>
-            <td>
-            <div class="flex align-items-center justify-content-start">
-                <span style="flex-basis: 20%;">
-                  <i [ngClass]="rowData?.icon" style="font-size: medium;"></i>
+                <span>
+                  {{ rowData?.order }}
                 </span>
-                <app-ellipsis *ngIf="rowData?.label?.length > 0" [text]="rowData.label" style="flex-basis: 80%;"></app-ellipsis>
-            </div>
+              </div>
+            </td>
+            <td>
+              <div class="flex gap-2 align-items-center justify-content-start">
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                <app-ellipsis
+                  [text]="'/' + applicationName + '/' + rowData?.path"
+                ></app-ellipsis>
+              </div>
+            </td>
+            <td>
+              <div class="flex align-items-center justify-content-start">
+                <span style="flex-basis: 20%">
+                  <i [ngClass]="rowData?.icon" style="font-size: medium"></i>
+                </span>
+                <app-ellipsis
+                  *ngIf="rowData?.label?.length > 0"
+                  [text]="rowData.label"
+                  style="flex-basis: 80%"
+                ></app-ellipsis>
+              </div>
             </td>
             <td>
               <app-ellipsis [text]="rowData?.requiredPolicy"></app-ellipsis>
             </td>
             <td class="px-0">
-                <div class="column-content text-center">
-                    <span class="buttons" (click)="addRow(rowNode.node)">
-                        <i class="fa fa-plus" style="color: #22c55e;"></i>
-                    </span>
-                </div>
+              <div class="column-content text-center">
+                <span class="buttons" (click)="addRow(rowNode.node)">
+                  <i class="fa fa-plus" style="color: #22c55e"></i>
+                </span>
+              </div>
             </td>
             <td class="px-0">
-                <div class="column-content text-center">
-                    <span class="buttons" (click)="editRow(rowNode.node)" *ngIf="!rowNode?.node?.isDefault">
-                        <i class="fa fa-edit text-primary"></i>
-                    </span>
-                </div>
+              <div class="column-content text-center">
+                <span
+                  class="buttons"
+                  (click)="editRow(rowNode.node)"
+                  *ngIf="!rowNode?.node?.isDefault"
+                >
+                  <i class="fa fa-edit text-primary"></i>
+                </span>
+              </div>
             </td>
             <td class="px-0">
-                <div class="column-content text-center">
-                    <span class="buttons" (click)="deleteRow(rowNode.node)" *ngIf="!rowNode?.node?.isDefault">
-                        <i class="fa fa-trash" style="color: var(--danger-color);"></i>
-                    </span>
-                </div>
+              <div class="column-content text-center">
+                <span
+                  class="buttons"
+                  (click)="deleteRow(rowNode.node)"
+                  *ngIf="!rowNode?.node?.isDefault"
+                >
+                  <i class="fa fa-trash" style="color: var(--danger-color)"></i>
+                </span>
+              </div>
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
-            <tr class="table-emptymessage">
-              <td class="w-full" colspan="7">
-                <div class="card w-full">
-                  <div class="card-body w-full text-center">
-                    {{ "TenantManagement::ApplicationMenuItem:List:Empty" | abpLocalization}}
-                  </div>
+          <tr class="table-emptymessage">
+            <td class="w-full" colspan="7">
+              <div class="card w-full">
+                <div class="card-body w-full text-center">
+                  {{
+                    'TenantManagement::ApplicationMenuItem:List:Empty'
+                      | abpLocalization
+                  }}
                 </div>
-              </td>
-            </tr>
+              </div>
+            </td>
+          </tr>
         </ng-template>
-    </p-treeTable>    
+      </p-treeTable>
     </div>
   </div>
 </div>
 
-<p-dialog [resizable]="false" [header]="title" [(visible)]="createNodeDialogShow"
- [modal]="true" [draggable]="false" (visibleChange)="createMenuItemVisibleChange($event)">
+<p-dialog
+  [resizable]="false"
+  [header]="title"
+  [(visible)]="createNodeDialogShow"
+  [modal]="true"
+  [draggable]="false"
+  (visibleChange)="createMenuItemVisibleChange($event)"
+>
   <div class="dialog-standard">
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::ApplicationMenuItem:Name'| abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'TenantManagement::ApplicationMenuItem:Name' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <input type="text" pInputText [(ngModel)]="menuItemModel.name" class="w-full"
-          [ngClass]="{'ng-invalid ng-dirty': menuItemModel.validators.nameEmpty}" (input)="resetValidators()" />
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="menuItemModel.name"
+          class="w-full"
+          [ngClass]="{
+            'ng-invalid ng-dirty': menuItemModel.validators.nameEmpty
+          }"
+          (input)="resetValidators()"
+        />
       </div>
     </div>
     <div class="field grid" *ngIf="!isCategoryAdd && !isCategoryEditing">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApplicationMenuItem:RequiredPolicy'| abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'TenantManagement::ApplicationMenuItem:RequiredPolicy' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <input type="text" pInputText [(ngModel)]="menuItemModel.requiredPolicy" class="w-full"
-          [readonly]="true" (click)="displayPermissionDialog()"/>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="menuItemModel.requiredPolicy"
+          class="w-full"
+          [readonly]="true"
+          (click)="displayPermissionDialog()"
+        />
       </div>
     </div>
     <div class="field grid" *ngIf="!isCategoryAdd && !isCategoryEditing">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApplicationMenuItem:OpeningBehaviorType'| abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'TenantManagement::ApplicationMenuItem:OpeningBehaviorType'
+          | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <p-select [options]="openingBehaviorList"  [showClear]="false" [(ngModel)]="menuItemModel.isNewWindow" 
-          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [style]="{'width':'100%'}" [disabled]="loading"
-          optionValue="value" optionLabel="name" (onChange)="resetValidators()">
-        </p-select>
-      </div>
-    </div>
-    <div class="field grid" *ngIf="!isCategoryAdd && !isCategoryEditing">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApplicationMenuItem:LinkType'| abpLocalization}}</label>
-      <div class="col-12 md:col-8">
-        <p-select [options]="linkTypesList" [showClear]="false"
-          class="w-full" appendTo="body" [filter]="false" autoWidth="false" [(ngModel)]="menuItemModel.isUrl" [style]="{'width':'100%'}" [disabled]="loading"
-          optionValue="value" optionLabel="name" (onChange)="resetValidators()">
+        <p-select
+          [options]="openingBehaviorList"
+          [showClear]="false"
+          [(ngModel)]="menuItemModel.isNewWindow"
+          class="w-full"
+          appendTo="body"
+          [filter]="false"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+          [disabled]="loading"
+          optionValue="value"
+          optionLabel="name"
+          (onChange)="resetValidators()"
+        >
         </p-select>
       </div>
     </div>
     <div class="field grid" *ngIf="!isCategoryAdd && !isCategoryEditing">
       <label class="col-12 mb-2 md:col-4 md:mb-0">{{
-        ( menuItemModel.isUrl ? 'TenantManagement::ApplicationMenuItem:Url' : 'TenantManagement::ApplicationMenuItem:Path' )| abpLocalization}}</label>
+        'TenantManagement::ApplicationMenuItem:LinkType' | abpLocalization
+      }}</label>
+      <div class="col-12 md:col-8">
+        <p-select
+          [options]="linkTypesList"
+          [showClear]="false"
+          class="w-full"
+          appendTo="body"
+          [filter]="false"
+          autoWidth="false"
+          [(ngModel)]="menuItemModel.isUrl"
+          [style]="{ width: '100%' }"
+          [disabled]="loading"
+          optionValue="value"
+          optionLabel="name"
+          (onChange)="resetValidators()"
+        >
+        </p-select>
+      </div>
+    </div>
+    <div class="field grid" *ngIf="!isCategoryAdd && !isCategoryEditing">
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        (menuItemModel.isUrl
+          ? 'TenantManagement::ApplicationMenuItem:Url'
+          : 'TenantManagement::ApplicationMenuItem:Path'
+        ) | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
         <ng-container *ngIf="menuItemModel.isUrl; else isNotUrlInput">
-          <input type="text" pInputText [(ngModel)]="menuItemModel.path" [ngClass]="{'ng-invalid ng-dirty': menuItemModel.validators.pathEmpty}" (input)="resetValidators()" class="w-full"/>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="menuItemModel.path"
+            [ngClass]="{
+              'ng-invalid ng-dirty': menuItemModel.validators.pathEmpty
+            }"
+            (input)="resetValidators()"
+            class="w-full"
+          />
         </ng-container>
         <ng-template #isNotUrlInput>
           <div class="p-inputgroup">
-            <span class="p-inputgroup-addon small" [pTooltip]="pathTooltip" tooltipPosition="top" *ngIf="!menuItemModel.isUrl" >/apps/</span>
-            <input type="text" pInputText [(ngModel)]="menuItemModel.path" class="w-full"
-            [ngClass]="{'ng-invalid ng-dirty': menuItemModel.validators.pathEmpty}" (input)="resetValidators()"/>
+            <span
+              class="p-inputgroup-addon small"
+              [pTooltip]="pathTooltip"
+              tooltipPosition="top"
+              *ngIf="!menuItemModel.isUrl"
+              >/apps/</span
+            >
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="menuItemModel.path"
+              class="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty': menuItemModel.validators.pathEmpty
+              }"
+              (input)="resetValidators()"
+            />
           </div>
         </ng-template>
       </div>
     </div>
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0">{{'TenantManagement::ApplicationMenuItem:Icon'| abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0">{{
+        'TenantManagement::ApplicationMenuItem:Icon' | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <input type="text" pInputText [(ngModel)]="menuItemModel.icon" class="w-full"/>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="menuItemModel.icon"
+          class="w-full"
+        />
       </div>
     </div>
     <!-- <div class="field grid">
@@ -180,29 +333,53 @@
       </div>
     </div> -->
     <div class="field grid">
-      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{'TenantManagement::ApplicationMenuItem:Order:InputField'| abpLocalization}}</label>
+      <label class="col-12 mb-2 md:col-4 md:mb-0" appRequired>{{
+        'TenantManagement::ApplicationMenuItem:Order:InputField'
+          | abpLocalization
+      }}</label>
       <div class="col-12 md:col-8">
-        <p-inputNumber autoWidth="false" [ngClass]="{'ng-invalid ng-dirty': menuItemModel.validators.orderEmpty}" class="w-full"
-        [inputStyle]="{'width':'100%', 'text-align':'center'}" [(ngModel)]="menuItemModel.order" (onInput)="resetValidators()"
-        [style]="{'width':'100%'}">
-      </p-inputNumber>
+        <p-inputNumber
+          autoWidth="false"
+          [ngClass]="{
+            'ng-invalid ng-dirty': menuItemModel.validators.orderEmpty
+          }"
+          class="w-full"
+          [inputStyle]="{ width: '100%', 'text-align': 'center' }"
+          [(ngModel)]="menuItemModel.order"
+          (onInput)="resetValidators()"
+          [style]="{ width: '100%' }"
+        >
+        </p-inputNumber>
       </div>
     </div>
     <div class="mt-2 flex justify-content-end gap-3">
-      <p-button [text]="true" [raised]="true" styleClass="p-button-secondary" icon="pi pi-times" 
-      (onClick)="closeCreateNodeDialog()" [label]="'Infrastructure::Cancel' | abpLocalization">
-      </p-button> 
-      <p-button [text]="true" [raised]="true" styleClass="p-button-primary" icon="fa fa-check"
-          (onClick)="submit()" [label]="'Infrastructure::Save' | abpLocalization">
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-secondary"
+        icon="pi pi-times"
+        (onClick)="closeCreateNodeDialog()"
+        [label]="'Infrastructure::Cancel' | abpLocalization"
+      >
+      </p-button>
+      <p-button
+        [text]="true"
+        [raised]="true"
+        styleClass="p-button-primary"
+        icon="fa fa-check"
+        (onClick)="submit()"
+        [label]="'Infrastructure::Save' | abpLocalization"
+      >
       </p-button>
     </div>
   </div>
 </p-dialog>
 
-
-<app-permission-selection-dialog *ngIf="showPermissionDialog"
+<app-permission-selection-dialog
+  *ngIf="showPermissionDialog"
   [showDialog]="showPermissionDialog"
   (visibleChange)="permissionVisibleChangeHandler($event)"
   (selectedPermissionEvent)="selectedPermissionHandler($event)"
-  [selectedPermissionsAsArray]="selectedPermissionPolicies">
+  [selectedPermissionsAsArray]="selectedPermissionPolicies"
+>
 </app-permission-selection-dialog>

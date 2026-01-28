@@ -1,111 +1,157 @@
 <div class="w-full">
-	<p-tabs class="w-full">
-		<p-tablist>
-			<p-tab value="general">
-				<div class="flex align-items-center gap-2">
-					<i class="fas fa-user"></i>
-					<span class="hidden md:inline">{{'TenantManagement::General' | abpLocalization}}</span>
-				</div>
-			</p-tab>
-			<p-tab value="menus">
-				<div class="flex align-items-center gap-2">
-						<i class="fa-solid fa-bars"></i>
-						<span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:Menus' | abpLocalization}}</span>
-				</div>
-			</p-tab>
-			<p-tab value="multi-tenancy">
-				<div class="flex align-items-center gap-2">
-						<i class="fa-solid fa-bars"></i>
-						<span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:MultiTenancy' | abpLocalization}}</span>
-				</div>
-			</p-tab>
-			<p-tab value="pwa">
-				<div class="flex align-items-center gap-2">
-						<i class="fa-solid fa-bars"></i>
-						<span class="hidden md:inline">{{'TenantManagement::PWA' | abpLocalization}}</span>
-				</div>
-			</p-tab>
-			<p-tab value="sw">
-				<div class="flex align-items-center gap-2">
-						<i class="fa-solid fa-bars"></i>
-						<span class="hidden md:inline">{{'TenantManagement::ServiceWorker' | abpLocalization}}</span>
-				</div>
-			</p-tab>
-		</p-tablist>
-		<p-tabpanels>
-			<p-tabpanel value="general">
-				<app-general-settings 
-					[node]="application"
-					[nameEmpty]="nameEmpty"
-					[pathEmpty]="pathEmpty"
-					[tooltip]="tooltip"
-					[loadLevels]="loadLevels"
-					(resetValidators)="resetValidators()">
-				</app-general-settings>
-			</p-tabpanel>
+  <p-tabs class="w-full">
+    <p-tablist>
+      <p-tab value="general">
+        <div class="flex align-items-center gap-2">
+          <i class="fas fa-user"></i>
+          <span class="hidden md:inline">{{
+            'TenantManagement::General' | abpLocalization
+          }}</span>
+        </div>
+      </p-tab>
+      <p-tab value="menus">
+        <div class="flex align-items-center gap-2">
+          <i class="fa-solid fa-bars"></i>
+          <span class="hidden md:inline">{{
+            'TenantManagement::ApplicationMenuItem:Menus' | abpLocalization
+          }}</span>
+        </div>
+      </p-tab>
+      <p-tab value="multi-tenancy">
+        <div class="flex align-items-center gap-2">
+          <i class="fa-solid fa-bars"></i>
+          <span class="hidden md:inline">{{
+            'TenantManagement::ApplicationMenuItem:MultiTenancy'
+              | abpLocalization
+          }}</span>
+        </div>
+      </p-tab>
+      <p-tab value="pwa">
+        <div class="flex align-items-center gap-2">
+          <i class="fa-solid fa-bars"></i>
+          <span class="hidden md:inline">{{
+            'TenantManagement::PWA' | abpLocalization
+          }}</span>
+        </div>
+      </p-tab>
+      <p-tab value="sw">
+        <div class="flex align-items-center gap-2">
+          <i class="fa-solid fa-bars"></i>
+          <span class="hidden md:inline">{{
+            'TenantManagement::ServiceWorker' | abpLocalization
+          }}</span>
+        </div>
+      </p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="general">
+        <app-general-settings
+          [node]="application"
+          [nameEmpty]="nameEmpty"
+          [pathEmpty]="pathEmpty"
+          [tooltip]="tooltip"
+          [loadLevels]="loadLevels"
+          (resetValidators)="resetValidators()"
+        >
+        </app-general-settings>
+      </p-tabpanel>
 
-			<p-tabpanel value="menus">
-				<p-tabs class="w-full">
-					<p-tablist>
-						<p-tab value="general-menu">
-							<div class="flex align-items-center gap-2">
-								<i class="fa-solid fa-bars"></i>
-									<span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:General' | abpLocalization}}</span>
-							</div>
-						</p-tab>
-						<p-tab value="top-menu">
-							<div class="flex align-items-center gap-2">
-								<i class="fa-solid fa-bars"></i>
-									<span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:TopMenu' | abpLocalization}}</span>
-							</div>
-						</p-tab>
-						<p-tab value="user-menu">
-							<div class="flex align-items-center gap-2">
-									<i class="fas fa-user"></i>
-									<span class="hidden md:inline">{{'TenantManagement::ApplicationMenuItem:UserMenu' | abpLocalization}}</span>
-							</div>
-						</p-tab>
-					</p-tablist>
-					<p-tabpanels>
-						<p-tabpanel value="general-menu">
-							<div class="dialog-max">
-								<app-application-menu-item-management [applicationId]="application?.data?.id" #generalMenuItem [applicationName]="application?.data?.name" [menuType]="MenuType.General">
-								</app-application-menu-item-management>
-							</div>
-						</p-tabpanel>
-						<p-tabpanel value="top-menu">
-							<div class="dialog-max">
-								<app-application-menu-item-management [applicationId]="application?.data?.id" #topMenuItem [applicationName]="application?.data?.name" [menuType]="MenuType.Top">
-								</app-application-menu-item-management>
-							</div>
-						</p-tabpanel>
-						<p-tabpanel value="user-menu">
-							<div class="dialog-max">
-								<app-application-menu-item-management [applicationId]="application?.data?.id" #userMenuItem [applicationName]="application?.data?.name" [menuType]="MenuType.User">
-								</app-application-menu-item-management>
-							</div>
-						</p-tabpanel>
-					</p-tabpanels>
-				</p-tabs>
-			</p-tabpanel>
+      <p-tabpanel value="menus">
+        <p-tabs class="w-full">
+          <p-tablist>
+            <p-tab value="general-menu">
+              <div class="flex align-items-center gap-2">
+                <i class="fa-solid fa-bars"></i>
+                <span class="hidden md:inline">{{
+                  'TenantManagement::ApplicationMenuItem:General'
+                    | abpLocalization
+                }}</span>
+              </div>
+            </p-tab>
+            <p-tab value="top-menu">
+              <div class="flex align-items-center gap-2">
+                <i class="fa-solid fa-bars"></i>
+                <span class="hidden md:inline">{{
+                  'TenantManagement::ApplicationMenuItem:TopMenu'
+                    | abpLocalization
+                }}</span>
+              </div>
+            </p-tab>
+            <p-tab value="user-menu">
+              <div class="flex align-items-center gap-2">
+                <i class="fas fa-user"></i>
+                <span class="hidden md:inline">{{
+                  'TenantManagement::ApplicationMenuItem:UserMenu'
+                    | abpLocalization
+                }}</span>
+              </div>
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="general-menu">
+              <div class="dialog-max">
+                <app-application-menu-item-management
+                  [applicationId]="application?.data?.id"
+                  #generalMenuItem
+                  [applicationName]="application?.data?.name"
+                  [menuType]="MenuType.General"
+                >
+                </app-application-menu-item-management>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="top-menu">
+              <div class="dialog-max">
+                <app-application-menu-item-management
+                  [applicationId]="application?.data?.id"
+                  #topMenuItem
+                  [applicationName]="application?.data?.name"
+                  [menuType]="MenuType.Top"
+                >
+                </app-application-menu-item-management>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="user-menu">
+              <div class="dialog-max">
+                <app-application-menu-item-management
+                  [applicationId]="application?.data?.id"
+                  #userMenuItem
+                  [applicationName]="application?.data?.name"
+                  [menuType]="MenuType.User"
+                >
+                </app-application-menu-item-management>
+              </div>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </p-tabpanel>
 
-			<p-tabpanel value="multi-tenancy">
-				<div>
-					<app-multi-tenancy-management [applicationName]="application?.data.name" [applicationId]="application?.data.id" #multiTenancyItem>
-					</app-multi-tenancy-management>
-				</div>
-			</p-tabpanel>
+      <p-tabpanel value="multi-tenancy">
+        <div>
+          <app-multi-tenancy-management
+            [applicationName]="application?.data.name"
+            [applicationId]="application?.data.id"
+            #multiTenancyItem
+          >
+          </app-multi-tenancy-management>
+        </div>
+      </p-tabpanel>
 
-			<p-tabpanel value="pwa">
-				<div>
-					<app-pwa-settings #pwaSettings [node]="application"></app-pwa-settings>
-				</div>
-			</p-tabpanel>
-			<p-tabpanel value="sw">
-				<div>
-					<app-service-worker-settings #swSettings [node]="application"></app-service-worker-settings>
-				</div>
-			</p-tabpanel>
-		</p-tabpanels>
-	</p-tabs>
+      <p-tabpanel value="pwa">
+        <div>
+          <app-pwa-settings
+            #pwaSettings
+            [node]="application"
+          ></app-pwa-settings>
+        </div>
+      </p-tabpanel>
+      <p-tabpanel value="sw">
+        <div>
+          <app-service-worker-settings
+            #swSettings
+            [node]="application"
+          ></app-service-worker-settings>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
 </div>
