@@ -33,7 +33,7 @@
 
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-start gap-4">
-      <div class="col-8 p-0">
+      <div class="p-0" [ngClass]="{'col-8': isManage, 'col-12': !isManage}">
         <div class="p-inputgroup">
           <input
             type="text"

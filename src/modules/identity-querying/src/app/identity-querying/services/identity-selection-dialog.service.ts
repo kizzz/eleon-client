@@ -84,7 +84,7 @@ export class IdentitySelectionDialogService extends IIdentitySelectionDialogServ
   override openOrganizationUnitSelectionDialog(config: OrganizationUnitSelectionDialogConfig): void {
     const ref = this.dialogService.open(OrganizationUnitsSelectionTreeComponent, {
       header: (config.title || this.localizationService.instant('Infrastructure::OrganizationUnitSelection')),
-      width: '600px',
+      width: '350px',
       closable: true,
       data: {
         onlyUsers: config.onlyUsers,

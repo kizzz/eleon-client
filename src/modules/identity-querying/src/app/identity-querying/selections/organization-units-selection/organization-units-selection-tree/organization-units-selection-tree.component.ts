@@ -345,7 +345,7 @@ export class OrganizationUnitsSelectionTreeComponent implements OnInit {
     }
     this.selectedOrganizationUnits = [...this.selectedOrganizationUnits];
 
-    this.nodeSelect(rowNode, this.isRowSelected(rowNode));
+    // this.nodeSelect(rowNode, this.isRowSelected(rowNode));
   }
 
   filter() {
