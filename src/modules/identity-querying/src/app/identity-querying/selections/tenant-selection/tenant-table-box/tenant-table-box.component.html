@@ -1,4 +1,4 @@
-<div class="text-center tenant-table-box wrapper">
+<div class="text-center tenant-table-box">
   <p-table #selectionBox [value]="tenants" *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
   [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both"  rows="5" [lazy]="true"
     (onLazyLoad)="onLoadTenants($event)" [paginator]="true" [totalRecords]="totalRecords" [loading]="loading"
@@ -34,7 +34,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <p>
-        {{ "Infrastructure::Tenant:EmptyMessage" | abpLocalization}}
+        {{ "AccountingModule::Tenant:EmptyMessage" | abpLocalization}}
       </p>
     </ng-template>
   </p-table>
