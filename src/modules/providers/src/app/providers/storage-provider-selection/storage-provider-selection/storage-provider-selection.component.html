@@ -1,9 +1,7 @@
 <div *ngIf="showWithCard">
-  <div class="card">
-    <div class="card-body" [class]="!title ? 'p-0' : ''">
+    <div [ngClass]="{'p-1': !title}">
       <ng-container *ngTemplateOutlet="storageDropdown"></ng-container>
     </div>
-  </div>
 </div>
 
 <div *ngIf="!showWithCard">
@@ -17,7 +15,7 @@
     <div *ngIf="title" class="col-4 flex align-items-center">
       <b>{{ title }}</b>
     </div>
-    <div [class]="title ? 'col-8' : 'col-12'" class="w-full pb-0">
+    <div [class]="title ? 'col-8' : 'col-12'" class="w-full">
       <p-select
         [options]="rows"
         optionLabel="name"
@@ -37,7 +35,7 @@
 <div class="w-full flex justify-content-end">
   <p-button 
     [text]="true" [raised]="true" 
+    icon="pi pi-check"
     label="{{ 'Infrastructure::Select' | abpLocalization }}" (onClick)="storageProviderSelectionEvent.emit(selected)">
-
   </p-button>
 </div>

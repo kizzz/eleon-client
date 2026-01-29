@@ -14,8 +14,9 @@ export class ProvidersService implements IProvidersService {
 
   openProviderSelectionDialog(selectedId: string, onSelect: (provider: StorageProviderDto) => void): void {
     const ref = this.dialogService.open(StorageProviderSelectionComponent, {
-      header: this.localizationService.instant('Providers::SelectStorageProvider'),
+      header: this.localizationService.instant('StorageModule::SelectStorageProvider'),
       width: '500px',
+      closable: true,
       data: {
         selectedId: selectedId,
         onSelect: (provider: StorageProviderDto) => {

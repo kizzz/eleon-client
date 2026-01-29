@@ -50,7 +50,7 @@
             [readonly]="true"
             [disabled]="isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual"
             [ngClass]="{ 'ng-invalid ng-dirty': model.validators.storageProviderEmpty }"
-            placeholder="{{ 'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization }}"
+            placeholder="{{ 'FileManager::SelectStorageProvider' | abpLocalization }}"
           />
           <button
             type="button"
@@ -61,7 +61,7 @@
             [disabled]="loading || (isEditMode && archive?.fileArchiveHierarchyType === FileArchiveHierarchyType.Virtual)"
             styleClass="p-button-info"
             class="p-button-text"
-            [pTooltip]="'TenantManagement::Telemetry:SelectStorageProvider' | abpLocalization"
+            [pTooltip]="'FileManager::SelectStorageProvider' | abpLocalization"
           ></button>
         </div>
         <small class="error" *ngIf="model.validators.storageProviderEmpty">
