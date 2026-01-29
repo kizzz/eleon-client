@@ -5,9 +5,9 @@ import { optimize } from 'webpack';
 const config: ReturnType<typeof composePlugins> = composePlugins(
     withModuleFederation(
         {
-            name: 'health-check',
+            name: 'services',
             exposes: {
-                './Module': './src/modules/health-check/src/app/app.module.ts',
+                './Module': './src/modules/services/src/app/app.module.ts',
             },
         }), (config) => {
             config.plugins?.push(

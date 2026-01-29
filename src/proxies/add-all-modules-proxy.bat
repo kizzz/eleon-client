@@ -27,6 +27,7 @@ call :Run add-templating-proxy.bat
 call :Run add-tenantmanagement-proxy.bat
 call :Run add-identity-querying-proxy.bat
 call :Run add-dynamicdashboard-proxy.bat
+call :Run add-services-proxy.bat
 
 echo.
 if "%FAILED%"=="1" (

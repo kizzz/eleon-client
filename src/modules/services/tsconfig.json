@@ -1,0 +1,36 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/test-setup.ts",
+    "src/**/*.test.ts"
+  ],
+  "compilerOptions":  {
+    "paths": {
+      "@eleon/contracts.lib": [
+        "src/shared/libs/eleon.contracts.lib/src/index.ts"
+      ],
+      "@eleon/proxy-utils.lib": [
+        "src/shared/libs/eleon.proxy-utils.lib/src/index.ts"
+      ], 
+      "@eleon/typescript-sdk.lib": [
+        "src/shared/libs/eleon.typescript-sdk.lib/src/index.ts"
+      ],
+
+      "@eleoncore/ng.schematics": [
+        "src/shared/proxies/typescript-proxy/typescript-proxy-generator/tools/schematics/src/index.ts"
+      ],
+     
+      "@eleon/services-proxy": [
+        "src/modules/services/src/app/proxy/index.ts"
+      ],
+			
+      "@eleon/angular-sdk.lib": [
+        "src/shared/libs/eleon.angular-sdk.lib/src/index.ts"
+      ],
+      "@eleon/primeng-ui.lib": [
+        "src/shared/libs/eleon.primeng-ui.lib/src/index.ts"
+      ]
+    }
+  }
+}

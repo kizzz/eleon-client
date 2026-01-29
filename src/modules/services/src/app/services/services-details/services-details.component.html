@@ -1,0 +1,416 @@
+<app-page-title [title]="title" icon="fa-solid fa-server">
+</app-page-title>
+<div class="content">
+  <div class="card p-fluid">
+
+      <div class="card-body p-3">
+        <div class="grid">
+          <div class="p-3 col-12 lg:col-6">
+            <div class="card" *ngIf="details?.data">
+              <h5 class="mb-3">
+                {{ 'Infrastructure::GeneralInformation' | abpLocalization }}
+              </h5>
+              <ul class="list-none p-0 m-0">
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{ 'ServicesModule::Header:Id' | abpLocalization }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{ details?.data.id || '-' }}
+                  </div>
+                  <i *ngIf="details?.data.id"
+                    class="pi pi-copy text-primary cursor-pointer"
+                    pTooltip="{{ details?.data.id }}"
+                    tooltipPosition="top"
+                    tooltipClass="tooltip-one-line"
+                    (click)="copyId(details?.data.id, $event)"
+                  ></i>
+                </li>
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{ 'ServicesModule::Header:ServiceName' | abpLocalization }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    <span class="text-900">{{
+                      details.data.serviceName
+                    }}</span>
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'ServicesModule::Header:ServiceLocation' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3 flex align-items-center"
+                  >
+                    <span class="text-900" >{{
+                      details.data.serviceLocation || '-'
+                    }}</span>
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{ 'ServicesModule::Header:Status' | abpLocalization }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    <!-- <p-tag
+                      [styleClass]="'status-' + details?.status.key"
+                      [value]="details?.status.localized"
+                      [icon]="details?.status.icon"
+                    >
+                    </p-tag> -->
+                  </div>
+                </li>
+
+                <li class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li">
+                  <label class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium">{{
+                      'ServicesModule::Header:LastStartupDate' | abpLocalization
+                    }}
+                  </label>
+                  <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{
+                      details?.data.lastStartupDateUtc | date:'short'
+                    }}
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'ServicesModule::Header:LastStatusUpdateDate' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{
+                      details?.data.lastStatusUpdateDateUtc | date:'short'
+                    }}
+                  </div>
+                </li>
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'ServicesModule::Header:LastManifestUpdate' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    {{
+                      details?.data.lastManifestUpdateUtc | date:'short'
+                    }}
+                  </div>
+                </li>
+
+                <li
+                  class="flex align-items-center border-top-1 border-bottom-1 surface-border flex-wrap custom-li"
+                >
+                  <label [for]="'isActive'"
+                    class="col-12 mb-2 md:col-3 md:mb-0 text-500 font-medium"
+                    >{{
+                      'ServicesModule::Service:IsActive' | abpLocalization
+                    }}</label
+                  >
+                  <div
+                    class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
+                  >
+                    <div class="flex align-items-center">
+                      <p-checkbox
+                        [inputId]="'isActive'"
+                        [binary]="true"
+                        [(ngModel)]="details.data.isActive"
+                        (ngModelChange)="onActiveChange($event)"
+                      >
+                      </p-checkbox>
+                    </div>
+                  </div>
+                </li>
+
+                
+              </ul>
+            </div>
+          </div>
+          <div class="p-3 col-12 lg:col-6">
+            <div class="card">
+              <div class="card-body">
+                <h3>{{ 'ServicesModule::Service:Settings' | abpLocalization }}</h3>
+                <div style="max-height: 16rem; overflow: auto">
+                  <ng-container *ngIf="getModuleSettingsEntries(details?.data?.settings) as serviceSettings">
+                    <ng-container *ngIf="serviceSettings.length; else noServiceSettings">
+                      <div *ngFor="let setting of serviceSettings">
+                        <div class="mb-3">
+                          <label class="font-bold block">{{ setting.key }}</label>
+                          <pre class="surface-100 border-round p-2 m-0 overflow-auto" style="white-space: pre-wrap; word-break: break-word;">{{ formatSettingValue(setting.value) }}</pre>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                  <ng-template #noServiceSettings>
+                    <div class="surface-100 border-round p-3 text-500">
+                      {{ 'ServicesModule::Module:NoSettings' | abpLocalization }}
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="card p-fluid">
+      <div class="card-body" *ngIf="details?.data">
+        <p-tabs value="modules">
+          <p-tablist>
+            <p-tab value="modules">
+              <div class="flex gap-2">
+                <i class="fa-solid fa-bell"></i>
+                <span class="pr-2">
+                  {{ 'ServicesModule::Service:Modules' | abpLocalization }}
+                </span>
+              </div>
+            </p-tab>
+            <p-tab value="history">
+              <div class="flex gap-2">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <span class="pr-2">
+                  {{ 'ServicesModule::Service:ManifestHistory' | abpLocalization }}
+                </span>
+              </div>
+            </p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="modules">
+              <div *ngIf="details.data">
+                <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+                  [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" [rows]="10"
+                  styleClass="pr-table" [totalRecords]="totalRecords" [loading]="loading" [value]="details.data.modules" [paginator]="true"
+                  (onRowSelect)="selectModule($event)" selectionMode="single" sortMode="single"
+                  sortOrder="-1">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="name">
+                        {{ "ServicesModule::Module:Name" | abpLocalization }}
+                        <p-sortIcon field="name"></p-sortIcon>
+                      </th>
+                      <th>
+                        {{ "ServicesModule::Module:Description" | abpLocalization }}
+                      </th>
+                      <th appResponsiveColumn="10">
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-row>
+                    <tr [pSelectableRow]="row">
+                      <td>
+                        <span class="non-editing-only p-column-title">{{'ServicesModule::Module:Name' | abpLocalization}}</span>
+                        <i [class]="getTypeIcon(row.isActive)"></i>
+                        <span class="column-content ml-2">
+                          {{ row.name }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="non-editing-only p-column-title">{{'ServicesModule::Module:Description' | abpLocalization}}</span>
+                        <span class="column-content">
+                          {{ row.description || '-' }}
+                        </span>
+                      </td>
+                      <!-- Icons column -->
+                      <td style="width:10px">
+                        <div class="flex align-items-center justify-content-end">
+                          <span class="fa fa-magnifying-glass text-primary"></span>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr class="table-emptymessage">
+                      <td class="w-100" colspan="9999">
+                        <div class="card w-100">
+                          <div class="card-body w-100">
+                            <div class="card-header text-center">
+                              {{getEmptyMessage() | abpLocalization}}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="history">
+              <p-table *appResponsiveTable="'md'; let scrollable; let breakpoint = breakpoint" [scrollable]="scrollable"
+                  [responsive]="true" responsiveLayout="stack" [breakpoint]="breakpoint" scrollDirection="both" [rows]="10" [lazy]="true" (onLazyLoad)="loadManifestHistories($event)" (onRowSelect)="showManifestHistory($event)"
+                  styleClass="pr-table" [totalRecords]="manifestHistoriesTotalRecords" [loading]="loading" [value]="manifestHistories" [paginator]="true" selectionMode="single" sortMode="single"
+                  sortOrder="-1">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="updateDateUtc">
+                        {{ "ServicesModule::ManifestHistory:UpdateDateUtc" | abpLocalization }}
+                        <p-sortIcon field="updateDateUtc"></p-sortIcon>
+                      </th>
+                      <th>
+                        {{ "ServicesModule::ManifestHistory:ManifestPreview" | abpLocalization }}
+                      </th>
+                      <th appResponsiveColumn="10">
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-row>
+                    <tr [pSelectableRow]="row">
+                      <td>
+                        <span class="non-editing-only p-column-title">{{'ServicesModule::ManifestHistory:UpdateDateUtc' | abpLocalization}}</span>
+                        <span class="column-content">
+                          {{ row.updateDateUtc | date:'short' || '-' }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="non-editing-only p-column-title">{{'ServicesModule::ManifestHistory:ManifestPreview' | abpLocalization}}</span>
+                        <span class="column-content">
+                          {{ row.manifest | truncate:50 || '-' }}
+                        </span>
+                      </td>
+                      <!-- Icons column -->
+                      <td style="width:10px">
+                        <div class="flex align-items-center justify-content-end">
+                          <span class="fa fa-magnifying-glass text-primary"></span>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr class="table-emptymessage">
+                      <td class="w-100" colspan="9999">
+                        <div class="card w-100">
+                          <div class="card-body w-100">
+                            <div class="card-header text-center">
+                              {{getEmptyMessage() | abpLocalization}}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+    </div>
+</div>
+
+<p-dialog
+  [header]=""
+  [(visible)]="showModuleDetailsDialog"
+  (onHide)="selectedModule = null;showModuleDetailsDialog = false"
+  appendTo="body"
+  [modal]="true"
+>
+  <ng-template pTemplate="header">
+    <div
+      class="inline-flex align-items-center justify-content-center gap-2"
+      style="font-size: 1.6rem"
+    >
+      <span class="fa-solid fa-book-bookmark"></span>
+      <span class="font-bold white-space-nowrap">
+        {{ 'ServicesModule::Module:Details' | abpLocalization: selectedModule?.name }}
+      </span>
+    </div>
+  </ng-template>
+  <div style="width: min(500px, 90vw)">
+    <div>
+      <h5 class="mb-2">
+      {{ selectedModule?.name }}
+      </h5>
+    </div>
+    <div class="mb-3">
+      <span>{{ selectedModule?.description }}</span>
+    </div>
+
+    <div class="mb-1">
+      <span class="font-bold fs-4">{{ 'ServicesModule::Module:Settings' | abpLocalization }}</span>
+    </div>
+    <div style="height: 24rem; overflow: auto">
+      <ng-container *ngIf="getModuleSettingsEntries(selectedModule?.settings) as settingsEntries">
+        <ng-container *ngIf="settingsEntries.length; else noModuleSettings">
+          <div *ngFor="let setting of settingsEntries">
+            <div class="mb-3">
+              <label class="font-bold block">{{ setting.key }}</label>
+              <pre class="surface-100 border-round p-2 m-0 overflow-auto" style="white-space: pre-wrap; word-break: break-word;">{{ formatSettingValue(setting.value) }}</pre>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-template #noModuleSettings>
+        <div class="surface-100 border-round p-3 text-500">
+          {{ 'ServicesModule::Module:NoSettings' | abpLocalization }}
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</p-dialog>
+
+
+<p-dialog
+  [header]=""
+  [(visible)]="showManifestHistoryDialog"
+  (onHide)="selectedManifestHistory = null;showManifestHistoryDialog = false"
+  appendTo="body"
+  [modal]="true"
+>
+  <ng-template pTemplate="header">
+    <div
+      class="inline-flex align-items-center justify-content-center gap-2"
+      style="font-size: 1.6rem"
+    >
+      <span class="fa-solid fa-book-bookmark"></span>
+      <span class="font-bold white-space-nowrap">
+        {{ 'ServicesModule::ManifestHistory:ManifestDetails' | abpLocalization }}
+      </span>
+    </div>
+  </ng-template>
+  <div style="width: min(500px, 90vw)">
+    <div style="height: 24rem">
+      <textarea
+        style="height: 100%; width: 100%; resize: none"
+        *ngIf="selectedManifestHistory"
+        pTextarea
+        [ngModel]="selectedManifestHistory?.manifest"
+        [readonly]="true"
+      >
+      </textarea>
+    </div>
+    <div class="flex justify-content-end mt-2">
+      <span>{{ selectedManifestHistory?.updateDateUtc | date : 'short' }}</span>
+    </div>
+  </div>
+</p-dialog>
