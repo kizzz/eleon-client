@@ -1,24 +1,25 @@
 <div class="loading-dialog">
-  <p-dialog [resizable]="false" [header]="title" [(visible)]="display" [modal]="true" [draggable]="false" (visibleChange)="visibleChange($event)">
+  <p-dialog [resizable]="false" [header]="title" [(visible)]="display" [modal]="true" [draggable]="false" (visibleChange)="visibleChange($event)"
+    [contentStyle]="{ height: '300px' }">
     <div *ngIf="loading" style="text-align: center;">
       <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
     </div>
     <p-message severity="error" *ngIf="errorMessage" [text]="errorMessage"></p-message>
     <p-tabs [(value)]="activeIndex">
       <p-tablist>
-        <p-tab value="0">
+        <p-tab [value]="0">
           <span pBadge class="pr-3 pl-3" severity="warning">
             {{ 'Infrastructure::TenantManagement:Tenant:Create:BaseInfo' | abpLocalization }}
           </span>
         </p-tab>
-        <p-tab value="1">
+        <p-tab [value]="1">
           <span pBadge class="pr-3 pl-3" severity="warning">
             {{ 'Infrastructure::TenantManagement:Tenant:Create:Database' | abpLocalization }}
           </span>
         </p-tab>
       </p-tablist>
       <p-tabpanels>
-        <p-tabpanel value="0">
+        <p-tabpanel [value]="0">
           <ng-template appResponsiveTable="md" let-scrollable let-breakpoint="breakpoint"
             let-direction="direction">
             <div class="text-input-group">
@@ -43,7 +44,7 @@
             </div>
           </ng-template>
         </p-tabpanel>
-        <p-tabpanel value="1">
+        <p-tabpanel [value]="1">
           <ng-template appResponsiveTable="md" let-scrollable let-breakpoint="breakpoint"
             let-direction="direction">
             <div class="flex justify-content-start align-items-center gap-6">
@@ -79,11 +80,13 @@
         </p-tabpanel>
       </p-tabpanels>
     </p-tabs>
+    <ng-template #footer>
     <div class="flex justify-content-end align-items-center gap-3">
       <p-button [text]="true" [raised]="true" icon="pi pi-times" styleClass="p-button-secondary" label="{{'Infrastructure::Cancel' | abpLocalization}}" [disabled]="loading" (onClick)="closeDialog()">
       </p-button>
       <p-button [text]="true" [raised]="true" icon="fa fa-check" styleClass="p-button-primary" label="{{'Infrastructure::Save' | abpLocalization}}" [disabled]="loading" (onClick)="saveTenant()">
       </p-button>
     </div>
+  </ng-template>
   </p-dialog>
 </div>
